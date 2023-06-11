@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistRepository } from './wishlist.repository';
 import { Wishlist } from './wishlist.entity';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class WishlistService {
@@ -14,13 +15,15 @@ export class WishlistService {
         return this.wishlistRepository.createWishlist(createWishlistDto);
     }
 
-    async deleteWishlist(id: number): Promise<void> {
+    async deleteWishlist(id: number): Promise<{ code: number; success: boolean }> {
         const result = await this.wishlistRepository.delete(id);
 
         if (result.affected === 0) {
-            throw new Error(`Wishlist with ID "${id}" not found`);
-        }
+            throw new NotFoundException(`Can't find board with id ${id}`);
+          }
 
         console.log(`Wishlist with ID "${id}" deleted`);
+
+        return {code: 200, success: true}
     }
 }

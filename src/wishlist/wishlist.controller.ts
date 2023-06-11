@@ -28,7 +28,7 @@ export class WishlistController {
     deleteWishlist(
         @Param('id', ParseIntPipe) id: number,
         // @GetUser() user: User,
-    ): Promise<void> {
+    ): Promise<{ code: number; success: boolean }> {
         // if (user.status !== 'child') {
         //     throw new ForbiddenException('Only children can delete a wishlist.');
         // }
