@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@n
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
+import { MissionStatus } from './mission-status.enum';
 
 @Controller('mission')
 export class MissionController {
@@ -18,4 +19,10 @@ export class MissionController {
     getMissionByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
         return this.missionService.getMissionByMissionId(mission_id);
     }
+
+    @Post('/complete/:mission_id')
+    updateStatusByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
+        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.COMPLETE);
+    }
+
 }
