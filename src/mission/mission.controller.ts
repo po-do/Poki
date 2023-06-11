@@ -40,4 +40,9 @@ export class MissionController {
     ): Promise<void>{
         return this.missionService.deleteMissionByMissionId(mission_id /*user*/);
     }
+
+    @Get('/user/:user_id')
+    getMissionListByUserId(@Param('user_id') user_id: string): Promise <Mission[]> {
+        return this.missionService.getMissionListByUserId(user_id);
+    }
 }

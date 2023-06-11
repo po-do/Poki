@@ -52,4 +52,13 @@ export class MissionService {
             throw new NotFoundException(`Can't delete Mission with id ${mission_id}`)
         }
     }
+
+    async getMissionListByUserId(user_id: string): Promise <Mission[]> {
+        /* [TODO] user_id 받아오는 데코레이터 사용 */
+        const query = await this.missionRepository.createQueryBuilder('mission');
+        query.where('mission.user_id = :user_id', {user_id: user_id});
+
+        const missions = await query.getMany();
+        return missions;
+    }
 }
