@@ -12,7 +12,9 @@ import { BoardModule } from './board/board.module';
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     AuthModule, 
-    WishlistModule, MissionModule, BoardModule
+    WishlistModule, 
+    MissionModule,
+    BoardModule
   ],
 
   controllers: [AppController],
