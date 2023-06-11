@@ -12,10 +12,10 @@ export class Wishlist extends BaseEntity {
     @Column()
     ProductLink: string;
 
-    @Column({ default: GivenStatus.FALSE})
+    @Column()
     Given: GivenStatus;
 
-    @Column({ default: PickedStatus.FALSE})
+    @Column()
     Picked: PickedStatus;
 
     // Author is the user who created the wishlist

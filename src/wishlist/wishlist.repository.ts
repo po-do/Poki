@@ -1,6 +1,7 @@
 import { Wishlist } from "./wishlist.entity";
 import { Repository, DataSource } from "typeorm";
 import { Injectable } from "@nestjs/common";
+import { GivenStatus, PickedStatus } from "./wishlist-status";
 
 @Injectable()
 export class WishlistRepository extends Repository<Wishlist> {
@@ -14,6 +15,8 @@ export class WishlistRepository extends Repository<Wishlist> {
         const wishlist = this.create({
             ProductName,
             ProductLink,
+            Given: GivenStatus.FALSE,
+            Picked: PickedStatus.FALSE,
         });
 
         await this.save(wishlist);
