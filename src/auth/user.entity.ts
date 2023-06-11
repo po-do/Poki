@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique, OneToMany } from "typeorm";
+import { Wishlist } from "../wishlist/wishlist.entity";
 
 @Entity()
 @Unique(['userid'])
@@ -22,4 +23,7 @@ export class User extends BaseEntity {
     
     @Column()
     type: string;
+
+    @OneToMany(type => Wishlist, wishlist => wishlist.user, { eager: true })
+    wishlist: Wishlist[];
 }

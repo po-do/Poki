@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistRepository } from './wishlist.repository';
 import { Wishlist } from './wishlist.entity';
 import { NotFoundException } from '@nestjs/common';
 import { GivenStatus, PickedStatus } from './wishlist-status';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class WishlistService {
@@ -14,7 +15,7 @@ export class WishlistService {
 
     async getWishlistByUserId(user_id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
         const query = this.wishlistRepository.createQueryBuilder('wishlist');
-        query.where('wishlist.user_id = :user_id', { user_id });
+        query.where('wishlist.userId = :userId', {userId: user_id});
 
         if (!query) {
             throw new NotFoundException(`Wishlist with user ID "${user_id}" not found`);
@@ -30,19 +31,27 @@ export class WishlistService {
         return response;
     }
 
+    // async getWishlistById(id: number): Promise<Wishlist> {
+    //     const found = await this.wishlistRepository.findOneBy({id});
+
+    //     if (!found) {
+    //         throw new NotFoundException(`Wishlist with ID "${id}" not found`);
+    //     }
+
+    //     return found;
+    // }
     async getWishlistById(id: number): Promise<Wishlist> {
-        const found = await this.wishlistRepository.findOneBy({id});
-
-        if (!found) {
-            throw new NotFoundException(`Wishlist with ID "${id}" not found`);
-        }
-
-        return found;
+      return this.wishlistRepository
+        .createQueryBuilder('wishlist')
+        .leftJoinAndSelect('wishlist.user', 'user')
+        .select(['wishlist.id', 'wishlist.ProductName', 'wishlist.ProductLink', 'user.id'])
+        .where('wishlist.id = :id', { id })
+        .getOne();
     }
 
 
-    createWishlist(createWishlistDto): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        return this.wishlistRepository.createWishlist(createWishlistDto);
+    createWishlist(createWishlistDto, user:User): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
+        return this.wishlistRepository.createWishlist(createWishlistDto, user);
     }
 
     async deleteWishlist(id: number): Promise<{ code: number; success: boolean }> {
@@ -90,8 +99,14 @@ export class WishlistService {
 
     }
 
-    async updateWishlist(Wishlistid: number, createWishlistDto): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
+    async updateWishlist(Wishlistid: number, createWishlistDto, user:User): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         const wishlist = await this.getWishlistById(Wishlistid);
+        console.log(wishlist);
+
+        if (user.id !== wishlist.user.id) {
+            throw new ForbiddenException('You can only update your own wishlist.');
+        } 
+        
         wishlist.ProductName = createWishlistDto.ProductName;
         wishlist.ProductLink = createWishlistDto.ProductLink;
       

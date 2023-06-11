@@ -4,10 +4,12 @@ import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 
 
 @Controller('wishlist')
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 
 export class WishlistController {
     constructor(private wishlistService: WishlistService) { }
@@ -28,23 +30,23 @@ export class WishlistController {
     @UsePipes(ValidationPipe)
     createWishlist(
         @Body() CreateWishlistDto:CreateWishlistDto,
-        // @GetUser() user:User,
+        @GetUser() user:User,
     ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        // if (user.status !== 'child') {
-        //     throw new ForbiddenException('Only children can create a wishlist.');
-        // }
-        return this.wishlistService.createWishlist(CreateWishlistDto);
+        if (user.type !== 'CHILD') {
+            throw new ForbiddenException('Only children can create a wishlist.');
+        }
+        return this.wishlistService.createWishlist(CreateWishlistDto, user);
 
     }
 
     @Delete('/item/:id')
     deleteWishlist(
         @Param('id', ParseIntPipe) id: number,
-        // @GetUser() user: User,
+        @GetUser() user: User,
     ): Promise<{ code: number; success: boolean }> {
-        // if (user.status !== 'child') {
-        //     throw new ForbiddenException('Only children can delete a wishlist.');
-        // }
+        if (user.type !== 'CHILD') {
+            throw new ForbiddenException('Only children can delete a wishlist.');
+        }
         return this.wishlistService.deleteWishlist(id);
     }
 
@@ -52,11 +54,11 @@ export class WishlistController {
     updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('pickStatus') pickStatus: PickedStatus,
-        // @GetUser() user: User,
+        @GetUser() user: User,
     ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        // if (user.status !== 'parent') {
-        //     throw new ForbiddenException('Only parents can update a wishlist.');
-        // }
+        if (user.type !== 'PARENT') {
+            throw new ForbiddenException('Only parents can update a wishlist.');
+        }
         return this.wishlistService.updateWishlistPickStatus(id, pickStatus);
     }
 
@@ -64,11 +66,11 @@ export class WishlistController {
     updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('givenStatus') givenStatus: GivenStatus,
-        // @GetUser() user: User,
+        @GetUser() user: User,
     ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        // if (user.status !== 'parent') {
-        //     throw new ForbiddenException('Only parents can update a wishlist.');
-        // }
+        if (user.type !== 'PARENT') {
+            throw new ForbiddenException('Only parents can update a wishlist.');
+        }
         return this.wishlistService.updateWishlistGivenStatus(id, givenStatus);
     }
 
@@ -76,16 +78,13 @@ export class WishlistController {
     updateWishlist(
         @Param('id', ParseIntPipe) Wishlistid: number,
         @Body() CreateWishlistDto:CreateWishlistDto,
-        // @GetUser() user: User,
+        @GetUser() user: User,
     ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        // if (user.status !== 'child') {
-        //     throw new ForbiddenException('Only children can update a wishlist.');
-        // }
+        if (user.type !== 'CHILD') {
+            throw new ForbiddenException('Only children can update a wishlist.');
+        }
 
-        // if (user.id !== Wishlistid.user.id) {
-        //     throw new ForbiddenException('You can only update your own wishlist.');
-        // } 
-        return this.wishlistService.updateWishlist(Wishlistid, CreateWishlistDto);
+        return this.wishlistService.updateWishlist(Wishlistid, CreateWishlistDto, user);
     }
 
 }
