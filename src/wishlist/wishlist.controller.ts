@@ -12,6 +12,13 @@ import { GivenStatus, PickedStatus } from './wishlist-status';
 export class WishlistController {
     constructor(private wishlistService: WishlistService) { }
 
+    @Get('/user/:id')
+    getWishlistByUserId(@Param('id', ParseIntPipe) user_id: number): Promise<Wishlist[]> {
+        return this.wishlistService.getWishlistByUserId(user_id);
+    }
+
+
+
     @Get('/:id')
     getWishlistById(@Param('id', ParseIntPipe) id: number): Promise<Wishlist> {
         return this.wishlistService.getWishlistById(id);
@@ -22,7 +29,7 @@ export class WishlistController {
     createWishlist(
         @Body() CreateWishlistDto:CreateWishlistDto,
         // @GetUser() user:User,
-    ): Promise<Wishlist> {
+    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         // if (user.status !== 'child') {
         //     throw new ForbiddenException('Only children can create a wishlist.');
         // }
@@ -30,7 +37,7 @@ export class WishlistController {
 
     }
 
-    @Delete('/:id')
+    @Delete('item/:id')
     deleteWishlist(
         @Param('id', ParseIntPipe) id: number,
         // @GetUser() user: User,
@@ -41,36 +48,36 @@ export class WishlistController {
         return this.wishlistService.deleteWishlist(id);
     }
 
-    @Patch('/:id/pickstatus')
+    @Patch('item/:id/pickstatus')
     updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('pickStatus') pickStatus: PickedStatus,
         // @GetUser() user: User,
-    ): Promise<Wishlist> {
+    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         // if (user.status !== 'parent') {
         //     throw new ForbiddenException('Only parents can update a wishlist.');
         // }
         return this.wishlistService.updateWishlistPickStatus(id, pickStatus);
     }
 
-    @Patch('/:id/givenstatus')
+    @Patch('item/:id/givenstatus')
     updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('givenStatus') givenStatus: GivenStatus,
         // @GetUser() user: User,
-    ): Promise<Wishlist> {
+    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         // if (user.status !== 'parent') {
         //     throw new ForbiddenException('Only parents can update a wishlist.');
         // }
         return this.wishlistService.updateWishlistGivenStatus(id, givenStatus);
     }
 
-    @Patch('/:id')
+    @Patch('item/:id')
     updateWishlist(
         @Param('id', ParseIntPipe) Wishlistid: number,
         @Body() CreateWishlistDto:CreateWishlistDto,
         // @GetUser() user: User,
-    ): Promise<Wishlist> {
+    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         // if (user.status !== 'child') {
         //     throw new ForbiddenException('Only children can update a wishlist.');
         // }
@@ -80,10 +87,6 @@ export class WishlistController {
         // } 
         return this.wishlistService.updateWishlist(Wishlistid, CreateWishlistDto);
     }
-
-
-    
-
 
 }
 

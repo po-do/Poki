@@ -12,6 +12,17 @@ export class WishlistService {
         private wishlistRepository: WishlistRepository,
     ) { }
 
+    async getWishlistByUserId(user_id: number): Promise<Wishlist[]> {
+        const query = this.wishlistRepository.createQueryBuilder('wishlist');
+        query.where('wishlist.user_id = :user_id', { user_id });
+
+        if (!query) {
+            throw new NotFoundException(`Wishlist with user ID "${user_id}" not found`);
+        }
+        const wishlists = await query.getMany();
+        return wishlists;
+    }
+
     async getWishlistById(id: number): Promise<Wishlist> {
         const found = await this.wishlistRepository.findOneBy({id});
 
@@ -23,7 +34,7 @@ export class WishlistService {
     }
 
 
-    createWishlist(createWishlistDto): Promise<Wishlist> {
+    createWishlist(createWishlistDto): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         return this.wishlistRepository.createWishlist(createWishlistDto);
     }
 
@@ -39,32 +50,54 @@ export class WishlistService {
         return {code: 200, success: true}
     }
 
-    async updateWishlistPickStatus(id: number, pickStatus: PickedStatus): Promise<Wishlist> {
+    async updateWishlistPickStatus(id: number, pickStatus: PickedStatus): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         const wishlist = await this.getWishlistById(id);
         wishlist.Picked = pickStatus;
         
         await this.wishlistRepository.save(wishlist);
-        return wishlist;
+        const response = {
+            code: 200,
+            success: true,
+            data: {
+              item: wishlist,
+            },
+          };
+          return response;
     }
 
-    async updateWishlistGivenStatus(id: number, givenStatus: GivenStatus): Promise<Wishlist> {
+    async updateWishlistGivenStatus(id: number, givenStatus: GivenStatus): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         const wishlist = await this.getWishlistById(id);
         console.log(givenStatus);
         console.log(id);
         wishlist.Given = givenStatus;
         
         await this.wishlistRepository.save(wishlist);
-        return wishlist;
+        const response = {
+            code: 200,
+            success: true,
+            data: {
+              item: wishlist,
+            },
+          };
+          return response;
 
     }
 
-    async updateWishlist(Wishlistid: number, createWishlistDto): Promise<Wishlist> {
+    async updateWishlist(Wishlistid: number, createWishlistDto): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
         const wishlist = await this.getWishlistById(Wishlistid);
         wishlist.ProductName = createWishlistDto.ProductName;
         wishlist.ProductLink = createWishlistDto.ProductLink;
-        
+      
         await this.wishlistRepository.save(wishlist);
-        return wishlist;
-    }
+        
+        const response = {
+          code: 200,
+          success: true,
+          data: {
+            item: wishlist,
+          },
+        };
+        return response;
+      }
 
 }
