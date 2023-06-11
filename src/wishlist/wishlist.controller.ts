@@ -13,7 +13,7 @@ export class WishlistController {
     constructor(private wishlistService: WishlistService) { }
 
     @Get('/user/:id')
-    getWishlistByUserId(@Param('id', ParseIntPipe) user_id: number): Promise<Wishlist[]> {
+    getWishlistByUserId(@Param('id', ParseIntPipe) user_id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
         return this.wishlistService.getWishlistByUserId(user_id);
     }
 

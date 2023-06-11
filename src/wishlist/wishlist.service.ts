@@ -12,7 +12,7 @@ export class WishlistService {
         private wishlistRepository: WishlistRepository,
     ) { }
 
-    async getWishlistByUserId(user_id: number): Promise<Wishlist[]> {
+    async getWishlistByUserId(user_id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
         const query = this.wishlistRepository.createQueryBuilder('wishlist');
         query.where('wishlist.user_id = :user_id', { user_id });
 
@@ -20,7 +20,14 @@ export class WishlistService {
             throw new NotFoundException(`Wishlist with user ID "${user_id}" not found`);
         }
         const wishlists = await query.getMany();
-        return wishlists;
+        const response = {
+            code: 200,
+            success: true,
+            data: {
+              item: wishlists,
+            },
+          };
+        return response;
     }
 
     async getWishlistById(id: number): Promise<Wishlist> {
