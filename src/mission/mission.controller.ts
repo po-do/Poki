@@ -4,7 +4,7 @@ import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
 import { MissionStatus } from './mission-status.enum';
 
-@Controller('mission')
+@Controller('/mission')
 export class MissionController {
     constructor(private missionService: MissionService){}
 
@@ -12,7 +12,7 @@ export class MissionController {
     @UsePipes(ValidationPipe)
     createMission(@Body() createMissionDto: CreateMissionDto,
     /* @GetUser() user: User */): Promise<Mission> {
-        return this.missionService.createMission(createMissionDto, /*user*/);
+        return this.missionService.createMission(createMissionDto /*user*/);
     }
 
     @Get('/detail/:mission_id')
@@ -24,5 +24,4 @@ export class MissionController {
     updateStatusByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
         return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.COMPLETE);
     }
-
 }

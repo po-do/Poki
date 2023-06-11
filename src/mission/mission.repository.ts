@@ -15,6 +15,7 @@ export class MissionRepository extends Repository<Mission> {
         const {content, created_date, completed_date} = createMissionDto;
 
         const mission = this.create({
+            user_id: "user_id",
             content,
             status: MissionStatus.INCOMPLETE,
             created_date,
