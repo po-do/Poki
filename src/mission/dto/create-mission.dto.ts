@@ -4,14 +4,11 @@ import { MissionStatus } from "../mission-status.enum";
 
 export class CreateMissionDto {
     @IsNotEmpty()
-    user_id: string
-
-    @IsNotEmpty()
     content: string
 
     @IsNotEmpty()
     created_date: string // 추후 수정 예정, Date type
 
     @IsNotEmpty()
-    status: MissionStatus
+    completed_date: string // 추후 수정 예정, Date type
 }
