@@ -50,7 +50,7 @@ export class WishlistService {
     }
 
 
-    createWishlist(createWishlistDto, user:User): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
+    createWishlist(createWishlistDto, user:User): Promise<{ code: number; success: boolean; data: {} }> {
         return this.wishlistRepository.createWishlist(createWishlistDto, user);
     }
 

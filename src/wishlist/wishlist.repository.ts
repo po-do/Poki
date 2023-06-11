@@ -10,25 +10,31 @@ export class WishlistRepository extends Repository<Wishlist> {
         super(Wishlist, dataSource.createEntityManager());
     }
 
-    async createWishlist(createWishlistDto, user:User): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        const {ProductName, ProductLink} = createWishlistDto;
-
+    async createWishlist(createWishlistDto, user: User): Promise<{ code: number; success: boolean; data: {} }> {
+        const { ProductName, ProductLink } = createWishlistDto;
+      
         const wishlist = this.create({
-            ProductName,
-            ProductLink,
-            Given: GivenStatus.FALSE,
-            Picked: PickedStatus.FALSE,
-            user
+          ProductName,
+          ProductLink,
+          Given: GivenStatus.FALSE,
+          Picked: PickedStatus.FALSE,
+          user
         });
-
+      
         await this.save(wishlist);
         const response = {
-            code: 200,
-            success: true,
-            data: {
-              item: wishlist,
+          code: 200,
+          success: true,
+          data: {
+            item: {
+              id: wishlist.id,
+              ProductName: wishlist.ProductName,
+              ProductLink: wishlist.ProductLink,
+              Given: wishlist.Given,
+              Picked: wishlist.Picked
             },
-          };
-          return response;
-    }
+          },
+        };
+        return response;
+      }
 }

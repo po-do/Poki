@@ -4,7 +4,7 @@ import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
-import { GetUser } from 'src/auth/get-user.decorator';
+import { GetUser } from 'src/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 
 
@@ -19,8 +19,6 @@ export class WishlistController {
         return this.wishlistService.getWishlistByUserId(id);
     }
 
-
-
     @Get('/item/:id')
     getWishlistById(@Param('id', ParseIntPipe) id: number): Promise<Wishlist> {
         return this.wishlistService.getWishlistById(id);
@@ -31,7 +29,7 @@ export class WishlistController {
     createWishlist(
         @Body() CreateWishlistDto:CreateWishlistDto,
         @GetUser() user:User,
-    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
+    ): Promise<{ code: number; success: boolean; data: {} }> {
         if (user.type !== 'CHILD') {
             throw new ForbiddenException('Only children can create a wishlist.');
         }
