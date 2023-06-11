@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
@@ -32,5 +32,12 @@ export class MissionController {
         @Body() updateMissionDto: UpdateMissionDto
         ): Promise <Mission> {
         return this.missionService.updateMissionByMissionId(mission_id, updateMissionDto);
+    }
+
+    @Delete('/delete/:mission_id')
+    deleteMissionByMissionId(@Param('mission_id', ParseIntPipe) mission_id,
+    /* @GetUser() user: User */
+    ): Promise<void>{
+        return this.missionService.deleteMissionByMissionId(mission_id /*user*/);
     }
 }

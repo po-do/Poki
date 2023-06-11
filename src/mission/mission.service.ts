@@ -36,11 +36,20 @@ export class MissionService {
 
     async updateMissionByMissionId(mission_id: number, updateMissionDto: UpdateMissionDto): Promise <Mission> {
         const mission = await this.getMissionByMissionId(mission_id);
-        
+
         mission.content = updateMissionDto.content;
         mission.created_date = updateMissionDto.created_date;
         
         await this.missionRepository.save(mission);
         return mission;
+    }
+
+    async deleteMissionByMissionId(mission_id: number /*user: User*/): Promise <void> {
+        const query = this.missionRepository.createQueryBuilder('mission');
+        const result = await this.missionRepository.delete({id: mission_id /*user: {id: user.id}*/});
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Can't delete Mission with id ${mission_id}`)
+        }
     }
 }
