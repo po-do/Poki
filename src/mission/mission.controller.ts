@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
 import { MissionStatus } from './mission-status.enum';
+import { UpdateMissionDto } from './dto/update-mission.dto';
 
 @Controller('/mission')
 export class MissionController {
@@ -23,5 +24,13 @@ export class MissionController {
     @Post('/complete/:mission_id')
     updateStatusByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
         return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.COMPLETE);
+    }
+
+    @Patch('/update/:mission_id')
+    updateMissionByMissionId(
+        @Param('mission_id') mission_id: number,
+        @Body() updateMissionDto: UpdateMissionDto
+        ): Promise <Mission> {
+        return this.missionService.updateMissionByMissionId(mission_id, updateMissionDto);
     }
 }
