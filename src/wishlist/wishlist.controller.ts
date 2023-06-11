@@ -13,18 +13,18 @@ export class WishlistController {
     constructor(private wishlistService: WishlistService) { }
 
     @Get('/user/:id')
-    getWishlistByUserId(@Param('id', ParseIntPipe) user_id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
-        return this.wishlistService.getWishlistByUserId(user_id);
+    getWishlistByUserId(@Param('id', ParseIntPipe) id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
+        return this.wishlistService.getWishlistByUserId(id);
     }
 
 
 
-    @Get('/:id')
+    @Get('/item/:id')
     getWishlistById(@Param('id', ParseIntPipe) id: number): Promise<Wishlist> {
         return this.wishlistService.getWishlistById(id);
     }
 
-    @Post('/create')
+    @Post('item/create')
     @UsePipes(ValidationPipe)
     createWishlist(
         @Body() CreateWishlistDto:CreateWishlistDto,
@@ -37,7 +37,7 @@ export class WishlistController {
 
     }
 
-    @Delete('item/:id')
+    @Delete('/item/:id')
     deleteWishlist(
         @Param('id', ParseIntPipe) id: number,
         // @GetUser() user: User,
@@ -48,7 +48,7 @@ export class WishlistController {
         return this.wishlistService.deleteWishlist(id);
     }
 
-    @Patch('item/:id/pickstatus')
+    @Patch('/item/:id/pickstatus')
     updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('pickStatus') pickStatus: PickedStatus,
@@ -60,7 +60,7 @@ export class WishlistController {
         return this.wishlistService.updateWishlistPickStatus(id, pickStatus);
     }
 
-    @Patch('item/:id/givenstatus')
+    @Patch('/item/:id/givenstatus')
     updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('givenStatus') givenStatus: GivenStatus,
@@ -72,7 +72,7 @@ export class WishlistController {
         return this.wishlistService.updateWishlistGivenStatus(id, givenStatus);
     }
 
-    @Patch('item/:id')
+    @Patch('/item/:id')
     updateWishlist(
         @Param('id', ParseIntPipe) Wishlistid: number,
         @Body() CreateWishlistDto:CreateWishlistDto,
