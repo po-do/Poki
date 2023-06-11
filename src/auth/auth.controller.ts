@@ -23,11 +23,17 @@ export class AuthController {
         return this.authService.siginIn(authSignInDto);
     }
 
-
     @Post('/test')
     @UseGuards(AuthGuard())
     test(@GetUser() user: User) {
     // test(@Req() req): void {
         console.log('user', user);
+    }
+
+    
+    @Get('/user/code')
+    @UseGuards(AuthGuard())
+    getConnectionCode(@GetUser() user: User): Promise<any> {
+        return this.authService.getConnectionCode(user);
     }
 }
