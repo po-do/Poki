@@ -54,9 +54,18 @@ export class MissionService {
     }
 
     async getMissionListByUserId(user_id: string): Promise <Mission[]> {
-        /* [TODO] user_id 받아오는 데코레이터 사용 */
+        /* [TODO] user_id 받아오는 데코레이터 사용해서 부모이면 자신의 id 말고 자녀 id 받아오도록 */
         const query = await this.missionRepository.createQueryBuilder('mission');
         query.where('mission.user_id = :user_id', {user_id: user_id});
+
+        const missions = await query.getMany();
+        return missions;
+    }
+
+    async getApproveListByUserId(user_id: string): Promise <Mission[]> {
+        /* [TODO] user_id 받아오는 데코레이터 사용해서 부모이면 자신의 id 말고 자녀 id 받아오도록 */
+        const query = await this.missionRepository.createQueryBuilder('mission');
+        query.where('mission.user_id = :user_id', {user_id: user_id}).andWhere('mission.status = :status', {status: MissionStatus.WAIT_APPROVAL});
 
         const missions = await query.getMany();
         return missions;

@@ -23,7 +23,7 @@ export class MissionController {
 
     @Post('/complete/:mission_id')
     updateStatusByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
-        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.COMPLETE);
+        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL);
     }
 
     @Patch('/update/:mission_id')
@@ -44,5 +44,10 @@ export class MissionController {
     @Get('/user/:user_id')
     getMissionListByUserId(@Param('user_id') user_id: string): Promise <Mission[]> {
         return this.missionService.getMissionListByUserId(user_id);
+    }
+
+    @Get('/user/:user_id/approve')
+    getApproveListByUserId(@Param('user_id') user_id: string): Promise <Mission[]> {
+        return this.missionService.getApproveListByUserId(user_id);
     }
 }
