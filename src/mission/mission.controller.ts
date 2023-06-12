@@ -28,10 +28,17 @@ export class MissionController {
     }
 
     @Post('/complete/:mission_id')
-    updateStatusByMissionId(
+    updateStatusCompleteByMissionId(
         @Param('mission_id') mission_id: number,
         @GetUserId() user_id: string): Promise <Mission>{
         return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+    }
+
+    @Post('/approve/:mission_id')
+    updateStatusApproveByMissionId(
+        @Param('mission_id') mission_id: number,
+        @GetUserId() user_id: string): Promise <Mission>{
+        return this.missionService.updateStatusApproveByMissionId(mission_id, MissionStatus.COMPLETE, user_id);
     }
 
     @Patch('/update/:mission_id')
