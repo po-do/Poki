@@ -22,5 +22,6 @@ import { BoardService } from 'src/board/board.service';
     MissionRepository, 
     BoardRepository,
     BoardService],
+  exports: [MissionService, TypeOrmModule]
 })
 export class MissionModule {}

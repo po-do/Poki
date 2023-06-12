@@ -1,44 +1,59 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
 import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
+import { AuthGuard } from '@nestjs/passport'
+import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 
 @Controller('/mission')
+@UseGuards(AuthGuard())
 export class MissionController {
     constructor(private missionService: MissionService){}
 
     @Post('/create')
     @UsePipes(ValidationPipe)
-    createMission(@Body() createMissionDto: CreateMissionDto,
-    /* @GetUser() user: User */): Promise<Mission> {
-        return this.missionService.createMission(createMissionDto /*user*/);
+    createMission(
+        @Body() createMissionDto: CreateMissionDto,
+        @GetUserId() user_id: string ): Promise<Mission> {
+        return this.missionService.createMission(createMissionDto, user_id);
     }
 
     @Get('/detail/:mission_id')
-    getMissionByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
-        return this.missionService.getMissionByMissionId(mission_id);
+    getMissionByMissionId(
+        @Param('mission_id') mission_id: number,
+        @GetUserId() user_id: string): Promise <Mission>{
+        return this.missionService.getMissionByMissionId(mission_id, user_id);
     }
 
     @Post('/complete/:mission_id')
-    updateStatusByMissionId(@Param('mission_id') mission_id: number): Promise <Mission>{
-        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL);
+    updateStatusCompleteByMissionId(
+        @Param('mission_id') mission_id: number,
+        @GetUserId() user_id: string): Promise <Mission>{
+        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+    }
+
+    @Post('/approve/:mission_id')
+    updateStatusApproveByMissionId(
+        @Param('mission_id') mission_id: number,
+        @GetUserId() user_id: string): Promise <Mission>{
+        return this.missionService.updateStatusApproveByMissionId(mission_id, MissionStatus.COMPLETE, user_id);
     }
 
     @Patch('/update/:mission_id')
     updateMissionByMissionId(
         @Param('mission_id') mission_id: number,
-        @Body() updateMissionDto: UpdateMissionDto
-        ): Promise <Mission> {
-        return this.missionService.updateMissionByMissionId(mission_id, updateMissionDto);
+        @Body() updateMissionDto: UpdateMissionDto,
+        @GetUserId() user_id: string): Promise <Mission> {
+        return this.missionService.updateMissionByMissionId(mission_id, updateMissionDto, user_id);
     }
 
     @Delete('/delete/:mission_id')
-    deleteMissionByMissionId(@Param('mission_id', ParseIntPipe) mission_id,
-    /* @GetUser() user: User */
-    ): Promise<void>{
-        return this.missionService.deleteMissionByMissionId(mission_id /*user*/);
+    deleteMissionByMissionId(
+        @Param('mission_id', ParseIntPipe) mission_id,
+        @GetUserId() user_id: string): Promise<void>{
+        return this.missionService.deleteMissionByMissionId(mission_id, user_id);
     }
 
     @Get('/user/:user_id')
