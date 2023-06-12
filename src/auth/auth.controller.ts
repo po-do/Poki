@@ -39,6 +39,7 @@ export class AuthController {
     }
 
     @Patch('/user/connect')
+    @UseGuards(AuthGuard())
     async updateChildCode(
       @Body('child_id') child_id: string,
       @Body('connection_code') connection_code: string,
