@@ -7,6 +7,7 @@ import { GetUser } from '../decorators/get-user.decorator';
 import { User } from './user.entity';
 import { ConnectUserDto } from './dto/auth-connectuser.dto';
 import { UserType } from './user-type.enum';
+import { GetUserId } from 'src/decorators/get-user.code.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -42,7 +43,7 @@ export class AuthController {
     async updateChildCode(
       @Body('childId') childId: string,
       @Body('connectionCode') connectionCode: string,
-        ): Promise<{ connected: boolean; type: UserType}> {
+        ): Promise<{ connected: boolean; type: UserType }> {
             const result = await this.authService.updateChildCode(childId, connectionCode);
         return { connected: result.connected, type: result.type };
         // connected true false만 반환하는 코드
@@ -50,4 +51,9 @@ export class AuthController {
         // return { connected: true };
     }
 
+    @Get('/connected-user')
+    @UseGuards(AuthGuard())
+    getConnectedUser(@GetUser() user: User): Promise<any> {
+        return this.authService.getConnectedUser(user);
+    }
 }

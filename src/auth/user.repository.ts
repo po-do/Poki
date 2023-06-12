@@ -1,9 +1,10 @@
-import { DataSource, Repository } from "typeorm";
+import { DataSource, Not, Repository } from "typeorm";
 import { User } from "./user.entity";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import * as bcrypt from 'bcryptjs';
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { ConnectUserDto } from "./dto/auth-connectuser.dto";
+import { UserType } from "./user-type.enum";
 
 
 
@@ -36,4 +37,9 @@ export class UserRepository extends Repository<User> {
             }
         }
     }
+
+    async findOneByCodeAndDifferentType(code: string, type: UserType): Promise<User | null> {
+        const connectedUser = await this.findOne({ where: { code, type: Not(type) } });
+        return connectedUser || null;
+      }
 }

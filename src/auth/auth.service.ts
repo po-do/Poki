@@ -98,6 +98,26 @@ export class AuthService {
         // }
       }
 
+    async getConnectedUser(user: User): Promise<any> {
+        const { code, type } = user;
+        const userType: UserType = type as UserType;
+        const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+        
+        if (connectedUser) {
+            //return connectedUser;
+            return {
+                code: 200,
+                success: true,
+                data: {
+                  connected_user: connectedUser.userid,
+                },
+              };
+            } else {
+              throw new NotFoundException('Connected user not found');
+            }
+          }
+
+
     getRandomCode(): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let code = '';
@@ -108,7 +128,7 @@ export class AuthService {
     }
 
     // userid를 넣으면 user의 type을 return하는 함수
-    async getUserType(userid: string): Promise<UserType | null> {
+    async getUserTypeToUserId(userid: string): Promise<UserType | null> {
         const user = await this.userRepository.findOneBy( { userid });
 
         if (user) {
