@@ -2,8 +2,7 @@ import { Wishlist } from "./wishlist.entity";
 import { Repository, DataSource } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { GivenStatus, PickedStatus } from "./wishlist-status";
-import { User } from "src/auth/user.entity";
-import { wishProudctDto } from "./dto/responss-wishlist.dto";
+import { wishProudctDto } from "./dto/response-wishlist.dto";
 
 @Injectable()
 export class WishlistRepository extends Repository<Wishlist> {

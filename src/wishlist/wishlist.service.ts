@@ -4,8 +4,7 @@ import { WishlistRepository } from './wishlist.repository';
 import { Wishlist } from './wishlist.entity';
 import { NotFoundException } from '@nestjs/common';
 import { GivenStatus, PickedStatus } from './wishlist-status';
-import { User } from '../auth/user.entity';
-import { wishProudctDto } from './dto/responss-wishlist.dto';
+import { wishProudctDto } from './dto/response-wishlist.dto';
 
 @Injectable()
 export class WishlistService {
@@ -106,8 +105,8 @@ export class WishlistService {
 
     async updateWishlist(Wishlistid: number, createWishlistDto, id:number): Promise<wishProudctDto> {
         const wishlist = await this.getWishlistById(Wishlistid);
-        console.log(wishlist);
-        console.log(id);
+        // console.log(wishlist);
+        // console.log(id);
 
         if (id !== wishlist.user.id) {
             throw new ForbiddenException('You can only update your own wishlist.');

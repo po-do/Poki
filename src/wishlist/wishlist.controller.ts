@@ -4,12 +4,10 @@ import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
-import { GetUser } from 'src/decorators/get-user.decorator';
-import { User } from 'src/auth/user.entity';
 import { GetUserType } from 'src/decorators/get-user.type.decorator';
 import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 import { GetUserCode } from 'src/decorators/get-user.code.decorator';
-import { responseWishlistDto } from './dto/responss-wishlist.dto';
+import { responseWishlistDto } from './dto/response-wishlist.dto';
 
 
 @Controller('wishlist')
@@ -74,7 +72,7 @@ export class WishlistController {
     @Patch('/item/:id/pickstatus')
     async updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
-        @Body('pickStatus') pickStatus: PickedStatus,
+        @Body('Picked') pickStatus: PickedStatus,
         @GetUserType() type: string,
     ): Promise<responseWishlistDto> {
         if (type !== 'PARENT') {
@@ -93,7 +91,7 @@ export class WishlistController {
     @Patch('/item/:id/givenstatus')
     async updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
-        @Body('givenStatus') givenStatus: GivenStatus,
+        @Body('Given') givenStatus: GivenStatus,
         @GetUserType() type: string,
     ): Promise <responseWishlistDto> {
         if (type !== 'PARENT') {
