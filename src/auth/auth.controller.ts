@@ -29,7 +29,7 @@ export class AuthController {
     @UseGuards(AuthGuard())
     test(@GetUser() user: User) {
     // test(@Req() req): void {
-        console.log('user', user);
+        console.log(user);
     }
 
     @Get('/user/code')

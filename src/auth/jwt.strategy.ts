@@ -16,8 +16,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             //토큰이 유효한지 체크할때 사용
             secretOrKey: process.env.JWT_SECRET || config.get('jwt.secret'),
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
-        })
-    }
+        });
+
+    }    
 
     async validate(payload) {
         const { user_id } = payload;
