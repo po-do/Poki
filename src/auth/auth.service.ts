@@ -6,8 +6,6 @@ import * as bcrypt from 'bcryptjs';
 import { AuthSignInDto } from './dto/auth-signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
-import { ConnectUserDto } from './dto/auth-connectuser.dto';
-import { ConnectUserResponseDto } from './dto/auth-response.dto';
 import { UserType } from './user-type.enum';
 
 @Injectable()
@@ -23,12 +21,12 @@ export class AuthService {
     }
 
     async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string}> {
-        const { userid, password } = authSignInDto;
-        const user = await this.userRepository.findOneBy({ userid });
+        const { user_id, password } = authSignInDto;
+        const user = await this.userRepository.findOneBy({ user_id });
 
         if (user && (await bcrypt.compare(password, user.password))) {
             // 유저 토큰 생성 (Secret + Payload)
-            const payload = { userid };
+            const payload = { user_id };
             const accessToken = await this.jwtService.sign(payload);
 
             return { accessToken };
@@ -39,7 +37,7 @@ export class AuthService {
 
     async getConnectionCode(user : User): Promise<any> {
         const randomCode = this.getRandomCode();
-        // const user = await this.userRepository.findOneBy({ userid });
+        // const user = await this.userRepository.findOneBy({ user_id });
 
         if (!user) {
             throw new NotFoundException('User not found');
@@ -68,21 +66,21 @@ export class AuthService {
     }
 
     // connected true false만 반환하는 코드
-    // async updateChildCode(childId: string, connectionCode: string): Promise<void> {
-    //     const child = await this.userRepository.findOneBy({ userid: childId });
+    // async updateChildCode(child_id: string, connection_code: string): Promise<void> {
+    //     const child = await this.userRepository.findOneBy({ user_id: child_id });
     
     //     if (child) {
-    //       child.code = connectionCode;
+    //       child.code = connection_code;
     //       await this.userRepository.save(child);
     //     }
     //   }
 
-    async updateChildCode(childId: string, connectionCode: string): Promise<{ connected: boolean; type: UserType }> {
-        const child = await this.userRepository.findOneBy({ userid: childId });
-        const parent = await this.userRepository.findOne( { where: { code: connectionCode, type: UserType.PARENT } });
+    async updateChildCode(child_id: string, connection_code: string): Promise<{ connected: boolean; type: UserType }> {
+        const child = await this.userRepository.findOneBy({ user_id: child_id });
+        const parent = await this.userRepository.findOne( { where: { code: connection_code, type: UserType.PARENT } });
 
         if (parent) {
-            child.code = connectionCode;
+            child.code = connection_code;
             await this.userRepository.save(child);
             return { connected: true, type: UserType.PARENT };
         } else {
@@ -90,7 +88,7 @@ export class AuthService {
         }
     
         // if (child && child.type === UserType.CHILD && parent) {
-        //   child.code = connectionCode;
+        //   child.code = connection_code;
         //   await this.userRepository.save(child);
         //   return { connected: true, type: child.type };
         // } else {
@@ -109,7 +107,7 @@ export class AuthService {
                 code: 200,
                 success: true,
                 data: {
-                  connected_user: connectedUser.userid,
+                  connected_user: connectedUser.user_id,
                 },
               };
             } else {
@@ -127,9 +125,9 @@ export class AuthService {
         return code;
     }
 
-    // userid를 넣으면 user의 type을 return하는 함수
-    async getUserTypeToUserId(userid: string): Promise<UserType | null> {
-        const user = await this.userRepository.findOneBy( { userid });
+    // user_id를 넣으면 user의 type을 return하는 함수
+    async getUserTypeToUserId(user_id: string): Promise<UserType | null> {
+        const user = await this.userRepository.findOneBy( { user_id });
 
         if (user) {
             return user.type as UserType;
