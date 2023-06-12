@@ -7,6 +7,7 @@ import { AuthSignInDto } from './dto/auth-signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
 import { UserType } from './user-type.enum';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -80,8 +81,17 @@ export class AuthService {
         const parent = await this.userRepository.findOne( { where: { code: connection_code, type: UserType.PARENT } });
 
         if (parent) {
-            child.code = connection_code;
+            // child.code = connection_code;
+            // await this.userRepository.save(child);
+            // 변동 사항 : uuid를 저장하는 것으로 수정
+            const uuid = uuidv4();
+            
+            child.code = uuid;
+            parent.code = child.code;
+
             await this.userRepository.save(child);
+            await this.userRepository.save(parent);
+
             return { connected: true, type: UserType.PARENT };
         } else {
             return { connected: false, type: UserType.CHILD };
