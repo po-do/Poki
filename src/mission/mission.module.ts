@@ -11,6 +11,7 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule
   ],
   controllers: [MissionController],
-  providers: [MissionService, MissionRepository]
+  providers: [MissionService, MissionRepository],
+  exports: [MissionService, TypeOrmModule]
 })
 export class MissionModule {}

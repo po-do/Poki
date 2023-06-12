@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
 import { MissionRepository } from './mission.repository';
 import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
-import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class MissionService {
@@ -18,25 +17,28 @@ export class MissionService {
         return this.missionRepository.createMission(createMissionDto, user_id);
     }
 
-    async getMissionByMissionId(mission_id: number): Promise <Mission> {
+    async getMissionByMissionId(mission_id: number, user_id: string): Promise <Mission> {
         const mission = await this.missionRepository.findOneBy({id: mission_id});
 
         if (!mission) {
             throw new NotFoundException(`Can't find Mission with id ${mission_id}`);
         }
+        if (mission.user_id !== user_id) {
+            throw new UnauthorizedException(`Can't fetch Mission. You don't have authorization`);
+        }
         return mission;
     }
 
-    async updateStatusByMissionId(mission_id: number, mission_status: MissionStatus): Promise <Mission> {
-        const mission = await this.getMissionByMissionId(mission_id);
+    async updateStatusByMissionId(mission_id: number, mission_status: MissionStatus, user_id: string): Promise <Mission> {
+        const mission = await this.getMissionByMissionId(mission_id, user_id);
         mission.status = mission_status;
         
         await this.missionRepository.save(mission);
         return mission;
     }
 
-    async updateMissionByMissionId(mission_id: number, updateMissionDto: UpdateMissionDto): Promise <Mission> {
-        const mission = await this.getMissionByMissionId(mission_id);
+    async updateMissionByMissionId(mission_id: number, updateMissionDto: UpdateMissionDto, user_id: string): Promise <Mission> {
+        const mission = await this.getMissionByMissionId(mission_id, user_id);
 
         mission.content = updateMissionDto.content;
         mission.created_date = updateMissionDto.created_date;
@@ -45,9 +47,9 @@ export class MissionService {
         return mission;
     }
 
-    async deleteMissionByMissionId(mission_id: number /*user: User*/): Promise <void> {
+    async deleteMissionByMissionId(mission_id: number, user_id: string): Promise <void> {
         const query = this.missionRepository.createQueryBuilder('mission');
-        const result = await this.missionRepository.delete({id: mission_id /*user: {id: user.id}*/});
+        const result = await this.missionRepository.delete({id: mission_id , user_id: user_id});
 
         if (result.affected === 0) {
             throw new NotFoundException(`Can't delete Mission with id ${mission_id}`)
