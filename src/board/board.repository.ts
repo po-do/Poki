@@ -10,10 +10,10 @@ export class BoardRepository extends Repository<Board> {
     }
 
     async createBoard(createBoardDto, type: string, code: string, id: number): Promise<BoardDto> {
-        const { total_blanck } = createBoardDto;
+        const { total_grape } = createBoardDto;
 
         const board = this.create({
-            total_blanck,
+            total_grape,
             user_whole_grapes: 0,
             attached_grapes: 0,
             user: { id, code, type }
@@ -25,7 +25,7 @@ export class BoardRepository extends Repository<Board> {
 
         const grape: BoardDto = {
             id: grapeId,
-            total_blanck,
+            total_grape,
             user_whole_grapes,
             attached_grapes
         };

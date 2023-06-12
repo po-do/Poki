@@ -1,6 +1,6 @@
 export class BoardDto {
     id: number;
-    total_blanck: number;
+    total_grape: number;
     user_whole_grapes: number;
     attached_grapes: number;
 }

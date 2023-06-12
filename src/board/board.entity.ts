@@ -8,7 +8,7 @@ export class Board extends BaseEntity {
 
     //포도판 전체 포도수
     @Column()
-    total_blanck: number;
+    total_grape: number;
 
     // 가지고 있는 포도알수 = (미션 완료 수)
     @Column()
