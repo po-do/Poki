@@ -45,7 +45,7 @@ export class AuthController {
         ): Promise<{ connected: boolean; type: UserType}> {
             const result = await this.authService.updateChildCode(childId, connectionCode);
         return { connected: result.connected, type: result.type };
-        // ㅊ
+        // connected true false만 반환하는 코드
         // await this.authService.updateChildCode(childId, connectionCode);
         // return { connected: true };
     }
