@@ -11,6 +11,7 @@ import { BoardRepository } from './board.repository';
     AuthModule,
   ],
   controllers: [BoardController],
-  providers: [BoardService, BoardRepository]
+  providers: [BoardService, BoardRepository],
+  exports: [BoardService, TypeOrmModule]
 })
 export class BoardModule {}

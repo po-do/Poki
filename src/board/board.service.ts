@@ -16,7 +16,7 @@ export class BoardService {
         return this.boardRepository
             .createQueryBuilder('board')
             .leftJoinAndSelect('board.user', 'user')
-            .select(['board.id', 'board.blank', 'board.full', 'board.total_grapes', 'board.attached_grapes', 'board.deattached_grapes', 'user.id'])
+            .select(['board.id', 'board.blank', 'board.total_grapes', 'board.attached_grapes', 'board.deattached_grapes', 'user.id', 'user.code'])
             .where('board.id = :id', { id })
             .getOne();
     }
@@ -64,18 +64,45 @@ export class BoardService {
 
         await this.boardRepository.save(board);
 
-        const { id : boardId, blank, full, total_grapes, attached_grapes, deattached_grapes } = board;
+        const { id : boardId, blank, total_grapes, attached_grapes, deattached_grapes } = board;
 
         const grape: BoardDto = {
             id: boardId,
-            blank,
-            full,   
+            blank,   
             total_grapes,
             attached_grapes,
             deattached_grapes,
         };
 
         return grape;
+
+    }
+
+    async attachBoard(grapeid: number, code:string): Promise<BoardDto> {
+        const board = await this.getBoardById(grapeid);
+        console.log(board);
+
+        if (code !== board.user.code) {
+            throw new ForbiddenException("You can only update your parent's board.");
+        }
+
+        board.attached_grapes = board.attached_grapes + 1;
+        board.deattached_grapes = board.deattached_grapes - 1;
+
+        await this.boardRepository.save(board);
+
+        const { id : boardId, blank, total_grapes, attached_grapes, deattached_grapes } = board;
+
+        const grape: BoardDto = {
+            id: boardId,
+            blank,   
+            total_grapes,
+            attached_grapes,
+            deattached_grapes,
+        };
+
+        return grape;
+
     }
 
     

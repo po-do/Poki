@@ -10,13 +10,9 @@ export class Board extends BaseEntity {
     @Column()
     blank: number;
 
-    // 포도판에 붙어있는 포도수
-    @Column()
-    full: number;
-
     @Column()
     total_grapes: number;
-
+    
     // 포도의 상태가 붙힘인 경우
     @Column()
     attached_grapes: number;

@@ -29,5 +29,5 @@ export class User extends BaseEntity {
     wishlist: Wishlist[];
 
     @OneToMany(type => Board, board => board.user, { eager: true })
-    board: Board[];
+    board: Board;
 }

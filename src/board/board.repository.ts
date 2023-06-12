@@ -14,21 +14,19 @@ export class BoardRepository extends Repository<Board> {
 
         const board = this.create({
             blank,
-            full: 0,
-            total_grapes: 0,
-            attached_grapes: 0,
-            deattached_grapes: 0,
+            total_grapes: 15,
+            attached_grapes: 10,
+            deattached_grapes: 5,
             user: { id, code, type }
         });
 
         await this.save(board);
 
-        const { id: grapeId, full, total_grapes, attached_grapes, deattached_grapes } = board;
+        const { id: grapeId, total_grapes, attached_grapes, deattached_grapes } = board;
 
         const grape: BoardDto = {
             id: grapeId,
             blank,
-            full,
             total_grapes,
             attached_grapes,
             deattached_grapes,

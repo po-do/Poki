@@ -87,8 +87,27 @@ export class BoardController {
         return response
     }
 
+    //포도 부착 버튼 클릭시 실행 함수
+    @Patch('/grape/attach/:id')
+    async attachBoard(
+        @Param('id', ParseIntPipe) grapeid: number,
+        @GetUserType() type: string,
+        @GetUserCode() code: string,
+    ): Promise<responseBoardDto> {
+        if (type !== 'CHILD') {
+            throw new ForbiddenException('only child can attach board');
+        }
 
-    /* 포도에 포도알 붙히면 미션 status 변경, 포도에 포도를 붙힐시에 미션을 삭제, 
-    board안의 포도에 붙어있는 포도알수 + 1*/
+        const response: responseBoardDto = {
+            code: 200,
+            success: true,
+            data: {
+                grape: await this.boardService.attachBoard(grapeid, code)
+            },
+        };
 
+        return response
+    }
+
+    
 }
