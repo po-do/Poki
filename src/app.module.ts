@@ -11,7 +11,8 @@ import { typeORMConfig } from './configs/typeorm.config';
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     AuthModule, 
-    WishlistModule, MissionModule
+    WishlistModule, 
+    MissionModule
   ],
 
   controllers: [AppController],
