@@ -22,3 +22,8 @@ transition: all 0.5s;
   background-color: #5D5FEF;
   color: white;
 }
+
+.line{
+  border-top: 1px solid rgb(194, 194, 194);
+  margin: 10px;
+}

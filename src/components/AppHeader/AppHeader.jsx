@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Drawer, Space } from "antd";
 import {FaUserAlt, FaBell} from 'react-icons/fa';
-import "./AppHeader.css";
+import styles from "./AppHeader.module.css";
 
 export default function AppHeader() {
     // 알람의 갯수
@@ -22,9 +22,9 @@ export default function AppHeader() {
     }, []);
 
     return (
-        <div className='AppHeader'>
+        <div className={styles.appHeader}>
             <Space>
-                <div className='banner-icon'>
+                <div className={styles.banner_icon}>
                     <Badge count={orders}>
                         <FaBell style={{fontSize: 30, cursor: 'pointer'}} onClick={()=>{
                             setCommentsOpen(true);

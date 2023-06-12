@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./SideMenu.css";
+import styles from './SideMenu.module.css'
 import ChildList from './ChildList';
 import SideButton from './SideButton';
 import Profile from './Profile';
@@ -76,18 +76,18 @@ export default function SideMenu() {
 
   return (
     <>
-        <div style={{width: isOpen ? "250px" : "80px"}} className="sideBar">
+        <div style={{width: isOpen ? "250px" : "80px"}} className={styles.sideBar}>
             <div>
 
-                <div className="topSection">
+                <div className={styles.topSection}>
                     <div style={{display: isOpen ? "block" : "none"}} >
                         <img
                             width="50"
                             src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
                             alt="" /> 
                     </div>
-                    <div style={{display: isOpen ? "block" : "none"}} className='logo'>Poki</div>
-                    <div style={{marginLeft : isOpen ? "15px" : "10px"}} className="bars">
+                    <div style={{display: isOpen ? "block" : "none"}} className={styles.logo}>Poki</div>
+                    <div style={{marginLeft : isOpen ? "15px" : "10px"}} className={styles.bars}>
                         <FaBars onClick={menuBar}/>
                     </div>
                 </div>
@@ -98,7 +98,7 @@ export default function SideMenu() {
 
             <div>
                 <SideButton menuItem={menuBottom} isOpen={isOpen} setIsLoggedIn={setIsLoggedIn}/>
-                {isLoggedIn && ( <Profile /> )}
+                {isLoggedIn && ( <Profile isOpen={isOpen} /> )}
             </div>
             
         </div>

@@ -1,4 +1,4 @@
-.AppHeader {
+.appHeader {
     height: 80px;
     display: flex;
     justify-content: flex-end;
@@ -8,8 +8,7 @@
     background-color: #5D5FEF;
   
 }
-  
-.banner-icon{
+.banner_icon{
     padding-right: 40px;
 }
   

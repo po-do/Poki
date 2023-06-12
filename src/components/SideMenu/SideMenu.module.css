@@ -14,11 +14,6 @@
   box-shadow: 2px 2px 2px 2px gray;
 }
 
-.line{
-  border-top: 1px solid rgb(194, 194, 194);
-  margin: 10px;
-}
-
 .topSection{
   display: flex;
   align-items: center;

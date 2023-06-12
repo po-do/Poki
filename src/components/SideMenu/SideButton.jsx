@@ -12,7 +12,7 @@ export default function SideButton({menuItem,isOpen,setIsLoggedIn}) {
         setIsLoggedIn(false);
     };
     return <>
-        <div className='line'>
+        <div className="line">
         {
             menuItem.map((item, index) => (
                 <NavLink
