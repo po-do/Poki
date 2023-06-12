@@ -1,19 +1,25 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
 import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
+import { GetUser } from 'src/decorators/get-user.decorator';
+import { AuthGuard } from '@nestjs/passport'
+import { User } from 'src/auth/user.entity';
+import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 
 @Controller('/mission')
+@UseGuards(AuthGuard())
 export class MissionController {
     constructor(private missionService: MissionService){}
 
     @Post('/create')
     @UsePipes(ValidationPipe)
-    createMission(@Body() createMissionDto: CreateMissionDto,
-    /* @GetUser() user: User */): Promise<Mission> {
-        return this.missionService.createMission(createMissionDto /*user*/);
+    createMission(
+        @Body() createMissionDto: CreateMissionDto,
+        @GetUserId() user_id: string ): Promise<Mission> {
+        return this.missionService.createMission(createMissionDto, user_id);
     }
 
     @Get('/detail/:mission_id')

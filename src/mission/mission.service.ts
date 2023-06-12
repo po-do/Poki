@@ -5,6 +5,7 @@ import { Mission } from './mission.entity';
 import { MissionRepository } from './mission.repository';
 import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class MissionService {
@@ -13,8 +14,8 @@ export class MissionService {
         private missionRepository: MissionRepository
     ) {}
 
-    createMission(createMissionDto: CreateMissionDto): Promise <Mission> {
-        return this.missionRepository.createMission(createMissionDto);
+    createMission(createMissionDto: CreateMissionDto, user_id: string): Promise <Mission> {
+        return this.missionRepository.createMission(createMissionDto, user_id);
     }
 
     async getMissionByMissionId(mission_id: number): Promise <Mission> {
