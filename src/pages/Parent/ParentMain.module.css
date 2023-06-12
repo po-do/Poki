@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+}
+
+.right-part {
+  background-color: rgb(196, 188, 188);
+}
+
+.left-part {
+  background-color: antiquewhite;
+}
+
+.podo-dashboard {
+  display: flex;
+  background-color: azure;
+}
