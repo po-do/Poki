@@ -106,4 +106,14 @@ export class AuthService {
         }
         return code;
     }
+
+    // userid를 넣으면 user의 type을 return하는 함수
+    async getUserType(userid: string): Promise<UserType | null> {
+        const user = await this.userRepository.findOneBy( { userid });
+
+        if (user) {
+            return user.type as UserType;
+        }
+        return null;
+    }
 }
