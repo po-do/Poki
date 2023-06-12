@@ -1,8 +1,6 @@
 import { IsNotEmpty, IsEnum, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 import { UserType } from "../user-type.enum";
 
-
-
 export class AuthCredentialsDto {
     @IsNotEmpty()
     @IsString()

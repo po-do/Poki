@@ -7,3 +7,4 @@ export class CreateWishlistDto {
     @IsNotEmpty()
     ProductLink: string;
 }
+
