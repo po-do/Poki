@@ -14,17 +14,17 @@ import { UserType } from './user-type.enum';
 export class AuthService {
     constructor(
         @InjectRepository(UserRepository)
-        private userRopository: UserRepository,
+        private userRepository: UserRepository,
         private jwtService: JwtService
     ) {}
 
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-        return this.userRopository.createUser(authCredentialsDto);
+        return this.userRepository.createUser(authCredentialsDto);
     }
 
     async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string}> {
         const { userid, password } = authSignInDto;
-        const user = await this.userRopository.findOneBy({ userid });
+        const user = await this.userRepository.findOneBy({ userid });
 
         if (user && (await bcrypt.compare(password, user.password))) {
             // 유저 토큰 생성 (Secret + Payload)
@@ -39,7 +39,7 @@ export class AuthService {
 
     async getConnectionCode(user : User): Promise<any> {
         const randomCode = this.getRandomCode();
-        // const user = await this.userRopository.findOneBy({ userid });
+        // const user = await this.userRepository.findOneBy({ userid });
 
         if (!user) {
             throw new NotFoundException('User not found');
@@ -69,21 +69,21 @@ export class AuthService {
 
     // connected true false만 반환하는 코드
     // async updateChildCode(childId: string, connectionCode: string): Promise<void> {
-    //     const child = await this.userRopository.findOneBy({ userid: childId });
+    //     const child = await this.userRepository.findOneBy({ userid: childId });
     
     //     if (child) {
     //       child.code = connectionCode;
-    //       await this.userRopository.save(child);
+    //       await this.userRepository.save(child);
     //     }
     //   }
 
     async updateChildCode(childId: string, connectionCode: string): Promise<{ connected: boolean; type: UserType }> {
-        const child = await this.userRopository.findOneBy({ userid: childId });
-        const parent = await this.userRopository.findOne( { where: { code: connectionCode, type: UserType.PARENT } });
+        const child = await this.userRepository.findOneBy({ userid: childId });
+        const parent = await this.userRepository.findOne( { where: { code: connectionCode, type: UserType.PARENT } });
 
         if (parent) {
             child.code = connectionCode;
-            await this.userRopository.save(child);
+            await this.userRepository.save(child);
             return { connected: true, type: UserType.PARENT };
         } else {
             return { connected: false, type: UserType.CHILD };
@@ -91,7 +91,7 @@ export class AuthService {
     
         // if (child && child.type === UserType.CHILD && parent) {
         //   child.code = connectionCode;
-        //   await this.userRopository.save(child);
+        //   await this.userRepository.save(child);
         //   return { connected: true, type: child.type };
         // } else {
         //   return { connected: false, type: null };
