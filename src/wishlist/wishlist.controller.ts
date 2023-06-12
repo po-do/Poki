@@ -6,6 +6,10 @@ import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+import { GetUserType } from 'src/decorators/get-user.type.decorator';
+import { GetUserId } from 'src/decorators/get-user.userid.decorator';
+import { GetUserCode } from 'src/decorators/get-user.code.decorator';
+import { responseWishlistDto } from './dto/responss-wishlist.dto';
 
 
 @Controller('wishlist')
@@ -15,8 +19,16 @@ export class WishlistController {
     constructor(private wishlistService: WishlistService) { }
 
     @Get('/user/:id')
-    getWishlistByUserId(@Param('id', ParseIntPipe) id: number): Promise<{ code: number; success: boolean; data: { item: Wishlist[] } }> {
-        return this.wishlistService.getWishlistByUserId(id);
+    async getWishlistByUserId(@Param('id', ParseIntPipe) id: number): Promise<responseWishlistDto> {
+
+        const response: responseWishlistDto = {
+            code: 200,
+            success: true,
+            data: {
+                item: await this.wishlistService.getWishlistByUserId(id)
+            },
+        };
+        return response;
     }
 
     @Get('/item/:id')
@@ -26,63 +38,99 @@ export class WishlistController {
 
     @Post('item/create')
     @UsePipes(ValidationPipe)
-    createWishlist(
+    async createWishlist(
         @Body() CreateWishlistDto:CreateWishlistDto,
-        @GetUser() user:User,
-    ): Promise<{ code: number; success: boolean; data: {} }> {
-        if (user.type !== 'CHILD') {
+        @GetUserType() type: string,
+        @GetUserId() id: number,
+        @GetUserCode() code: string,
+    ): Promise<responseWishlistDto> {
+        if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can create a wishlist.');
         }
-        return this.wishlistService.createWishlist(CreateWishlistDto, user);
+
+        const response: responseWishlistDto = {
+            code: 200,
+            success: true,
+            data: {
+                item: await this.wishlistService.createWishlist(CreateWishlistDto, type, code, id)
+            },
+        };
+
+        return response
 
     }
 
     @Delete('/item/:id')
     deleteWishlist(
         @Param('id', ParseIntPipe) id: number,
-        @GetUser() user: User,
+        @GetUserType() type: string,
     ): Promise<{ code: number; success: boolean }> {
-        if (user.type !== 'CHILD') {
+        if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can delete a wishlist.');
         }
         return this.wishlistService.deleteWishlist(id);
     }
 
     @Patch('/item/:id/pickstatus')
-    updateWishlistPickStatus(
+    async updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('pickStatus') pickStatus: PickedStatus,
-        @GetUser() user: User,
-    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        if (user.type !== 'PARENT') {
+        @GetUserType() type: string,
+    ): Promise<responseWishlistDto> {
+        if (type !== 'PARENT') {
             throw new ForbiddenException('Only parents can update a wishlist.');
         }
-        return this.wishlistService.updateWishlistPickStatus(id, pickStatus);
+        const response: responseWishlistDto = {
+            code: 200,
+            success: true,
+            data: {
+                item: await this.wishlistService.updateWishlistPickStatus(id, pickStatus)
+            },
+        };
+        return response
     }
 
     @Patch('/item/:id/givenstatus')
-    updateWishlistGivenStatus(
+    async updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('givenStatus') givenStatus: GivenStatus,
-        @GetUser() user: User,
-    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        if (user.type !== 'PARENT') {
+        @GetUserType() type: string,
+    ): Promise <responseWishlistDto> {
+        if (type !== 'PARENT') {
             throw new ForbiddenException('Only parents can update a wishlist.');
-        }
-        return this.wishlistService.updateWishlistGivenStatus(id, givenStatus);
+        }        
+        const response: responseWishlistDto = {
+            code: 200,
+            success: true,
+            data: {
+              item: await this.wishlistService.updateWishlistGivenStatus(id, givenStatus)
+            },
+          };
+
+        return response
     }
 
     @Patch('/item/:id')
-    updateWishlist(
+    async updateWishlist(
         @Param('id', ParseIntPipe) Wishlistid: number,
         @Body() CreateWishlistDto:CreateWishlistDto,
-        @GetUser() user: User,
-    ): Promise<{ code: number; success: boolean; data: { item: Wishlist } }> {
-        if (user.type !== 'CHILD') {
+        @GetUserType() type: string,
+        @GetUserId() id: number,
+    ): Promise<responseWishlistDto> {
+        if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can update a wishlist.');
         }
 
-        return this.wishlistService.updateWishlist(Wishlistid, CreateWishlistDto, user);
+        const response: responseWishlistDto = {
+            code: 200,
+            success: true,
+            data: {
+                item: await this.wishlistService.updateWishlist(Wishlistid, CreateWishlistDto, id)
+            },
+        };
+
+
+        return response
     }
 
 }

@@ -3,6 +3,7 @@ import { Repository, DataSource } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { GivenStatus, PickedStatus } from "./wishlist-status";
 import { User } from "src/auth/user.entity";
+import { wishProudctDto } from "./dto/responss-wishlist.dto";
 
 @Injectable()
 export class WishlistRepository extends Repository<Wishlist> {
@@ -10,31 +11,29 @@ export class WishlistRepository extends Repository<Wishlist> {
         super(Wishlist, dataSource.createEntityManager());
     }
 
-    async createWishlist(createWishlistDto, user: User): Promise<{ code: number; success: boolean; data: {} }> {
-        const { ProductName, ProductLink } = createWishlistDto;
+    async createWishlist(createWishlistDto, type: string, code: string, id: number): Promise<wishProudctDto> {
+      const { ProductName, ProductLink } = createWishlistDto;
+    
+      const wishlist = this.create({
+        ProductName,
+        ProductLink,
+        Given: GivenStatus.FALSE,
+        Picked: PickedStatus.FALSE,
+        user: { id, code, type }
+      });
+    
+      await this.save(wishlist);
+    
+      const { id: itemId, Given, Picked } = wishlist;
       
-        const wishlist = this.create({
-          ProductName,
-          ProductLink,
-          Given: GivenStatus.FALSE,
-          Picked: PickedStatus.FALSE,
-          user
-        });
-      
-        await this.save(wishlist);
-        const response = {
-          code: 200,
-          success: true,
-          data: {
-            item: {
-              id: wishlist.id,
-              ProductName: wishlist.ProductName,
-              ProductLink: wishlist.ProductLink,
-              Given: wishlist.Given,
-              Picked: wishlist.Picked
-            },
-          },
-        };
-        return response;
-      }
+      const item : wishProudctDto = {
+            id: itemId,
+            ProductName,
+            ProductLink,
+            Given,
+            Picked
+          };
+    
+      return item;
+    }
 }
