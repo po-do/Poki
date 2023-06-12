@@ -3,16 +3,16 @@ import { Wishlist } from "../wishlist/wishlist.entity";
 import { Board } from "src/board/board.entity";
 
 @Entity()
-@Unique(['userid'])
+@Unique(['user_id'])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    userid: string;
+    user_id: string;
 
     @Column()
-    username: string;
+    user_name: string;
 
     @Column()
     password: string;

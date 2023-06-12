@@ -6,11 +6,11 @@ export class AuthCredentialsDto {
     @IsString()
     @MinLength(4)
     @MaxLength(20)
-    userid: string;
+    user_id: string;
 
     @IsString()
     @IsNotEmpty()
-    username: string;
+    user_name: string;
 
     @IsNotEmpty()
     @MinLength(4)

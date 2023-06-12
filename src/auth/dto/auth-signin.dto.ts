@@ -8,7 +8,7 @@ export class AuthSignInDto {
     @IsString()
     @MinLength(4)
     @MaxLength(20)
-    userid: string;
+    user_id: string;
 
     @IsNotEmpty()
     @MinLength(4)
