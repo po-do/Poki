@@ -16,7 +16,7 @@ export class BoardService {
         return this.boardRepository
             .createQueryBuilder('board')
             .leftJoinAndSelect('board.user', 'user')
-            .select(['board.id', 'board.total_grape', 'board.user_whole_grapes', 'board.attached_grapes', 'user.id'])
+            .select(['board.id', 'board.blank', 'board.full', 'board.total_grapes', 'board.attached_grapes', 'board.deattached_grapes', 'user.id'])
             .where('board.id = :id', { id })
             .getOne();
     }
@@ -60,17 +60,19 @@ export class BoardService {
             throw new ForbiddenException('You can only update your own board.');
         }
 
-        board.total_grape = createBoardDto.total_grape;
+        board.blank = createBoardDto.blank;
 
         await this.boardRepository.save(board);
 
-        const { id : boardId, total_grape, user_whole_grapes, attached_grapes } = board;
+        const { id : boardId, blank, full, total_grapes, attached_grapes, deattached_grapes } = board;
 
         const grape: BoardDto = {
             id: boardId,
-            total_grape,
-            user_whole_grapes,
+            blank,
+            full,   
+            total_grapes,
             attached_grapes,
+            deattached_grapes,
         };
 
         return grape;

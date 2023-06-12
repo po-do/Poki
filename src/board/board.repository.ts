@@ -10,24 +10,28 @@ export class BoardRepository extends Repository<Board> {
     }
 
     async createBoard(createBoardDto, type: string, code: string, id: number): Promise<BoardDto> {
-        const { total_grape } = createBoardDto;
+        const { blank } = createBoardDto;
 
         const board = this.create({
-            total_grape,
-            user_whole_grapes: 0,
+            blank,
+            full: 0,
+            total_grapes: 0,
             attached_grapes: 0,
+            deattached_grapes: 0,
             user: { id, code, type }
         });
 
         await this.save(board);
 
-        const { id: grapeId, user_whole_grapes, attached_grapes } = board;
+        const { id: grapeId, full, total_grapes, attached_grapes, deattached_grapes } = board;
 
         const grape: BoardDto = {
             id: grapeId,
-            total_grape,
-            user_whole_grapes,
-            attached_grapes
+            blank,
+            full,
+            total_grapes,
+            attached_grapes,
+            deattached_grapes,
         };
 
         return grape;
