@@ -1,0 +1,15 @@
+.AppHeader {
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 50px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    background-color: #5D5FEF;
+  
+}
+  
+.banner-icon{
+    padding-right: 40px;
+}
+  

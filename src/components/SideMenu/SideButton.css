@@ -1,0 +1,24 @@
+.link{
+display: flex;
+color: rgb(88, 84, 90);
+font-weight: bold;
+padding: 10px 20px;
+gap: 15px;
+transition: all 0.5s;
+}
+
+.link:hover{
+background:  #5D5FEF;
+color: #fff;
+transition: all 0.5s; 
+}
+
+.icon, .link_text{
+  font-size: 20px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: #5D5FEF;
+  color: white;
+}
