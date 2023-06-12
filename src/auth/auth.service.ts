@@ -6,6 +6,9 @@ import * as bcrypt from 'bcryptjs';
 import { AuthSignInDto } from './dto/auth-signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
+import { ConnectUserDto } from './dto/auth-connectuser.dto';
+import { ConnectUserResponseDto } from './dto/auth-response.dto';
+import { UserType } from './user-type.enum';
 
 @Injectable()
 export class AuthService {
@@ -53,23 +56,47 @@ export class AuthService {
         user.code = randomCode;
         await user.save();
 
-        // const response = {
-        //     code: 200,
-        //     success: true,
-        //     data: {
-        //         connection_code: randomCode,
-        //     },
-        // };
-
-        // return response;
-        return {
+        const response = {
             code: 200,
             success: true,
             data: {
                 connection_code: randomCode,
             },
-        }
+        };
+
+        return response;
     }
+
+    // connected true false만 반환하는 코드
+    // async updateChildCode(childId: string, connectionCode: string): Promise<void> {
+    //     const child = await this.userRopository.findOneBy({ userid: childId });
+    
+    //     if (child) {
+    //       child.code = connectionCode;
+    //       await this.userRopository.save(child);
+    //     }
+    //   }
+
+    async updateChildCode(childId: string, connectionCode: string): Promise<{ connected: boolean; type: UserType }> {
+        const child = await this.userRopository.findOneBy({ userid: childId });
+        const parent = await this.userRopository.findOne( { where: { code: connectionCode, type: UserType.PARENT } });
+
+        if (parent) {
+            child.code = connectionCode;
+            await this.userRopository.save(child);
+            return { connected: true, type: UserType.PARENT };
+        } else {
+            return { connected: false, type: UserType.CHILD };
+        }
+    
+        // if (child && child.type === UserType.CHILD && parent) {
+        //   child.code = connectionCode;
+        //   await this.userRopository.save(child);
+        //   return { connected: true, type: child.type };
+        // } else {
+        //   return { connected: false, type: null };
+        // }
+      }
 
     getRandomCode(): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

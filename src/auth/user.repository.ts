@@ -2,7 +2,8 @@ import { DataSource, Repository } from "typeorm";
 import { User } from "./user.entity";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import * as bcrypt from 'bcryptjs';
-import { ConflictException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ConnectUserDto } from "./dto/auth-connectuser.dto";
 
 
 
