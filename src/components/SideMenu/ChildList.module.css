@@ -1,0 +1,33 @@
+.childListContainer {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: space-between;
+  width: 220px;
+}
+
+.childListProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.childListImage {
+  border-radius: 100%;
+  margin: 10px 15px 10px 0px;
+}
+
+.line{
+  border-top: 1px solid rgb(194, 194, 194);
+  margin: 10px;
+}
+
+.childButton {
+  font-weight: bold;
+  background-color: #5D5FEF;
+  width: 30%;
+  padding: 3px;
+  border-radius: 10%;
+  color: white;
+}
