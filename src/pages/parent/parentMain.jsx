@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ParentMain.module.css";
-import Calender from "../../components/UI/CalenderElement";
+import Calender from "../../components/CalenderElement";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 
 export default function ParentMain() {
@@ -16,7 +16,7 @@ export default function ParentMain() {
               />
             </div>
             <div>
-              <p>남은포도송이 개수~</p>
+              <p>남은포도송이 개수</p>
               <p>5/10</p>
               <p>남은 포도알 개수</p>
               <p>50/100</p>
