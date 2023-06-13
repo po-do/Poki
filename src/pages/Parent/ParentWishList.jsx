@@ -1,31 +1,53 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import ProductCard from "../../components/UI/ProductCard";
-import styles from "./ParentWishList.module.css";
-// import { wishListApi } from '../../api/wishlist.js';
+import PodoRegister from "../../components/Modal/podoRegister"
+import { getWishlistByUserId } from '../../api/wishlist.ts';
 
 export default function ParentWishList() {
-  const [wishList, setWishList] = React.useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [wishList, setWishList] = useState([]);
+  const [choiceId, setChoiceId] = useState(false);
 
-  // const handleRegistGift = async () => {
-  //   try {
-  //     const response = await wishListApi.readWishList();
-  //     setWishList(response.data.wish_list); // 위시리스트 데이터를 상태 변수에 저장
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error('위시리스트 데이터를 가져오는 중 오류가 발생했습니다:', error);
-  //   }
-  // };
+  useEffect(() => {
+    // Fetch wishlist data when the component mounts
+    getRegistGift();
+  }, [wishList]);
+
+
+const getRegistGift = async () => {
+  try {
+    // Fetch all wishlist data for the user ID
+    const userid = 5; // Replace with the actual user ID
+    const wishlistData = await getWishlistByUserId({ userid: userid });
+    // console.log("Fetched wishlist data:", wishlistData);
+    setWishList(wishlistData.data.item);
+  } catch (error) {
+    console.log("Failed to fetch wishlist data:", error);
+  }
+};
+
+const openModal = () => {
+  setShowModal(true);
+};
+
+const closeModal = () => {
+  setShowModal(false);
+};
   
-  return (
-    <div className={styles.container}>
-      <div>
-        <h1>Wish List</h1>
-          <ProductCard /><ProductCard items={wishList} />
-      </div>
-
-      <button className="bg-blue-500 sm:rounded text-white p-2" 
-      // onClick={handleRegistGift}
-      >보상 등록</button>
+return (
+  <div>
+    <div>
+      <h1>Wish List</h1>
+      {wishList.map((item) => {
+        if (item){
+          return <ProductCard key={item.id} data={item} />;
+        }
+      })}
     </div>
-  );
+    <div>
+      <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={openModal}>보상 등록</button>
+      {showModal && <PodoRegister onClose={closeModal} choiceId={choiceId}/>}
+    </div>
+  </div>
+);
 }

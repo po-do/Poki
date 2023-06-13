@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { createWishList } from "../../api/wishlist.ts";
+import { createBoard } from "../../api/board.ts";
 
 export default function LinkRegister({ onClose }) {
   const [productName, setProductName] = useState("");
-  const [url, setUrl] = useState("");
+  const [blank, setBlank] = useState("");
 
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
 
   const handleUrlChange = (e) => {
-    setUrl(e.target.value);
+    setBlank(e.target.value);
   };
 
   const handleRegister = async () => {
@@ -18,15 +18,17 @@ export default function LinkRegister({ onClose }) {
       // Create an object with the data to send to the server
       const data = {
         request: {
-          ProductName: productName,
-          ProductLink: url,
+          blank: parseInt(blank),
+          total_grapes: 0,
+          attached_grapes: 0,
+          deattached_grapes:0
         },
       };
       // Make a POST request to create the wishlist item
-      const response = await createWishList(data);
-      console.log("등록완료:", response);
+      const response = await createBoard(data);
+      console.log("포도알 등록 완료:", response);
     } catch (error) {
-      console.log("등록 실패:", error);
+      console.log("포도알 등록 실패:", error);
     }
   }
 
@@ -34,7 +36,8 @@ export default function LinkRegister({ onClose }) {
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-md shadow-md">
         <div className="mb-6">
-          <h2 className="text-xl font-bold">링크 등록</h2>
+          <h2 className="text-xl font-bold">보상 등록</h2>
+          
           <input
             id="mission-register-one"
             type="text"
@@ -43,12 +46,13 @@ export default function LinkRegister({ onClose }) {
             value={productName}
             onChange={handleProductNameChange}
           />
+
           <input
             id="mission-register-two"
             type="text"
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="URL을 입력하세요"
-            value={url}
+            placeholder="포도알 보상 개수를 등록하세요"
+            value={blank}
             onChange={handleUrlChange}
           />
         </div>
@@ -56,7 +60,7 @@ export default function LinkRegister({ onClose }) {
           className="w-full px-4 py-2 bg-purple-600 text-white rounded-md cursor-pointer"
           onClick={handleRegister}
         >
-          등록
+          포도알 등록
         </button>
         <button
           className="w-full px-4 py-2 bg-purple-600 text-white rounded-md cursor-pointer mt-1"
