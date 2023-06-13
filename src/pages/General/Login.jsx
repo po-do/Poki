@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { signIn } from "../../api/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,10 +11,24 @@ export default function Login() {
     setActiveTab(tab);
   };
 
-  const handleSignUp = () => {
-    console.log("회원가입");
-    // 회원가입 처리 로직 구현
-  };
+  const handleSignUp = (() => {
+    const params = {
+      request: {
+        userid: email,
+        password: password,
+      },
+    };
+    signIn(params).then((data) => {
+      // 응답 처리 로직
+    }).catch((error) => {
+      // 에러 처리 로직
+    });
+  });
+
+  const handleLogIn = (() => {
+    console.log("로그인");
+    // 로그인 처리 로직 구현
+  });
 
   return (
     <div className="flex items-center justify-center h-screen bg-purple-500">
@@ -53,6 +68,7 @@ export default function Login() {
             </label>
           </div>
           <div>
+            {/* ID 입력 */}
             <div className="mb-4">
               <div>
                 <label htmlFor="user" className="block mb-2 font-medium">
@@ -66,6 +82,7 @@ export default function Login() {
                   className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
+              {/* 패스워드 입력 */}
               <div className="mt-4">
                 <label htmlFor="pass" className="block mb-2 font-medium">
                   Password
@@ -82,11 +99,13 @@ export default function Login() {
             </div>
             <div className="flex justify-between">
               <Link to="/format/parent">
-                <input
+              <button
                   type="submit"
-                  value="로그인"
-                  className="px-4 py-2 bg-purple-600 text-white rounded cursor-pointer"
-                />
+                  onClick={handleLogIn}
+                  className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
+                >
+                로그인
+                </button>
               </Link>
               <Link to="/signup">
                 <button
