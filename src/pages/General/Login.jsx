@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { signIn } from "../../api/auth";
+import { signIn } from "../../api/auth.ts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,9 +25,20 @@ export default function Login() {
   //   });
   // });
 
-  const handleLogIn = () => {
+  const handleLogIn = async () => {
     console.log("로그인");
     // 로그인 처리 로직 구현
+
+    try {
+      await signIn({
+        request: {
+          user_id: email,
+          password: password,
+        },
+      });
+    } catch (error) {
+      console.log("signin error", error);
+    }
   };
 
   return (
