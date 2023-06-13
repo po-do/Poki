@@ -1,5 +1,4 @@
 import client from './client.ts';
-import { getAccessToken } from "./auth.ts";
 
 export async function createBoard(params: CreateBoardParams) {
     const response = await client.post(

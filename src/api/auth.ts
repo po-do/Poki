@@ -1,4 +1,3 @@
-// import axios from "axios";
 import client from "./client.ts";
 
 export function getAccessToken() {
@@ -10,11 +9,6 @@ export async function signIn(params: SignInParams) {
   client.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${response.data.accessToken}`;
-  // 토큰을 로컬 스토리지에 저장
-  console.log(response.data.accessToken, "토큰 발급 받았니?");
-  localStorage.setItem("access_token", response.data.accessToken);
-  const a = localStorage.getItem("access_token");
-  console.log(a, "ㅋ로컬에 저장됐니?");
   return response;
 }
 

@@ -1,5 +1,4 @@
 import client from "./client.ts";
-import { getAccessToken } from "./auth.ts";
 
 // 미션 조회 (Read)
 export async function missionRead(params: MissionReadParams) {
@@ -13,17 +12,6 @@ interface MissionReadParams {
 
 // 미션 생성 (Create)
 export async function missionCreate(params: MissionCreateParams) {
-  const accessToken = getAccessToken();
-  console.log(accessToken);
-  if (accessToken) {
-    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-  }
-  /*
-    completed_date :  "xxxx-xx-xx"
-    content  :   "asdasdasd"
-    created_date  :   "xxxx-xx-xx"
-  */
-
   const response = await client.post("/mission/create", params.request);
   return response.data;
 }
