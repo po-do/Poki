@@ -5,6 +5,8 @@ import "./index.css";
 import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
+import axios from "axios";
+import client from "./api/client.ts";
 // Parent Page
 import ParentFormat from "./pages/Parent/ParentFormat";
 import ParentMain from "./pages/Parent/ParentMain";
@@ -14,8 +16,12 @@ import Calender from "./pages/General/Calender";
 import Chatting from "./pages/General/Chatting";
 // Child Page
 import ChildFormat from "./pages/Child/ChildFormat";
-import ChildMain from "./pages/Child/ChildMain";
 import ChildWishList from "./pages/Child/ChildWishList";
+import ChildMain from "./pages/Child/ChildMain";
+
+client.defaults.baseURL = "http://3.38.168.129:3000";
+client.defaults.withCredentials = true;
+client.defaults.headers.common["Authorization"] = "";
 
 const router = createBrowserRouter([
   {

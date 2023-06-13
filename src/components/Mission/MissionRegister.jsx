@@ -1,44 +1,51 @@
 import React, { useState } from "react";
-// import { missionCreate } from "../api/mission";
-// import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { missionCreate } from "../../api/mission.ts";
 
+// 미션을 등록하는 컴포넌트
 export default function MissionRegister() {
   const [missionContent, setMissionContent] = useState("");
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const handleInputChange = (e) => {
     setMissionContent(e.target.value);
   };
 
-  // const mutation = useMutation((params) => missionCreate(params), {
-  //   onSuccess: (data) => {
-  //     console.log("서버 응답:", data);
-  //     // 서버 응답을 처리하는 로직을 추가합니다.
-  //   },
-  //   onError: (error) => {
-  //     console.error("미션 생성 실패:", error);
-  //     // 오류 처리 로직을 추가합니다.
-  //   },
-  //   onSettled: () => {
-  //     // 미션 생성이 완료되면 입력 필드를 초기화합니다.
-  //     setMissionContent("");
-  //     // 기존 데이터를 갱신하기 위해 쿼리를 재요청합니다.
-  //     queryClient.invalidateQueries("missions");
-  //   },
-  // });
+  const mutation = useMutation((params) => missionCreate(params), {
+    onSuccess: (data) => {
+      console.log("서버 응답:", data);
+      // 서버 응답을 처리하는 로직을 추가합니다.
+    },
+    onError: (error) => {
+      console.error("미션 생성 실패:", error);
+      // 오류 처리 로직을 추가합니다.
+    },
+    onSettled: () => {
+      // 미션 생성이 완료되면 입력 필드를 초기화합니다.
+      setMissionContent("");
+      // 기존 데이터를 갱신하기 위해 쿼리를 재요청합니다.
+      queryClient.invalidateQueries("missions");
+    },
+  });
 
   const handleMissionCreate = () => {
-    console.log("등록");
+    var date = new Date();
+    const createdDate =
+      date.getFullYear().toString() +
+      "-" +
+      date.getMonth().toString().padStart(2, "0") +
+      "-" +
+      date.getDate().toString();
 
-    // const params = {
-    //   request: {
-    //     content: missionContent,
-    //     created_date: "생성 일자",
-    //     completed_date: "",
-    //   },
-    // };
-
-    // mutation.mutate(params);
+    const params = {
+      request: {
+        content: missionContent,
+        created_date: createdDate,
+        completed_date: createdDate,
+      },
+    };
+    console.log(params);
+    mutation.mutate(params);
   };
 
   return (

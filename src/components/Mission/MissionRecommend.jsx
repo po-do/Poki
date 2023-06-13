@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MissionRecommendModal from "./MissionRecommendModal";
 
+// 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하기를 할수있는 컴포넌트
 export default function MissionRecommend() {
   const [showModal, setShowModal] = useState(false);
 

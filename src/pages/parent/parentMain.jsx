@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "./ParentMain.module.css";
 import Calender from "../../components/UI/CalenderElement";
+import { useQuery } from "@tanstack/react-query";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 
 export default function ParentMain() {
+  const podo = useQuery(['boardState'], )
+
   return (
     <>
       <div className={styles.container}>
