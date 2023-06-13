@@ -1,15 +1,11 @@
 import React from "react";
 import Login from "./pages/General/Login";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import axios from "axios";
 
-const queryClient = new QueryClient();
+axios.defaults.withCredentials = true;
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Login />
-    </QueryClientProvider>
-  );
+  return <Login />;
 }
 
 export default App;
