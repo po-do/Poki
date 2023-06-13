@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { signIn } from "../../api/auth";
+// import { signIn } from "../../api/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,24 +11,24 @@ export default function Login() {
     setActiveTab(tab);
   };
 
-  const handleSignUp = (() => {
-    const params = {
-      request: {
-        userid: email,
-        password: password,
-      },
-    };
-    signIn(params).then((data) => {
-      // 응답 처리 로직
-    }).catch((error) => {
-      // 에러 처리 로직
-    });
-  });
+  // const handleSignUp = (() => {
+  //   const params = {
+  //     request: {
+  //       userid: email,
+  //       password: password,
+  //     },
+  //   };
+  //   signIn(params).then((data) => {
+  //     // 응답 처리 로직
+  //   }).catch((error) => {
+  //     // 에러 처리 로직
+  //   });
+  // });
 
-  const handleLogIn = (() => {
+  const handleLogIn = () => {
     console.log("로그인");
     // 로그인 처리 로직 구현
-  });
+  };
 
   return (
     <div className="flex items-center justify-center h-screen bg-purple-500">
@@ -99,18 +99,18 @@ export default function Login() {
             </div>
             <div className="flex justify-between">
               <Link to="/format/parent">
-              <button
+                <button
                   type="submit"
                   onClick={handleLogIn}
                   className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
                 >
-                로그인
+                  로그인
                 </button>
               </Link>
               <Link to="/signup">
                 <button
                   type="button"
-                  onClick={handleSignUp}
+                  // onClick={handleSignUp}
                   className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
                 >
                   회원가입
