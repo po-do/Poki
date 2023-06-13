@@ -9,25 +9,43 @@ export async function signIn(params: SignInParams) {
   client.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${response.data.accessToken}`;
+  // 토큰을 로컬 스토리지에 저장
+  localStorage.setItem("access_token", response.data.accessToken);
   return response;
 }
 
 export async function signUp(params: SignUpParams) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.post("/auth/signup", params.request);
   return response.data;
 }
 
 export async function createUserCode(params: CreateUserCodeParams) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.get("/auth/user/code");
   return response.data;
 }
 
 export async function connectUserCode(params: ConnectUserCodeParams) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.patch("/auth/user/connect", params.request);
   return response.data;
 }
 
 export async function getUserType(params: GetUserTypeParams) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.get(`/auth/user/type/${params.userid}`);
   return response.data;
 }
