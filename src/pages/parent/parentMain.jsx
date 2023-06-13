@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ParentMain.module.css";
-import Calender from "../../components/CalenderElement";
+import Calender from "../../components/UI/CalenderElement";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 
 export default function ParentMain() {

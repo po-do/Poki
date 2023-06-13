@@ -1,74 +1,77 @@
 import React from "react";
-import styles from "./Chatting.module.css";
+
 export default function Chatting() {
   return (
-    <div>
-      <div className={styles.chattingScreen}>
-        <div className={styles.chatContainer}>
-          <div className={styles.messageContainer}>
-            <div className={`${styles.message} ${styles.receivedMessage}`}>
-              <div className={styles.avatar}>
-                <img src="https://img.lukepeters.me/avatar.jpg" alt="Avatar" />
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="max-w-xl">
+        <div className="bg-white rounded-lg p-6">
+          <div className="space-y-4">
+            <div className="flex items-start justify-start">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img
+                  src="https://img.lukepeters.me/avatar.jpg"
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className={styles.messageContent}>
-                <strong className={styles.username}>Luke Peters</strong>
-                <span className={styles.messageText}>Hello!</span>
+              <div>
+                <strong className="block">Luke Peters</strong>
+                <span className="text-gray-700">Hello!</span>
               </div>
             </div>
-            {/* 다른 받은 메시지 요소들도 위와 같이 추가해줍니다 */}
-            <div className={`${styles.message} ${styles.sentMessage}`}>
-              <div className={styles.avatar}>
-                <img src="http://img.lukepeters.me/jack.jpg" alt="Avatar" />
+            {/* Add other received message elements */}
+            <div className="flex items-end justify-end">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img
+                  src="http://img.lukepeters.me/jack.jpg"
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className={styles.messageContent}>
-                <strong className={styles.username}>Jack Sparrow</strong>
-                <span className={styles.messageText}>
-                  Oh hello. Who is this?
-                </span>
+              <div>
+                <strong className="block">Jack Sparrow</strong>
+                <span className="text-gray-700">Oh hello. Who is this?</span>
               </div>
             </div>
             {/* ------------------- */}
-            <div className={`${styles.message} ${styles.receivedMessage}`}>
-              <div className={styles.avatar}>
-                <img src="https://img.lukepeters.me/avatar.jpg" alt="Avatar" />
+            <div className="flex items-start justify-start">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img
+                  src="https://img.lukepeters.me/avatar.jpg"
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className={styles.messageContent}>
-                <strong className={styles.username}>Luke Peters</strong>
-                <span className={styles.messageText}>Hello!</span>
+              <div>
+                <strong className="block">Luke Peters</strong>
+                <span className="text-gray-700">Hello!</span>
               </div>
             </div>
-            <div className={`${styles.message} ${styles.sentMessage}`}>
-              <div className={styles.avatar}>
-                <img src="http://img.lukepeters.me/jack.jpg" alt="Avatar" />
+            <div className="flex items-end justify-end">
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img
+                  src="http://img.lukepeters.me/jack.jpg"
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className={styles.messageContent}>
-                <strong className={styles.username}>Jack Sparrow</strong>
-                <span className={styles.messageText}>
-                  Oh hello. Who is this?
-                </span>
+              <div>
+                <strong className="block">Jack Sparrow</strong>
+                <span className="text-gray-700">Oh hello. Who is this?</span>
               </div>
             </div>
           </div>
 
-          <div className={styles.inputContainer}>
+          <div className="mt-4 flex">
             <input
               type="text"
               placeholder="Type your message..."
-              className={styles.inputField}
+              className="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
-            <button className={styles.sendButton}>Send</button>
+            <button className="px-4 py-2 bg-purple-600 text-white rounded-r-md">
+              Send
+            </button>
           </div>
-        </div>
-
-        <div className={styles.footer}>
-          <span>A pen by </span>
-          <a
-            href="https://lukepeters.me"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Luke Peters
-          </a>
         </div>
       </div>
     </div>

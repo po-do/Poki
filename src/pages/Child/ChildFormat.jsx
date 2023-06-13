@@ -1,10 +1,10 @@
 import React from "react";
 import AppHeader from "../../components/AppHeader/AppHeader";
 import SideMenu from "../../components/SideMenu/SideMenu";
-import ParentMain from "../../pages/Parent/ParentMain";
-import styles from "./Format.module.css";
+import styles from "./ChildFormat.module.css";
+import { Outlet } from "react-router-dom";
 
-export default function Format() {
+export default function ChildFormat() {
   return (
     <>
       <div className={styles.container}>
@@ -13,7 +13,7 @@ export default function Format() {
         </div>
         <div className={styles.sideSection}>
           <AppHeader />
-          <ParentMain />
+          <Outlet />
         </div>
       </div>
     </>

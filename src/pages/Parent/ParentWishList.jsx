@@ -13,7 +13,7 @@ export default function ParentWishList() {
         <ProductCard />
       </div>
 
-      <button onClick={handleRegistGift}>보상 등록</button>
+      <button className="bg-blue-500 sm:rounded text-white p-2" onClick={handleRegistGift}>보상 등록</button>
     </div>
   );
 }

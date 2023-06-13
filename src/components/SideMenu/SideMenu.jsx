@@ -23,7 +23,7 @@ export default function SideMenu() {
 
   const menuTop = [
     {
-      path: "/format",
+      path: "/format/parent",
       name: "Home",
       icon: <FaHome />,
     },
