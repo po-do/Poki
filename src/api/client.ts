@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseURL = 'http://실제url:8080'
+const baseURL = "http://3.38.168.129:3000";
 
 const client = axios.create({
-    baseURL,
+  baseURL,
 });
 
 export default client;
