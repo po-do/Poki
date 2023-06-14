@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
+import axios from "axios";
 import client from "./api/client.ts";
 // Parent Page
 import ParentFormat from "./pages/Parent/ParentFormat";

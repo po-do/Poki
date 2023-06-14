@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createWishList } from "../../api/wishlist.ts";
 
 export default function LinkRegister({ onClose }) {
   const [productName, setProductName] = useState("");
@@ -13,22 +12,9 @@ export default function LinkRegister({ onClose }) {
     setUrl(e.target.value);
   };
 
-  const handleRegister = async () => {
-    try {
-      // Create an object with the data to send to the server
-      const data = {
-        request: {
-          ProductName: productName,
-          ProductLink: url,
-        },
-      };
-      // Make a POST request to create the wishlist item
-      const response = await createWishList(data);
-      console.log("등록완료:", response);
-    } catch (error) {
-      console.log("등록 실패:", error);
-    }
-  }
+  const handleRegister = () => {
+    console.log("등록완료");
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
