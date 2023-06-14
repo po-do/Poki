@@ -4,13 +4,27 @@ import { WishlistService } from './wishlist.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { WishlistRepository } from './wishlist.repository';
+import { UserRepository } from 'src/auth/user.repository';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([WishlistRepository]),
+    TypeOrmModule.forFeature([
+      WishlistRepository,
+      UserRepository,
+     ]),
     AuthModule,
   ],
   controllers: [WishlistController],
-  providers: [WishlistService, WishlistRepository],
+  providers: [
+    WishlistService, 
+    WishlistRepository,
+    AuthService,
+    JwtStrategy,
+    UserRepository,
+    JwtService,
+],
 })
 export class WishlistModule {}

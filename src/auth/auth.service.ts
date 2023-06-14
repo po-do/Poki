@@ -110,19 +110,22 @@ export class AuthService {
         const { code, type } = user;
         const userType: UserType = type as UserType;
         const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+        console.log(connectedUser.user_id);
+
+        return connectedUser.id;
         
-        if (connectedUser) {
-            //return connectedUser;
-            return {
-                code: 200,
-                success: true,
-                data: {
-                  connected_user: connectedUser.user_id,
-                },
-              };
-            } else {
-              throw new NotFoundException('Connected user not found');
-            }
+        // if (connectedUser) {
+        //     //return connectedUser;
+        //     return {
+        //         code: 200,
+        //         success: true,
+        //         data: {
+        //           connected_user: connectedUser.user_id,
+        //         },
+        //       };
+        //     } else {
+        //       throw new NotFoundException('Connected user not found');
+        //     }
           }
 
 

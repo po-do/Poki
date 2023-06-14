@@ -5,20 +5,34 @@ import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
 import { GetUserType } from 'src/decorators/get-user.type.decorator';
+import { GetUser } from 'src/decorators/get-user.decorator';
 import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 import { GetUserCode } from 'src/decorators/get-user.code.decorator';
 import { responseWishlistDto } from './dto/response-wishlist.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { User } from 'src/auth/user.entity';
 
 
 @Controller('wishlist')
 @UseGuards(AuthGuard())
 
 export class WishlistController {
-    constructor(private wishlistService: WishlistService) { }
+    constructor(
+        private wishlistService: WishlistService,
+        private AuthService: AuthService) { }
+    
 
-    @Get('/user/:id')
-    async getWishlistByUserId(@Param('id', ParseIntPipe) id: number): Promise<responseWishlistDto> {
-
+    @Get('/user')
+    async getWishlistByUserId(
+        @GetUser() user: User,
+        @GetUserId() id: number,
+        @GetUserType() type: string
+    ): Promise<responseWishlistDto> {
+        
+        if (type !== 'CHILD') {
+            id = await this.AuthService.getConnectedUser(user);
+        }
+        
         const response: responseWishlistDto = {
             code: 200,
             success: true,
