@@ -37,7 +37,7 @@ export default function RecentMissionList() {
   const handleClick = async () => {
     await Promise.all(
       checkedMissionsId.map((missionId) =>
-      setMissionStatusWait({ mission_id: missionId })
+        setMissionStatusWait({ mission_id: missionId })
       )
     );
     setCheckedMissionsId([]);
@@ -52,7 +52,11 @@ export default function RecentMissionList() {
     return recentMissions.map((mission, index) => (
       <li key={index} className="flex items-center">
         {mission.content}
-        <input type="checkbox" className="form-checkbox" onChange={(e) => handleChange(e, mission)}/>
+        <input
+          type="checkbox"
+          className="form-checkbox"
+          onChange={(e) => handleChange(e, mission)}
+        />
       </li>
     ));
   };
@@ -61,7 +65,10 @@ export default function RecentMissionList() {
     <>
       <h3 className="text-lg font-bold mb-4">등록된 미션</h3>
       <ul className="space-y-2">{missions && getRecentMissions()}</ul>
-      <button className="px-4 py-2 bg-purple-600 text-white rounded-r-md" onClick={handleClick}>
+      <button
+        className="px-4 py-2 bg-purple-600 text-white rounded-r-md"
+        onClick={handleClick}
+      >
         포도알 요청
       </button>
     </>

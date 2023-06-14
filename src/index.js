@@ -7,16 +7,16 @@ import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.ts";
 // Parent Page
-import ParentFormat from "./pages/Parent/ParentFormat";
-import ParentMain from "./pages/Parent/ParentMain";
-import Mission from "./pages/Parent/Mission";
-import ParentWishList from "./pages/Parent/ParentWishList";
+import ParentFormat from "./pages/parents/ParentFormat";
+import ParentMain from "./pages/parents/ParentMain";
+import Mission from "./pages/parents/Mission";
+import ParentWishList from "./pages/parents/ParentWishList";
 import Calender from "./pages/General/Calender";
 import Chatting from "./pages/General/Chatting";
 // Child Page
-import ChildFormat from "./pages/Child/ChildFormat";
-import ChildWishList from "./pages/Child/ChildWishList";
-import ChildMain from "./pages/Child/ChildMain";
+import ChildFormat from "./pages/children/ChildFormat";
+import ChildWishList from "./pages/children/ChildWishList";
+import ChildMain from "./pages/children/ChildMain";
 
 client.defaults.baseURL = "http://3.38.168.129:3000";
 client.defaults.withCredentials = true;

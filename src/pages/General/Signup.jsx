@@ -60,7 +60,7 @@ export default function Signup() {
               name="tab"
               className="hidden"
               onClick={() => handleTabClick("child")}
-            />
+            /> 
             <label
               htmlFor="child_tab"
               className={`px-4 py-2 bg-gray-200 rounded-r cursor-pointer ${

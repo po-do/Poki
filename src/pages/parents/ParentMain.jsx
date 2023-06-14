@@ -2,10 +2,17 @@ import React from "react";
 import styles from "./ParentMain.module.css";
 import Calender from "../../components/UI/CalenderElement";
 import { useQuery } from "@tanstack/react-query";
+import { getBoardByUserId } from "../../api/board.ts";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 
 export default function ParentMain() {
-  const podo = useQuery(['boardState'], )
+  const userId = 2;
+  const boardQuery = useQuery(["boardState", userId], () => {
+    return getBoardByUserId({ userId: userId });
+  });
+
+  const grape = boardQuery?.data?.data?.grape[0];
+  console.log(grape?.total_grapes);
 
   return (
     <>
@@ -19,10 +26,12 @@ export default function ParentMain() {
               />
             </div>
             <div>
-              <p>남은포도송이 개수</p>
-              <p>5/10</p>
-              <p>남은 포도알 개수</p>
-              <p>50/100</p>
+              <p>붙일 수 있는 포도알 개수</p>
+              <p>{grape?.deattached_grapes}</p>
+              <p>받은 포도알 개수</p>
+              <p>{grape?.total_grapes}</p>
+              <p>목표 포도알 개수</p>
+              <p>{grape?.blank}</p>
             </div>
           </div>
           <div>

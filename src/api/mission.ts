@@ -99,12 +99,11 @@ interface MissionDeleteParams {
 
 // (자녀가) 부모가 생성한 미션 조회 (Read)
 export async function missionReadChild(params: MissionReadChildParams) {
-  console.log("asdhfjkashkdfhaskdfkjhaksd");
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.get(`/mission/user/${params.user_id}`);
+  const response = await client.get(`/mission/user/`);
   return response.data;
 }
 
@@ -118,7 +117,7 @@ export async function missionConfirm(params: MissionConfirmParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.get(`/mission/user/${params.user_id}/approve`);
+  const response = await client.get(`/mission/user/approve`);
   return response.data;
 }
 

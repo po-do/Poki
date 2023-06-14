@@ -19,7 +19,6 @@ export async function deleteBoard(params: DeleteBoardParams) {
   return response.data;
 }
 
-
 export async function getBoardById(params: GetBoardByIdParams) {
   // console.log(params);
   const accessToken = getAccessToken();
@@ -31,12 +30,11 @@ export async function getBoardById(params: GetBoardByIdParams) {
 }
 
 export async function getBoardByUserId(params: GetBoardByUserIdParams) {
-  
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.get(`/board/user/${params.userId}`);
+  const response = await client.get(`/board/user/`);
   return response.data;
 }
 
