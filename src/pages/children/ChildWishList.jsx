@@ -12,6 +12,9 @@ export default function ChildWishList() {
     fetchWishlistData();
   }, [wishList]);
 
+
+
+
   const fetchWishlistData = async () => {
     try {
 
