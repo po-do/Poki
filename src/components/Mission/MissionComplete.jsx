@@ -1,10 +1,22 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { missionConfirm } from "../../api/mission.ts";
+import { React, useState, useEffect } from "react";
+import { missionReadChild } from "../../api/mission.ts";
 
 // 자녀가 완료된 미션을 보여주는 컴포넌트
 export default function MissionComplete() {
-  const { data: missions } = useQuery(["missions"], missionConfirm);
+  const tmp_user_id = { user_id: "2" };
+  const [missions, setMissions] = useState([]);
+
+  useEffect(() => {
+    getMission();
+  }, [missions]);
+
+  const getMission = async () => {
+    const missionsData = await missionReadChild(tmp_user_id);
+    const completeMissions = missionsData.filter(
+      (mission) => mission.status === "COMPLETE"
+    );
+    setMissions(completeMissions);
+  };
 
   return (
     <>

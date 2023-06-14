@@ -1,29 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { signIn } from "../../api/auth.ts";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeTab, setActiveTab] = useState("parent");
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
+  const navigate = useNavigate();
+  // const [activeTab, setActiveTab] = useState("parent");
+
+  // const handleTabClick = (tab) => {
+  //   setActiveTab(tab);
+  // };
+
+  const handleSignUp = () => {
+    navigate("/signup");
   };
-
-  // const handleSignUp = (() => {
-  //   const params = {
-  //     request: {
-  //       userid: email,
-  //       password: password,
-  //     },
-  //   };
-  //   signIn(params).then((data) => {
-  //     // 응답 처리 로직
-  //   }).catch((error) => {
-  //     // 에러 처리 로직
-  //   });
-  // });
 
   const handleLogIn = async () => {
     console.log("로그인");
@@ -36,6 +28,7 @@ export default function Login() {
           password: password,
         },
       });
+      navigate("/format/child");
     } catch (error) {
       console.log("signin error", error);
     }
@@ -45,39 +38,6 @@ export default function Login() {
     <div className="flex items-center justify-center h-screen bg-purple-500">
       <form className="w-96 bg-white rounded-lg p-8">
         <div className="mb-8">
-          <div className="flex mb-4">
-            <input
-              id="parent_tab"
-              type="radio"
-              name="tab"
-              defaultChecked
-              className="hidden"
-              onClick={() => handleTabClick("parent")}
-            />
-            <label
-              htmlFor="parent_tab"
-              className={`px-4 py-2 bg-gray-200 rounded-l cursor-pointer ${
-                activeTab === "parent" ? "bg-purple-400 text-white" : ""
-              }`}
-            >
-              부모님
-            </label>
-            <input
-              id="child_tab"
-              type="radio"
-              name="tab"
-              className="hidden"
-              onClick={() => handleTabClick("child")}
-            />
-            <label
-              htmlFor="child_tab"
-              className={`px-4 py-2 bg-gray-200 rounded-r cursor-pointer ${
-                activeTab === "child" ? "bg-purple-400 text-white" : ""
-              }`}
-            >
-              자녀
-            </label>
-          </div>
           <div>
             {/* ID 입력 */}
             <div className="mb-4">
@@ -109,24 +69,21 @@ export default function Login() {
               </div>
             </div>
             <div className="flex justify-between">
-              <Link to="/format/parent">
-                <button
-                  type="submit"
-                  onClick={handleLogIn}
-                  className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
-                >
-                  로그인
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button
-                  type="button"
-                  // onClick={handleSignUp}
-                  className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
-                >
-                  회원가입
-                </button>
-              </Link>
+              <button
+                type="button"
+                onClick={handleLogIn}
+                className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
+              >
+                로그인
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSignUp}
+                className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
+              >
+                회원가입
+              </button>
             </div>
           </div>
         </div>

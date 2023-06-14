@@ -1,22 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
-import { missionRead, missionUpdate } from "../../api/mission.ts";
+import {
+  missionReadChild,
+  missionUpdate,
+  setMissionStatusComplete,
+} from "../../api/mission.ts";
+import { updateBoard, getBoardByUserId } from "../../api/board.ts";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
-  const { data: missions } = useQuery(["missions"], missionRead);
+  const userId = 2;
+  const tmp_user_id = { user_id: "2" };
+  const [grape, setGrape] = useState(null);
+  const [missions, setMissions] = useState([]);
+  const [selectedMissions, setSelectedMissions] = useState([]);
+
+  const boardQuery = useQuery(["boardState", userId], () => {
+    return getBoardByUserId({ userId: userId });
+  });
+
+  useEffect(() => {
+    if (boardQuery.isSuccess) {
+      const fetchedGrape = boardQuery?.data?.data?.grape[0];
+      setGrape(fetchedGrape);
+    }
+  }, [boardQuery.isSuccess, boardQuery.data]);
+
+  useEffect(() => {
+    getMission();
+  }, [boardQuery.isSuccess, boardQuery.data, missions]);
+
+  const getMission = async () => {
+    const missionsData = await missionReadChild(tmp_user_id);
+    const incompleteMissions = missionsData.filter(
+      (mission) => mission.status === "WAIT_APPROVAL"
+    );
+    setMissions(incompleteMissions);
+  };
+
+  const { mutate: complete } = useMutation(setMissionStatusComplete, {
+    onSuccess: async () => {
+      await addGrape();
+      QueryClient.invalidateQueries("missions");
+    },
+  });
+
   const mutation = useMutation(missionUpdate, {
     onSuccess: () => {
       QueryClient.invalidateQueries("missions");
     },
   });
-  const [selectedMissions, setSelectedMissions] = useState([]);
 
-  const handleCheckboxChange = (missionId) => {
-    if (selectedMissions.includes(missionId)) {
-      setSelectedMissions(selectedMissions.filter((id) => id !== missionId));
-    } else {
+  const addGrape = async () => {
+    const prevStatus = grape;
+    console.log(prevStatus, "prev!");
+
+    const newStatus = {
+      blank: prevStatus?.blank,
+      attached_grapes: prevStatus?.attached_grapes,
+      total_grapes: prevStatus?.total_grapes + 1,
+      deattached_grapes: prevStatus?.deattached_grapes + 1,
+    };
+    const boardStatus = {
+      grapeId: 1,
+      request: newStatus,
+    };
+    console.log(newStatus, "this is new status");
+
+    await updateBoard(boardStatus);
+  };
+
+  const handleCheckboxChange = (e, missionId) => {
+    if (e.target.checked) {
       setSelectedMissions([...selectedMissions, missionId]);
+    } else {
+      setSelectedMissions(selectedMissions.filter((id) => id !== missionId));
     }
   };
 
@@ -24,45 +82,42 @@ export default function MissionTempComplete() {
     selectedMissions.forEach((missionId) => {
       const updatedMission = {
         ...missions.find((mission) => mission.id === missionId),
-        status: "INCOMPLETE",
       };
-      mutation.mutate(updatedMission);
+      complete({
+        mission_id: missionId,
+      });
     });
     setSelectedMissions([]);
   };
 
   const handlePublish = () => {
+    // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const updatedMission = {
         ...missions.find((mission) => mission.id === missionId),
-        status: "COMPLETE",
       };
-      mutation.mutate(updatedMission);
+      complete({
+        mission_id: missionId,
+      });
     });
     setSelectedMissions([]);
-  };
-
-  const getTempMissions = () => {
-    const incompleteMissions = missions.filter(
-      (mission) => mission.status === "WAIT_APPROVAL"
-    );
-    return incompleteMissions.map((mission) => (
-      <li key={mission.id} className="flex items-center">
-        {mission.content}
-        <input
-          type="checkbox"
-          className="form-checkbox"
-          checked={selectedMissions.includes(mission.id)}
-          onChange={() => handleCheckboxChange(mission.id)}
-        />
-      </li>
-    ));
   };
 
   return (
     <div>
       <h3 className="text-xl font-bold mb-4">완료 대기 미션</h3>
-      <ul className="space-y-2">{missions && getTempMissions()}</ul>
+      <ul className="space-y-2">
+        {missions.map((mission, index) => (
+          <li key={index}>
+            {mission.content}
+            <input
+              type="checkbox"
+              className="ml-2"
+              onChange={(e) => handleCheckboxChange(e, mission.id)}
+            />
+          </li>
+        ))}
+      </ul>
       <button
         onClick={handleReject}
         className="px-4 py-2 bg-blue-500 text-white rounded"

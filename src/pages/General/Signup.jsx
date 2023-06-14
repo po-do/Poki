@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { signUp } from "../../api/auth.ts";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [username, setUserName] = useState("");
@@ -7,15 +8,15 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("parent");
 
+  const navigate = useNavigate();
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log("회원가입");
-    // 회원가입 처리 로직 구현
-
+    console.log(activeTab.toUpperCase());
     try {
       await signUp({
         request: {
@@ -25,6 +26,8 @@ export default function Signup() {
           type: activeTab.toUpperCase(),
         },
       });
+      console.log("회원가입완료");
+      navigate("/");
     } catch (error) {
       console.log("signup error", error);
     }
@@ -36,6 +39,13 @@ export default function Signup() {
         <div>
           <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
           <div className="space-y-4">
+            <input
+              id="parent_tab"
+              type="radio"
+              name="tab"
+              className="hidden"
+              onClick={() => handleTabClick("parent")}
+            />
             <label
               htmlFor="parent_tab"
               className={`px-4 py-2 bg-gray-200 rounded-l cursor-pointer ${

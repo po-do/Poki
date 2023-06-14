@@ -16,39 +16,39 @@ import {
   FaBookReader,
 } from "react-icons/fa";
 
-export default function SideMenu() {
+export default function SideMenu({type}) {
   const [isOpen, setIsOpen] = useState(true);
   const menuBar = () => setIsOpen(!isOpen);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  console.log(type);
   const menuTop = [
     {
-      path: "/format/parent",
+      path: `/format/${type}`,
       name: "Home",
       icon: <FaHome />,
     },
     {
-      path: "/format/parent/mission",
+      path: `/format/${type}/mission`,
       name: "미션관리",
       icon: <FaBookReader />,
     },
     {
-      path: "/format/parent/wishList",
+      path: `/format/${type}/wishList`,
       name: "위시리스트",
       icon: <FaShoppingBasket />,
     },
     {
-      path: "/format/parent/calender",
+      path: `/format/${type}/calender`,
       name: "캘린더",
       icon: <FaRegCalendarAlt />,
     },
     {
-      path: "/format/parent/message",
+      path: `/format/${type}/message`,
       name: "메세지",
       icon: <FaComment />,
     },
     {
-      path: "/format/parent/history",
+      path: `/format/${type}/history`,
       name: "기록",
       icon: <FaHistory />,
     },
@@ -56,12 +56,12 @@ export default function SideMenu() {
 
   const menuBottom = [
     {
-      path: "/format/parent/mypage",
+      path: `/format/${type}/mypage`,
       name: "마이페이지",
       icon: <FaUserAlt />,
     },
     {
-      path: "/format/parent/setting",
+      path: `/format/${type}/setting`,
       name: "설정",
       icon: <FaCog />,
     },

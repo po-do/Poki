@@ -1,9 +1,9 @@
 import React from "react";
 import MissionRegister from "../../components/Mission/MissionRegister";
 // import MissionRecommend from "../../components/Mission/MissionRecommend";
-// import MissionRegisterList from "../../components/Mission/MissionRegisterList";
-// import MissionComplete from "../../components/Mission/MissionComplete";
-// import MissionTempComplete from "../../components/Mission/MissionTempComplete";
+import MissionRegisterList from "../../components/Mission/MissionRegisterList";
+import MissionComplete from "../../components/Mission/MissionComplete";
+import MissionTempComplete from "../../components/Mission/MissionTempComplete";
 // import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 
 export default function Mission() {
@@ -14,10 +14,10 @@ export default function Mission() {
       {/* <MissionRegisteredGift />
       <button>지급완료</button>
       <button>수정</button>
-      <MissionRecommend />
+      <MissionRecommend /> */}
       <MissionRegisterList />
       <MissionTempComplete />
-      <MissionComplete /> */}
+      <MissionComplete />
     </div>
   );
 }

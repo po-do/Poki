@@ -30,7 +30,7 @@ interface MissionCreateParams {
   };
 }
 
-// 미션 완료 (Complete)
+// 미션 완료대기로 변경 (Complete)
 export async function setMissionStatusWait(params: SetMissionStatusWaitParams) {
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -66,8 +66,10 @@ export async function missionUpdate(params: MissionUpdateParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
+  console.log("업데이트 함수안");
+  console.log(params);
   const response = await client.patch(
-    `/update/${params.mission_id}`,
+    `/mission/update/${params.mission_id}`,
     params.request
   );
   return response.data;
@@ -87,7 +89,7 @@ export async function missionDelete(params: MissionDeleteParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.delete(`/delete/${params.mission_id}`);
+  const response = await client.delete(`/mission/delete/${params.mission_id}`);
   return response.data;
 }
 
@@ -97,12 +99,12 @@ interface MissionDeleteParams {
 
 // (자녀가) 부모가 생성한 미션 조회 (Read)
 export async function missionReadChild(params: MissionReadChildParams) {
+  console.log("asdhfjkashkdfhaskdfkjhaksd");
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/mission/user/${params.user_id}`);
-
   return response.data;
 }
 

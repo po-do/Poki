@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import ProductCard from "../../components/UI/ProductCard";
-import LinkRegister from "../../components/Modal/LinkRegisterModal";
+import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,7 @@ export default function ChildWishList() {
       </div>
       <div>
         <button onClick={openModal}>링크등록</button>
-        {showModal && <LinkRegister onClose={closeModal} />}
+        {showModal && <LinkRegisterModal onClose={closeModal} />}
       </div>
     </div>
   );
