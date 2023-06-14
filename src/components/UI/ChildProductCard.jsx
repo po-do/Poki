@@ -4,7 +4,7 @@ import LinkUpdate from "../../components/Modal/LinkUpdateModal";
 
 export default function ChildProductCard({item}) {
   const [showModal, setShowModal] = useState(false);
-
+  console.log(item)
   const deleteList = async () => {
     try {
       await deleteWishList({itemid : item.id})
@@ -29,14 +29,14 @@ export default function ChildProductCard({item}) {
         className="w-full"
       />
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+        <div className="font-bold text-xl mb-2">{item.ProductName}</div>
         <p className="text-gray-700 text-base">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
         </p>
       </div>
       <div className="px-6 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          #photo
+          ID : #{item.id}
         </span>
         <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={openModal}>수정</button>
         {showModal && <LinkUpdate onClose={closeModal} item = {item}/>}

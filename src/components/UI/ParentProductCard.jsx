@@ -1,32 +1,9 @@
-import React, { useState } from "react";
-import { updateWishList, deleteWishList } from "../../api/wishlist.ts";
-export default function ParentProductCard({item}) {
-  const [updateProductName,setUpdateProductName] = useState(null);
-  const [updateProductLink,setUpdateProductLink] = useState(null);
-  
-  const updateList = async () => {
-    console.log(item.id);
-    try {
-      const data = {
-        itemid: item.id,
-        request: {
-          ProductName: updateProductName,
-          ProductLink: updateProductLink
-     }
-      }
-      await updateWishList(data);
-    } catch (error) {
-      console.log("Failed to update wishlist data:", error);
-    }
+import React from "react";
+export default function ParentProductCard({item, setIsSelected}) {
+  const handleSelect = () => {
+    setIsSelected(item.id)
   };
 
-  const deleteList = async () => {
-    try {
-      await deleteWishList({itemid : item.id})
-    } catch (error) {
-      console.log("Failed to delete wishlist data:", error);
-    }
-  };
   return (
     <div className="max-w-[250px] rounded overflow-hidden shadow-lg md:w-1/2 lg:w-1/3 xl:w-1/4">
       <img
@@ -44,7 +21,9 @@ export default function ParentProductCard({item}) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
           #photo
         </span>
-
+        <button
+        className="px-4 py-2 bg-gray-500 text-white rounded"  onClick={handleSelect}
+      >선택</button>
       </div>
     </div>
 
