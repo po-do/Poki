@@ -19,6 +19,7 @@ export async function deleteBoard(params: DeleteBoardParams) {
   return response.data;
 }
 
+
 export async function getBoardById(params: GetBoardByIdParams) {
   // console.log(params);
   const accessToken = getAccessToken();
