@@ -6,11 +6,16 @@ import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
 import { AuthGuard } from '@nestjs/passport'
 import { GetUserId } from 'src/decorators/get-user.userid.decorator';
+import { GetUser } from 'src/decorators/get-user.decorator';
+import { User } from 'src/auth/user.entity';
+import { GetUserType } from 'src/decorators/get-user.type.decorator';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('/mission')
 @UseGuards(AuthGuard())
 export class MissionController {
-    constructor(private missionService: MissionService){}
+    constructor(private missionService: MissionService,
+                private AuthService:AuthService){}
 
     @Post('/create')
     @UsePipes(ValidationPipe)
@@ -56,13 +61,28 @@ export class MissionController {
         return this.missionService.deleteMissionByMissionId(mission_id, user_id);
     }
 
-    @Get('/user/:user_id')
-    getMissionListByUserId(@Param('user_id') user_id: string): Promise <Mission[]> {
-        return this.missionService.getMissionListByUserId(user_id);
+    @Get('/user')
+    async getMissionListByUserId(
+        @GetUser() user:User,
+        @GetUserId() id:number,
+        @GetUserType() type: string): Promise <Mission[]> {
+
+        if (type !== 'PARENT') {
+            id = await this.AuthService.getConnectedUser(user);
+        }
+        
+        return this.missionService.getMissionListByUserId(id);
     }
 
-    @Get('/user/:user_id/approve')
-    getApproveListByUserId(@Param('user_id') user_id: string): Promise <Mission[]> {
-        return this.missionService.getApproveListByUserId(user_id);
+    @Get('/user/approve')
+    async getApproveListByUserId(
+        @GetUser() user:User,
+        @GetUserId() id:number,
+        @GetUserType() type:string): Promise <Mission[]> {
+
+        if (type !== 'PARENT') {
+            id = await this.AuthService.getConnectedUser(user);
+        }
+        return this.missionService.getApproveListByUserId(id);
     }
 }

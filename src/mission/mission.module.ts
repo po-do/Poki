@@ -7,12 +7,17 @@ import { BoardRepository } from 'src/board/board.repository';
 import { AuthModule } from 'src/auth/auth.module';
 import { BoardModule } from 'src/board/board.module';
 import { BoardService } from 'src/board/board.service';
+import { UserRepository } from 'src/auth/user.repository';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       MissionRepository,
-      BoardRepository]),
+      BoardRepository,
+      UserRepository,]),
       AuthModule,
       BoardModule
   ],
@@ -21,7 +26,11 @@ import { BoardService } from 'src/board/board.service';
     MissionService, 
     MissionRepository, 
     BoardRepository,
-    BoardService],
+    BoardService,
+    UserRepository,
+    AuthService,
+    JwtStrategy,
+    JwtService,],
   exports: [MissionService, TypeOrmModule]
 })
 export class MissionModule {}

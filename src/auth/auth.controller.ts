@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe, NotFoundException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthSignInDto } from './dto/auth-signin.dto';
@@ -53,7 +53,22 @@ export class AuthController {
 
     @Get('/connected-user')
     @UseGuards(AuthGuard())
-    getConnectedUser(@GetUser() user: User): Promise<any> {
-        return this.authService.getConnectedUser(user);
+    async getConnectedUser(@GetUser() user: User): Promise<any> {
+        const connectedUser =  await this.authService.getConnectedUser(user);
+        
+
+        if (connectedUser) {
+            //return connectedUser;
+            return {
+                code: 200,
+                success: true,
+                data: {
+                  connected_user: connectedUser,
+                },
+              };
+            } else {
+              throw new NotFoundException('Connected user not found');
+            }
+
     }
 }

@@ -7,11 +7,16 @@ import { GetUserType } from 'src/decorators/get-user.type.decorator';
 import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 import { GetUserCode } from 'src/decorators/get-user.code.decorator';
 import { responseBoardDto } from './dto/response-board.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { GetUser } from 'src/decorators/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 
 @Controller('board')
 @UseGuards(AuthGuard())
 export class BoardController {
-    constructor(private boardService: BoardService) { }
+    constructor(
+        private boardService: BoardService,
+        private AuthService: AuthService) { }
 
     @Post('/grape/create')
     @UsePipes(ValidationPipe)
@@ -51,8 +56,16 @@ export class BoardController {
         return this.boardService.getBoardById(id);
     }
 
-    @Get('/user/:id')
-    async getBoardByUserId(@Param('id', ParseIntPipe) id: number): Promise<responseBoardDto> {
+    @Get('/user')
+    async getBoardByUserId(
+        @GetUser() user: User,
+        @GetUserId() id: number,
+        @GetUserType() type: string): Promise<responseBoardDto> {
+
+            if (type !== 'PARENT') {
+                id = await this.AuthService.getConnectedUser(user);
+                console.log(id);
+            }
             
             const response: responseBoardDto = {
                 code: 200,

@@ -4,12 +4,15 @@ import { WishlistRepository } from './wishlist.repository';
 import { Wishlist } from './wishlist.entity';
 import { GivenStatus, PickedStatus } from './wishlist-status';
 import { wishProudctDto } from './dto/response-wishlist.dto';
+import { AuthService } from 'src/auth/auth.service';
+
 
 @Injectable()
 export class WishlistService {
     constructor(
         @InjectRepository(WishlistRepository)
         private wishlistRepository: WishlistRepository,
+        private AuthService: AuthService,
     ) { }
 
     async getWishlistByUserId(user_id: number): Promise<Wishlist[]> {
