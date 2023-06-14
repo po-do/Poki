@@ -37,6 +37,7 @@ export async function createWishList(params: CreateWishListParams) {
 // 위시리스트 삭제
 export async function deleteWishList(params: DeleteWishListParams) {
   const accessToken = getAccessToken();
+  // console.log(params.itemid);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -77,6 +78,7 @@ export async function updateWishlistGivenStatus(
 // 위시리스트 수정
 export async function updateWishList(params: UpdateWishListParams) {
   const accessToken = getAccessToken();
+  console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }

@@ -1,13 +1,20 @@
-import React from "react";
-import { updateWishList,deleteWishList } from "../../api/wishlist.ts";
+import React, { useState } from "react";
+import { updateWishList, deleteWishList } from "../../api/wishlist.ts";
 export default function ProductCard({item}) {
-
-
+  const [updateProductName,setUpdateProductName] = useState(null);
+  const [updateProductLink,setUpdateProductLink] = useState(null);
+  
   const updateList = async () => {
+    console.log(item.id);
     try {
       const data = {
+        itemid: item.id,
+        request: {
+          ProductName: updateProductName,
+          ProductLink: updateProductLink
+     }
       }
-      await updateWishList({data})
+      await updateWishList(data);
     } catch (error) {
       console.log("Failed to update wishlist data:", error);
     }
@@ -15,12 +22,11 @@ export default function ProductCard({item}) {
 
   const deleteList = async () => {
     try {
-      // await deleteWishList({itemid : itemid})
+      await deleteWishList({itemid : item.id})
     } catch (error) {
       console.log("Failed to delete wishlist data:", error);
     }
   };
-  
   return (
     // <div>
     //   {/* {item} */}

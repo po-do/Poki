@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "../../components/UI/ProductCard";
 import LinkRegister from "../../components/Modal/LinkRegisterModal";
-import { getWishlistByUserId } from "../../api/wishlist
+import { getWishlistByUserId } from "../../api/wishlist.ts";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -38,14 +38,14 @@ export default function ChildWishList() {
         <h1>Wish List</h1>
         {wishList.map((item) => {
           if (item){
-            return <ProductCard key={item.id} data={item} />;
+            // console.log("child:",item);
+            return <ProductCard key={item.id} item={item} />;
           }
         })}
       </div>
       <div>
         <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={openModal}>링크 등록</button>
         {showModal && <LinkRegister onClose={closeModal} />}
-
       </div>
     </div>
   );
