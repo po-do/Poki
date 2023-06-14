@@ -61,6 +61,9 @@ export class BoardService {
         }
 
         board.blank = createBoardDto.blank;
+        board.total_grapes = createBoardDto.total_grapes;
+        board.attached_grapes = createBoardDto.attached_grapes;
+        board.deattached_grapes = createBoardDto.deattached_grapes;
 
         await this.boardRepository.save(board);
 

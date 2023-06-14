@@ -46,6 +46,13 @@ export class MissionController {
         return this.missionService.updateStatusApproveByMissionId(mission_id, MissionStatus.COMPLETE, user_id);
     }
 
+    @Post('/reject/:mission_id')
+    updateStatusRejectByMissionId(
+        @Param('mission_id') mission_id: number,
+        @GetUserId() user_id: string): Promise <Mission>{
+        return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+    }
+
     @Patch('/update/:mission_id')
     updateMissionByMissionId(
         @Param('mission_id') mission_id: number,

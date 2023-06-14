@@ -7,6 +7,7 @@ import { MissionModule } from './mission/mission.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './configs/typeorm.config';
 import { BoardModule } from './board/board.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { BoardModule } from './board/board.module';
     AuthModule, 
     WishlistModule, 
     MissionModule,
-    BoardModule
+    BoardModule,
+    EventModule
   ],
 
   controllers: [AppController],
