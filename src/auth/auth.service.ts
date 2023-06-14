@@ -21,7 +21,7 @@ export class AuthService {
         return this.userRepository.createUser(authCredentialsDto);
     }
 
-    async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string}> {
+    async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string, type:string}> {
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
 
@@ -30,7 +30,8 @@ export class AuthService {
             const payload = { user_id };
             const accessToken = await this.jwtService.sign(payload);
 
-            return { accessToken };
+            
+            return { accessToken, type: user.type };
         } else {
             throw new UnauthorizedException('login faild');
         }

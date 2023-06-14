@@ -17,4 +17,5 @@ export class AuthSignInDto {
         message: 'password only accepts english and number'
     })
     password: string;
+
 }
