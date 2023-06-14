@@ -1,12 +1,10 @@
 import React from "react";
-import styles from "./ParentMain.module.css";
-import Calender from "../../components/UI/CalenderElement";
-import { useQuery } from "@tanstack/react-query";
-import MissionRegisterList from "../../components/Mission/MissionRegisterList";
+import styles from "./ChildMain.module.css";
+import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
+import UserProfile from "../../components/UI/UserProfile";
+import RecentMissionList from "../../components/Mission/RecentMissionList";
 
-export default function ParentMain() {
-  const podo = useQuery(['boardState'], )
-
+export default function ChildMain() {
   return (
     <>
       <div className={styles.container}>
@@ -19,27 +17,27 @@ export default function ParentMain() {
               />
             </div>
             <div>
+              <MissionRegisteredGift />
               <p>남은포도송이 개수</p>
               <p>5/10</p>
               <p>남은 포도알 개수</p>
               <p>50/100</p>
+              <p>받은 포도알 개수</p>
+              <p>3개</p>
             </div>
           </div>
           <div>
-            <MissionRegisterList />
+            <p>받은 포도알</p>
+            <p>받은 포도알 개수 이미지로 보여주기</p>
           </div>
         </div>
         <div className={styles["right-part"]}>
           <div>
-            <Calender />
+            <UserProfile />
           </div>
           <div>
-            <p>아이의 위시 리스트</p>
-            <ul>
-              <li>카카오 인형</li>
-              <li>카카오 인형</li>
-              <li>카카오 인형</li>
-            </ul>
+            <RecentMissionList />
+            <button>포도알 요청</button>
           </div>
         </div>
       </div>
