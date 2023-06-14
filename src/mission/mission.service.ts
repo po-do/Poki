@@ -55,6 +55,12 @@ export class MissionService {
         return mission;
     }
 
+    async updateStatusRejectByMissionId(mission_id: number, updateMissionDto: MissionStatus, user_id: string): Promise <Mission> {
+        const mission = await this.updateStatusByMissionId(mission_id, updateMissionDto, user_id);
+
+        return mission;
+    }
+
     async deleteMissionByMissionId(mission_id: number, user_id: string): Promise <void> {
         const query = this.missionRepository.createQueryBuilder('mission');
         const result = await this.missionRepository.delete({id: mission_id , user_id: user_id});

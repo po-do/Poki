@@ -14,9 +14,9 @@ export class BoardRepository extends Repository<Board> {
 
         const board = this.create({
             blank,
-            total_grapes: 15,
-            attached_grapes: 10,
-            deattached_grapes: 5,
+            total_grapes: 0,
+            attached_grapes: 0,
+            deattached_grapes: 0,
             user: { id, code, type }
         });
 
