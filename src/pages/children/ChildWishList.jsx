@@ -33,7 +33,7 @@ export default function ChildWishList() {
   return (
     <div>
       <div>
-        <h1>Wish List</h1>
+        <h1 className="text-2xl font-bold mb-4">Wish List</h1>
         {wishList.map((item) => {
           if (item){
             return <ChildProductCard key={item.id} item={item} />;
