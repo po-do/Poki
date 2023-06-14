@@ -9,14 +9,15 @@ import { updateBoard, getBoardByUserId } from "../../api/board.ts";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
+  const queryClient = new QueryClient();
   const userId = 2;
-  const tmp_user_id = { user_id: "2" };
+  // const tmp_user_id = { user_id: "2" };
   const [grape, setGrape] = useState(null);
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
 
   const boardQuery = useQuery(["boardState", userId], () => {
-    return getBoardByUserId({ userId: userId });
+    return getBoardByUserId();
   });
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function MissionTempComplete() {
   }, [boardQuery.isSuccess, boardQuery.data, missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild(tmp_user_id);
+    const missionsData = await missionReadChild();
     const incompleteMissions = missionsData.filter(
       (mission) => mission.status === "WAIT_APPROVAL"
     );
@@ -41,13 +42,13 @@ export default function MissionTempComplete() {
   const { mutate: complete } = useMutation(setMissionStatusComplete, {
     onSuccess: async () => {
       await addGrape();
-      QueryClient.invalidateQueries("missions");
+      queryClient.invalidateQueries("missions");
     },
   });
 
   const mutation = useMutation(missionUpdate, {
     onSuccess: () => {
-      QueryClient.invalidateQueries("missions");
+      queryClient.invalidateQueries("missions");
     },
   });
 

@@ -33,7 +33,7 @@ export default function SideMenu({type}) {
       icon: <FaBookReader />,
     },
     {
-      path: `/format/${type}/wishList`,
+      path: `/format/${type}/wishlist`,
       name: "위시리스트",
       icon: <FaShoppingBasket />,
     },

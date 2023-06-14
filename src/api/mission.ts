@@ -98,7 +98,7 @@ interface MissionDeleteParams {
 }
 
 // (자녀가) 부모가 생성한 미션 조회 (Read)
-export async function missionReadChild(params: MissionReadChildParams) {
+export async function missionReadChild() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -107,12 +107,12 @@ export async function missionReadChild(params: MissionReadChildParams) {
   return response.data;
 }
 
-interface MissionReadChildParams {
-  user_id: string;
-}
+// interface MissionReadChildParams {
+//   user_id: string;
+// }
 
 // (부모가) 자녀가 완료한 미션 확인  (Confirm)
-export async function missionConfirm(params: MissionConfirmParams) {
+export async function missionConfirm() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -121,6 +121,6 @@ export async function missionConfirm(params: MissionConfirmParams) {
   return response.data;
 }
 
-interface MissionConfirmParams {
-  user_id: string;
-}
+// interface MissionConfirmParams {
+//   user_id: string;
+// }

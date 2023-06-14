@@ -2,12 +2,12 @@ import client from "./client.ts";
 import { getAccessToken } from "./auth.ts";
 
 // 유저 아이디별 위시리스트 조회(전부)
-export async function getWishlistByUserId(params: GetWishlistByUserIdParams) {
+export async function getWishlistByUserId() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.get(`/wishlist/user/${params.userid}`);
+  const response = await client.get(`/wishlist/user`);
   return response.data;
 }
 
@@ -91,9 +91,9 @@ interface CreateWishListParams {
   };
 }
 
-interface GetWishlistByUserIdParams {
-  userid: number;
-}
+// interface GetWishlistByUserIdParams {
+//   userid: number;
+// }
 
 interface GetWishlistByIdParams {
   itemid: number; // item id
