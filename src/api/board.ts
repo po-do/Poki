@@ -2,6 +2,8 @@ import client from './client.ts';
 import { getAccessToken } from "./auth.ts";
 
 export async function createBoard(params: CreateBoardParams) {
+    console.log(params);
+
     const accessToken = getAccessToken();
     if (accessToken) {
       client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -9,6 +11,7 @@ export async function createBoard(params: CreateBoardParams) {
     const response = await client.post(
         '/board/grape/create', params.request
     )
+
     return response.data;
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { createWishList } from "../../api/wishlist.ts";
+import { updateWishList } from "../../api/wishlist.ts";
 
-export default function LinkRegister({ onClose }) {
+export default function LinkUpdateModal({ onClose }) {
   const [productName, setProductName] = useState("");
   const [url, setUrl] = useState("");
 
@@ -23,7 +23,7 @@ export default function LinkRegister({ onClose }) {
         },
       };
       // Make a POST request to create the wishlist item
-      const response = await createWishList(data);
+      const response = await updateWishList(data);
       console.log("등록완료:", response);
     } catch (error) {
       console.log("등록 실패:", error);
@@ -34,7 +34,7 @@ export default function LinkRegister({ onClose }) {
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-md shadow-md">
         <div className="mb-6">
-          <h2 className="text-xl font-bold">링크 등록</h2>
+          <h2 className="text-xl font-bold">링크 수정</h2>
           <input
             id="mission-register-one"
             type="text"
