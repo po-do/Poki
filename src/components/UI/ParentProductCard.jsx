@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { updateWishList, deleteWishList } from "../../api/wishlist.ts";
-export default function ProductCard({item}) {
+export default function ParentProductCard({item}) {
   const [updateProductName,setUpdateProductName] = useState(null);
   const [updateProductLink,setUpdateProductLink] = useState(null);
   
@@ -28,7 +28,7 @@ export default function ProductCard({item}) {
     }
   };
   return (
-    <div className="max-w-[250px] rounded overflow-hidden shadow-lg">
+    <div className="max-w-[250px] rounded overflow-hidden shadow-lg md:w-1/2 lg:w-1/3 xl:w-1/4">
       <img
         src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false" //{item.ProductLink}
         alt=""
@@ -42,11 +42,10 @@ export default function ProductCard({item}) {
       </div>
       <div className="px-6 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          #photography
+          #photo
         </span>
+
       </div>
-      <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={updateList}>수정</button>
-      <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={deleteList}>삭제</button>
     </div>
 
   );

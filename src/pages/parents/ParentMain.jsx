@@ -8,7 +8,7 @@ import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 export default function ParentMain() {
   const userId = 2;
   const boardQuery = useQuery(["boardState", userId], () => {
-    return getBoardByUserId({ userId: userId });
+    return getBoardByUserId();
   });
 
   const grape = boardQuery?.data?.data?.grape[0];

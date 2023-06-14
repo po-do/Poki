@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react";
-import ProductCard from "../../components/UI/ProductCard";
-import LinkUpdate from "../../components/Modal/LinkUpdateModal";
+import ParentProductCard from "../../components/UI/ParentProductCard";
+import PodoRegisterModal from "../../components/Modal/PodoRegisterModal";
 import { getWishlistByUserId } from '../../api/wishlist.ts';
 
 export default function ParentWishList() {
@@ -34,16 +34,15 @@ export default function ParentWishList() {
       <div>
         <h1>Wish List</h1>
         {wishList.map((item) => {
-          return <ProductCard key={item.id} data={item} />;
+          return <ParentProductCard key={item.id} data={item} />;
         })}
       </div>
       <div>
         <button
-          className="px-4 py-2 bg-blue-500 text-white rounded" 
-        >
+          className="px-4 py-2 bg-blue-500 text-white rounded" onClick={openModal}>
           보상 등록
         </button>
-        {showModal && <LinkUpdate onClose={closeModal} onClick={openModal}/>}
+        {showModal && <PodoRegisterModal onClose={closeModal} />}
       </div>
     </div>
   );

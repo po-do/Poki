@@ -10,7 +10,7 @@ export default function ChildMain() {
   const [grape, setGrape] = useState(null);
   const userId = 2;
   const boardQuery = useQuery(["boardState", userId], () => {
-    return getBoardByUserId({ userId: userId });
+    return getBoardByUserId();
   });
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default function ChildMain() {
     };
     await updateBoard(boardStatus);
   };
-
   return (
     <>
       <div className={styles.container}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createWishList } from "../../api/wishlist.ts";
 
-export default function LinkRegister({ onClose }) {
+export default function LinkRegisterModal({ onClose }) {
   const [productName, setProductName] = useState("");
   const [url, setUrl] = useState("");
 

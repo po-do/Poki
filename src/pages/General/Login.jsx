@@ -22,13 +22,13 @@ export default function Login() {
     // 로그인 처리 로직 구현
 
     try {
-      await signIn({
+      const userInfo = await signIn({
         request: {
           user_id: email,
           password: password,
         },
       });
-      navigate("/format/child");
+      navigate(`/format/${userInfo.data.type}`);
     } catch (error) {
       console.log("signin error", error);
     }

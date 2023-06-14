@@ -20,7 +20,6 @@ export default function SideMenu({type}) {
   const [isOpen, setIsOpen] = useState(true);
   const menuBar = () => setIsOpen(!isOpen);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log(type);
   const menuTop = [
     {
       path: `/format/${type}`,

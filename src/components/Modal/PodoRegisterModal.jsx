@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { updateWishList } from "../../api/wishlist.ts";
+import { createWishList } from "../../api/wishlist.ts";
 
-export default function LinkUpdateModal({ onClose, item}) {
-  console.log(item.id);
+export default function PodoRegisterModal({ onClose }) {
   const [productName, setProductName] = useState("");
   const [url, setUrl] = useState("");
 
@@ -18,14 +17,13 @@ export default function LinkUpdateModal({ onClose, item}) {
     try {
       // Create an object with the data to send to the server
       const data = {
-        itemid: item.id,
         request: {
           ProductName: productName,
           ProductLink: url,
-        }
+        },
       };
       // Make a POST request to create the wishlist item
-      const response = await updateWishList(data);
+      const response = await createWishList(data);
       console.log("등록완료:", response);
     } catch (error) {
       console.log("등록 실패:", error);
@@ -36,7 +34,7 @@ export default function LinkUpdateModal({ onClose, item}) {
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-md shadow-md">
         <div className="mb-6">
-          <h2 className="text-xl font-bold">링크 수정</h2>
+          <h2 className="text-xl font-bold">보상 등록</h2>
           <input
             id="mission-register-one"
             type="text"
