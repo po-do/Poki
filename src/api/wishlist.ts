@@ -4,7 +4,6 @@ import { getAccessToken } from "./auth.ts";
 // 유저 아이디별 위시리스트 조회(전부)
 export async function getWishlistByUserId(params: GetWishlistByUserIdParams) {
   const accessToken = getAccessToken();
-  // console.log(params.userid);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -29,15 +28,12 @@ export async function createWishList(params: CreateWishListParams) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/wishlist/item/create", params.request);
-  console.log(response);
-  
   return response.data;
 }
 
 // 위시리스트 삭제
 export async function deleteWishList(params: DeleteWishListParams) {
   const accessToken = getAccessToken();
-  // console.log(params.itemid);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -78,7 +74,6 @@ export async function updateWishlistGivenStatus(
 // 위시리스트 수정
 export async function updateWishList(params: UpdateWishListParams) {
   const accessToken = getAccessToken();
-  console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }

@@ -1,36 +1,10 @@
-import React, { useState } from "react";
-import { updateWishList, deleteWishList } from "../../api/wishlist.ts";
-export default function ProductCard({item}) {
-  const [updateProductName,setUpdateProductName] = useState(null);
-  const [updateProductLink,setUpdateProductLink] = useState(null);
-  
-  const updateList = async () => {
-    console.log(item.id);
-    try {
-      const data = {
-        itemid: item.id,
-        request: {
-          ProductName: updateProductName,
-          ProductLink: updateProductLink
-     }
-      }
-      await updateWishList(data);
-    } catch (error) {
-      console.log("Failed to update wishlist data:", error);
-    }
-  };
+import React from "react";
 
-  const deleteList = async () => {
-    try {
-      await deleteWishList({itemid : item.id})
-    } catch (error) {
-      console.log("Failed to delete wishlist data:", error);
-    }
-  };
+export default function ProductCard() {
   return (
     <div className="max-w-[250px] rounded overflow-hidden shadow-lg">
       <img
-        src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false" //{item.ProductLink}
+        src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false"
         alt=""
         className="w-full"
       />
@@ -45,9 +19,6 @@ export default function ProductCard({item}) {
           #photography
         </span>
       </div>
-      <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={updateList}>수정</button>
-      <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={deleteList}>삭제</button>
     </div>
-
   );
 }
