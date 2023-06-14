@@ -28,10 +28,6 @@ export default function ProductCard({item}) {
     }
   };
   return (
-    // <div>
-    //   {/* {item} */}
-    //   {{item} && <div>Hello</div>}
-    // </div>
     <div className="max-w-[250px] rounded overflow-hidden shadow-lg">
       <img
         src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false" //{item.ProductLink}

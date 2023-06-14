@@ -14,8 +14,9 @@ export default function ChildWishList() {
 
   const fetchWishlistData = async () => {
     try {
+
       // Fetch all wishlist data for the user ID
-      const userid = 5; // Replace with the actual user ID
+      const userid = 36; // Replace with the actual user ID
       const wishlistData = await getWishlistByUserId({ userid: userid });
       // console.log("Fetched wishlist data:", wishlistData);
       setWishlist(wishlistData.data.item);
@@ -38,7 +39,6 @@ export default function ChildWishList() {
         <h1>Wish List</h1>
         {wishList.map((item) => {
           if (item){
-            // console.log("child:",item);
             return <ProductCard key={item.id} item={item} />;
           }
         })}
