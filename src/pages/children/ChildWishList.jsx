@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductCard from "../../components/UI/ProductCard";
+import ChildProductCard from "../../components/UI/ChildProductCard";
 import LinkRegister from "../../components/Modal/LinkRegisterModal";
 import { getWishlistByUserId } from "../../api/wishlist.ts";
 
@@ -14,11 +14,8 @@ export default function ChildWishList() {
 
   const fetchWishlistData = async () => {
     try {
-
       // Fetch all wishlist data for the user ID
-      // const userid = 1; // Replace with the actual user ID
       const wishlistData = await getWishlistByUserId();
-      // console.log("Fetched wishlist data:", wishlistData);
       setWishlist(wishlistData.data.item);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
@@ -36,10 +33,10 @@ export default function ChildWishList() {
   return (
     <div>
       <div>
-        <h1>Wish List</h1>
+        <h1 className="text-2xl font-bold mb-4">Wish List</h1>
         {wishList.map((item) => {
           if (item){
-            return <ProductCard key={item.id} item={item} />;
+            return <ChildProductCard key={item.id} item={item} />;
           }
         })}
       </div>

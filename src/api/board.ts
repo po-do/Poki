@@ -6,6 +6,7 @@ export async function createBoard(params: CreateBoardParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
+  console.log(params.request)
   const response = await client.post("/board/grape/create", params.request);
   return response.data;
 }
