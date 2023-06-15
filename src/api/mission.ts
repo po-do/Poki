@@ -66,8 +66,6 @@ export async function missionUpdate(params: MissionUpdateParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("업데이트 함수안");
-  console.log(params);
   const response = await client.patch(
     `/mission/update/${params.mission_id}`,
     params.request

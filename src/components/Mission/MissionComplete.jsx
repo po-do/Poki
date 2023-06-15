@@ -3,7 +3,7 @@ import { missionReadChild } from "../../api/mission.ts";
 
 // 자녀가 완료된 미션을 보여주는 컴포넌트
 export default function MissionComplete() {
-  const tmp_user_id = { user_id: "2" };
+  // const tmp_user_id = { user_id: "2" };
   const [missions, setMissions] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function MissionComplete() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild(tmp_user_id);
+    const missionsData = await missionReadChild();
     const completeMissions = missionsData.filter(
       (mission) => mission.status === "COMPLETE"
     );

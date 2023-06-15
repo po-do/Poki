@@ -24,7 +24,6 @@ export default function MissionRecommendModal({ onClose }) {
   });
 
   const handleMissionCreate = () => {
-    console.log("등록");
 
     const params = {
       request: {

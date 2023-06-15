@@ -44,7 +44,6 @@ export default function MissionRegister() {
         completed_date: createdDate,
       },
     };
-    console.log(params);
     mutation.mutate(params);
   };
 

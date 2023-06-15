@@ -41,6 +41,7 @@ export async function connectUserCode(params: ConnectUserCodeParams) {
   return response.data;
 }
 
+// ?? 현재 controller에서 제공하지 않음
 export async function getUserType(params: GetUserTypeParams) {
   const accessToken = getAccessToken();
   if (accessToken) {
