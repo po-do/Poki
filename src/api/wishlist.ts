@@ -99,10 +99,6 @@ interface GetWishlistByIdParams {
   itemid: number; // item id
 }
 
-interface UpdateWishListParams {
-  itemid: number; // item id
-}
-
 interface DeleteWishListParams {
   itemid: number;
 }
