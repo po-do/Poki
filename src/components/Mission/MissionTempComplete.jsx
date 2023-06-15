@@ -10,13 +10,13 @@ import { updateBoard, getBoardByUserId } from "../../api/board.ts";
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
   const queryClient = new QueryClient();
-  const userId = 2;
+  // const userId = 2;
   // const tmp_user_id = { user_id: "2" };
   const [grape, setGrape] = useState(null);
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
 
-  const boardQuery = useQuery(["boardState", userId], () => {
+  const boardQuery = useQuery(["boardState"], () => {
     return getBoardByUserId();
   });
 
@@ -29,6 +29,7 @@ export default function MissionTempComplete() {
 
   useEffect(() => {
     getMission();
+    console.log("there is something fetching data!");
   }, [boardQuery.isSuccess, boardQuery.data, missions]);
 
   const getMission = async () => {
@@ -63,12 +64,13 @@ export default function MissionTempComplete() {
       deattached_grapes: prevStatus?.deattached_grapes + 1,
     };
     const boardStatus = {
-      grapeId: 1,
+      grapeId: 2,
       request: newStatus,
     };
     console.log(newStatus, "this is new status");
 
     await updateBoard(boardStatus);
+    //await attachBoard(boardStatus);
   };
 
   const handleCheckboxChange = (e, missionId) => {

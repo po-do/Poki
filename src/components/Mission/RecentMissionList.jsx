@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 // import { useQuery } from "@tanstack/react-query";
 import { missionReadChild, setMissionStatusWait } from "../../api/mission.ts";
 
-// 최근 등록된미션 5개를 보여주는 컴포넌트
+// 최근 등록된미션 보여주는 컴포넌트
 export default function RecentMissionList() {
-  const inputParent = { user_id: 2 };
   const [missions, setMissions] = useState([]);
   const [checkedMissionsId, setCheckedMissionsId] = useState([]);
   const [checkedMissionsList, setCheckedMissionsList] = useState([]);
@@ -17,7 +16,7 @@ export default function RecentMissionList() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild(inputParent);
+    const missionsData = await missionReadChild();
     const incompleteMissions = missionsData.filter(
       (mission) => mission.status === "INCOMPLETE"
     );
@@ -43,9 +42,6 @@ export default function RecentMissionList() {
     setCheckedMissionsId([]);
     setMissions([]);
   };
-
-  // const inputChild = { user_id: 37 };
-  // setMissionStatusWait
 
   const getRecentMissions = () => {
     const recentMissions = missions.slice(0, 5); // 최근 등록된 5개의 미션만 가져옵니다.

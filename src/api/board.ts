@@ -19,17 +19,16 @@ export async function deleteBoard(params: DeleteBoardParams) {
   return response.data;
 }
 
-export async function getBoardById(params: GetBoardByIdParams) {
-  // console.log(params);
+export async function getBoardById() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.get(`/board/grape/${params.grapeId}`);
+  const response = await client.get(`/board/grape/`);
   return response.data;
 }
 
-export async function getBoardByUserId(params: GetBoardByUserIdParams) {
+export async function getBoardByUserId() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -39,7 +38,6 @@ export async function getBoardByUserId(params: GetBoardByUserIdParams) {
 }
 
 export async function updateBoard(params: UpdateBoardParams) {
-  console.log(params.request, "this is params");
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -73,13 +71,13 @@ interface DeleteBoardParams {
   grapeId: number;
 }
 
-interface GetBoardByIdParams {
-  grapeId: number;
-}
+// interface GetBoardByIdParams {
+//   grapeId: number;
+// }
 
-interface GetBoardByUserIdParams {
-  userId: string;
-}
+// interface GetBoardByUserIdParams {
+//   userId: string;
+// }
 
 interface UpdateBoardParams {
   grapeId: number;

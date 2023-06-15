@@ -13,10 +13,15 @@ import Mission from "./pages/parents/Mission";
 import ParentWishList from "./pages/parents/ParentWishList";
 import Calender from "./pages/General/Calender";
 import Chatting from "./pages/General/Chatting";
+import ParentMyPage from "./pages/parents/ParentMyPage";
 // Child Page
 import ChildFormat from "./pages/children/ChildFormat";
 import ChildWishList from "./pages/children/ChildWishList";
 import ChildMain from "./pages/children/ChildMain";
+import ChildMyPage from "./pages/children/ChildMyPage";
+
+// recoil
+import { RecoilRoot } from "recoil";
 
 client.defaults.baseURL = "http://3.38.168.129:3000";
 client.defaults.withCredentials = true;
@@ -43,6 +48,7 @@ const router = createBrowserRouter([
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
       { path: "/format/parent/calender", element: <Calender /> },
       { path: "/format/parent/message", element: <Chatting /> },
+      { path: "/format/parent/mypage", element: <ParentMyPage /> },
     ],
   },
   {
@@ -53,12 +59,15 @@ const router = createBrowserRouter([
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/message", element: <Chatting /> },
+      { path: "/format/child/mypage", element: <ChildMyPage /> },
     ],
   },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
   </React.StrictMode>
 );

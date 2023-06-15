@@ -4,13 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import UserProfile from "../../components/UI/UserProfile";
 import RecentMissionList from "../../components/Mission/RecentMissionList";
-import { getBoardByUserId, updateBoard } from "../../api/board.ts";
+import { getBoardByUserId, attachBoard } from "../../api/board.ts";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState(null);
-  const userId = 2;
-  const boardQuery = useQuery(["boardState", userId], () => {
-    return getBoardByUserId({ userId: userId });
+  const boardQuery = useQuery(["boardState"], () => {
+    return getBoardByUserId();
   });
 
   useEffect(() => {
@@ -20,20 +19,21 @@ export default function ChildMain() {
     }
   }, [boardQuery.isSuccess, boardQuery.data]);
 
-  const addGrape = async () => {
-    const prevStatus = grape;
-    const newStatus = {
-      blank: prevStatus?.blank,
-      attached_grapes: prevStatus?.attached_grapes + 1,
-      total_grapes: prevStatus?.total_grapes,
-      deattached_grapes: prevStatus?.deattached_grapes - 1,
-    };
+  async function addGrape() {
+    // const prevStatus = grape;
+    // // const newStatus = {
+    // //   blank: prevStatus?.blank,
+    // //   attached_grapes: prevStatus?.attached_grapes + 1,
+    // //   total_grapes: prevStatus?.total_grapes,
+    // //   deattached_grapes: prevStatus?.deattached_grapes - 1,
+    // // };
     const boardStatus = {
-      grapeId: 1,
-      request: newStatus,
+      grapeId: 2,
+      //request: newStatus,
     };
-    await updateBoard(boardStatus);
-  };
+    // console.log(boardStatus);
+    await attachBoard(boardStatus);
+  }
 
   return (
     <>
@@ -54,8 +54,8 @@ export default function ChildMain() {
               </p> */}
               <p>붙일 수 있는 포도알 개수</p>
               <p>{grape?.deattached_grapes}</p>
-              <p>받은 포도알 개수</p>
-              <p>{grape?.total_grapes}</p>
+              <p>붙인 포도알 개수</p>
+              <p>{grape?.attached_grapes}</p>
               <p>목표 포도알 개수</p>
               <p>{grape?.blank}</p>
             </div>
@@ -63,7 +63,9 @@ export default function ChildMain() {
           <div>
             {/* <p>받은 포도알 개수 이미지로 보여주기</p> */}
             <button
-              onClick={addGrape}
+              onClick={() => {
+                addGrape();
+              }}
               className="px-4 py-2 bg-purple-600 text-white rounded-r-md"
             >
               포도알 붙이기

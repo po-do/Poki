@@ -3,7 +3,7 @@ import { missionReadChild, missionDelete } from "../../api/mission.ts";
 import UpdateMissionModal from "../Modal/UpdateMissionModal";
 
 export default function MissionRegisterList() {
-  const tmp_user_id = { user_id: "2" };
+  // const tmp_user_id = { user_id: "2" };
   const [missions, setMissions] = useState([]);
   const [checkedMissionsId, setCheckedMissionsId] = useState([]);
   const [checkedMissionsList, setCheckedMissionsList] = useState([]);
@@ -22,7 +22,7 @@ export default function MissionRegisterList() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild(tmp_user_id);
+    const missionsData = await missionReadChild();
     const incompleteMissions = missionsData.filter(
       (mission) => mission.status === "INCOMPLETE"
     );

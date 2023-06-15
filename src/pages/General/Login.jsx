@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { signIn } from "../../api/auth.ts";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../../recoil/user.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // 저장할 요소 : id, real id, state
+  const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
-  // const [activeTab, setActiveTab] = useState("parent");
-
-  // const handleTabClick = (tab) => {
-  //   setActiveTab(tab);
-  // };
 
   const handleSignUp = () => {
     navigate("/signup");
@@ -19,16 +18,25 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
-    // 로그인 처리 로직 구현
 
     try {
-      await signIn({
+      const userInfo = await signIn({
         request: {
           user_id: email,
           password: password,
         },
       });
-      navigate("/format/child");
+
+      // 상태관리
+      const params = {
+        // id: userInfo.data.id,
+        user_id: email,
+        type: userInfo.data.type,
+      };
+
+      setUser(params);
+
+      navigate(`/format/${userInfo.data.type}`);
     } catch (error) {
       console.log("signin error", error);
     }
