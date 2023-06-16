@@ -21,6 +21,21 @@ jobs:
         run: node -v
       - name: Install Dependencies
         run: npm install
+      - name: Set up environment variables
+        env:
+          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
+          RDS_PORT: ${{ secrets.RDS_PORT }}
+          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
+          RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+          RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
+          RDS_DB_SYNCHRONIZE:  ${{ secrets.RDS_DB_SYNCHRONIZE }}
+        run: |
+          echo "RDS_HOSTNAME: $RDS_HOSTNAME"
+          echo "RDS_PORT: $RDS_PORT"
+          echo "RDS_USERNAME: $RDS_USERNAME"
+          echo "RDS_PASSWORD: $RDS_PASSWORD"
+          echo "RDS_DB_NAME: $RDS_DB_NAME"
+          echo "RDS_DB_SYNCHRONIZE: $RDS_DB_SYNCHRONIZE"
       - name: Build
         run: npm run build
       - name: zip create

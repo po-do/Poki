@@ -5,4 +5,4 @@
 //     providers: [EventGateway],
 
 // })
-// export class EventModule {}
+export class EventModule {}
