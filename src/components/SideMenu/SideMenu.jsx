@@ -100,8 +100,7 @@ export default function SideMenu({type}) {
             </div>
           </div>
 
-          <ChildList isOpen={isOpen} />
-          <SideButton
+          <ChildList isOpen={isOpen} />          <SideButton
             menuItem={menuTop}
             isOpen={isOpen}
             setIsLoggedIn={setIsLoggedIn}
