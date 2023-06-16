@@ -16,7 +16,7 @@ export default function Signup() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log(activeTab.toUpperCase());
+    console.log(activeTab);
     try {
       await signUp({
         request: {
@@ -34,101 +34,123 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-purple-500">
-      <form className="w-96 bg-white rounded-lg p-8">
-        <div>
-          <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
-          <div className="space-y-4">
-            <input
-              id="parent_tab"
-              type="radio"
-              name="tab"
-              className="hidden"
-              onClick={() => handleTabClick("parent")}
-            />
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          className="mx-auto h-10 w-auto"
+          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+          alt="Your Company"
+        />
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          Sign up to your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" action="#" method="POST">
+          <div>
             <label
-              htmlFor="parent_tab"
-              className={`px-4 py-2 bg-gray-200 rounded-l cursor-pointer ${
-                activeTab === "parent" ? "bg-purple-400 text-white" : ""
-              }`}
+              htmlFor="text"
+              className="block text-sm font-medium leading-6 text-white"
             >
-              부모님
+              User Name
             </label>
-            <input
-              id="child_tab"
-              type="radio"
-              name="tab"
-              className="hidden"
-              onClick={() => handleTabClick("child")}
-            /> 
-            <label
-              htmlFor="child_tab"
-              className={`px-4 py-2 bg-gray-200 rounded-r cursor-pointer ${
-                activeTab === "child" ? "bg-purple-400 text-white" : ""
-              }`}
-            >
-              자녀
-            </label>
-            <div className="flex flex-col">
-              <label htmlFor="user" className="text-lg font-medium">
-                Username
-              </label>
+            <div className="mt-2">
               <input
-                id="user"
+                id="userName"
+                name="userName"
                 type="text"
-                className="input border"
-                onChange={(e) => {
-                  setUserName(e.target.value);
-                }}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="text" className="text-lg font-medium">
-                Email Address
-              </label>
-              <input
-                id="text"
-                type="text"
-                className="input  border"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="pass" className="text-lg font-medium">
-                Password
-              </label>
-              <input
-                id="pass"
-                type="password"
-                className="input  border"
-                data-type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="passconfirm" className="text-lg font-medium">
-                Repeat Password
-              </label>
-              <input
-                id="passconfirm"
-                type="password"
-                className="input border"
-                data-type="password"
-              />
-            </div>
-            <div className="mt-8">
-              <input
-                type="submit"
-                className="button bg-purple-600 text-white font-medium py-2 px-4 rounded cursor-pointer"
-                value="Sign Up"
-                onClick={handleSignUp}
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
+                required
+                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
-        </div>
-      </form>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-white"
+            >
+              User ID
+            </label>
+            <div className="mt-2">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-white"
+              >
+                Password
+              </label>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 space-y-6">
+            <div className="flex items-center gap-x-3">
+              <input
+                id="push-parent"
+                name="push-type"
+                type="radio"
+                onClick={() => handleTabClick("parent")}
+                className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+              />
+              <label
+                htmlFor="push-parent"
+                className="block text-sm font-medium leading-6 text-white"
+              >
+                부모님
+              </label>
+            </div>
+            <div className="flex items-center gap-x-3">
+              <input
+                id="push-child"
+                name="push-type"
+                type="radio"
+                onClick={() => handleTabClick("child")}
+                className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+              />
+              <label
+                htmlFor="push-child"
+                className="block text-sm font-medium leading-6 text-white"
+              >
+                자녀
+              </label>
+            </div>
+          </div>
+          <div>
+            <button
+              type="submit"
+              onClick={handleSignUp}
+              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              Sign up
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
