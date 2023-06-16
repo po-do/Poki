@@ -14,5 +14,13 @@ async function bootstrap() {
   const serverConfig = config.get('server');
   const port = process.env.SERVER_PORT || serverConfig.get('port');
   await app.listen(port);
+
+
+    // 로깅 레벨 설정
+    Logger.log('This is a log message'); // 일반 로그
+    Logger.debug('This is a debug message'); // 디버그 로그
+    Logger.verbose('This is a verbose message'); // 상세 로그
+    Logger.warn('This is a warning message'); // 경고 로그
+    Logger.error('This is an error message'); // 에러 로그
 }
 bootstrap();
