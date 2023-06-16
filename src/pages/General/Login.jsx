@@ -12,10 +12,6 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSignUp = () => {
-    navigate("/signup");
-  };
-
   const handleLogIn = async () => {
     console.log("로그인");
 
@@ -35,6 +31,7 @@ export default function Login() {
       };
 
       setUser(params);
+      console.log(user);
 
       // 수정
       userInfo.data.type === 'parent'? navigate(`/format/parent`):navigate(`/format/child`);
@@ -45,59 +42,85 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-purple-500">
-      <form className="w-96 bg-white rounded-lg p-8">
-        <div className="mb-8">
-          <div>
-            {/* ID 입력 */}
-            <div className="mb-4">
-              <div>
-                <label htmlFor="user" className="block mb-2 font-medium">
-                  ID
-                </label>
+    <>
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img
+            className="mx-auto h-10 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            alt="Your Company"
+          />
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+            Sign in to your account
+          </h2>
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form className="space-y-6" action="#" method="POST">
+            <div>
+              <label
+                htmlFor="userid"
+                className="block text-sm font-medium leading-6 text-white"
+              >
+                Email address
+              </label>
+              <div className="mt-2">
                 <input
-                  id="user"
+                  id="userid"
+                  name="userid"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                  className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
               </div>
-              {/* 패스워드 입력 */}
-              <div className="mt-4">
-                <label htmlFor="pass" className="block mb-2 font-medium">
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-white"
+                >
                   Password
                 </label>
+              </div>
+              <div className="mt-2">
                 <input
-                  id="pass"
+                  id="password"
+                  name="password"
                   type="password"
-                  data-type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                  className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-            <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={handleLogIn}
-                className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
-              >
-                로그인
-              </button>
 
+            <div>
               <button
-                type="button"
-                onClick={handleSignUp}
-                className="px-4 py-2 bg-purple-400 text-white rounded cursor-pointer"
+                type="submit"
+                onClick={handleLogIn}
+                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                회원가입
+                Sign in
               </button>
             </div>
-          </div>
+          </form>
+
+          <p className="mt-10 text-center text-sm text-gray-400">
+            가입하지 않으셨나요?{" "}
+            <a
+              href="/signup"
+              className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300"
+            >
+              회원가입
+            </a>
+          </p>
         </div>
-      </form>
-    </div>
+      </div>
+    </>
   );
 }
