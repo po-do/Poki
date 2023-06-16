@@ -44,13 +44,13 @@ export default function PodoRegisterModal({ onClose , isSelected}) {
           />
         </div>
         <button
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-md cursor-pointer"
+          className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md cursor-pointer"
           onClick={handleRegister}
         >
           등록
         </button>
         <button
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-md cursor-pointer mt-1"
+          className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md cursor-pointer mt-1"
           onClick={onClose}
         >
           닫기

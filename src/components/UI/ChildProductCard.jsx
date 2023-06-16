@@ -22,28 +22,35 @@ export default function ChildProductCard({item}) {
   };
 
   return (
-    <div className="max-w-[250px] rounded overflow-hidden shadow-lg md:w-1/2 lg:w-1/3 xl:w-1/4">
+    <div
+    key={item.id}
+    className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+  >
+    <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
       <img
-        src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false" //{item.ProductLink}
-        alt=""
-        className="w-full"
+        src={item.imageSrc}
+        alt={item.imageAlt}
+        className="h-full w-full object-cover object-center sm:h-full sm:w-full"
       />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{item.ProductName}</div>
-        <p className="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-        </p>
-      </div>
-      <div className="px-6 pb-2">
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          ID : #{item.id}
-        </span>
-        <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={openModal}>수정</button>
-        {showModal && <LinkUpdate onClose={closeModal} item = {item}/>}
-        
-        <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={deleteList}>삭제</button>
+    </div>
+    <div className="flex flex-1 flex-col space-y-2 p-4">
+      <h3 className="text-sm font-medium text-gray-900">
+        <a href={item.href}>
+          <span aria-hidden="true" className="absolute inset-0" />
+          {item.name}
+        </a>
+      </h3>
+      <p className="text-sm text-gray-500">{item.description}</p>
+      <div className="flex flex-1 flex-col justify-end">
+        <p className="text-sm italic text-gray-500">{item.options}</p>
+        <p className="text-base font-medium text-gray-900">{item.price}</p>
       </div>
     </div>
+    <div>
+    <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={openModal}>수정</button>
+    <button className="px-2 py-2 bg-blue-500 text-white rounded" onClick={openModal}>삭제</button>
+    </div>
+  </div>
 
   );    
 }

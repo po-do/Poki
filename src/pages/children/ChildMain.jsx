@@ -4,8 +4,9 @@ import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGif
 import UserProfile from "../../components/UI/UserProfile";
 import RecentMissionList from "../../components/Mission/RecentMissionList";
 import { getBoardByUserId, attachBoard } from "../../api/board.ts";
-
+import Grapes from "../../components/UI/Grapes";
 export default function ChildMain() {
+
   const [grape, setGrape] = useState(null);
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardByUserId();
@@ -39,12 +40,7 @@ export default function ChildMain() {
       <div className="flex">
         <div className="bg-red-100">
           <div className="flex bg-slate-200">
-            <div>
-              <img
-                src="https://t1.daumcdn.net/cfile/tistory/991827345BF5441310"
-                alt=""
-              />
-            </div>
+            <Grapes />
             <div>
               <MissionRegisteredGift />
               {/* <p>남은포도송이 개수</p>

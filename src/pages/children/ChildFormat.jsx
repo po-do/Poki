@@ -3,12 +3,12 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
   Cog6ToothIcon,
-  FolderIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
+  GiftIcon,
+  VideoCameraIcon,
+  ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline'
 import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,9 +16,9 @@ const queryClient = new QueryClient();
 
 const navigation = [
   { name: 'Home', href: '/format/child', icon: HomeIcon, current: true },
-  { name: '위시리스트', href: '/format/child/wishlist', icon: UsersIcon, current: false },
-  { name: '화상통화', href: '/format/child/video', icon: FolderIcon, current: false },
-  { name: '메세지', href: '/format/child/message', icon: CalendarIcon, current: false },
+  { name: '위시리스트', href: '/format/child/wishlist', icon: GiftIcon, current: false },
+  { name: '채팅', href: '/format/child/message', icon: ChatBubbleLeftRightIcon, current: false },
+  { name: '화상통화', href: '/format/child/video', icon: VideoCameraIcon, current: false },
 ]
 const teams = [
   { id: 1, name: '아이1', href: '#', initial: 'C1', current: false },
@@ -31,7 +31,8 @@ function classNames(...classes) {
 
 export default function ChildFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+  const [show, setShow] = useState(true)
+  
   return (
     <>
     <QueryClientProvider client={queryClient}>
@@ -98,7 +99,7 @@ export default function ChildFormat() {
                                     item.current
                                       ? 'bg-indigo-700 text-white'
                                       : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                    'group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold'
                                   )}
                                 >
                                   <item.icon
@@ -149,7 +150,7 @@ export default function ChildFormat() {
                             item.current
                               ? 'bg-indigo-700 text-white'
                               : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            'group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold'
                           )}
                         >
                           <item.icon
@@ -166,16 +167,38 @@ export default function ChildFormat() {
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                  <div
+                    className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
+                      className="h-6 w-6 shrink-0 text-indigo-200"
                       aria-hidden="true"
                     />
                     코드 등록
-                  </a>
+                  </div>
+                  
+                  <form className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                    <div className="flex gap-x-4">
+                      <label htmlFor="email-address" className="sr-only">
+                        Email address
+                      </label>
+                      <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        autoComplete="password"
+                        required
+                        className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="코드 입력"
+                      />
+                      <button
+                        type="submit"
+                        className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        등록
+                      </button>
+                    </div>
+                  </form>
                 </li>
               </ul>
             </nav>

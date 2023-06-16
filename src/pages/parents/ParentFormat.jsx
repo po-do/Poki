@@ -3,12 +3,14 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
   Cog6ToothIcon,
-  FolderIcon,
+  DocumentCheckIcon,
   HomeIcon,
-  UsersIcon,
+  GiftIcon,
   XMarkIcon,
+  VideoCameraIcon,
+  ChatBubbleLeftRightIcon,
+  CheckCircleIcon
 } from '@heroicons/react/24/outline'
 import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,10 +18,10 @@ const queryClient = new QueryClient();
 
 const navigation = [
   { name: 'Home', href: '/format/parent', icon: HomeIcon, current: true },
-  { name: '미션', href: '/format/parent/mission', icon: CalendarIcon, current: false },
-  { name: '위시리스트', href: '/format/parent/wishlist', icon: UsersIcon, current: false },
-  { name: '메세지', href: '/format/parent/message', icon: CalendarIcon, current: false },
-  { name: '화상통화', href: '/format/parent/video', icon: FolderIcon, current: false },
+  { name: '미션', href: '/format/parent/mission', icon: DocumentCheckIcon, current: false },
+  { name: '위시리스트', href: '/format/parent/wishlist', icon: GiftIcon, current: false },
+  { name: '채팅', href: '/format/parent/message', icon: ChatBubbleLeftRightIcon, current: false },
+  { name: '화상통화', href: '/format/parent/video', icon: VideoCameraIcon, current: false },
 ]
 const teams = [
   { id: 1, name: '아이1', href: '#', initial: 'C1', current: false },
@@ -99,7 +101,7 @@ export default function ParentFormat() {
                                     item.current
                                       ? 'bg-indigo-700 text-white'
                                       : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                    'group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold'
                                   )}
                                 >
                                   <item.icon
@@ -146,6 +148,7 @@ export default function ParentFormat() {
             </div>
           </Dialog>
         </Transition.Root>
+
 {/* 기본 사이드바 */}
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -173,7 +176,7 @@ export default function ParentFormat() {
                             item.current
                               ? 'bg-indigo-700 text-white'
                               : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            'group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold'
                           )}
                         >
                           <item.icon
@@ -190,7 +193,7 @@ export default function ParentFormat() {
                   </ul>
                 </li>
                 <li>
-                  <div className="text-xs font-semibold leading-6 text-indigo-200">아이 목록</div>
+                  <div className="text-xl font-semibold leading-6 text-indigo-200">아이 목록</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
@@ -200,7 +203,7 @@ export default function ParentFormat() {
                             team.current
                               ? 'bg-indigo-700 text-white'
                               : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            'group flex gap-x-3 rounded-md p-2 leading-6 font-semibold'
                           )}
                         >
                           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
@@ -214,7 +217,7 @@ export default function ParentFormat() {
                 </li>
                 <li className="mt-auto">
                   <div
-                    className="-mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200"
+                    className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200"
                   >
                     <Cog6ToothIcon
                       className="h-6 w-6 shrink-0 text-indigo-200"
@@ -245,6 +248,7 @@ export default function ParentFormat() {
                       </button>
                     </div>
                   </form>
+
                 </li>
               </ul>
             </nav>
@@ -253,7 +257,7 @@ export default function ParentFormat() {
 {/* 헤더 */}
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-            <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
+            <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden">
               <span className="sr-only">Open sidebar</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -265,11 +269,11 @@ export default function ParentFormat() {
               <div className="relative flex flex-1">
               </div>
               <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+                <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500" >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
-
+              
                 {/* Separator */}
                 <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
                         

@@ -1,18 +1,27 @@
 import React from "react";
 import MissionRegister from "../../components/Mission/MissionRegister";
-// import MissionRecommend from "../../components/Mission/MissionRecommend";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
-
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 export default function Mission() {
   return (
-    <div>
-      <h1>미션관리 페이지</h1>
+
+  <div className="bg-white mx-auto max-w-1xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div className="">
       <MissionRegister />
-      <MissionRegisterList />
-      <MissionTempComplete />
+    </div>
+    <div className="flex gap-96">
+      <div className="">
+        <MissionRegisterList gap-y-10/>
+      </div>
+      <div className="">
+        <MissionTempComplete />
+      </div>
+    </div>
+    <div className="">
       <MissionComplete />
     </div>
+  </div>
   );
 }
