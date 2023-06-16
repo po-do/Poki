@@ -26,3 +26,4 @@ const jwtConfig = config.get('jwt');
   exports: [JwtStrategy, PassportModule, TypeOrmModule, AuthService]
 })
 export class AuthModule {}
+
