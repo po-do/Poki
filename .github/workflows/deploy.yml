@@ -23,19 +23,23 @@ jobs:
         run: npm install
       - name: Set up environment variables
         env:
-          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
-          RDS_PORT: ${{ secrets.RDS_PORT }}
-          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
-          RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
-          RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
-          RDS_DB_SYNCHRONIZE:  ${{ secrets.RDS_DB_SYNCHRONIZE }}
+          MYSQL_HOSTNAME: ${{ secrets.MYSQL_HOSTNAME }}
+          MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_DB_NAME: ${{ secrets.MYSQL_DB_NAME }}
+          MYSQL_DB_SYNCHRONIZE:  ${{ secrets.MYSQL_DB_SYNCHRONIZE }}
+          JWT_SECRET:  ${{ secrets.JWT_SECRET }}
+          JWT_EXPIREIN:  ${{ secrets.JWT_EXPIREIN }}
         run: |
-          echo "RDS_HOSTNAME: $RDS_HOSTNAME"
-          echo "RDS_PORT: $RDS_PORT"
-          echo "RDS_USERNAME: $RDS_USERNAME"
-          echo "RDS_PASSWORD: $RDS_PASSWORD"
-          echo "RDS_DB_NAME: $RDS_DB_NAME"
-          echo "RDS_DB_SYNCHRONIZE: $RDS_DB_SYNCHRONIZE"
+          echo "MYSQL_HOSTNAME: $MYSQL_HOSTNAME"
+          echo "MYSQL_PORT: $MYSQL_PORT"
+          echo "MYSQL_USERNAME: $MYSQL_USERNAME"
+          echo "MYSQL_PASSWORD: $MYSQL_PASSWORD"
+          echo "MYSQL_DB_NAME: $MYSQL_DB_NAME"
+          echo "MYSQL_DB_SYNCHRONIZE: $MYSQL_DB_SYNCHRONIZE"
+          echo "JWT_SECRET: $JWT_SECRET"
+          echo "JWT_EXPIREIN: $JWT_EXPIREIN"
       - name: Build
         run: npm run build
       - name: zip create
