@@ -114,18 +114,6 @@ export default function ChildFormat() {
                             ))}
                           </ul>
                         </li>
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Setting
-                          </a>
-                        </li>
                       </ul>
                     </nav>
                   </div>
@@ -141,12 +129,12 @@ export default function ChildFormat() {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto"
+                className="h-11 w-auto"
                 src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
                 alt="Poki"
               />
-              <div>
-                hello
+              <div className=' text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold'>
+                Poki
               </div>
             </div>
             <nav className="flex flex-1 flex-col">

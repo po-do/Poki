@@ -23,7 +23,6 @@ const navigation = [
 ]
 const teams = [
   { id: 1, name: '아이1', href: '#', initial: 'C1', current: false },
-  { id: 2, name: '아이2', href: '#', initial: 'C2', current: false },
 ]
 
 function classNames(...classes) {
@@ -37,6 +36,7 @@ export default function ParentFormat() {
     <>
     <QueryClientProvider client={queryClient}>
       <div>
+{/* 접히는 사이드바 */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child
@@ -138,18 +138,6 @@ export default function ParentFormat() {
                             ))}
                           </ul>
                         </li>
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Setting
-                          </a>
-                        </li>
                       </ul>
                     </nav>
                   </div>
@@ -158,19 +146,19 @@ export default function ParentFormat() {
             </div>
           </Dialog>
         </Transition.Root>
-
+{/* 기본 사이드바 */}
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
+          <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto"
+                className="h-11 w-auto"
                 src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
                 alt="Poki"
               />
-              <div>
-                hello
+              <div className=' text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold'>
+                Poki
               </div>
             </div>
             <nav className="flex flex-1 flex-col">
@@ -225,22 +213,44 @@ export default function ParentFormat() {
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                  <div
+                    className="-mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
+                      className="h-6 w-6 shrink-0 text-indigo-200"
                       aria-hidden="true"
                     />
                     코드 등록
-                  </a>
+                  </div>
+                  
+                  <form className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                    <div className="flex gap-x-4">
+                      <label htmlFor="email-address" className="sr-only">
+                        Email address
+                      </label>
+                      <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        autoComplete="password"
+                        required
+                        className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="코드 입력"
+                      />
+                      <button
+                        type="submit"
+                        className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        등록
+                      </button>
+                    </div>
+                  </form>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
-
+{/* 헤더 */}
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
@@ -262,7 +272,7 @@ export default function ParentFormat() {
 
                 {/* Separator */}
                 <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-
+                        
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
@@ -277,7 +287,7 @@ export default function ParentFormat() {
               </div>
             </div>
           </div>
-
+{/* 메인 */}
           <main>
             <Outlet />
           </main>

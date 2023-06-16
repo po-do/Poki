@@ -9,19 +9,19 @@ import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.ts";
 import Chatting from "./pages/General/Chatting";
+import Video from "./pages/General/Video";
 
 // Parent Page
 import ParentFormat from "./pages/parents/ParentFormat";
 import ParentMain from "./pages/parents/ParentMain";
 import Mission from "./pages/parents/Mission";
 import ParentWishList from "./pages/parents/ParentWishList";
-import ParentVideo from "./pages/parents/ParentVideo";
 
 // Child Page
 import ChildFormat from "./pages/children/ChildFormat";
 import ChildMain from "./pages/children/ChildMain";
 import ChildWishList from "./pages/children/ChildWishList";
-import ChildVideo from "./pages/children/ChildVideo";
+
 
 // recoil
 import { RecoilRoot } from "recoil";
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       { index: true, path: "/format/parent", element: <ParentMain /> },
       { path: "/format/parent/mission", element: <Mission /> },
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
-      { path: "/format/parent/video", element: <ParentVideo /> },
+      { path: "/format/parent/video", element: <Video /> },
       { path: "/format/parent/message", element: <Chatting /> },
     ],
   },
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
-      { path: "/format/child/video", element: <ChildVideo /> },
+      { path: "/format/child/video", element: <Video /> },
       { path: "/format/child/message", element: <Chatting /> },
     ],
   },
