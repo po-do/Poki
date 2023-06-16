@@ -4,8 +4,8 @@ import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGif
 import RecentMissionList from "../../components/Mission/RecentMissionList";
 import { getBoardByUserId, attachBoard } from "../../api/board.ts";
 import Grapes from "../../components/UI/Grapes";
-export default function ChildMain() {
 
+export default function ChildMain() {
   const [grape, setGrape] = useState(null);
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardByUserId();
@@ -29,27 +29,31 @@ export default function ChildMain() {
 
   return (
     <>
-      <div className="flex">
-        <div className="bg-red-100">
-          <div className="flex bg-slate-200">
-            <div>
-              <img
-                src="https://t1.daumcdn.net/cfile/tistory/991827345BF5441310"
-                alt=""
-              />
-            </div>
-            <div>
-              <MissionRegisteredGift />
-              {/* <p>남은포도송이 개수</p>
-              <p>
-                {grape?.deattached_grapes}/{grape?.total_grapes}
-              </p> */}
-              <p>붙일 수 있는 포도알 개수</p>
-              <p>{grape?.deattached_grapes}</p>
-              <p>붙인 포도알 개수</p>
-              <p>{grape?.attached_grapes}</p>
-              <p>목표 포도알 개수</p>
-              <p>{grape?.blank}</p>
+      <div className="bg-white py-1 sm:py-1">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Child Main
+            </h2>
+            <p className="mt-2 text-lg leading-8 text-gray-600">
+              아이들의 포도 관리 현황을 파악해보세요~
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="mb-4">
+        {/* <Grapes GrapesCount={grape.attached_grapes} /> */}
+        <Grapes />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+        <div className="flex-1">
+          <h3 className="text-base font-semibold leading-7 text-gray-900">
+            가지고 있는 포도알
+          </h3>
+          <div className="h-2/4 m-2 border rounded-md border-gray-200 p-1 mr-6">
+            <div className="flex">
+              <div className="w-10 h-10 mr-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800"></div>
             </div>
           </div>
           <button
