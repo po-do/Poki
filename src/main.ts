@@ -12,7 +12,7 @@ async function bootstrap() {
     credentials: true,});
 
   const serverConfig = config.get('server');
-  const port = serverConfig.get('port');
+  const port = process.env.SERVER_PORT || serverConfig.get('port');
   await app.listen(port);
 }
 bootstrap();
