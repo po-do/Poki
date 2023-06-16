@@ -55,4 +55,4 @@ jobs:
           --application-name podo-codeDeploy
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name podo-codedeploy-group
-          --s3-location bucket=team-podo-s3-jy604,bundleType=zip
+          --s3-location bucket=team-podo-s3-jy604,key=podo-server-build.zip,bundleType=zip
