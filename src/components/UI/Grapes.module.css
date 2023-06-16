@@ -2,7 +2,7 @@
   position: relative;
   width: 700px;
   height: 700px;
-  background: #f9d066;
+  /* background: #f9d066; */
   margin: 3px auto;
 }
 .uvas {
@@ -51,13 +51,6 @@
   transform: rotate(-21deg);
 }
 
-/* .u10 {
-  background: #7b3c93;
-}
-.u8 {
-  background: #b74d7d;
-} */
-
 .subir {
   position: absolute;
   animation: bajar 3s alternate infinite;
@@ -66,9 +59,17 @@
   position: absolute;
   animation: subir 3s alternate infinite;
 }
-
-/* 11번째 부터 31번째 포도의 CSS */
-/* 이 CSS는 간단하게 적용되었으며, 실제 프로젝트에서는 각 포도의 위치를 조정해야 할 것입니다. */
+.u1,
+.u2,
+.u3,
+.u4,
+.u5,
+.u6,
+.u7,
+.u8,
+.u9,
+.u10,
+.u11,
 .u12,
 .u13,
 .u14,
@@ -93,128 +94,145 @@
   width: 70px;
   height: 70px;
   border-radius: 100%;
-  background: #ae3568;
-  border-right: 5px solid #8e094a;
-  margin: 20px 20px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+  /* background: whitesmoke; */
+  background: radial-gradient(
+    at center center,
+    rgb(233, 213, 255),
+    rgb(192, 132, 252),
+    rgb(107, 33, 168)
+  );
 }
 
 /* 첫번쨰줄 가운데 */
 .u1 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 102px 300px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u2 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 102px 370px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u3 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 102px 230px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u4 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 162px 264px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u5 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 162px 334px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u6 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 162px 404px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u7 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 162px 194px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u8 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 162px 124px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u9 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 222px 299px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u10 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 222px 229px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u11 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 222px 159px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
 }
 
 .u12 {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  background: black;
-  border-right: 5px solid #8e094a;
   margin: 222px 369px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u13 {
+  margin: 222px 439px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u14 {
+  margin: 282px 404px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u15 {
+  margin: 282px 334px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u16 {
+  margin: 282px 264px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u17 {
+  margin: 282px 194px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u18 {
+  margin: 282px 124px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u19 {
+  margin: 342px 159px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u20 {
+  margin: 342px 229px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u21 {
+  margin: 342px 299px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u22 {
+  margin: 342px 369px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u23 {
+  margin: 402px 194px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u24 {
+  margin: 402px 264px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u25 {
+  margin: 402px 334px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u26 {
+  margin: 462px 299px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u27 {
+  margin: 462px 229px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u28 {
+  margin: 462px 159px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u29 {
+  margin: 522px 194px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u30 {
+  margin: 522px 264px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.u31 {
+  margin: 581px 229px; /* 이 부분은 각 포도의 위치를 적절하게 조정해야 합니다 */
+}
+
+.grape {
+  background: radial-gradient(
+    at center center,
+    rgb(233, 213, 255),
+    rgb(192, 132, 252),
+    rgb(107, 33, 168)
+  );
 }
