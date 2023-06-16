@@ -3,7 +3,6 @@ import MissionRegister from "../../components/Mission/MissionRegister";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 export default function Mission() {
   return (
 
@@ -11,7 +10,7 @@ export default function Mission() {
     <div className="">
       <MissionRegister />
     </div>
-    <div className="flex gap-96">
+    <div className="flex gap-96 mt-10">
       <div className="">
         <MissionRegisterList gap-y-10/>
       </div>
@@ -19,7 +18,7 @@ export default function Mission() {
         <MissionTempComplete />
       </div>
     </div>
-    <div className="">
+    <div className="mt-10">
       <MissionComplete />
     </div>
   </div>

@@ -121,18 +121,24 @@ export default function MissionTempComplete() {
           </li>
         ))}
       </ul>
-      <button
-        onClick={handleReject}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        반려
-      </button>
-      <button
-        onClick={handlePublish}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        포도알 발행
-      </button>
+      <div className="flex gap-x-2">
+        <div>
+          <button
+          onClick={handleReject}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          반려
+        </button>
+        </div>
+        <div>
+          <button
+          onClick={handlePublish}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          포도알 발행
+        </button>
+        </div>
+      </div>
     </div>
   );
 }
