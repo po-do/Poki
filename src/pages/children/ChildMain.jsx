@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "./ChildMain.module.css";
 import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import UserProfile from "../../components/UI/UserProfile";
@@ -37,9 +36,9 @@ export default function ChildMain() {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles["left-part"]}>
-          <div className={styles["podo-dashboard"]}>
+      <div className="flex">
+        <div className="bg-red-100">
+          <div className="flex bg-slate-200">
             <div>
               <img
                 src="https://t1.daumcdn.net/cfile/tistory/991827345BF5441310"
@@ -60,19 +59,25 @@ export default function ChildMain() {
               <p>{grape?.blank}</p>
             </div>
           </div>
-          <div>
-            {/* <p>받은 포도알 개수 이미지로 보여주기</p> */}
+          <div className="p-5">
+            <div className="h-20 bg-slate-200 border-black border rounded-xl">
+              <div className="flex">
+                <div className="w-10 h-10 bg-black rounded-full"></div>
+                <div className="w-10 h-10 bg-black rounded-full"></div>
+              </div>
+            </div>
             <button
               onClick={() => {
                 addGrape();
+                // 포도알 이미지가 하나 사라지면서 포도판에 포도알이 하나 붙는 함수를 만들어야할듯
               }}
-              className="px-4 py-2 bg-purple-600 text-white rounded-r-md"
+              className="px-4 py-2 bg-purple-600 text-white rounded-md mt-2"
             >
               포도알 붙이기
             </button>
           </div>
         </div>
-        <div className={styles["right-part"]}>
+        <div className="bg-amber-200">
           <div>
             <UserProfile />
           </div>
