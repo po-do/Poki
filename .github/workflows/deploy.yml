@@ -32,6 +32,7 @@ jobs:
           JWT_SECRET:  ${{ secrets.JWT_SECRET }}
           JWT_EXPIREIN:  ${{ secrets.JWT_EXPIREIN }}
           SERVER_PORT:  ${{ secrets.SERVER_PORT }}
+          MYSQL_TYPE:  ${{ secrets.MYSQL_TYPE }}
         run: |
           echo "MYSQL_HOSTNAME: $MYSQL_HOSTNAME"
           echo "MYSQL_PORT: $MYSQL_PORT"
@@ -40,7 +41,9 @@ jobs:
           echo "MYSQL_DB_NAME: $MYSQL_DB_NAME"
           echo "MYSQL_DB_SYNCHRONIZE: $MYSQL_DB_SYNCHRONIZE"
           echo "JWT_SECRET: $JWT_SECRET"
+          echo "JWT_EXPIREIN: $JWT_EXPIREIN"
           echo "SERVER_PORT: $SERVER_PORT"
+          echo "MYSQL_TYPE: $MYSQL_TYPE"
       - name: Build
         run: npm run build
       - name: zip create
