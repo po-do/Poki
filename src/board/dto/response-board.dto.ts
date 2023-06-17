@@ -13,4 +13,5 @@ export class responseBoardDto {
   data: {
     grape: {};
   };
+  is_existence?: boolean;
 }

@@ -18,10 +18,9 @@ export class BoardController {
         private boardService: BoardService,
         private AuthService: AuthService) { }
 
-    @Post('/grape/create')
+    @Post('grape/create')
     @UsePipes(ValidationPipe)
     async createBoard(
-        @Body() CreateBoardDto: CreateBoardDto,
         @GetUserType() type: string,
         @GetUserId() id: number,
         @GetUserCode() code: string,
@@ -30,12 +29,18 @@ export class BoardController {
         if (type !== 'PARENT') {
             throw new ForbiddenException('only parent can create board');
         }
+        const grape = await this.boardService.getBoardByUserId(id);
+
+
+        if (grape) {
+            throw new ForbiddenException('parents already have grape');
+        }
 
         const response: responseBoardDto = {
             code: 200,
             success: true,
             data: {
-                grape: await this.boardService.createBoard(CreateBoardDto, type, code, id)
+                grape: await this.boardService.createBoard(type, code, id)
             },
         };
 
@@ -56,31 +61,52 @@ export class BoardController {
         return this.boardService.getBoardById(id);
     }
 
-    @Get('/user')
+    @Post('/grape/user')
     async getBoardByUserId(
         @GetUser() user: User,
         @GetUserId() id: number,
         @GetUserType() type: string): Promise<responseBoardDto> {
+           
 
             if (type !== 'PARENT') {
                 id = await this.AuthService.getConnectedUser(user);
-                console.log(id);
             }
-            
+
+            const grape = await this.boardService.getBoardByUserId(id);
+         
+    
+            if (!grape) {
+                const response: responseBoardDto = {
+                    code: 200,
+                    success: true,
+                    data: {
+                        grape: {
+                            id:0,
+                            blank: 0,
+                            total_grapes: 0,
+                            attached_grapes: 0,
+                            deattached_grapes: 0,
+                        }
+                    },
+                    is_existence: false,
+                };
+                return response;
+            }
+
             const response: responseBoardDto = {
                 code: 200,
                 success: true,
                 data: {
                     grape: await this.boardService.getBoardByUserId(id)
                 },
+                is_existence: true,
             };
             return response;
         }
 
     // 처음에 지정한 수 변경
-    @Patch('/grape/:id')
+    @Post('/grape')
     async updateBoard(
-        @Param('id', ParseIntPipe) grapeid: number,
         @Body() CreateBoardDto: CreateBoardDto,
         @GetUserType() type: string,
         @GetUserId() id: number,
@@ -88,12 +114,18 @@ export class BoardController {
         if (type !== 'PARENT') {
             throw new ForbiddenException('only parent can update board');
         }
+        const grape = await this.boardService.getBoardByUserId(id);
+      
+
+        if (!grape) {
+            throw new ForbiddenException('parents not have grape');
+        }
 
         const response: responseBoardDto = {
             code: 200,
             success: true,
             data: {
-                grape: await this.boardService.updateBoard(grapeid, CreateBoardDto, id)
+                grape: await this.boardService.updateBoard(grape.id, CreateBoardDto, id)
             },
         };
 
@@ -101,9 +133,9 @@ export class BoardController {
     }
 
     //포도 부착 버튼 클릭시 실행 함수
-    @Patch('/grape/attach/:id')
+    @Post('/grape/attach')
     async attachBoard(
-        @Param('id', ParseIntPipe) grapeid: number,
+        @GetUser() user: User,
         @GetUserType() type: string,
         @GetUserCode() code: string,
     ): Promise<responseBoardDto> {
@@ -111,16 +143,24 @@ export class BoardController {
             throw new ForbiddenException('only child can attach board');
         }
 
+        const id = await this.AuthService.getConnectedUser(user);
+        const grape = await this.boardService.getBoardByUserId(id);
+        
+
+        if (!grape) {
+            throw new ForbiddenException('parents not have grape');
+        }
+        
+
         const response: responseBoardDto = {
             code: 200,
             success: true,
             data: {
-                grape: await this.boardService.attachBoard(grapeid, code)
+                grape: await this.boardService.attachBoard(grape.id, code)
             },
         };
 
         return response
     }
 
-    
 }

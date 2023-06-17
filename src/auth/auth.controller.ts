@@ -1,12 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards, ValidationPipe, NotFoundException, Res, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthSignInDto } from './dto/auth-signin.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../decorators/get-user.decorator';
 import { User } from './user.entity';
-import { ConnectUserDto } from './dto/auth-connectuser.dto';
 import { UserType } from './user-type.enum';
+
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +21,7 @@ export class AuthController {
     }
 
     @Post('/signin')
-    signIn(@Body(ValidationPipe) authSignInDto: AuthSignInDto): Promise<{accessToken: string, type:string}> {
+    signIn(@Body(ValidationPipe) authSignInDto: AuthSignInDto): Promise<{accessToken: string, type:string, id:number}> {
         return this.authService.siginIn(authSignInDto);
     }
 
@@ -37,7 +37,7 @@ export class AuthController {
     getConnectionCode(@GetUser() user: User): Promise<any> {
         return this.authService.getConnectionCode(user);
     }
-
+    
     @Patch('/user/connect')
     @UseGuards(AuthGuard())
     async updateChildCode(

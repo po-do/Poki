@@ -11,6 +11,8 @@ import { GetUserCode } from 'src/decorators/get-user.code.decorator';
 import { responseWishlistDto } from './dto/response-wishlist.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/auth/user.entity';
+import { BoardService } from 'src/board/board.service';
+
 
 
 @Controller('wishlist')
@@ -19,8 +21,8 @@ import { User } from 'src/auth/user.entity';
 export class WishlistController {
     constructor(
         private wishlistService: WishlistService,
-        private AuthService: AuthService) { }
-    
+        private AuthService: AuthService,
+        private boardService: BoardService) { }
 
     @Get('/user')
     async getWishlistByUserId(
@@ -102,15 +104,25 @@ export class WishlistController {
         return response
     }
 
-    @Patch('/item/:id/givenstatus')
+    @Post('/item/:id/givenstatus')
     async updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
         @Body('Given') givenStatus: GivenStatus,
         @GetUserType() type: string,
+        @GetUserId() userid: number,
     ): Promise <responseWishlistDto> {
         if (type !== 'PARENT') {
             throw new ForbiddenException('Only parents can update a wishlist.');
-        }        
+        }
+
+        const grape = await this.boardService.getBoardByUserId(userid);
+
+        if (!grape) {
+            throw new ForbiddenException('parents not have grape');
+        }
+
+        const newgrape = await this.boardService.resetBoard(grape.id, userid);
+
         const response: responseWishlistDto = {
             code: 200,
             success: true,

@@ -9,11 +9,11 @@ export class BoardRepository extends Repository<Board> {
         super(Board, dataSource.createEntityManager());
     }
 
-    async createBoard(createBoardDto, type: string, code: string, id: number): Promise<BoardDto> {
-        const { blank } = createBoardDto;
+    async createBoard(type: string, code: string, id: number): Promise<BoardDto> {
+       
 
         const board = this.create({
-            blank,
+            blank:31,
             total_grapes: 0,
             attached_grapes: 0,
             deattached_grapes: 0,
@@ -22,14 +22,14 @@ export class BoardRepository extends Repository<Board> {
 
         await this.save(board);
 
-        const { id: grapeId, total_grapes, attached_grapes, deattached_grapes } = board;
+        const { id: grapeId, blank, total_grapes, attached_grapes, deattached_grapes } = board;
 
         const grape: BoardDto = {
             id: grapeId,
             blank,
             total_grapes,
             attached_grapes,
-            deattached_grapes,
+            deattached_grapes, 
         };
 
         return grape;
