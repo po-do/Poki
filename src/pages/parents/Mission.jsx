@@ -3,23 +3,26 @@ import MissionRegister from "../../components/Mission/MissionRegister";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 export default function Mission() {
   return (
-
-  <div className="bg-white mx-auto max-w-1xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-    <div className="">
+  <div className="bg-white mx-auto max-w-xl px-4 lg:max-w-7xl lg:px-8 lg:pb-12">
+    <div class="px-12 py-7">
+      <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        아이의 미션 목록
+      </p>
+    </div>
+    <div className="p-6 border rounded-2xl border-4">
       <MissionRegister />
     </div>
-    <div className="flex gap-96">
-      <div className="">
-        <MissionRegisterList gap-y-10/>
+    <div className="grid grid-cols-2 gap-x-4 mt-10">
+      <div className="p-6 border rounded-2xl border-4">
+        <MissionRegisterList />
       </div>
-      <div className="">
+      <div className="p-6 border rounded-2xl border-4">
         <MissionTempComplete />
       </div>
     </div>
-    <div className="">
+    <div className="mt-10 p-6 border rounded-2xl border-4">
       <MissionComplete />
     </div>
   </div>
