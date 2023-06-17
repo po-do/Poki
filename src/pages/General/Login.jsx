@@ -14,6 +14,7 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
+    console.log(email, password);
     try {
       const userInfo = await signIn({
         request: {
@@ -22,18 +23,15 @@ export default function Login() {
         },
       });
 
-      // 상태관리
       const params = {
-        // id: userInfo.data.id,
+        id: userInfo.data.id,
         user_id: email,
         type: userInfo.data.type,
       };
 
       setUser(params);
-      
-      // 수정
+
       navigate(userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child");
-      
     } catch (error) {
       console.log("signin error", error);
     }
@@ -54,6 +52,7 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="space-y-6">
             <div>
               <label
                 htmlFor="userid"
@@ -64,11 +63,9 @@ export default function Login() {
               <div className="mt-2">
                 <input
                   id="userid"
-                  name="userid"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                   className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -105,6 +102,7 @@ export default function Login() {
                 Sign in
               </button>
             </div>
+          </div>
 
           <p className="mt-10 text-center text-sm text-gray-400">
             가입하지 않으셨나요?{" "}
