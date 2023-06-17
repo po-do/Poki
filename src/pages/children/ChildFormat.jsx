@@ -62,7 +62,7 @@ export default function ChildFormat() {
   const handleRegistCode = () => {
     const params = {
       request: {
-        id: user.user_id,
+        child_id: user.user_id,
         connection_code: inputData,
       },
     };
