@@ -15,6 +15,7 @@ interface MissionReadParams {
 // 미션 생성 (Create)
 export async function missionCreate(params: MissionCreateParams) {
   const accessToken = getAccessToken();
+  console.log(params)
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }

@@ -18,7 +18,7 @@ export default function MissionRecommend() {
       <h3 className="text-xl font-bold mb-4">미션 추천</h3>
       <div className="space-y-2">
         <div className="space-x-2">
-          <className="px-button4 py-2 bg-blue-500 text-white rounded">
+          <button className="px-button4 py-2 bg-blue-500 text-white rounded">
             4~6세
           </button>
           <button className="px-4 py-2 bg-blue-500 text-white rounded">

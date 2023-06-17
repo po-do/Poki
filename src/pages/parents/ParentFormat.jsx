@@ -321,47 +321,42 @@ export default function ParentFormat() {
                 aria-hidden="true"
               />
 
-              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                <div className="relative flex flex-1"></div>
-                <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
-                    type="button"
-                    className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                  >
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                    </span>
-                  </button>
-
-                  {/* Separator */}
-                  <div
-                    className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-                    aria-hidden="true"
-                  />
-
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative">
-                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </Menu>
-                </div>
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+              <div className="relative flex flex-1">
+              </div>
+              <div className="flex items-center gap-x-4 lg:gap-x-6">
+                <button type="button" className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500" >
+                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                </span>
+                </button>
+              
+                {/* Separator */}
+                <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+                        
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative">
+                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="h-8 w-8 rounded-full bg-gray-50"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
+                    />
+                  </Menu.Button>
+                </Menu>
               </div>
             </div>
-            {/* 메인 */}
-            <main>
-              <Outlet />
-            </main>
           </div>
+{/* 메인 */}
+          <main>
+            <Outlet />
+          </main>
         </div>
-      </QueryClientProvider>
+      </div>
+      </ QueryClientProvider>
     </>
   );
 }

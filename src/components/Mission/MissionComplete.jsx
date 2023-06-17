@@ -37,7 +37,7 @@ export default function MissionComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-        <h3 className="text-xl font-bold mb-4">완료 대기 미션</h3>
+        <h3 className="text-xl font-bold mb-4">완료된 미션</h3>
           <p className="mt-2 text-sm text-gray-700">
             현재 완료된 미션 목록입니다.
           </p>
