@@ -21,11 +21,6 @@ jobs:
         run: node -v
       - name: Install Dependencies
         run: npm install
-      - name: Build
-        run: npm run build
-      - name: zip create
-        run: zip -qq -r ./podo-server-build.zip .
-        shell: bash
       - name: Set up environment variables
         env:
           MYSQL_HOSTNAME: ${{ secrets.MYSQL_HOSTNAME }}
@@ -49,6 +44,11 @@ jobs:
           echo "JWT_EXPIREIN: $JWT_EXPIREIN"
           echo "SERVER_PORT: $SERVER_PORT"
           echo "MYSQL_TYPE: $MYSQL_TYPE"
+      - name: Build
+        run: npm run build
+      - name: zip create
+        run: zip -qq -r ./podo-server-build.zip .
+        shell: bash
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
