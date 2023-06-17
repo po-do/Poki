@@ -1,95 +1,75 @@
 import client from "./client.ts";
 import { getAccessToken } from "./auth.ts";
 
-export async function createBoard(params: CreateBoardParams) {
+// 포도 생성 (create) => 포도판 생성
+export async function createBoard() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log(params.request)
-  const response = await client.post("/board/grape/create", params.request);
+  console.log("createBoard 호출");
+  const response = await client.post("/board/grape/create");
   return response.data;
 }
 
-export async function deleteBoard(params: DeleteBoardParams) {
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-  }
-  const response = await client.delete(`/board/grape/${params.grapeId}`);
-  return response.data;
-}
-
+// ???
 export async function getBoardById() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
+  console.log("getBoardById 호출");
   const response = await client.get(`/board/grape/`);
   return response.data;
 }
 
+// 포도판의 현재상태를 조회한다. => 새로만듬..
+export async function getBoardStatus() {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("getBoardStatus 호출");
+  const response = await client.get(`/board/grape/user`);
+  return response.data;
+}
+
+// ????
 export async function getBoardByUserId() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
+  console.log("getBoardByUserId 호출");
   const response = await client.get(`/board/user/`);
   return response.data;
 }
 
+// 포도알 상태를 전부 업데이트 하는 함수
 export async function updateBoard(params: UpdateBoardParams) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.patch(
-    `/board/grape/${params.grapeId}`,
-    params.request
-  );
+  console.log("updateBoard 호출");
+  const response = await client.post(`/board/grape/`, params);
   return response.data;
 }
 
-export async function attachBoard(params: AttachBoardParams) {
+interface UpdateBoardParams {
+  blank: number;
+  total_grapes: number;
+  attached_grapes: number;
+  deattached_grapes: number;
+}
+
+// 포도알을 하나 붙이는 함수
+export async function attachBoard() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.patch(`/board/grape/attach/${params.grapeId}`);
+  console.log("attachBoard 호출");
+  const response = await client.post(`/board/grape/attach/`);
   return response.data;
-}
-
-interface CreateBoardParams {
-  request: {
-    blank: number;
-    total_grapes: number;
-    attached_grapes: number;
-    deattached_grapes: number;
-  };
-}
-
-interface DeleteBoardParams {
-  grapeId: number;
-}
-
-// interface GetBoardByIdParams {
-//   grapeId: number;
-// }
-
-// interface GetBoardByUserIdParams {
-//   userId: string;
-// }
-
-interface UpdateBoardParams {
-  grapeId: number;
-  request: {
-    blank: number;
-    total_grapes: number;
-    attached_grapes: number;
-    deattached_grapes: number;
-  };
-}
-
-interface AttachBoardParams {
-  grapeId: number;
 }
