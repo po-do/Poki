@@ -5,7 +5,7 @@ export function getAccessToken() {
   return localStorage.getItem("access_token");
 }
 
-// 회원가입
+// 로그인
 export async function signIn(params: SignInParams) {
   const response = await client.post("/auth/signin", params.request);
   client.defaults.headers.common[
@@ -23,7 +23,7 @@ interface SignInParams {
   };
 }
 
-// 로그인
+// 회원가입
 export async function signUp(params: SignUpParams) {
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -49,6 +49,7 @@ export async function createUserCode(params: CreateUserCodeParams) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get("/auth/user/code");
+  console.log("createUserCode");
   return response.data;
 }
 
@@ -60,8 +61,9 @@ export async function connectUserCode(params: ConnectUserCodeParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  // const response = await client.patch("/auth/user/connect", params.request);
   const response = await client.patch("/auth/user/connect", params.request);
+  console.log(response);
+  console.log(response.data.connected);
   return response.data;
 }
 
