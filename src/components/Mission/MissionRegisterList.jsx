@@ -69,14 +69,6 @@ export default function MissionRegisterList() {
             현재 등록된 미션 목록입니다.
           </p>
         </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            미션 등록
-          </button>
-        </div>
       </div>
       <div className="mt-8 overflow-y-auto overflow-x-hidden max-h-60">
         <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
@@ -86,12 +78,6 @@ export default function MissionRegisterList() {
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
                     등록된 미션
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">수정</span>
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">삭제</span>
                   </th>
                 </tr>
               </thead>
@@ -103,14 +89,22 @@ export default function MissionRegisterList() {
                     </td>
                     <td className="flex relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 gap-2 ">
                       <div>
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900 font-bold">
-                          수정<span className="sr-only">, {person.name}</span>
-                        </a>
+                        <button
+                          onClick={openModal}
+                          className="text-indigo-600 hover:text-indigo-900 font-bold"
+                          >
+                          수정
+                          <span className="sr-only">, {person.name}</span>
+                        </button>
                       </div>
                       <div>
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900 font-bold">
-                          삭제<span className="sr-only">, {person.name}</span>
-                        </a>
+                        <button
+                          onClick={openModal}
+                          className="text-indigo-600 hover:text-indigo-900 font-bold"
+                        >
+                          삭제
+                          <span className="sr-only">, {person.name}</span>
+                        </button>
                       </div>
                     </td>
                   </tr>
