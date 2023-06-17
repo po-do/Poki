@@ -11,17 +11,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
+    
     constructor(
         @InjectRepository(UserRepository)
         private userRepository: UserRepository,
         private jwtService: JwtService
     ) {}
 
+    
+   
+
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         return this.userRepository.createUser(authCredentialsDto);
     }
 
-    async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string, type:string}> {
+    async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string, type:string, id:number}> {
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
 
@@ -31,7 +35,7 @@ export class AuthService {
             const accessToken = await this.jwtService.sign(payload);
 
             
-            return { accessToken, type: user.type };
+            return { accessToken, type: user.type, id: user.id };
         } else {
             throw new UnauthorizedException('login faild');
         }
@@ -95,6 +99,7 @@ export class AuthService {
 
             return { connected: true, type: UserType.PARENT };
         } else {
+            
             return { connected: false, type: UserType.CHILD };
         }
     
@@ -111,7 +116,7 @@ export class AuthService {
         const { code, type } = user;
         const userType: UserType = type as UserType;
         const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
-        console.log(connectedUser.user_id);
+
 
         return connectedUser.id;
         

@@ -23,10 +23,7 @@ export class MissionService {
         if (!mission) {
             throw new NotFoundException(`Can't find Mission with id ${mission_id}`);
         }
-        /* 미션을 조회할 수 있는 사람은 미션 생성자 or 자식 */
-        if (mission.user_id !== user_id /* 자식 아이디 */) {
-            throw new UnauthorizedException(`Can't fetch Mission. You don't have authorization`);
-        }
+        
         return mission;
     }
 
