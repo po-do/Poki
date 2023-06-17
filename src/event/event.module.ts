@@ -24,4 +24,5 @@ import { AuthModule } from 'src/auth/auth.module';
     controllers: [EventController],
 
 })
+
 export class EventModule {}
