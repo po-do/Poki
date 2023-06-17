@@ -35,7 +35,7 @@ export default function MissionTempComplete() {
 
   useEffect(() => {
     getMission();
-    console.log("there is something fetching data!");
+    // console.log("there is something fetching data!");
   }, [boardQuery.isSuccess, boardQuery.data, missions]);
 
   const getMission = async () => {
@@ -116,7 +116,7 @@ export default function MissionTempComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-        <h3 className="text-xl font-bold mb-4">완료 대기 미션</h3>
+        <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
           <p className="mt-2 text-sm text-gray-700">
             현재 수행된 미션 목록입니다.
           </p>
@@ -161,8 +161,20 @@ export default function MissionTempComplete() {
               <tbody className="divide-y divide-gray-200">
                 {people.map((person) => (
                   <tr key={person.email}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      {person.name}
+                    <td className="flex whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                      <div>
+                        {person.name}
+                      </div>
+                      <div className="ml-auto">
+                        <input
+                          id="comments"
+                          aria-describedby="comments-description"
+                          name="comments"
+                          type="checkbox"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        />
+                      </div>
+                      
                     </td>
                   </tr>
                 ))}

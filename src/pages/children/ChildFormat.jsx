@@ -182,7 +182,7 @@ export default function ChildFormat() {
                     코드 등록
                   </div>
                   
-                  <form className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                  <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                     <div className="flex gap-x-4">
                       <input
                         id="code"
@@ -201,7 +201,7 @@ export default function ChildFormat() {
                         등록
                       </button>
                     </div>
-                  </form>
+                  </div>
                   {isModalOpen && <CodeRegisterModal />}
                 </li>
               </ul>
