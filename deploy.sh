@@ -5,4 +5,4 @@ cd $REPOSITORY
 
 sudo npm install --frozen-lockfile
 
-sudo npm run start
+sudo npx pm2 reload all
