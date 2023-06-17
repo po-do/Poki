@@ -14,7 +14,6 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
-
     try {
       const userInfo = await signIn({
         request: {
@@ -31,11 +30,10 @@ export default function Login() {
       };
 
       setUser(params);
-      console.log(user);
-
+      
       // 수정
-      userInfo.data.type === 'parent'? navigate(`/format/parent`):navigate(`/format/child`);
-
+      navigate(userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child");
+      
     } catch (error) {
       console.log("signin error", error);
     }
@@ -56,7 +54,6 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
             <div>
               <label
                 htmlFor="userid"
@@ -108,7 +105,6 @@ export default function Login() {
                 Sign in
               </button>
             </div>
-          </form>
 
           <p className="mt-10 text-center text-sm text-gray-400">
             가입하지 않으셨나요?{" "}

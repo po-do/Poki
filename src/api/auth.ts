@@ -54,7 +54,7 @@ export async function getUserType(params: GetUserTypeParams) {
 
 interface SignInParams {
   request: {
-    userid: string;
+    user_id: string;
     password: string;
   };
 }
