@@ -11,6 +11,7 @@ import {
   ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline'
 import { Outlet } from "react-router-dom";
+import CodeRegisterModal from '../../components/UI/CodeRegisterModal';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
@@ -31,8 +32,12 @@ function classNames(...classes) {
 
 export default function ChildFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [show, setShow] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
+  const handleRegisterClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
     <QueryClientProvider client={queryClient}>
@@ -179,9 +184,6 @@ export default function ChildFormat() {
                   
                   <form className="w-full max-w-md lg:col-span-5 lg:pt-2">
                     <div className="flex gap-x-4">
-                      <label htmlFor="email-address" className="sr-only">
-                        Email address
-                      </label>
                       <input
                         id="code"
                         name="code"
@@ -194,11 +196,13 @@ export default function ChildFormat() {
                       <button
                         type="submit"
                         className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={handleRegisterClick}
                       >
                         등록
                       </button>
                     </div>
                   </form>
+                  {isModalOpen && <CodeRegisterModal />}
                 </li>
               </ul>
             </nav>
