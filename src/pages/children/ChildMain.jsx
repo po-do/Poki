@@ -42,7 +42,7 @@ export default function ChildMain() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
-        <div className="flex-1">
+        <div className="flex-1 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
@@ -101,7 +101,7 @@ export default function ChildMain() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
-        <div className="flex-1 ">
+        <div className="flex-1">
           <RecentMissionList />
         </div>
         <div className="mx-auto max-w-3xl flex-1 text-center">

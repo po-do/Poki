@@ -43,18 +43,22 @@ export default function RecentMissionList() {
   const getRecentMissions = () => {
     const recentMissions = missions.slice(0, 5); // 최근 등록된 5개의 미션만 가져옵니다.
     return recentMissions.map((mission, index) => (
-      <>
-        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-          {mission.content}
-        </td>
-        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-0">
-          <input
-            type="checkbox"
-            className="form-checkbox"
-            onChange={(e) => handleChange(e, mission)}
-          />
-        </td>
-      </>
+      <div>
+        <div className="relative flex items-start py-4">
+          <div className="min-w-0 flex-1 text-sm leading-6">
+            <label className="select-none font-medium text-gray-900">
+              {mission.content}
+            </label>
+          </div>
+          <div className="ml-3 flex h-6 items-center">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+              onChange={(e) => handleChange(e, mission)}
+            />
+          </div>
+        </div>
+      </div>
     ));
   };
 
@@ -80,32 +84,11 @@ export default function RecentMissionList() {
             </button>
           </div>
         </div>
-        <div className="mt-2 flow-root">
-          <div className="-mx-4 -my-2 overflow-y-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 h-[20rem] overflow-auto">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Mission
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                    >
-                      <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  <tr key="email">{missions && getRecentMissions()}</tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <legend className="text-base leading-6 text-gray-900 mt-4">
+          Mission
+        </legend>
+        <div className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
+          {missions && getRecentMissions()}
         </div>
       </div>
     </>
