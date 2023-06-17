@@ -37,8 +37,6 @@ export class AuthController {
     getConnectionCode(@GetUser() user: User): Promise<any> {
         return this.authService.getConnectionCode(user);
     }
-
-   
     
     @Patch('/user/connect')
     @UseGuards(AuthGuard())

@@ -55,7 +55,7 @@ export class BoardService {
 
     async updateBoard(grapeid: number, CreateBoardDto :CreateBoardDto, id:number): Promise<BoardDto> {
         const board = await this.getBoardById(grapeid);
-        console.log(board);
+       
 
         if (id !== board.user.id) {
             throw new ForbiddenException('You can only update your own board.');
@@ -84,7 +84,7 @@ export class BoardService {
 
     async resetBoard(grapeid: number, id:number): Promise<BoardDto> {
         const board = await this.getBoardById(grapeid);
-        console.log(board);
+       
 
         if (id !== board.user.id) {
             throw new ForbiddenException('You can only update your own board.');
