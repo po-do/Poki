@@ -1,58 +1,85 @@
-import React from "react";
-import styles from "./ParentMain.module.css";
-import Calender from "../../components/UI/CalenderElement";
+import { React, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getBoardByUserId } from "../../api/board.ts";
-import MissionRegisterList from "../../components/Mission/MissionRegisterList";
-// import { useRecoilValue } from "recoil";
-// import { userState } from "../../recoil";
+import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
+import { getBoardByUserId, attachBoard } from "../../api/board.ts";
+import Grapes from "../../components/UI/Grapes";
 
-export default function ParentMain() {
-  const userId = 2;
-  // const user = useRecoilValue(userState);
+export default function ChildMain() {
+  const [grape, setGrape] = useState(null);
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardByUserId();
   });
 
-  const grape = boardQuery?.data?.data?.grape[0];
-  console.log(grape?.total_grapes);
+  useEffect(() => {
+    if (boardQuery.isSuccess) {
+      const fetchedGrape = boardQuery?.data?.data?.grape[0];
+      setGrape(fetchedGrape);
+    }
+  }, [boardQuery.isSuccess, boardQuery.data]);
+
+  async function addGrape() {
+    const boardStatus = {
+      grapeId: 2,
+      //request: newStatus,
+    };
+    // console.log(boardStatus);
+    await attachBoard(boardStatus);
+  }
 
   return (
     <>
-      {/* {user} */}
-      <div className={styles.container}>
-        <div className={styles["left-part"]}>
-          <div className={styles["podo-dashboard"]}>
-            <div>
-              <img
-                src="https://t1.daumcdn.net/cfile/tistory/991827345BF5441310"
-                alt=""
-              />
-            </div>
-            <div>
-              <p>붙일 수 있는 포도알 개수</p>
-              <p>{grape?.deattached_grapes}</p>
-              <p>붙인 포도알 개수</p>
-              <p>{grape?.attached_grapes}</p>
-              <p>목표 포도알 개수</p>
-              <p>{grape?.blank}</p>
-            </div>
-          </div>
-          <div>
-            <MissionRegisterList />
+      <div className="bg-white py-1 sm:py-1">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Parent Main
+            </h2>
+            <p className="mt-2 text-lg leading-8 text-gray-600">
+              아이들의 포도 관리 현황을 파악해보세요~
+            </p>
           </div>
         </div>
-        <div className={styles["right-part"]}>
-          <div>
-            <Calender />
+      </div>
+      <div className="flex">
+        <div className="mb-4 flex-1 border-r border-gray-200">
+          {/* <Grapes GrapesCount={grape.attached_grapes} /> */}
+          <Grapes />
+        </div>
+        <div className="flex-1">
+          <div className="ml-10 mr-10 border-b border-gray-200">
+            <div className="px-4 sm:px-0">
+              <h3 className="text-base font-semibold leading-7 text-gray-900">
+                포도알 관리 현황판
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+                Personal details and application.
+              </p>
+            </div>
+            <div className="mt-6 border-t border-gray-100">
+              <dl className="divide-y divide-gray-100">
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                    자녀 포도알
+                  </dt>
+                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    {grape?.deattached_grapes}개
+                  </dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                    붙인 포도알 개수
+                  </dt>
+                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    {grape?.attached_grapes}개 / {grape?.blank}개
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </div>
-          <div>
-            <p>아이의 위시 리스트</p>
-            <ul>
-              <li>카카오 인형</li>
-              <li>카카오 인형</li>
-              <li>카카오 인형</li>
-            </ul>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+            <div className="mx-auto max-w-3xl text-center mt-4">
+              <MissionRegisteredGift />
+            </div>
           </div>
         </div>
       </div>

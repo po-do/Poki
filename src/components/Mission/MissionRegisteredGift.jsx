@@ -5,7 +5,7 @@ import React from "react";
 export default function MissionRegisteredGift() {
   return (
     <>
-      <h3 className="text-base font-semibold leading-6 text-gray-900">
+      <h3 className="text-base font-semibold leading-6 text-gray-900 mb-2">
         등록된 보상
       </h3>
       <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white w-6/12 h-2/4 m-auto">
