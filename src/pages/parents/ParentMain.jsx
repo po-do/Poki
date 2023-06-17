@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ParentMain.module.css";
-import Calender from "../../components/UI/CalenderElement";
 import { useQuery } from "@tanstack/react-query";
 import { getBoardByUserId } from "../../api/board.ts";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
@@ -43,9 +42,6 @@ export default function ParentMain() {
           </div>
         </div>
         <div className={styles["right-part"]}>
-          <div>
-            <Calender />
-          </div>
           <div>
             <p>아이의 위시 리스트</p>
             <ul>

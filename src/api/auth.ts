@@ -37,6 +37,7 @@ export async function connectUserCode(params: ConnectUserCodeParams) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
+  // const response = await client.patch("/auth/user/connect", params.request);
   const response = await client.patch("/auth/user/connect", params.request);
   return response.data;
 }
