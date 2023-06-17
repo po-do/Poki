@@ -61,18 +61,19 @@ export class BoardController {
         return this.boardService.getBoardById(id);
     }
 
-    @Get('grape/user')
+    @Post('/grape/user')
     async getBoardByUserId(
         @GetUser() user: User,
         @GetUserId() id: number,
         @GetUserType() type: string): Promise<responseBoardDto> {
+           
 
             if (type !== 'PARENT') {
                 id = await this.AuthService.getConnectedUser(user);
-                console.log(id);
             }
 
             const grape = await this.boardService.getBoardByUserId(id);
+         
     
             if (!grape) {
                 const response: responseBoardDto = {
@@ -143,7 +144,6 @@ export class BoardController {
         }
 
         const id = await this.AuthService.getConnectedUser(user);
-        console.log(id);
         const grape = await this.boardService.getBoardByUserId(id);
         
 

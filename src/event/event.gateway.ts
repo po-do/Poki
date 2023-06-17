@@ -34,18 +34,27 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @WebSocketServer() public nsp: Namespace;
 
     afterInit() {
-        this.nsp.adapter.on('delete-room', (room) => {
-            const deltedRoom = createRooms.find(
-                (createRoom) => createRoom === room,
-            );
-            if (!deltedRoom) return;
-
-            this.nsp.emit('delete-room', deltedRoom);
-            createRooms = createRooms.filter(
-                (createRoom) => createRoom !== deltedRoom,
-            );
-        });
-        this.logger.log('Initialized');
+        this.nsp.adapter.on('create-room', (room) => {
+            this.logger.log(`"Room:${room}"이 생성되었습니다.`);
+          });
+      
+      
+          this.nsp.adapter.on('join-room', (room, id) => {
+            this.logger.log(`"Socket:${id}"이 "Room:${room}"에 참여하였습니다.`);
+          });
+      
+      
+          this.nsp.adapter.on('leave-room', (room, id) => {
+            this.logger.log(`"Socket:${id}"이 "Room:${room}"에서 나갔습니다.`);
+          });
+      
+      
+          this.nsp.adapter.on('delete-room', (roomName) => {
+            this.logger.log(`"Room:${roomName}"이 삭제되었습니다.`);
+          });
+      
+      
+          this.logger.log('웹소켓 서버 초기화 ✅');
     }
 
     handleConnection(@ConnectedSocket() socket: Socket) {
@@ -69,9 +78,13 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     ) {
         
         //save message in databa
+        this.EventService.createMessage(socket.id, message, roomName);
         
 
         console.log(socket.id);
+        console.log(message);
+        console.log(roomName);
+
         socket.to(roomName).emit('message', { username: socket.id, message});
         return { username: socket.id, message};
     }
@@ -92,6 +105,9 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
             return { success: false,  payload: `Room ${roomName} already exists`};
         }
 
+        //save room in database
+        // this.EventService.createRoom(user, roomName);
+
         socket.join(roomName);
         createRooms.push(roomName);
         this.nsp.emit('create-room', roomName);
@@ -106,7 +122,7 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         @MessageBody() roomName: string,
     ) {
         socket.join(roomName);
-        socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} comming!`});
+        // socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} comming!`});
 
         return { success: true };
     }
@@ -117,7 +133,7 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         @MessageBody() roomName: string,
     ) {
         socket.leave(roomName);
-        socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} leaving!`});
+        // socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} leaving!`});
 
         return { success: true };
     }
