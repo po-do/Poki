@@ -34,8 +34,9 @@ export default function Login() {
       console.log(user);
 
       // 수정
-      userInfo.data.type === 'parent'? navigate(`/format/parent`):navigate(`/format/child`);
-
+      // userInfo.data.type === 'parent'? navigate(`/format/parent`):navigate(`/format/child`);
+      navigate(userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child");
+      
     } catch (error) {
       console.log("signin error", error);
     }
