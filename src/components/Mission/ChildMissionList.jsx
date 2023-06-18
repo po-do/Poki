@@ -1,12 +1,32 @@
 import { React, useEffect, useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
 import { missionReadChild, setMissionStatusWait } from "../../api/mission.ts";
+import GrapeAttachModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 
 // 최근 등록된미션 보여주는 컴포넌트
 export default function RecentMissionList() {
   const [missions, setMissions] = useState([]);
   const [checkedMissionsId, setCheckedMissionsId] = useState([]);
   const [checkedMissionsList, setCheckedMissionsList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
 
   useEffect(() => {
     getMission();
@@ -36,6 +56,11 @@ export default function RecentMissionList() {
         setMissionStatusWait({ mission_id: missionId })
       )
     );
+    if (checkedMissionsId.length > 0) {
+      openModal();
+    } else {
+      openFailModal();
+    }
     setCheckedMissionsId([]);
     setMissions([]);
   };
@@ -91,6 +116,11 @@ export default function RecentMissionList() {
           {missions && getRecentMissions()}
         </div>
       </div>
+
+      {showModal && (
+        <GrapeAttachModal closeModal={closeModal} message="포도알 요청 완료" />
+      )}
+      {failModal && <FailModal closeModal={closeFailModal} message="체크박스를 선택 해주세요."/>}
     </>
   );
 }
