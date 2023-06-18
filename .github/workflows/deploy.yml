@@ -62,5 +62,5 @@ jobs:
         run: aws deploy create-deployment
           --application-name podo-codeDeploy
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name podo-codedeploy-group
+          --deployment-group-name podo-server-codedeploy-group
           --s3-location bucket=team-podo-s3-jy604,key=podo-server-build.zip,bundleType=zip
