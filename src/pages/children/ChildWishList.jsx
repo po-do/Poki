@@ -59,11 +59,11 @@ export default function ChildWishList() {
               >
                 선물 등록
               </button>
-              
           </div>
             <div className="relative">
               {showModal && <LinkRegister onClose={closeModal} />}
             </div>
+            
         </div>
       </div>
     </div>

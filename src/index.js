@@ -21,6 +21,7 @@ import ParentWishList from "./pages/parents/ParentWishList";
 import ChildFormat from "./pages/children/ChildFormat";
 import ChildMain from "./pages/children/ChildMain";
 import ChildWishList from "./pages/children/ChildWishList";
+import ImageSearch from "./components/Modal/ImageSearchModal";
 
 // recoil
 import { RecoilRoot } from "recoil";
@@ -61,6 +62,8 @@ const router = createBrowserRouter([
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
       { path: "/format/child/message", element: <Chatting /> },
+      { path: "/format/child/image", element: <ImageSearch /> },
+
     ],
   },
 ]);
