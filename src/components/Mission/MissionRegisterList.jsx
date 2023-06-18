@@ -1,20 +1,22 @@
 import { React, useEffect, useState } from "react";
 import { missionReadChild, missionDelete } from "../../api/mission.ts";
-
+import UpdateModal from "../Modal/UpdateModal.jsx";
 export default function MissionRegisterList() {
   // const tmp_user_id = { user_id: "2" };
   const [missions, setMissions] = useState([]);
+  const [showModal,setShowModal] = useState(false);
+  const [selectedMission, setSelectedMission] = useState(null);
   // const [checkedMissionsId, setCheckedMissionsId] = useState([]);
   // const [checkedMissionsList, setCheckedMissionsList] = useState([]);
   // const [showModal, setShowModal] = useState(false);
 
-  // const openModal = () => {
-  //   setShowModal(true);
-  // };
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  // const closeModal = () => {
-  //   setShowModal(false);
-  // };
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     getMission();
@@ -29,7 +31,7 @@ export default function MissionRegisterList() {
   };
 
   // 미션수정 ===================
-  const handleChange = async () => {
+  const handleChange = async (item) => {
   //   if (e.target.checked) {
   //     setCheckedMissionsId([...checkedMissionsId, mission.id]);
   //     setCheckedMissionsList([...checkedMissionsList, mission]);
@@ -38,13 +40,12 @@ export default function MissionRegisterList() {
   //     setCheckedMissionsList(checkedMissionsList.filter((m) => m === mission));
   //     // checkedMissionsList에서 채크 안된놈들 지우기
   //   }
+    setSelectedMission(item);
+    openModal();
   };
-
-  
 
   // 미션삭제 ===================
   const handleDelete = async (mission_id) => {
-
     const params = {
         mission_id : mission_id,
     };
@@ -87,16 +88,17 @@ export default function MissionRegisterList() {
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                       {item.content}
                     </td>
-                    <td className="flex relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 gap-2 ">
+                    <td className="flex relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-0 gap-2 ">
                       <div>
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
-                          onClick={handleChange}
-
+                          onClick={() => handleChange(item.id)}
                           >
                           수정
                         </button>
                       </div>
+                      {showModal ? <UpdateModal onClose={closeModal} item_id={selectedMission}/>:<></>}
+        
                       <div>
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"

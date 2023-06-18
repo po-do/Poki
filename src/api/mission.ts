@@ -108,8 +108,8 @@ export async function missionReadChild() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionReadChild 호출");
-  const response = await client.get(`/mission/user/`);
+  // console.log("missionReadChild 호출");
+  const response = await client.get(`/mission/user`);
   return response.data;
 }
 

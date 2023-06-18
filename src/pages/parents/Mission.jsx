@@ -1,6 +1,6 @@
 import React from "react";
 import MissionRegister from "../../components/Mission/MissionRegister";
-import RecentMissionList from "../../components/Mission/RecentMissionList";
+import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
 export default function Mission() {
@@ -16,15 +16,15 @@ export default function Mission() {
     </div>
     <div className="grid grid-cols-2 gap-x-4 mt-10">
       <div className="p-6 border rounded-2xl border-4">
-        <RecentMissionList />
+        <MissionRegisterList />
       </div>
-      {/* <div className="p-6 border rounded-2xl border-4">
+      <div className="p-6 border rounded-2xl border-4">
         <MissionTempComplete />
-      </div> */}
+      </div>
     </div>
-    {/* <div className="mt-10 p-6 border rounded-2xl border-4">
+    <div className="mt-10 p-6 border rounded-2xl border-4">
       <MissionComplete />
-    </div> */}
+    </div>
   </div>
   );
 }

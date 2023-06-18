@@ -7,17 +7,9 @@ import {
 } from "../../api/mission.ts";
 import { updateBoard, getBoardByUserId } from "../../api/board.ts";
 
-const people = [
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  // More people...
-]
-
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
   const queryClient = new QueryClient();
-  // const userId = 2;
-  // const tmp_user_id = { user_id: "2" };
   const [grape, setGrape] = useState(null);
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
@@ -126,6 +118,7 @@ export default function MissionTempComplete() {
           <button
             type="button"
             className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            onClick={handleReject}
           >
             반려
           </button>
@@ -135,6 +128,7 @@ export default function MissionTempComplete() {
             <button
               type="button"
               className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={handlePublish}
             >
               포도알 발행
             </button>
@@ -159,11 +153,11 @@ export default function MissionTempComplete() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {missions.map((item) => (
+                  <tr key={item.id}>
                     <td className="flex whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                       <div>
-                        {person.name}
+                        {item.content}
                       </div>
                       <div className="ml-auto">
                         <input
@@ -172,6 +166,7 @@ export default function MissionTempComplete() {
                           name="comments"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                          onChange={(e) => handleCheckboxChange(e, item.id)}
                         />
                       </div>
                       

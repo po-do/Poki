@@ -1,21 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { missionReadChild } from "../../api/mission.ts";
 
-const people = [
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-
-  // More people...
-]
-
 // 자녀가 완료된 미션을 보여주는 컴포넌트
 export default function MissionComplete() {
   // const tmp_user_id = { user_id: "2" };
@@ -50,21 +35,21 @@ export default function MissionComplete() {
               <thead>
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                    완료 날짜
+                  </th>
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
                     완료된 미션
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">수정</span>
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">삭제</span>
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {missions.map((item) => (
+                  <tr key={item.id}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      {person.name}
+                      {item.completed_date}
+                    </td>
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                      {item.content}
                     </td>
                   </tr>
                 ))}
