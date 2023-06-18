@@ -4,14 +4,14 @@ os: linux
 files:
   - source: /
     destination: /
+    overwrite: yes
 permissions:
-  - object: /
+  - object: /home/ubuntu/deploy
     owner: ubuntu
     group: ubuntu
     mode: 755
 hooks:
   AfterInstall:
-    # location은 프로젝트의 root경로를 기준
     - location: deploy.sh
-      timeout: 60
-      runas: root
+      timeout: 600
+      runas: ubuntu
