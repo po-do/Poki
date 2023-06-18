@@ -52,20 +52,14 @@ export default function MissionTempComplete() {
   });
 
   const addGrape = async () => {
-    const prevStatus = grape;
-
     const newStatus = {
-      blank: prevStatus?.blank,
-      attached_grapes: prevStatus?.attached_grapes,
-      total_grapes: prevStatus?.total_grapes,
-      deattached_grapes: prevStatus?.deattached_grapes + 1,
+      blank: grape?.blank,
+      attached_grapes: grape?.attached_grapes,
+      total_grapes: grape?.total_grapes,
+      deattached_grapes: grape?.deattached_grapes + 1,
     };
-    const boardStatus = {
-      request: newStatus,
-    };
-    console.log("이전", boardStatus);
-    await updateBoard(boardStatus);
-    //await attachBoard(boardStatus);
+
+    await updateBoard(newStatus);
   };
 
   const handleCheckboxChange = (e, missionId) => {
