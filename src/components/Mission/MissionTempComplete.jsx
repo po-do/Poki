@@ -5,22 +5,22 @@ import {
   missionUpdate,
   setMissionStatusComplete,
 } from "../../api/mission.ts";
-import { updateBoard, getBoardByUserId } from "../../api/board.ts";
+import { updateBoard, getBoardStatus } from "../../api/board.ts";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
   const queryClient = new QueryClient();
-  const [grape, setGrape] = useState(null);
+  const [grape, setGrape] = useState({});
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
 
   const boardQuery = useQuery(["boardState"], () => {
-    return getBoardByUserId();
+    return getBoardStatus();
   });
 
   useEffect(() => {
     if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape[0];
+      const fetchedGrape = boardQuery?.data?.data?.grape;
       setGrape(fetchedGrape);
     }
   }, [boardQuery.isSuccess, boardQuery.data]);
@@ -53,20 +53,17 @@ export default function MissionTempComplete() {
 
   const addGrape = async () => {
     const prevStatus = grape;
-    console.log(prevStatus, "prev!");
 
     const newStatus = {
       blank: prevStatus?.blank,
       attached_grapes: prevStatus?.attached_grapes,
-      total_grapes: prevStatus?.total_grapes + 1,
+      total_grapes: prevStatus?.total_grapes,
       deattached_grapes: prevStatus?.deattached_grapes + 1,
     };
     const boardStatus = {
-      grapeId: 2,
       request: newStatus,
     };
-    console.log(newStatus, "this is new status");
-
+    console.log("이전", boardStatus);
     await updateBoard(boardStatus);
     //await attachBoard(boardStatus);
   };
@@ -108,22 +105,22 @@ export default function MissionTempComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-        <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
+          <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
           <p className="mt-2 text-sm text-gray-700">
             현재 수행된 미션 목록입니다.
           </p>
         </div>
         <div className="flex mt-4 sm:ml-16 sm:mt-0 sm:flex-none gap-2">
           <div>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            onClick={handleReject}
-          >
-            반려
-          </button>
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              onClick={handleReject}
+            >
+              반려
+            </button>
           </div>
-          
+
           <div>
             <button
               type="button"
@@ -141,7 +138,10 @@ export default function MissionTempComplete() {
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th
+                    scope="col"
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                  >
                     완료된 미션
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -156,9 +156,7 @@ export default function MissionTempComplete() {
                 {missions.map((item) => (
                   <tr key={item.id}>
                     <td className="flex whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      <div>
-                        {item.content}
-                      </div>
+                      <div>{item.content}</div>
                       <div className="ml-auto">
                         <input
                           id="comments"
@@ -169,7 +167,6 @@ export default function MissionTempComplete() {
                           onChange={(e) => handleCheckboxChange(e, item.id)}
                         />
                       </div>
-                      
                     </td>
                   </tr>
                 ))}
