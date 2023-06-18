@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import createWishList from "../../api/wishlist.ts";
 
 export default function LinkRegisterModal({ onClose }) {
   const [productName, setProductName] = useState("");
   const [url, setUrl] = useState("");
   const [open, setOpen] = useState(true)
+
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
   };
-
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">

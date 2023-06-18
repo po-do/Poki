@@ -89,6 +89,7 @@ interface MissionUpdateParams {
 // 미션 삭제 (Delete)
 export async function missionDelete(params: MissionDeleteParams) {
   const accessToken = getAccessToken();
+  console.log("=====",params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }

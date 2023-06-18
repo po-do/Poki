@@ -5,18 +5,28 @@ import MissionRegisterModal  from "../Modal/MissionRegisterModal.jsx";
 export default function MissionRegister() {
   const [missionContent, setMissionContent] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const queryClient = useQueryClient();
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
   const handleInputChange = (e) => {
     setMissionContent(e.target.value);
+  };
+
+  const handleButtonClick = () => {
+    if (missionContent === '') {
+      setModalMessage('fail');
+      setShowModal(true);
+    } else {
+      setModalMessage('success');
+      handleMissionCreate();
+      setShowModal(true);
+    }
+    showModal && <MissionRegisterModal onClose={closeModal} text={modalMessage} />
+  };
+  
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   const mutation = useMutation((params) => missionCreate(params), {
@@ -74,14 +84,10 @@ export default function MissionRegister() {
 
           <button
             className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick= {() => {
-              handleMissionCreate();
-              openModal();
-            }}
+            onClick= {handleButtonClick}
           >
             미션 등록
           </button>
-          {showModal && <MissionRegisterModal onClose={closeModal} />}
         </div>
       </div>
     </>

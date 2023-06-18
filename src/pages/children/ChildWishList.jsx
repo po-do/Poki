@@ -1,80 +1,7 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import LinkRegister from "../../components/Modal/LinkRegisterModal";
-import ChildProductCard from "../../components/UI/ChildProductCard";
-
-const products = [
-  {
-    id: 1,
-    name: 'Basic Tee 8-Pack',
-    href: '#',
-    price: '$256',
-    description: 'Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.',
-    options: '8 colors',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg',
-    imageAlt: 'Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32',
-    description: 'Look like a visionary CEO and wear the same black t-shirt every day.',
-    options: 'Black',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg',
-    imageAlt: 'Front of plain black t-shirt.',
-  },
-  // More products...
-]
+import ProductCard from "../../components/UI/ProductCard";
+import { getWishlistByUserId } from "../../api/wishlist.ts";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -88,6 +15,21 @@ export default function ChildWishList() {
     setShowModal(false);
   };
 
+  useEffect(() => {
+    // Fetch wishlist data when the component mounts
+    fetchWishlistData();
+  }, [wishList]);
+
+  const fetchWishlistData = async () => {
+    try {
+      // Fetch all wishlist data for the user ID
+      const wishlistData = await getWishlistByUserId();
+      setWishlist(wishlistData.data.item);
+    } catch (error) {
+      console.log("Failed to fetch wishlist data:", error);
+    }
+  };
+
   return (
     <div className="bg-white lg:pb-12">
     <div className="px-12 py-7 ">
@@ -96,12 +38,13 @@ export default function ChildWishList() {
       </p>
     </div>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
-        <h2 className="sr-only">Products</h2>
-
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
-          {products.map((item) => {
+          {wishList.map((item) => {
             if (item){
-              <ChildProductCard key={item.id} item={item} />;
+              <ProductCard 
+                key={item.id} 
+                item={item} 
+              />;
             }
           })}
         </div>
@@ -118,10 +61,9 @@ export default function ChildWishList() {
               </button>
               
           </div>
-          <div className="relative">
+            <div className="relative">
               {showModal && <LinkRegister onClose={closeModal} />}
-
-              </div>
+            </div>
         </div>
       </div>
     </div>
