@@ -2,11 +2,11 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon,ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function MissionRegisterModal({text}) {
+export default function MissionRegisterModal({onClose, text}) {
   const [open, setOpen] = useState(true)
 
   const setCloseModal = () => {
-    setOpen(false); // 모달을 닫기 위해 setOpen(false) 호출
+    onClose(); // 모달을 닫기 위해 setOpen(false) 호출
   };
 
   return (
