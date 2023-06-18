@@ -12,9 +12,9 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router-dom";
-import CodeRegisterModal from "../../components/UI/CodeRegisterModal";
 import { createUserCode } from "../../api/auth.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SuccessModal from "../../components/Modal/SuccessModal";
 
 const queryClient = new QueryClient();
 
@@ -56,16 +56,21 @@ function classNames(...classes) {
 
 export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
+  const [issuCodeModal, setIssuCodeModal] = useState(false);
+
+  const openIssuCodeModal = () => {
+    setIssuCodeModal(true);
+  };
+
+  const closeIssuCodeModal = () => {
+    setIssuCodeModal(false);
+  };
 
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
-  };
-
-  const handleRegisterClick = () => {
-    setIsModalOpen(true);
+    openIssuCodeModal();
   };
 
   return (
@@ -298,7 +303,6 @@ export default function ParentFormat() {
                         </button>
                       </div>
                     </div>
-                    {isModalOpen && <CodeRegisterModal />}
                   </li>
                 </ul>
               </nav>
@@ -321,42 +325,54 @@ export default function ParentFormat() {
                 aria-hidden="true"
               />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <div className="relative flex flex-1">
-              </div>
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button type="button" className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500" >
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                </span>
-                </button>
-              
-                {/* Separator */}
-                <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-                        
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative">
-                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                  </Menu.Button>
-                </Menu>
+              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                <div className="relative flex flex-1"></div>
+                <div className="flex items-center gap-x-4 lg:gap-x-6">
+                  <button
+                    type="button"
+                    className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  >
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                    </span>
+                  </button>
+
+                  {/* Separator */}
+                  <div
+                    className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
+                    aria-hidden="true"
+                  />
+
+                  {/* Profile dropdown */}
+                  <Menu as="div" className="relative">
+                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full bg-gray-50"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </Menu>
+                </div>
               </div>
             </div>
+            {/* 메인 */}
+            <main>
+              <Outlet />
+            </main>
           </div>
-{/* 메인 */}
-          <main>
-            <Outlet />
-          </main>
         </div>
-      </div>
-      </ QueryClientProvider>
+        {/* Modal Area */}
+        {issuCodeModal && (
+          <SuccessModal
+            closeModal={closeIssuCodeModal}
+            message="코드발급 완료"
+          />
+        )}
+      </QueryClientProvider>
     </>
   );
 }

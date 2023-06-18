@@ -4,7 +4,7 @@ import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGif
 import RecentMissionList from "../../components/Mission/ChildMissionList";
 import { getBoardStatus, attachBoard } from "../../api/board.ts";
 import Grapes from "../../components/UI/Grapes";
-import GrapeAttachModal from "../../components/Modal/SuccessModal";
+import SuccessModal from "../../components/Modal/SuccessModal";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
@@ -123,7 +123,7 @@ export default function ChildMain() {
       </div>
       {/* Modal Area */}
       {attachModal && (
-        <GrapeAttachModal closeModal={closeAttachModal} message="등록완료" />
+        <SuccessModal closeModal={closeAttachModal} message="등록완료" />
       )}
     </>
   );

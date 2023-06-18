@@ -3,6 +3,7 @@ import MissionRegister from "../../components/Mission/MissionRegister";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
+
 export default function Mission() {
   return (
     <div className="bg-white mx-auto max-w-xl px-4 lg:max-w-7xl lg:px-8 lg:pb-12">
