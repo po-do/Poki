@@ -37,7 +37,7 @@ jobs:
           aws s3 cp --region ${{ secrets.AWS_REGION }} ./podo-clinet-build.zip s3://team-podo-s3-jy604/podo-clinet-build.zip
       - name: Deploy
         run: aws deploy create-deployment
-          --application-name podo-codeDeploy
+          --application-name podo-client-codeDeploy
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name podo-client-codedeploy-group
-          --s3-location bucket=team-podo-s3-jy604,key=podo-client-build.zip,bundleType=zip
+          --s3-location bucket=client-podo-s3-jy604,key=podo-client-build.zip,bundleType=zip
