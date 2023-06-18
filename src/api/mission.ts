@@ -64,6 +64,19 @@ interface setMissionStatusCompleteParams {
   mission_id: number;
 }
 
+// 미션 상태 Incomplete로 바꾸기
+export async function setMissionStatusInComplete(
+  params: setMissionStatusCompleteParams
+) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("setMissionStatusComplete 호출");
+  const response = await client.post(`/mission/reject/${params.mission_id}`);
+  return response.data;
+}
+
 // 미션 수정 (Update)
 export async function missionUpdate(params: MissionUpdateParams) {
   const accessToken = getAccessToken();

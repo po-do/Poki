@@ -4,8 +4,10 @@ import {
   missionReadChild,
   missionUpdate,
   setMissionStatusComplete,
+  setMissionStatusInComplete
 } from "../../api/mission.ts";
 import { updateBoard, getBoardStatus } from "../../api/board.ts";
+
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
@@ -69,19 +71,19 @@ export default function MissionTempComplete() {
       setSelectedMissions(selectedMissions.filter((id) => id !== missionId));
     }
   };
-
+  // 반려
   const handleReject = () => {
+    console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
-      const updatedMission = {
-        ...missions.find((mission) => mission.id === missionId),
-      };
-      complete({
-        mission_id: missionId,
-      });
+      const param = {
+        mission_id : missionId
+      }
+      setMissionStatusInComplete(param);
     });
     setSelectedMissions([]);
   };
 
+  // 포도알 발행
   const handlePublish = () => {
     // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {

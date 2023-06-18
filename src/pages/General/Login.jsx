@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
-    console.log(email, password);
+    // console.log(email, password);
     try {
       const userInfo = await signIn({
         request: {
