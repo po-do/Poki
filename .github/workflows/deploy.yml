@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        run: CI=false npm run build
       - name: zip create
         run: zip -qq -r ./podo-clinet-build.zip .
         shell: bash
