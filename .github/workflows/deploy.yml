@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout source code.
-        uses: actions/checkout@v3   
+        uses: actions/checkout@v3
+        
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,7 +21,6 @@ jobs:
         run: node -v
       - name: Install Dependencies
         run: npm install
-      - name: Set up environment variables
       - name: Build
         run: npm run build
       - name: zip create
