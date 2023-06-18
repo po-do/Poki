@@ -1,8 +1,5 @@
 name : dev to s3 Deploy
 on:
-  push:
-    branches:
-    - dev
   pull_request:
     types:
     - closed
