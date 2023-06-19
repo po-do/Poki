@@ -6,5 +6,9 @@ export class CreateWishlistDto {
 
     @IsNotEmpty()
     ProductLink: string;
+
+    @IsNotEmpty()
+    ProductImage: string;
+
 }
 

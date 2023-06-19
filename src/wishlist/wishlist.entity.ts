@@ -15,6 +15,9 @@ export class Wishlist extends BaseEntity {
     ProductLink: string;
 
     @Column()
+    ProductImage: string;
+
+    @Column()
     Given: GivenStatus;
 
     @Column()
