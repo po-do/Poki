@@ -69,12 +69,13 @@ export class WishlistService {
         
         await this.wishlistRepository.save(wishlist);
        
-        const { id: itemId, Given, Picked, ProductLink, ProductName } = wishlist;
+        const { id: itemId, Given, Picked, ProductLink, ProductName, ProductImage } = wishlist;
         
         const item : wishProudctDto = {
               id: itemId,
               ProductName,
               ProductLink,
+              ProductImage,
               Given,
               Picked
             };
@@ -85,18 +86,19 @@ export class WishlistService {
     async updateWishlistGivenStatus(id: number, givenStatus: GivenStatus): Promise<wishProudctDto> {
         const wishlist = await this.getWishlistById(id);
         console.log(givenStatus);
-        console.log(id);
+       
         wishlist.Given = givenStatus;
         
         await this.wishlistRepository.save(wishlist);
         console.log(wishlist);
 
-        const { id: itemId, Given, Picked, ProductLink, ProductName } = wishlist;
+        const { id: itemId, Given, Picked, ProductLink, ProductName, ProductImage } = wishlist;
         
         const item : wishProudctDto = {
               id: itemId,
               ProductName,
               ProductLink,
+              ProductImage,
               Given,
               Picked
             };
@@ -120,12 +122,13 @@ export class WishlistService {
         await this.wishlistRepository.save(wishlist);
        
         
-        const { id: itemId, Given, Picked, ProductLink, ProductName } = wishlist;
+        const { id: itemId, Given, Picked, ProductLink, ProductName, ProductImage } = wishlist;
         
         const item : wishProudctDto = {
               id: itemId,
               ProductName,
               ProductLink,
+              ProductImage,
               Given,
               Picked
             };

@@ -25,7 +25,7 @@ export class BoardController {
         @GetUserId() id: number,
         @GetUserCode() code: string,
     ): Promise <responseBoardDto> {
-        console.log(type);
+       
         if (type !== 'PARENT') {
             throw new ForbiddenException('only parent can create board');
         }
@@ -142,6 +142,7 @@ export class BoardController {
         if (type !== 'CHILD') {
             throw new ForbiddenException('only child can attach board');
         }
+
 
         const id = await this.AuthService.getConnectedUser(user);
         

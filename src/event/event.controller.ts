@@ -51,8 +51,7 @@ export class EventController {
     ): Promise<{ code: number; success: boolean, Data:any }> {
 
         const room = await this.eventService.getRoom(user);
-        console.log(room.name);
-        console.log(room_name);
+  
 
         if (room.name !== room_name) {
             return {

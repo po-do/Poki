@@ -11,11 +11,12 @@ export class WishlistRepository extends Repository<Wishlist> {
     }
 
     async createWishlist(createWishlistDto, type: string, code: string, id: number): Promise<wishProudctDto> {
-      const { ProductName, ProductLink } = createWishlistDto;
+      const { ProductName, ProductLink, ProductImage } = createWishlistDto;
     
       const wishlist = this.create({
         ProductName,
         ProductLink,
+        ProductImage,
         Given: GivenStatus.FALSE,
         Picked: PickedStatus.FALSE,
         user: { id, code, type }
@@ -29,6 +30,7 @@ export class WishlistRepository extends Repository<Wishlist> {
             id: itemId,
             ProductName,
             ProductLink,
+            ProductImage,
             Given,
             Picked
           };

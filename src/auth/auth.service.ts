@@ -127,6 +127,7 @@ export class AuthService {
         const { code, type } = user;
         const userType: UserType = type as UserType;
         const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+        
 
 
         return connectedUser.id;
@@ -151,6 +152,7 @@ export class AuthService {
             const { code, type } = user;
             const userType: UserType = type as UserType;
             const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+          
     
     
             return connectedUser.user_id;
