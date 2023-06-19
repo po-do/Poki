@@ -3,6 +3,7 @@ import { signIn } from "../../api/auth.ts";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";
+import ImageSearchResult from "./ImageSearchResult";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -113,6 +114,7 @@ export default function Login() {
               회원가입
             </a>
           </p>
+          <ImageSearchResult />
         </div>
       </div>
     </>

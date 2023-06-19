@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import createWishList from "../../api/wishlist.ts";
+import ImageSearchResult from "../../pages/General/ImageSearchResult";
 
 export default function LinkRegisterModal({ onClose }) {
-  const [productName, setProductName] = useState("");
-  const [url, setUrl] = useState("");
+  const [bookSearchKeyword, setbookSearchKeyword] = useState("");
   const [open, setOpen] = useState(true)
 
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
+  const handleBookSearch = (e) => {
+    setbookSearchKeyword(e.target.value);
   };
 
   return (
@@ -23,21 +22,22 @@ export default function LinkRegisterModal({ onClose }) {
             type="text"
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="선물을 검색하세요."
-            value={url}
-            onChange={handleUrlChange}
+            value={bookSearchKeyword}
+            onChange={handleBookSearch}
           />
+          <button
+            className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={<ImageSearchResult query={bookSearchKeyword} />}
+          > 
+            검색
+          </button>
+
           <button
             type="submit"
             className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            > 
-            등록
-            </button>
-            <button
-            type="submit"
-            className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={onClose}
-            > 닫기
-            </button>
+          > 닫기
+          </button>
             </div>
         </div>
               {/* 네이버 api로 찾은 상품 목록 출력 */}

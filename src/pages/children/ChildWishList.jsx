@@ -4,6 +4,7 @@ import ProductCard from "../../components/UI/ProductCard";
 import { getWishlistByUserId } from "../../api/wishlist.ts";
 
 export default function ChildWishList() {
+
   const [showModal, setShowModal] = useState(false);
   const [wishList, setWishlist] = useState([]);
 
@@ -63,8 +64,8 @@ export default function ChildWishList() {
             <div className="relative">
               {showModal && <LinkRegister onClose={closeModal} />}
             </div>
-            
         </div>
+        
       </div>
     </div>
   )
