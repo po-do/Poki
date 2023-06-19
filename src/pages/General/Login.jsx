@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signIn } from "../../api/auth.ts";
+import { signIn } from "../../api/auth.js";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";

@@ -1,5 +1,5 @@
-import client from "./client.ts";
-import { getAccessToken } from "./auth.ts";
+import client from "./client.js";
+import { getAccessToken } from "./auth.js";
 
 // 포도 생성 (create) => 포도판 생성
 export async function createBoard() {
@@ -46,7 +46,7 @@ export async function getBoardByUserId() {
 }
 
 // 포도알 상태를 전부 업데이트 하는 함수
-export async function updateBoard(params: UpdateBoardParams) {
+export async function updateBoard(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -57,12 +57,6 @@ export async function updateBoard(params: UpdateBoardParams) {
   return response.data;
 }
 
-interface UpdateBoardParams {
-  blank: number;
-  total_grapes: number;
-  attached_grapes: number;
-  deattached_grapes: number;
-}
 
 // 포도알을 하나 붙이는 함수
 export async function attachBoard() {

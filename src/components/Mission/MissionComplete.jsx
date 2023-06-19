@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { missionReadChild } from "../../api/mission.ts";
+import { missionReadChild } from "../../api/mission.js";
 
 // 자녀가 완료된 미션을 보여주는 컴포넌트
 export default function MissionComplete() {

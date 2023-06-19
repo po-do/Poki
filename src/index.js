@@ -2,12 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import ChatRoom from "./pages/chatroom/chatroom";
+import WaitingRoom from "./pages/waition-room/waition-room";
 
 //General
 import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
-import client from "./api/client.ts";
+import client from "./api/client.js";
 import Chatting from "./pages/General/Chatting";
 import Video from "./pages/General/Video";
 
@@ -41,6 +43,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
+    path: "/chat/:roomName",
+    element: <ChatRoom />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/format/parent",
     element: <ParentFormat />,
     errorElement: <NotFound />,
@@ -49,7 +56,7 @@ const router = createBrowserRouter([
       { path: "/format/parent/mission", element: <Mission /> },
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
       { path: "/format/parent/video", element: <Video /> },
-      { path: "/format/parent/message", element: <Chatting /> },
+      { path: "/format/parent/message", element: <WaitingRoom /> },
     ],
   },
   {

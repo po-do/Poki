@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PodoRegisterModal from "../../components/Modal/PodoRegisterModal";
 import ProductCard from "../../components/UI/ProductCard";
-import { getWishlistByUserId } from "../../api/wishlist.ts";
+import { getWishlistByUserId } from "../../api/wishlist.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);

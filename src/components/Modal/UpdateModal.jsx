@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { missionUpdate } from "../../api/mission.ts";
+import { missionUpdate } from "../../api/mission.js";
 
 export default function UpdateModal({ onClose, item_id }) {
   const [updateMission, setUpdateMission] = useState("");

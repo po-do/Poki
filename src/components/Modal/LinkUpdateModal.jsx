@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateWishList } from "../../api/wishlist.ts";
+import { updateWishList } from "../../api/wishlist.js";
 
 export default function LinkUpdateModal({ onClose, item}) {
   console.log(item.id);

@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
-import { missionReadChild, setMissionStatusWait } from "../../api/mission.ts";
+import { missionReadChild, setMissionStatusWait } from "../../api/mission.js";
 import GrapeAttachModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
