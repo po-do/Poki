@@ -11,11 +11,12 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router-dom";
-import CodeRegisterModal from "../../components/UI/CodeRegisterModal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode } from "../../api/auth.ts";
 import { userState } from "../../recoil/user";
 import { useRecoilValue } from "recoil";
+import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 
 const queryClient = new QueryClient();
 
@@ -40,10 +41,6 @@ const navigation = [
     current: false,
   },
 ];
-const teams = [
-  { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
-  { id: 2, name: "아이2", href: "#", initial: "C2", current: false },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -51,32 +48,68 @@ function classNames(...classes) {
 
 export default function ChildFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputData, setInputData] = useState("");
   const [inputReadOnly, setInputReadOnly] = useState(false);
+  const [registCodeModal, setRegistCodeModal] = useState(false);
+  const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
 
+  const openRegistCodeModal = () => {
+    setRegistCodeModal(true);
+  };
+
+  const closeRegistCodeModal = () => {
+    setRegistCodeModal(false);
+  };
+
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
+
+  const openCodeFailModal = () => {
+    setRegistCodeFailModal(true);
+  };
+
+  const closeCodeFailModal = () => {
+    setRegistCodeFailModal(false);
+  };
+
+  // recoil
   const user = useRecoilValue(userState);
 
   const handleInputChange = (e) => {
     setInputData(e.target.value);
   };
 
-  const handleRegistCode = () => {
-    const params = {
-      request: {
-        child_id: user.user_id,
-        connection_code: inputData,
-      },
-    };
-    const flag = connectUserCode(params);
-    flag.then((data) => {
-      setInputReadOnly(data.connected);
-    });
+  const handleRegistCode = async () => {
+    if (inputData !== "") {
+      const params = {
+        request: {
+          child_id: user.user_id,
+          connection_code: inputData,
+        },
+      };
+      const flag = await connectUserCode(params);
+      console.log(flag.connected);
+      if (flag.connected === true) {
+        console.log("성공");
+        setInputReadOnly(flag.connected);
+        openRegistCodeModal();
+      } else {
+        console.log("입력 코드가 틀렸다는 모달 나와야함");
+        // 입력 코드가 틀렸다는 모달 나와야함
+        openCodeFailModal();
+      }
+    } else {
+      console.log("입력값이 없다는 모달 나와야함");
+      // 입력값이 없다는 모달 나와야함
+      openFailModal();
+    }
   };
-
-  // const handleRegisterClick = () => {
-  //   setIsModalOpen(true);
-  // };
 
   return (
     <>
@@ -319,6 +352,19 @@ export default function ChildFormat() {
             </main>
           </div>
         </div>
+        {/* Modal Area */}
+        {registCodeModal && (
+          <SuccessModal closeModal={closeRegistCodeModal} message="등록완료" />
+        )}
+        {failModal && (
+          <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
+        )}
+        {registCodeFailModal && (
+          <FailModal
+            closeModal={closeCodeFailModal}
+            message="코드가 틀렸습니다."
+          />
+        )}
       </QueryClientProvider>
     </>
   );

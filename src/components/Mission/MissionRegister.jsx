@@ -1,36 +1,45 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { missionCreate } from "../../api/mission.ts";
-import MissionRegisterModal  from "../Modal/MissionRegisterModal.jsx";
+import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
+
 export default function MissionRegister() {
   const [missionContent, setMissionContent] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
   const queryClient = useQueryClient();
+  const [missionRegistModal, setMissionRegistModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+
+  const openMissionRegistModal = () => {
+    setMissionRegistModal(true);
+  };
+
+  const closeMissionRegistModal = () => {
+    setMissionRegistModal(false);
+  };
+
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
 
   const handleInputChange = (e) => {
     setMissionContent(e.target.value);
   };
 
   const handleButtonClick = () => {
-    if (missionContent === '') {
-      setModalMessage('fail');
-      setShowModal(true);
+    if (missionContent === "") {
+      openFailModal();
     } else {
-      setModalMessage('success');
+      openMissionRegistModal();
       handleMissionCreate();
-      setShowModal(true);
     }
-    showModal && <MissionRegisterModal onClose={closeModal} text={modalMessage} />
-  };
-  
-
-  const closeModal = () => {
-    setShowModal(false);
   };
 
   const mutation = useMutation((params) => missionCreate(params), {
-
     onSuccess: (data) => {
       console.log("서버 응답:", data);
     },
@@ -47,21 +56,21 @@ export default function MissionRegister() {
     try {
       var date = new Date();
       const createdDate =
-      date.getFullYear().toString() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString();
-      
+        date.getFullYear().toString() +
+        "-" +
+        (date.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        date.getDate().toString();
+
       const params = {
         request: {
-          "content": missionContent,
-          "created_date": createdDate,
-          "completed_date": createdDate,
+          content: missionContent,
+          created_date: createdDate,
+          completed_date: createdDate,
         },
       };
 
-    mutation.mutate(params);
+      mutation.mutate(params);
     } catch (error) {
       console.log("등록 실패:", error);
     }
@@ -84,12 +93,23 @@ export default function MissionRegister() {
 
           <button
             className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick= {handleButtonClick}
+            onClick={handleButtonClick}
           >
             미션 등록
           </button>
         </div>
       </div>
+      {/* Modal Area */}
+      {missionRegistModal && (
+        <SuccessModal
+          closeModal={closeMissionRegistModal}
+          message="미션등록 완료"
+        />
+      )}
+
+      {failModal && (
+        <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
+      )}
     </>
   );
 }
