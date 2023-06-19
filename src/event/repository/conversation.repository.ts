@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators";
 import { Repository, DataSource } from "typeorm";
 import { Conversation } from "../entity/conversation.entity";
+import { User } from "src/auth/user.entity";
 
 
 @Injectable()
@@ -9,12 +10,13 @@ export class ConversationRepository extends Repository<Conversation> {
         super(Conversation, dataSource.createEntityManager());
     }
 
-    async createRoom(user, createConversationDto): Promise<{ code: number; success: boolean, Data:any }> {
+    async createRoom(now_user: User, child_id:string, parent_id:string, roomName:string): Promise<{ code: number; success: boolean, Data:any }> {
        
         const Room = this.create({
-            child_id: user.user_id,
-            parent_id: createConversationDto.parent_id,
-            coad: user.coad,
+            name: roomName,
+            child_id,
+            parent_id,
+            coad: now_user.code,
         });
 
         await this.save(Room);

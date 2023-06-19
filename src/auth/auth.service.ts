@@ -25,6 +25,17 @@ export class AuthService {
         return this.userRepository.createUser(authCredentialsDto);
     }
 
+    //id(number) 값 입력 받으면 user를 return하는 함수
+    async getUserById(id: number): Promise<User> {
+        const user = await this.userRepository.findOneBy({id});
+    
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+    
+        return user;
+    }
+
     async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string, type:string, id:number}> {
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
@@ -119,6 +130,8 @@ export class AuthService {
 
 
         return connectedUser.id;
+
+    
         
         // if (connectedUser) {
         //     //return connectedUser;
@@ -133,6 +146,15 @@ export class AuthService {
         //       throw new NotFoundException('Connected user not found');
         //     }
           }
+
+          async getConnectedUser_id(user: User): Promise<any> {
+            const { code, type } = user;
+            const userType: UserType = type as UserType;
+            const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+    
+    
+            return connectedUser.user_id;
+        }
 
 
     getRandomCode(): string {

@@ -17,8 +17,8 @@ export class EventService {
         private conversationRepository: ConversationRepository,
     ) { }
 
-    async createRoom(user:User, createConversationDto: CreateConversationDto): Promise<{ code: number; success: boolean, Data:any }> {
-        return this.conversationRepository.createRoom(user, createConversationDto);
+    async createRoom(now_user: User, child_id:string, parent_id:string, roomName:string): Promise<{ code: number; success: boolean, Data:any }> {
+        return this.conversationRepository.createRoom(now_user, child_id, parent_id, roomName);
 
     }
 
@@ -36,15 +36,15 @@ export class EventService {
 
     }
 
-    async createMessage(socket_id:string, message:string, converstation_id:string): Promise<{ code: number; success: boolean, Data:any }> {
-        return this.messageRepository.createMessage(socket_id, message, converstation_id);
+    async createMessage(user_id:string, message:string, room_name:string, id:number): Promise<{ code: number; success: boolean, Data:any }> {
+        return this.messageRepository.createMessage(user_id, message, room_name, id);
     }
 
-    async getMessage(user: User, room_id: string): Promise<Message[]> {
+    async getMessage(room_name: string): Promise<Message[]> {
         const messages = await this.messageRepository
           .createQueryBuilder('message')
-          .where('message.conversation_id = :room_id', { room_id })
-          .orderBy('message.timestamp', 'ASC')
+          .where('message.conversation_id = :room_name', { room_name })
+          .orderBy('message.createdAt', 'ASC')
           .getMany();
       
         return messages ;

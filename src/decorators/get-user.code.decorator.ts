@@ -5,3 +5,4 @@ export const GetUserCode = createParamDecorator((data, ctx: ExecutionContext): s
   const req = ctx.switchToHttp().getRequest();
   return req.user.code;
 });
+
