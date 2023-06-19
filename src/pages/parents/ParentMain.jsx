@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import { getBoardStatus } from "../../api/board.ts";
+import { getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 
 export default function ChildMain() {

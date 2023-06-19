@@ -1,5 +1,4 @@
 import React from "react";
-// import { getWishlistByUserId } from "../../api/wishlist.ts";
 
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
 export default function MissionRegisteredGift() {

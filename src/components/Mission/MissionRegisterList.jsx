@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { missionReadChild, missionDelete } from "../../api/mission.ts";
+import { missionReadChild, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
 import UpdateModal from "../Modal/UpdateModal.jsx";
 

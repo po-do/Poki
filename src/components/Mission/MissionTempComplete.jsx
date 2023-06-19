@@ -5,8 +5,8 @@ import {
   missionUpdate,
   setMissionStatusComplete,
   setMissionStatusInComplete,
-} from "../../api/mission.ts";
-import { updateBoard, getBoardStatus } from "../../api/board.ts";
+} from "../../api/mission.js";
+import { updateBoard, getBoardStatus } from "../../api/board.js";
 import GrapeIssuModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 

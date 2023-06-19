@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import createWishList from "../../api/wishlist.ts";
 
 export default function LinkRegisterModal({ onClose }) {
   const [productName, setProductName] = useState("");

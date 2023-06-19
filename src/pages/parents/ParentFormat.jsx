@@ -12,7 +12,7 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router-dom";
-import { createUserCode } from "../../api/auth.ts";
+import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SuccessModal from "../../components/Modal/SuccessModal";
 
