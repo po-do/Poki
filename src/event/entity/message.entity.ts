@@ -14,7 +14,10 @@ export class Message extends BaseEntity {
     sender_id: string;
 
     @Column()
-    text: string;
+    message: string;
+
+    @Column()
+    check_id: number;
 
     @CreateDateColumn({ type: "timestamp" })
     createdAt: Date;

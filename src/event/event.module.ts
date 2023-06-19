@@ -6,6 +6,10 @@ import { ConversationRepository } from './repository/conversation.repository';
 import { MessageRepository } from './repository/message.repository';
 import { EventController } from './event.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { UserRepository } from 'src/auth/user.repository';
 
 
 @Module({
@@ -13,6 +17,7 @@ import { AuthModule } from 'src/auth/auth.module';
         TypeOrmModule.forFeature([
             ConversationRepository,
             MessageRepository,
+            UserRepository,
         ]),
         AuthModule,
     ],
@@ -20,7 +25,11 @@ import { AuthModule } from 'src/auth/auth.module';
         EventGateway, 
         EventService,
         ConversationRepository,
-        MessageRepository,],
+        MessageRepository,
+        UserRepository,
+        JwtService,
+        AuthService,
+        JwtStrategy,],
     controllers: [EventController],
 
 })

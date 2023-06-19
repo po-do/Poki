@@ -9,13 +9,14 @@ export class MessageRepository extends Repository<Message> {
         super(Message, dataSource.createEntityManager());
     }
 
-    async createMessage(socket_id, message, conversation_id): Promise<{ code: number; success: boolean, Data:any }> {
-        console.log(conversation_id);
+    async createMessage(user_id, message, room_name, id): Promise<{ code: number; success: boolean, Data:any }> {
+       
                
         const Message = this.create({
-            conversation_id: conversation_id,
-            sender_id: socket_id,
-            text: message,
+            conversation_id: room_name,
+            sender_id: user_id,
+            message,
+            check_id: id,
         });
 
         await this.save(Message);

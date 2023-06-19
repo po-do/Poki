@@ -144,6 +144,7 @@ export class BoardController {
         }
 
         const id = await this.AuthService.getConnectedUser(user);
+        
         const grape = await this.boardService.getBoardByUserId(id);
         
 

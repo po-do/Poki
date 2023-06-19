@@ -1,11 +1,10 @@
 
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { Namespace, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { EventService } from './event.service';
-import { GetUser } from 'src/decorators/get-user.decorator';
+import { User } from 'src/auth/user.entity';
+import { AuthService } from 'src/auth/auth.service';
 
 
 
@@ -13,6 +12,7 @@ import { GetUser } from 'src/decorators/get-user.decorator';
 interface MessagePayload {
     roomName: string;
     message: string;
+    user:User;
 }
 
 let createRooms: string[] = []; 
@@ -25,45 +25,27 @@ let createRooms: string[] = [];
     },
   })
 
-// @UseGuards(AuthGuard())
+
 export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
-    constructor (private EventService: EventService) {}
+    constructor (
+        private EventService: EventService,
+        private AuthService: AuthService,
+        ) {}
 
     private logger = new Logger('Gateway');
 
     @WebSocketServer() public nsp: Namespace;
 
     afterInit() {
-        this.nsp.adapter.on('create-room', (room) => {
-            this.logger.log(`"Room:${room}"이 생성되었습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('join-room', (room, id) => {
-            this.logger.log(`"Socket:${id}"이 "Room:${room}"에 참여하였습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('leave-room', (room, id) => {
-            this.logger.log(`"Socket:${id}"이 "Room:${room}"에서 나갔습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('delete-room', (roomName) => {
-            this.logger.log(`"Room:${roomName}"이 삭제되었습니다.`);
-          });
-      
-      
-          this.logger.log('웹소켓 서버 초기화 ✅');
     }
 
     handleConnection(@ConnectedSocket() socket: Socket) {
         this.logger.log(`Socket ${socket.id} connected`);
 
-        socket.broadcast.emit('message', {
-            message: `Socket ${socket.id} comming!`,
-            });
-    
+        // socket.broadcast.emit('message', {
+        //     // message: `Socket ${socket.id} comming!`,
+        //     });
+
     }
     
 
@@ -71,22 +53,20 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         this.logger.log(`Socket ${socket.id} disconnected`);
     }
 
+   
     @SubscribeMessage('message')
-    handleMessage(
+    async handleMessage(
         @ConnectedSocket() socket: Socket,
-        @MessageBody() {roomName, message}: MessagePayload,
+        @MessageBody() {roomName, message, user}: MessagePayload,
     ) {
         
         //save message in databa
-        this.EventService.createMessage(socket.id, message, roomName);
-        
+        this.EventService.createMessage(user.user_id, message, roomName, user.id);
 
-        console.log(socket.id);
-        console.log(message);
-        console.log(roomName);
+        const now_user =  await this.AuthService.getUserById(user.id);
 
-        socket.to(roomName).emit('message', { username: socket.id, message});
-        return { username: socket.id, message};
+        socket.to(roomName).emit('message', { sender_id: user.user_id, message});
+        return { sender_id: user.user_id, message, check_id: user.id};
     }
 
     @SubscribeMessage('room-list')
@@ -94,20 +74,46 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         return createRooms;
     }
 
-    @SubscribeMessage('create-room')
-    handleCreateRoom(
+    @SubscribeMessage('delete-room')
+    handleDeleteRoom(
         @ConnectedSocket() socket: Socket,
         @MessageBody() roomName: string,
-        @GetUser() user: any,
     ) {
+        socket.leave(roomName);
+        createRooms = createRooms.filter((createRoom) => createRoom !== roomName);
+        this.nsp.emit('delete-room', roomName);
+        this.nsp.emit('room-list', createRooms); // 방 목록 갱신
+    
+        return { success: true };
+    }
+
+    @SubscribeMessage('create-room')
+    async handleCreateRoom(
+        @ConnectedSocket() socket: Socket,
+        @MessageBody() {roomName, user}: MessagePayload,
+    ) {
+        
         const exists = createRooms.find((createRoom) => createRoom === roomName);
         if (exists) {
             return { success: false,  payload: `Room ${roomName} already exists`};
         }
 
-        //save room in database
-        // this.EventService.createRoom(user, roomName);
+        const now_user =  await this.AuthService.getUserById(user.id);
+        
+        const parent_id = user.user_id;
+        const child_id = await this.AuthService.getConnectedUser_id(user);
+        
+        if (now_user.type === 'CHILD'){
+            const child_id = user.user_id;
 
+            const parent_id = await this.AuthService.getConnectedUser_id(user);
+
+            this.EventService.createRoom(now_user, child_id, parent_id, roomName);
+        } else {
+
+            this.EventService.createRoom(now_user, child_id, parent_id, roomName);
+        }
+        //save room in database
         socket.join(roomName);
         createRooms.push(roomName);
         this.nsp.emit('create-room', roomName);
