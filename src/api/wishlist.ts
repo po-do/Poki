@@ -39,6 +39,7 @@ interface CreateWishListParams {
   request: {
     ProductName: string;
     ProductLink: string;
+    ProductImage: string;
   };
 }
 

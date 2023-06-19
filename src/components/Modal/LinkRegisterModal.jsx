@@ -1,17 +1,30 @@
 import React, { useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import ImageSearchResult from "../../pages/General/ImageSearchResult";
 
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
   const [open, setOpen] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+
+  const handleSetResult = (item) => {
+    setSearchResult(item);
+  };
 
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
   };
 
   const handleClick = () => {
-    setOpen(true);
+    setOpen((prevState) => !prevState);
+  };
+
+  const handleItemClick = (index) => {
+    if (selectedItemIndex === index) {
+      return; // Clicked item is already selected, no action needed
+    }
+    setSelectedItemIndex(index);
+    
   };
 
   return (
@@ -41,38 +54,42 @@ export default function LinkRegisterModal({ onClose }) {
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={onClose}
             >
-              {" "}
               닫기
             </button>
-            {open && <ImageSearchResult query={bookSearchKeyword} />}
+            {open && (
+              <ImageSearchResult query={bookSearchKeyword} handleSetResult={handleSetResult} />
+            )}
           </div>
         </div>
-        {/* 네이버 api로 찾은 상품 목록 출력 */}
-        <div className="flex p-4 border rounded mt-2">
-          <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
-            <button
-              type="button"
-              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={() => setOpen(false)}
+        <div className="overflow-y-auto max-h-96">
+          {/* 네이버 api로 찾은 상품 목록 출력 */}
+          {searchResult.map((item, index) => (
+            <div
+              key={item.productId}
+              className={`flex p-4 border rounded mt-2 ${
+                selectedItemIndex === index ? "bg-gray-200" : ""
+              }`}
+              onClick={() => handleItemClick(index)}
             >
-              <span className="sr-only">Close</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mr-4 flex-shrink-0">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
-              alt="Poki"
-              className="h-16 w-16 border border-gray-300 bg-white text-gray-300"
-            />
-          </div>
-          <div>
-            <h4 className="text-lg font-bold">Lorem ipsum</h4>
-            <p className="mt-1">
-              Repudiandae sint consequuntur vel. Amet ut nobis explicabo numquam
-              expedita quia omnis voluptatem. Minus quidem ipsam quia iusto.
-            </p>
-          </div>
+              <div className="mr-4 flex-shrink-0">
+                <a href={item.link}>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={`h-16 w-16 border ${
+                      selectedItemIndex === index ? "border-gray-500" : "border-gray-300"
+                    } bg-white text-gray-300`}
+                  />
+                </a>
+              </div>
+              <div>
+                <h4 className={`text-lg font-bold ${selectedItemIndex === index ? "text-gray-500" : ""}`}>
+                  {item.title}
+                </h4>
+                <p className={`mt-1 ${selectedItemIndex === index ? "text-gray-500" : ""}`}>{item.title}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

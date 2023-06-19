@@ -1,8 +1,7 @@
-import React from "react";
-import axios from "axios";
 import { useEffect } from "react";
+import axios from "axios";
 
-export default function ImageSearchResult({ query }) {
+export default function ImageSearchResult({ query,handleSetResult }) {
   const ID_KEY = process.env.REACT_APP_ClientID;
   const SECRET_KEY = process.env.REACT_APP_ClientSecret;
 
@@ -17,19 +16,20 @@ export default function ImageSearchResult({ query }) {
         headers: {
           "X-Naver-Client-Id": ID_KEY,
           "X-Naver-Client-Secret": SECRET_KEY,
-          // "Access-Control-Allow-Origin": "*",
         },
       })
-      .then((response) => console.log("성공", response))
+      .then((response) => {
+        handleSetResult(response.data.items);
+        console.log("성공");
+    })
       .catch((e) => {
         console.log("실패");
       });
+ 
   };
 
   useEffect(() => {
-    const data = shoppingData();
-    console.log("아롬너ㅏ어ㅏ롬나아뢈ㄴ", data);
+    shoppingData();
   }, []);
 
-  return <></>;
 }
