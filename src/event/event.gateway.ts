@@ -1,140 +1,137 @@
-
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { Namespace, Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { EventService } from './event.service';
-import { GetUser } from 'src/decorators/get-user.decorator';
-
-
+import { User } from 'src/auth/user.entity';
+import { AuthService } from 'src/auth/auth.service';
 
 
 interface MessagePayload {
-    roomName: string;
-    message: string;
+  roomName: string;
+  message: string;
+  user: User;
 }
 
-let createRooms: string[] = []; 
-
+let createRooms: string[] = [];
 
 @WebSocketGateway({
-    namespace: 'chat',
-    cors: {
-      origin: ['http://localhost:3000'],
-    },
-  })
+  cors: {
+    origin: ['http://localhost:3000'],
+  },
+})
+export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  constructor(
+    private eventService: EventService,
+    private authService: AuthService,
+  ) {}
 
-// @UseGuards(AuthGuard())
-export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
-    constructor (private EventService: EventService) {}
+  private logger = new Logger('Gateway');
 
-    private logger = new Logger('Gateway');
+  @WebSocketServer()
+  public server: Server;
 
-    @WebSocketServer() public nsp: Namespace;
+  afterInit() {}
 
-    afterInit() {
-        this.nsp.adapter.on('create-room', (room) => {
-            this.logger.log(`"Room:${room}"이 생성되었습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('join-room', (room, id) => {
-            this.logger.log(`"Socket:${id}"이 "Room:${room}"에 참여하였습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('leave-room', (room, id) => {
-            this.logger.log(`"Socket:${id}"이 "Room:${room}"에서 나갔습니다.`);
-          });
-      
-      
-          this.nsp.adapter.on('delete-room', (roomName) => {
-            this.logger.log(`"Room:${roomName}"이 삭제되었습니다.`);
-          });
-      
-      
-          this.logger.log('웹소켓 서버 초기화 ✅');
+  handleConnection(@ConnectedSocket() socket: Socket) {
+    this.logger.log(`Socket ${socket.id} connected`);
+  }
+
+  handleDisconnect(@ConnectedSocket() socket: Socket) {
+    this.logger.log(`Socket ${socket.id} disconnected`);
+  }
+
+  @SubscribeMessage('message')
+  async handleMessage(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() { roomName, message, user }: MessagePayload,
+  ) {
+    // Save message in database
+    this.eventService.createMessage(user.user_id, message, roomName, user.id);
+
+    socket.to(roomName).emit('message', { sender_id: user.user_id, message });
+    return { sender_id: user.user_id, message, check_id: user.id };
+  }
+
+  @SubscribeMessage('room-list')
+  handleRoomList() {
+    return createRooms;
+  }
+
+  @SubscribeMessage('delete-room')
+  handleDeleteRoom(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() roomName: string,
+  ) {
+    socket.leave(roomName);
+    createRooms = createRooms.filter((createRoom) => createRoom !== roomName);
+    this.server.emit('delete-room', roomName);
+    this.server.emit('room-list', createRooms); // 방 목록 갱신
+
+    return { success: true };
+  }
+
+  @SubscribeMessage('create-room')
+  async handleCreateRoom(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() { roomName, user }: MessagePayload,
+  ) {
+    const exists = createRooms.find((createRoom) => createRoom === roomName);
+    if (exists) {
+      return { success: false, payload: `Room ${roomName} already exists` };
     }
 
-    handleConnection(@ConnectedSocket() socket: Socket) {
-        this.logger.log(`Socket ${socket.id} connected`);
+    const now_user = await this.authService.getUserById(user.id);
 
-        socket.broadcast.emit('message', {
-            message: `Socket ${socket.id} comming!`,
-            });
-    
-    }
-    
-
-    handleDisconnect(@ConnectedSocket() socket: Socket) {
-        this.logger.log(`Socket ${socket.id} disconnected`);
-    }
-
-    @SubscribeMessage('message')
-    handleMessage(
-        @ConnectedSocket() socket: Socket,
-        @MessageBody() {roomName, message}: MessagePayload,
-    ) {
-        
-        //save message in databa
-        this.EventService.createMessage(socket.id, message, roomName);
-        
-
-        console.log(socket.id);
-        console.log(message);
-        console.log(roomName);
-
-        socket.to(roomName).emit('message', { username: socket.id, message});
-        return { username: socket.id, message};
-    }
-
-    @SubscribeMessage('room-list')
-    handleRoomList() {
-        return createRooms;
-    }
-
-    @SubscribeMessage('create-room')
-    handleCreateRoom(
-        @ConnectedSocket() socket: Socket,
-        @MessageBody() roomName: string,
-        @GetUser() user: any,
-    ) {
-        const exists = createRooms.find((createRoom) => createRoom === roomName);
-        if (exists) {
-            return { success: false,  payload: `Room ${roomName} already exists`};
-        }
-
-        //save room in database
-        // this.EventService.createRoom(user, roomName);
-
-        socket.join(roomName);
-        createRooms.push(roomName);
-        this.nsp.emit('create-room', roomName);
-
-        return { success: true, payload: roomName};
+    //now_user의 코드 길이가 4글자 이하이면 오류 발생
+    if (now_user.code.length <= 4) {
+      return { success: false, payload: `Parent-child connection is required` };
 
     }
 
-    @SubscribeMessage('join-room')
-    handleJoinRoom(
-        @ConnectedSocket() socket: Socket,
-        @MessageBody() roomName: string,
-    ) {
-        socket.join(roomName);
-        // socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} comming!`});
+    const checkRoom = await this.eventService.checkRoom(now_user);
 
-        return { success: true };
+    if (checkRoom) {
+      const room = await this.eventService.getRoom(now_user);
+      console.log(room.name);
+      return { success: fail, payload: room.name };
     }
-    
-    @SubscribeMessage('leave-room')
-    handleLeaveRoom(
-        @ConnectedSocket() socket: Socket,
-        @MessageBody() roomName: string,
-    ) {
-        socket.leave(roomName);
-        // socket.broadcast.to(roomName).emit('message', { message: `Socket ${socket.id} leaving!`});
 
-        return { success: true };
+    const parent_id = user.user_id;
+    const child_id = await this.authService.getConnectedUser(now_user);
+
+    if (now_user.type === 'CHILD') {
+      const child_id = user.user_id;
+
+      const parent_id = await this.authService.getConnectedUser_id(now_user);
+
+      this.eventService.createRoom(now_user, child_id, parent_id, roomName);
+    } else {
+      this.eventService.createRoom(now_user, child_id, parent_id, roomName);
     }
+
+    // Save room in database
+    socket.join(roomName);
+    createRooms.push(roomName);
+    this.server.emit('create-room', roomName);
+
+    return { success: true, payload: roomName };
+  }
+
+  @SubscribeMessage('join-room')
+  handleJoinRoom(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() roomName: string,
+  ) {
+    socket.join(roomName);
+    return { success: true };
+  }
+
+  @SubscribeMessage('leave-room')
+  handleLeaveRoom(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() roomName: string,
+  ) {
+    socket.leave(roomName);
+    return { success: true };
+  }
 }

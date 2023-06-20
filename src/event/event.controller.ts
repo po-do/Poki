@@ -4,10 +4,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { EventService } from './event.service';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { CreateConversationDto } from './dto/event.dto';
-import { CreateMessageDto } from './dto/event.dto';
 
-@Controller('event')
+@Controller('/')
 @UseGuards(AuthGuard())
 export class EventController {
     constructor(
@@ -46,15 +44,16 @@ export class EventController {
     //     return this.eventService.createMessage(user, CreateMessageDto, conversation.id);
     // }
 
-    @Get('/get-message')
+    @Get('/chat/:room_name')
     async getMessage(
         @GetUser() user: User,
-        @Body() room_id: string,
+        @Param('room_name') room_name: string,
     ): Promise<{ code: number; success: boolean, Data:any }> {
 
         const room = await this.eventService.getRoom(user);
+  
 
-        if (room.id !== room_id) {
+        if (room.name !== room_name) {
             return {
                 code: 400,
                 success: false,
@@ -64,7 +63,7 @@ export class EventController {
         const response = {
             code: 200,
             success: true,
-            Data: await this.eventService.getMessage(user, room_id),
+            Data: await this.eventService.getMessage(room_name),
         }
 
             return response;
