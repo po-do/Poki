@@ -37,12 +37,11 @@ const WaitingRoom = () => {
   // 채팅방이 없을 시 채팅 아이콘 클릭시 이 함수 호출
   const onCreateRoom = useCallback(() => {
     const roomName = `${user.user_id}'s_room`;
-    console.log(roomName);
-
     socket.emit("create-room", { roomName, user }, (response) => {
-      if (!response.success) return alert(response.payload);
-      console.log(response.payload);
-
+      if (response.number === 2) {
+        onJoinRoom(response.payload);
+      }
+      if (response.number === 0) return alert(response.payload);
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate]);

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -13,10 +13,14 @@ import {
 import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode } from "../../api/auth.js";
-import { userState } from "../../recoil/user";
-import { useRecoilValue } from "recoil";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+
+// ======================================
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { userState } from "../../recoil/user";
+import { socket } from "../../App";
 
 const queryClient = new QueryClient();
 
@@ -26,12 +30,6 @@ const navigation = [
     name: "위시리스트",
     href: "/format/child/wishlist",
     icon: GiftIcon,
-    current: false,
-  },
-  {
-    name: "채팅",
-    href: "/format/child/message",
-    icon: ChatBubbleLeftRightIcon,
     current: false,
   },
   {
@@ -110,6 +108,33 @@ export default function ChildFormat() {
       openFailModal();
     }
   };
+
+  // ==================================================================
+  const navigate = useNavigate();
+
+  // 채팅방이 없을 시 채팅 아이콘 클릭시 이 함수 호출
+  const onCreateRoom = useCallback(() => {
+    const roomName = `${user.user_id}'s_room`;
+    socket.emit("create-room", { roomName, user }, (response) => {
+      if (response.number === 2) {
+        onJoinRoom(response.payload);
+      }
+      if (response.number === 0) return alert(response.payload);
+      navigate(`/chat/${response.payload}`);
+    });
+  }, [navigate]);
+
+  // 우리 서비스에서는 같은 버튼으로 채팅방 입장/생성을 구분할 수 있도록 해야함
+  const onJoinRoom = useCallback(
+    (roomName) => () => {
+      socket.emit("join-room", roomName, () => {
+        navigate(`/chat/${roomName}`);
+      });
+    },
+    [navigate]
+  );
+
+  // ==================================================================
 
   return (
     <>
@@ -204,6 +229,28 @@ export default function ChildFormat() {
                                   </a>
                                 </li>
                               ))}
+                              <li key="채팅">
+                                <button
+                                  onClick={onCreateRoom}
+                                  className={classNames(
+                                    false
+                                      ? "bg-indigo-700 text-white"
+                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                    "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                                  )}
+                                >
+                                  <ChatBubbleLeftRightIcon
+                                    className={classNames(
+                                      false
+                                        ? "text-white"
+                                        : "text-indigo-200 group-hover:text-white",
+                                      "h-6 w-6 shrink-0"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                  채팅
+                                </button>
+                              </li>
                             </ul>
                           </li>
                         </ul>
@@ -257,6 +304,28 @@ export default function ChildFormat() {
                           </a>
                         </li>
                       ))}
+                      <li key="채팅">
+                        <button
+                          onClick={onCreateRoom}
+                          className={classNames(
+                            false
+                              ? "bg-indigo-700 text-white"
+                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                            "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                          )}
+                        >
+                          <ChatBubbleLeftRightIcon
+                            className={classNames(
+                              false
+                                ? "text-white"
+                                : "text-indigo-200 group-hover:text-white",
+                              "h-6 w-6 shrink-0"
+                            )}
+                            aria-hidden="true"
+                          />
+                          채팅
+                        </button>
+                      </li>
                     </ul>
                   </li>
                   <li className="mt-auto">
@@ -352,6 +421,7 @@ export default function ChildFormat() {
             </main>
           </div>
         </div>
+
         {/* Modal Area */}
         {registCodeModal && (
           <SuccessModal closeModal={closeRegistCodeModal} message="등록완료" />

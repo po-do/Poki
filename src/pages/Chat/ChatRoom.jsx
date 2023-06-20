@@ -121,7 +121,7 @@ const ChatRoom = () => {
                       <span
                         className={`mb-2 bg-white w-max p-3 rounded-md ${
                           user.id === chat.check_id
-                            ? "bg-purple-500 self-end text-white"
+                            ? "bg-red-500 self-end text-black"
                             : ""
                         }`}
                       >

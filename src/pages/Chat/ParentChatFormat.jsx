@@ -11,15 +11,15 @@ import {
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
 import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SuccessModal from "../../components/Modal/SuccessModal";
+import SuccessModal from "../../components/Modal/SuccessModal.jsx";
 // ======================================
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { userState } from "../../recoil/user";
-import { socket } from "../../App";
+import { userState } from "../../recoil/user.js";
+import { socket } from "../../App.js";
+import ChatRoom from "./ChatRoom.jsx";
 
 const queryClient = new QueryClient();
 
@@ -434,7 +434,7 @@ export default function ParentFormat() {
             </div>
             {/* 메인 */}
             <main>
-              <Outlet />
+              <ChatRoom />
             </main>
           </div>
         </div>

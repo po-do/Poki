@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import ChatRoom from "./pages/chatroom/chatroom";
-import WaitingRoom from "./pages/waition-room/waition-room";
 
 //General
 import App from "./App";
@@ -24,7 +22,18 @@ import ChildMain from "./pages/children/ChildMain";
 import ChildWishList from "./pages/children/ChildWishList";
 
 // recoil
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilValue } from "recoil";
+import { userState } from "./recoil/user";
+
+// chatting
+import ParentChatFormat from "./pages/Chat/ParentChatFormat";
+import ChildChatFormat from "./pages/Chat/ChildChatFormat";
+
+const ChatFormat = (props) => {
+  const user = useRecoilValue(userState);
+  console.log(user.type);
+  return user.type === "PARENT" ? <ParentChatFormat /> : <ChildChatFormat />;
+};
 
 // client.defaults.baseURL = "http://3.34.134.62:3000";
 client.defaults.baseURL = "http://localhost:4000";
@@ -45,7 +54,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/chat/:roomName",
-    element: <ChatRoom />,
+    element: <ChatFormat />,
     errorElement: <NotFound />,
   },
   {
@@ -57,7 +66,6 @@ const router = createBrowserRouter([
       { path: "/format/parent/mission", element: <Mission /> },
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
       { path: "/format/parent/video", element: <Video /> },
-      { path: "/format/parent/message", element: <WaitingRoom /> },
     ],
   },
   {
@@ -68,7 +76,6 @@ const router = createBrowserRouter([
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
-      { path: "/format/child/message", element: <WaitingRoom /> },
     ],
   },
 ]);
