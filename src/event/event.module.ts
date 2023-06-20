@@ -31,7 +31,6 @@ import { UserRepository } from 'src/auth/user.repository';
         AuthService,
         JwtStrategy,],
     controllers: [EventController],
-
 })
 
 export class EventModule {}

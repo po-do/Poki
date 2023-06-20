@@ -88,7 +88,6 @@ export class WishlistController {
     @Patch('/item/:id/pickstatus')
     async updateWishlistPickStatus(
         @Param('id', ParseIntPipe) id: number,
-        @Body('Picked') pickStatus: PickedStatus,
         @GetUserType() type: string,
     ): Promise<responseWishlistDto> {
         if (type !== 'PARENT') {
@@ -98,7 +97,7 @@ export class WishlistController {
             code: 200,
             success: true,
             data: {
-                item: await this.wishlistService.updateWishlistPickStatus(id, pickStatus)
+                item: await this.wishlistService.updateWishlistPickStatus(id)
             },
         };
         return response
@@ -107,7 +106,6 @@ export class WishlistController {
     @Post('/item/:id/givenstatus')
     async updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
-        @Body('Given') givenStatus: GivenStatus,
         @GetUserType() type: string,
         @GetUserId() userid: number,
     ): Promise <responseWishlistDto> {
@@ -127,7 +125,7 @@ export class WishlistController {
             code: 200,
             success: true,
             data: {
-              item: await this.wishlistService.updateWishlistGivenStatus(id, givenStatus)
+              item: await this.wishlistService.updateWishlistGivenStatus(id)
             },
           };
 
