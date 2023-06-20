@@ -10,7 +10,6 @@ import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.js";
-import Chatting from "./pages/General/Chatting";
 import Video from "./pages/General/Video";
 
 // Parent Page
@@ -69,7 +68,7 @@ const router = createBrowserRouter([
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
-      { path: "/format/child/message", element: <Chatting /> },
+      { path: "/format/child/message", element: <WaitingRoom /> },
     ],
   },
 ]);
