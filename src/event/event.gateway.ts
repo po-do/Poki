@@ -1,6 +1,6 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Logger } from '@nestjs/common';
+import { Logger, Injectable } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
@@ -19,6 +19,8 @@ let createRooms: string[] = [];
     origin: ['http://localhost:3000'],
   },
 })
+
+@Injectable()
 export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private eventService: EventService,

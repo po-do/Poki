@@ -63,9 +63,13 @@ export class WishlistService {
         return {code: 200, success: true}
     }
 
-    async updateWishlistPickStatus(id: number, pickStatus: PickedStatus): Promise<wishProudctDto> {
+    async updateWishlistPickStatus(id: number): Promise<wishProudctDto> {
         const wishlist = await this.getWishlistById(id);
-        wishlist.Picked = pickStatus;
+        if (wishlist.Picked === PickedStatus.FALSE) {
+            wishlist.Picked = PickedStatus.TRUE;
+        } else {
+            wishlist.Picked = PickedStatus.FALSE;
+        }
         
         await this.wishlistRepository.save(wishlist);
        
@@ -83,11 +87,15 @@ export class WishlistService {
         return item;
     }
 
-    async updateWishlistGivenStatus(id: number, givenStatus: GivenStatus): Promise<wishProudctDto> {
+    async updateWishlistGivenStatus(id: number): Promise<wishProudctDto> {
         const wishlist = await this.getWishlistById(id);
-        console.log(givenStatus);
+        if (wishlist.Given === GivenStatus.FALSE) {
+            wishlist.Given = GivenStatus.TRUE;
+        } else {
+            wishlist.Given = GivenStatus.FALSE;
+        }
+      
        
-        wishlist.Given = givenStatus;
         
         await this.wishlistRepository.save(wishlist);
         console.log(wishlist);
