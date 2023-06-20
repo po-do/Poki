@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './configs/typeorm.config';
 import { BoardModule } from './board/board.module';
 import { EventModule } from './event/event.module';
+import { VideoChatModule } from './video-chat/video-chat.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { EventModule } from './event/event.module';
     WishlistModule, 
     MissionModule,
     BoardModule,
-    EventModule
+    EventModule,
+    VideoChatModule
   ],
 
   controllers: [AppController],
