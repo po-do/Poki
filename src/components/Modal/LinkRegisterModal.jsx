@@ -17,6 +17,7 @@ export default function LinkRegisterModal({ onClose }) {
   };
 
   const handleClick = () => {
+    console.log()
     setOpen((prevState) => !prevState);
   };
 
