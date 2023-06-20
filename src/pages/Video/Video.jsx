@@ -9,7 +9,8 @@ import Peer from "simple-peer";
 import io from "socket.io-client";
 // import "./App.css";
 
-const socket = io.connect("http://localhost:4000/video-chat");
+// const socket = io.connect("http://localhost:4000/video-chat");
+const socket = io.connect("http://43.201.98.251:8000/video-chat");
 function Video() {
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
