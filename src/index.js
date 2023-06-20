@@ -8,7 +8,7 @@ import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.js";
-import Video from "./pages/General/Video";
+import Video from "./pages/Video/Video";
 
 // Parent Page
 import ParentFormat from "./pages/parents/ParentFormat";
