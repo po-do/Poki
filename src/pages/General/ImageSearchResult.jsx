@@ -12,7 +12,9 @@ export default function ImageSearchResult({ query,handleSetResult }) {
         params: {
           query: query,
           display: 10,
+          filter : "유아"
         },
+        
         headers: {
           "X-Naver-Client-Id": ID_KEY,
           "X-Naver-Client-Secret": SECRET_KEY,

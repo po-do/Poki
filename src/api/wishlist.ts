@@ -41,11 +41,13 @@ interface CreateWishListParams {
   request: {
     ProductName: string;
     ProductLink: string;
+    ProductImage: string;
   };
 }
 
 // 위시리스트 삭제
 export async function deleteWishList(params: DeleteWishListParams) {
+  console.log("삭제",params.itemid);
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;

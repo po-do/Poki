@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductCard from "../../components/UI/ProductCard";
+import ParentProductCard from "../../components/UI/ParentProductCard";
 import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.ts";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,7 @@ export default function ChildWishList() {
 
   useEffect(() => {
     fetchWishlistData();
-  }, []);
+  }, [wishList]);
 
   const fetchWishlistData = async () => {
     try {
@@ -47,7 +47,7 @@ export default function ChildWishList() {
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           {wishList.map((item) => (
-            <ProductCard
+            <ParentProductCard
               key={item.id}
               item={item}
             />

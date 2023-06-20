@@ -8,8 +8,9 @@ export default function LinkRegisterModal({ onClose }) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSetResult = (item) => {
-    setSearchResult(item);
+    setSearchResult(item.map((data) => ({ ...data, title: data.title.replace(/<\/?b>/g, "") })));
   };
+  
 
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
@@ -28,6 +29,7 @@ export default function LinkRegisterModal({ onClose }) {
       request: {
         ProductName: selectedItem.title,
         ProductLink: selectedItem.link,
+        ProductImage: selectedItem.image
       }
     };
 
@@ -95,14 +97,14 @@ export default function LinkRegisterModal({ onClose }) {
                 <h4 className={`text-lg font-bold ${selectedItem === index ? "text-gray-500" : ""}`}>
                   {item.title}
                 </h4>
-                <p className={`mt-1 ${selectedItem === index ? "text-gray-500" : ""}`}>{item.title}</p>
+                {/* <p className={`mt-1 ${selectedItem === index ? "text-gray-500" : ""}`}>{item.title}</p> */}
               </div>
             </div>
           ))}
         </div>
         <button
           type="submit"
-          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="flex-none rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={choiceWishList}
         > 결정
         </button>
