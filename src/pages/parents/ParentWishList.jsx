@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ParentProductCard from "../parents/ParentProductCard";
 import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
 import GrapeAttachModal from "../../components/Modal/SuccessModal";
+import { createBoard } from "../../api/board.js";
+
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
   const [product, setproduct] = useState([]);
@@ -18,6 +20,7 @@ export default function ChildWishList() {
 
   const handlePicked = async() => {
     openModal();
+    createBoard();
     const params = {
       itemid: selectedItem
 
