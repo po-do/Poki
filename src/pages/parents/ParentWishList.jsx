@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../../components/UI/ParentProductCard";
-import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.ts";
+import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
   const [wishList, setWishList] = useState([]);
@@ -14,13 +14,13 @@ export default function ChildWishList() {
     setShowModal(false);
   };
 
-  const setPicked = async () => {
-    const missionsData = await updateWishlistPickStatus();
-    const completeMissions = missionsData.filter(
-      (mission) => mission.status === "P"
-    );
-    setproduct(completeMissions);
-  };
+  // const setPicked = async () => {
+  //   const missionsData = await updateWishlistPickStatus();
+  //   const completeMissions = missionsData.filter(
+  //     (mission) => mission.status === "P"
+  //   );
+  //   setproduct(completeMissions);
+  // };
 
   useEffect(() => {
     fetchWishlistData();
@@ -30,8 +30,7 @@ export default function ChildWishList() {
     try {
       const wishlistData = await getWishlistByUserId();
       setWishList(wishlistData.data.item);
-      const choiceProduct = wishList.filter((item)=>item.Picked === false && item.Given === false);
-      setproduct(choiceProduct);
+      // const choiceProduct = wishList.filter((item)=>item.Picked === false && item.Given === false);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -58,12 +57,10 @@ export default function ChildWishList() {
         <div>
           <div className="mt-10 flex justify-end border-t border-gray-200 pt-6">
             <button
-              type="submit"
               className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               onClick={openModal}
             >
               선물 선택
-
             </button>
           </div>
         </div>

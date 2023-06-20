@@ -1,8 +1,8 @@
 import React from "react";
-import { deleteWishList } from "../../api/wishlist.ts";
+import { deleteWishList } from "../../api/wishlist.js";
 
 export default function ChildProductCard({item}) {
-  // console.log(item.id);
+  console.log("hello");
   const handleDeleteCard = async () => {
     const param = {
       itemid: item.id
@@ -18,7 +18,7 @@ export default function ChildProductCard({item}) {
       <img
         src={item.ProductImage}
         alt={item.ProductName}
-        className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+        className="object-contain h-full w-full object-cover object-center sm:h-full sm:w-full"
       />
     </div>
     <div className="flex flex-1 flex-col space-y-2 p-4 ">

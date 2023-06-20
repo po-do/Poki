@@ -1,14 +1,14 @@
 import React from "react";
-import { deleteWishList } from "../../api/wishlist.ts";
+// import { deleteWishList } from "../../api/wishlist.js";
 
 export default function ParentProductCard({item}) {
   // console.log(item.id);
-  const handleDeleteCard = async () => {
-    const param = {
-      itemid: item.id
-    }
-    await deleteWishList(param);
-  }
+  // const handleDeleteCard = async () => {
+  //   const param = {
+  //     itemid: item.id
+  //   }
+  //   await deleteWishList(param);
+  // }
 
   return (
     <div
