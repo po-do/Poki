@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PodoRegisterModal from "../../components/Modal/PodoRegisterModal";
 import ProductCard from "../../components/UI/ProductCard";
-import { getWishlistByUserId } from "../../api/wishlist.ts";
-
+import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.ts";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
   const [wishList, setWishList] = useState([]);
+  const [product, setproduct] = useState([]);
 
   const openModal = () => {
     setShowModal(true);
@@ -13,6 +12,14 @@ export default function ChildWishList() {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const setPicked = async () => {
+    const missionsData = await updateWishlistPickStatus();
+    const completeMissions = missionsData.filter(
+      (mission) => mission.status === "P"
+    );
+    setproduct(completeMissions);
   };
 
   useEffect(() => {
@@ -23,6 +30,8 @@ export default function ChildWishList() {
     try {
       const wishlistData = await getWishlistByUserId();
       setWishList(wishlistData.data.item);
+      const choiceProduct = wishList.filter((item)=>item.Picked === false && item.Given === false);
+      setproduct(choiceProduct);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -54,8 +63,8 @@ export default function ChildWishList() {
               onClick={openModal}
             >
               선물 선택
+
             </button>
-            {showModal && <PodoRegisterModal onClose={closeModal} />}
           </div>
         </div>
       </div>

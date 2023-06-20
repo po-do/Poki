@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ImageSearchResult from "../../pages/General/ImageSearchResult";
-
+import { createWishList } from "../../api/wishlist.ts";
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
   const [open, setOpen] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSetResult = (item) => {
     setSearchResult(item);
@@ -19,13 +19,22 @@ export default function LinkRegisterModal({ onClose }) {
     setOpen((prevState) => !prevState);
   };
 
-  const handleItemClick = (index) => {
-    if (selectedItemIndex === index) {
-      return; // Clicked item is already selected, no action needed
-    }
-    setSelectedItemIndex(index);
-    
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
   };
+
+  const choiceWishList = async () => {
+    const params = {
+      request: {
+        ProductName: selectedItem.title,
+        ProductLink: selectedItem.link,
+      }
+    };
+
+    await createWishList(params);
+    setSelectedItem(null);
+    onClose();
+  }
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -67,9 +76,9 @@ export default function LinkRegisterModal({ onClose }) {
             <div
               key={item.productId}
               className={`flex p-4 border rounded mt-2 ${
-                selectedItemIndex === index ? "bg-gray-200" : ""
+                selectedItem === item ? "bg-gray-200" : ""
               }`}
-              onClick={() => handleItemClick(index)}
+              onClick={() => handleItemClick(item)}
             >
               <div className="mr-4 flex-shrink-0">
                 <a href={item.link}>
@@ -77,21 +86,28 @@ export default function LinkRegisterModal({ onClose }) {
                     src={item.image}
                     alt={item.title}
                     className={`h-16 w-16 border ${
-                      selectedItemIndex === index ? "border-gray-500" : "border-gray-300"
+                      selectedItem === index ? "border-gray-500" : "border-gray-300"
                     } bg-white text-gray-300`}
                   />
                 </a>
               </div>
               <div>
-                <h4 className={`text-lg font-bold ${selectedItemIndex === index ? "text-gray-500" : ""}`}>
+                <h4 className={`text-lg font-bold ${selectedItem === index ? "text-gray-500" : ""}`}>
                   {item.title}
                 </h4>
-                <p className={`mt-1 ${selectedItemIndex === index ? "text-gray-500" : ""}`}>{item.title}</p>
+                <p className={`mt-1 ${selectedItem === index ? "text-gray-500" : ""}`}>{item.title}</p>
               </div>
             </div>
           ))}
         </div>
+        <button
+          type="submit"
+          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={choiceWishList}
+        > 결정
+        </button>
       </div>
+
     </div>
   );
 }

@@ -27,11 +27,13 @@ interface GetWishlistByIdParams {
 
 // 위시리스트 생성
 export async function createWishList(params: CreateWishListParams) {
+  
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/wishlist/item/create", params.request);
+
   return response.data;
 }
 
@@ -39,7 +41,6 @@ interface CreateWishListParams {
   request: {
     ProductName: string;
     ProductLink: string;
-    ProductImage: string;
   };
 }
 
