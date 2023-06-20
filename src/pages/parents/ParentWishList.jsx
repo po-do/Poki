@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../../components/UI/ParentProductCard";
-import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.ts";
+import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
   const [wishList, setWishList] = useState([]);

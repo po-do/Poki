@@ -45,11 +45,6 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
-    path: "/chat/:roomName",
-    element: <ChatRoom />,
-    errorElement: <NotFound />,
-  },
-  {
     path: "/format/parent",
     element: <ParentFormat />,
     errorElement: <NotFound />,
@@ -69,7 +64,7 @@ const router = createBrowserRouter([
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
-      { path: "/format/child/message", element: <Chatting /> },
+      { path: "/format/child/message", element: <WaitingRoom /> },
     ],
   },
 ]);

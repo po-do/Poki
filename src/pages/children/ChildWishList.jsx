@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LinkRegister from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
-import { getWishlistByUserId } from "../../api/wishlist.ts";
+import { getWishlistByUserId } from "../../api/wishlist.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);

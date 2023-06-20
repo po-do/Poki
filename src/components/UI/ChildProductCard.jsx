@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteWishList } from "../../api/wishlist.ts";
+import { deleteWishList } from "../../api/wishlist.js";
 
 export default function ChildProductCard({item}) {
   // console.log(item.id);

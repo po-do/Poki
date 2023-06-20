@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ImageSearchResult from "../../pages/General/ImageSearchResult";
-import { createWishList } from "../../api/wishlist.ts";
+import { createWishList } from "../../api/wishlist.js";
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
   const [open, setOpen] = useState(false);

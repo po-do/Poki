@@ -89,49 +89,63 @@ const ChatRoom = () => {
 
   return (
     <>
-      <h1>Chat Room: {roomName}</h1>
-      <button className="mb-2 block ml-auto" onClick={onLeaveRoom}>
-        방 나가기
-      </button>
-      <div
-        ref={chatContainerEl}
-        className="flex flex-col border border-black p-4 min-h-[360px] max-h-[600px] overflow-auto bg-[#b2c7d9]"
-      >
-        {chats.map((chat, index) => (
-          <div
-            key={index}
-            className={classNames({
-              "self-end": user.id === chat.check_id,
-              "self-center": !chat.sender_id,
-              "flex flex-col": true,
-            })}
-          >
-            <span>
-              {chat.sender_id
-                ? user.id === chat.check_id
-                  ? ""
-                  : chat.sender_id
-                : ""}
-            </span>
-            <span
-              className={`mb-2 bg-white w-max p-3 rounded-md ${
-                user.id === chat.check_id ? "bg-yellow-300 self-end" : ""
-              }`}
-            >
-              {chat.message}
-            </span>
+      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-[780px]">
+          <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 border border-black">
+            <div className="px-4 py-5 sm:p-6">
+              <div>
+                <h1>Chat Room: {roomName}</h1>
+                <button className="mb-2 block ml-auto" onClick={onLeaveRoom}>
+                  방 나가기
+                </button>
+                <div
+                  ref={chatContainerEl}
+                  className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto bg-[#b2c7d9] sm:rounded-lg shadow-lg"
+                >
+                  {chats.map((chat, index) => (
+                    <div
+                      key={index}
+                      className={classNames({
+                        "self-end": user.id === chat.check_id,
+                        "self-center": !chat.sender_id,
+                        "flex flex-col": true,
+                      })}
+                    >
+                      <span>
+                        {chat.sender_id
+                          ? user.id === chat.check_id
+                            ? ""
+                            : chat.sender_id
+                          : ""}
+                      </span>
+                      <span
+                        className={`mb-2 bg-white w-max p-3 rounded-md ${
+                          user.id === chat.check_id
+                            ? "bg-purple-500 self-end text-white"
+                            : ""
+                        }`}
+                      >
+                        {chat.message}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <form className="flex mt-6" onSubmit={onSendMessage}>
+                  <input
+                    type="text"
+                    onChange={onChange}
+                    value={message}
+                    className="block w-full rounded-md border-0 pl-4 mr-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  <button className="w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    보내기
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
-      <form className="flex mt-6" onSubmit={onSendMessage}>
-        <input
-          type="text"
-          onChange={onChange}
-          value={message}
-          className="flex-grow mr-4"
-        />
-        <button>보내기</button>
-      </form>
     </>
   );
 };
