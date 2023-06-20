@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PodoRegisterModal from "../../components/Modal/PodoRegisterModal";
-import ProductCard from "../../components/UI/ProductCard";
-import { getWishlistByUserId } from "../../api/wishlist.js";
-
+import ParentProductCard from "../../components/UI/ParentProductCard";
+import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.ts";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
   const [wishList, setWishList] = useState([]);
+  const [product, setproduct] = useState([]);
 
   const openModal = () => {
     setShowModal(true);
@@ -15,14 +14,24 @@ export default function ChildWishList() {
     setShowModal(false);
   };
 
+  const setPicked = async () => {
+    const missionsData = await updateWishlistPickStatus();
+    const completeMissions = missionsData.filter(
+      (mission) => mission.status === "P"
+    );
+    setproduct(completeMissions);
+  };
+
   useEffect(() => {
     fetchWishlistData();
-  }, []);
+  }, [wishList]);
 
   const fetchWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
       setWishList(wishlistData.data.item);
+      const choiceProduct = wishList.filter((item)=>item.Picked === false && item.Given === false);
+      setproduct(choiceProduct);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -38,7 +47,7 @@ export default function ChildWishList() {
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           {wishList.map((item) => (
-            <ProductCard
+            <ParentProductCard
               key={item.id}
               item={item}
             />
@@ -54,8 +63,8 @@ export default function ChildWishList() {
               onClick={openModal}
             >
               선물 선택
+
             </button>
-            {showModal && <PodoRegisterModal onClose={closeModal} />}
           </div>
         </div>
       </div>

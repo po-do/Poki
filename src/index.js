@@ -27,7 +27,9 @@ import ChildWishList from "./pages/children/ChildWishList";
 // recoil
 import { RecoilRoot } from "recoil";
 
-client.defaults.baseURL = "http://3.34.134.62:3000";
+// client.defaults.baseURL = "http://3.34.134.62:3000";
+client.defaults.baseURL = "http://localhost:4000";
+
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";
 
