@@ -1,6 +1,8 @@
 import { SubscribeMessage, WebSocketGateway, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket, WebSocketServer, MessageBody } from '@nestjs/websockets';
 import { Server, Socket } from "socket.io"
-import { users } from './users';
+import { SocketConnection } from './video-chat.entity';
+import { Logger } from '@nestjs/common';
+import { VideoChatService } from './video-chat.service';
 
 @WebSocketGateway({
   namespace: 'video-chat',
@@ -13,7 +15,12 @@ import { users } from './users';
 })
 
 export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  constructor (
+    private videoChatService: VideoChatService
+  ) {};
+
   @WebSocketServer() public server: Server;
+  private logger = new Logger('Gateway');
 
   afterInit(server: Server) {
     
@@ -25,28 +32,28 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   @SubscribeMessage('setUserName')
   handleSetUserName(
-    @MessageBody() data: {name: string},
+    @MessageBody() data: {user_id: string},
     @ConnectedSocket() socket: Socket
     ) {
-    users[data.name] = socket.id;
+    this.videoChatService.createSocketConnection(data.user_id, socket.id);
   }
 
-  @SubscribeMessage('disconnect')
-  handleDisconnect(@ConnectedSocket() socket: Socket) {
-    const disconnectedUser = Object.keys(users).find((key)=> users[key] === socket.id)
+  async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
 		if (disconnectedUser) {
-			delete users[disconnectedUser];
+			this.videoChatService.deleteConnection(disconnectedUser)
 		}
+    this.logger.log("disconnection 발생 😀")
 		socket.broadcast.emit("callEnded")
   }
 
   @SubscribeMessage('callUser')
-  handleCallUser(
+  async handleCallUser(
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
     const {userToCall, signalData, from, name} = data;
 
-		const userToCallId = users[userToCall];
+    const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
 
 		if (userToCallId) {
 			this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
