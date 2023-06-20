@@ -1,39 +1,38 @@
 import React, { useState } from "react";
-import { missionUpdate } from "../../api/mission.ts";
+import { missionUpdate } from "../../api/mission.js";
 
-export default function UpdateModal({ onClose, item_id}) {
-  
+export default function UpdateModal({ onClose, item_id }) {
   const [updateMission, setUpdateMission] = useState("");
   const handleProductNameChange = (e) => {
     setUpdateMission(e.target.value);
   };
 
-
   const handleRegister = async () => {
     try {
       var date = new Date();
       const createdDate =
-      date.getFullYear().toString() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString();
+        date.getFullYear().toString() +
+        "-" +
+        (date.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        date.getDate().toString();
       // Create an object with the data to send to the server
       const data = {
         mission_id: item_id,
         request: {
           content: updateMission,
-          created_date: createdDate
-        }
+          created_date: createdDate,
+        },
       };
 
       // Make a POST request to create the wishlist item
       const response = await missionUpdate(data);
       console.log("수정 완료:", response);
+      onClose();
     } catch (error) {
       console.log("수정 실패:", error);
     }
-  }
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -50,23 +49,19 @@ export default function UpdateModal({ onClose, item_id}) {
           />
         </div>
         <div className="flex gap-3">
-
-            <button
-              className="px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
-              onClick={handleRegister}
-            >
-              수정
-            </button>
-
-            <button
-              className="px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
-              onClick={onClose}
-            >
-              닫기
-            </button>
-
+          <button
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
+            onClick={handleRegister}
+          >
+            수정
+          </button>
+          <button
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
+            onClick={onClose}
+          >
+            닫기
+          </button>
         </div>
-        
       </div>
     </div>
   );

@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import RecentMissionList from "../../components/Mission/RecentMissionList";
-import { getBoardStatus, attachBoard } from "../../api/board.ts";
+import RecentMissionList from "../../components/Mission/ChildMissionList";
+import { getBoardStatus, attachBoard } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
+import SuccessModal from "../../components/Modal/SuccessModal";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
+  const [attachModal, setAttachModal] = useState(false);
+
+
+  const openAttachModal = () => {
+    setAttachModal(true);
+  };
+
+  const closeAttachModal = () => {
+    setAttachModal(false);
+  };
+
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
   });
@@ -20,6 +32,7 @@ export default function ChildMain() {
 
   async function addGrape() {
     await attachBoard();
+    openAttachModal();
   }
 
   return (
@@ -108,6 +121,10 @@ export default function ChildMain() {
           <MissionRegisteredGift />
         </div>
       </div>
+      {/* Modal Area */}
+      {attachModal && (
+        <SuccessModal closeModal={closeAttachModal} message="등록완료" />
+      )}
     </>
   );
 }

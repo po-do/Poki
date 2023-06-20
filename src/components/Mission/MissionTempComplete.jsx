@@ -4,10 +4,11 @@ import {
   missionReadChild,
   missionUpdate,
   setMissionStatusComplete,
-  setMissionStatusInComplete
-} from "../../api/mission.ts";
-import { updateBoard, getBoardStatus } from "../../api/board.ts";
-
+  setMissionStatusInComplete,
+} from "../../api/mission.js";
+import { updateBoard, getBoardStatus } from "../../api/board.js";
+import GrapeIssuModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
@@ -15,6 +16,35 @@ export default function MissionTempComplete() {
   const [grape, setGrape] = useState({});
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+  const [showReturnModal, setShowReturnModal] = useState(false);
+
+  // 포도알 발행 모달
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
+
+  // 반려 버튼 모달
+  const openShowReturnModal = () => {
+    setShowReturnModal(true);
+  };
+
+  const closeShowReturnModal = () => {
+    setShowReturnModal(false);
+  };
 
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
@@ -76,16 +106,22 @@ export default function MissionTempComplete() {
     console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const param = {
-        mission_id : missionId
-      }
+        mission_id: missionId,
+      };
       setMissionStatusInComplete(param);
     });
+
+    if (selectedMissions.length > 0) {
+      openShowReturnModal();
+    } else {
+      openFailModal();
+    }
+
     setSelectedMissions([]);
   };
 
   // 포도알 발행
   const handlePublish = () => {
-    // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const updatedMission = {
         ...missions.find((mission) => mission.id === missionId),
@@ -94,6 +130,13 @@ export default function MissionTempComplete() {
         mission_id: missionId,
       });
     });
+
+    if (selectedMissions.length > 0) {
+      openModal();
+    } else {
+      openFailModal();
+    }
+
     setSelectedMissions([]);
   };
 
@@ -171,6 +214,18 @@ export default function MissionTempComplete() {
           </div>
         </div>
       </div>
+      {showModal && (
+        <GrapeIssuModal closeModal={closeModal} message="포도알 요청 완료" />
+      )}
+      {failModal && (
+        <FailModal
+          closeModal={closeFailModal}
+          message="체크박스를 선택 해주세요."
+        />
+      )}
+      {showReturnModal && (
+        <GrapeIssuModal closeModal={closeShowReturnModal} message="반려 완료" />
+      )}
     </div>
   );
 }

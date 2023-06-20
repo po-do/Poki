@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { missionCreate } from "../../api/mission.ts";
+import { missionCreate } from "../../api/mission.js";
 
 // 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하여 나온 답변을 가공하여 보여주는 컴포넌트
 export default function MissionRecommendModal({ onClose }) {

@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /
+    destination: /home/ubuntu/deploy
     overwrite: yes
 permissions:
   - object: /home/ubuntu/deploy
@@ -13,5 +13,5 @@ permissions:
 hooks:
   AfterInstall:
     - location: deploy.sh
-      timeout: 600
+      timeout: 1000
       runas: ubuntu

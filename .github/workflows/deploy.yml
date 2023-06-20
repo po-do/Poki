@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: CI=false npm run build
       - name: zip create
-        run: zip -qq -r ./podo-clinet-build.zip .
+        run: zip -qq -r ./podo-client-build.zip .
         shell: bash
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -34,10 +34,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Upload to S3
         run: | 
-          aws s3 cp --region ${{ secrets.AWS_REGION }} ./podo-clinet-build.zip s3://team-podo-s3-jy604/podo-clinet-build.zip
+          aws s3 cp --region ${{ secrets.AWS_REGION }} ./podo-client-build.zip s3://client-podo-s3-jy604/podo-client-build.zip
       - name: Deploy
         run: aws deploy create-deployment
           --application-name podo-client-codeDeploy
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name podo-client-codedeploy-group
-          --s3-location bucket=team-podo-s3-jy604,key=podo-client-build.zip,bundleType=zip
+          --s3-location bucket=client-podo-s3-jy604,key=podo-client-build.zip,bundleType=zip

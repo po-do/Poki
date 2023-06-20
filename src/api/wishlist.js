@@ -1,5 +1,5 @@
-import client from "./client.ts";
-import { getAccessToken } from "./auth.ts";
+import client from "./client.js";
+import { getAccessToken } from "./auth.js";
 
 // 유저 아이디별 위시리스트 조회(전부)
 export async function getWishlistByUserId() {
@@ -12,7 +12,7 @@ export async function getWishlistByUserId() {
 }
 
 // 아이템 아이디별 위시리스트 조회(1개만)
-export async function getWishlistById(params: GetWishlistByIdParams) {
+export async function getWishlistById(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -21,33 +21,18 @@ export async function getWishlistById(params: GetWishlistByIdParams) {
   return response.data;
 }
 
-interface GetWishlistByIdParams {
-  itemid: number; // item id
-}
-
 // 위시리스트 생성
-export async function createWishList(params: CreateWishListParams) {
-  
+export async function createWishList(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/wishlist/item/create", params.request);
-
   return response.data;
 }
 
-interface CreateWishListParams {
-  request: {
-    ProductName: string;
-    ProductLink: string;
-    ProductImage: string;
-  };
-}
-
 // 위시리스트 삭제
-export async function deleteWishList(params: DeleteWishListParams) {
-  console.log("삭제",params.itemid);
+export async function deleteWishList(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -56,13 +41,9 @@ export async function deleteWishList(params: DeleteWishListParams) {
   return response.data;
 }
 
-interface DeleteWishListParams {
-  itemid: number;
-}
-
 // 위시리스트의 pick status 변경
 export async function updateWishlistPickStatus(
-  params: UpdateWishlistPickStatusParams
+  params
 ) {
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -75,16 +56,10 @@ export async function updateWishlistPickStatus(
   return response.data;
 }
 
-interface UpdateWishlistPickStatusParams {
-  itemid: number;
-  request: {
-    Picked: boolean;
-  };
-}
 
 // 위시리스트의 given status 변경 (자식)
 export async function updateWishlistGivenStatus(
-  params: UpdateWishlistGivenStatusParams
+  params
 ) {
   const accessToken = getAccessToken();
   if (accessToken) {
@@ -97,15 +72,9 @@ export async function updateWishlistGivenStatus(
   return response.data;
 }
 
-interface UpdateWishlistGivenStatusParams {
-  itemid: number;
-  request: {
-    Given: boolean;
-  };
-}
 
 // 위시리스트 수정
-export async function updateWishList(params: UpdateWishListParams) {
+export async function updateWishList(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -115,12 +84,4 @@ export async function updateWishList(params: UpdateWishListParams) {
     params.request
   );
   return response.data;
-}
-
-interface UpdateWishListParams {
-  itemid: number;
-  request: {
-    ProductName: string;
-    ProductLink: string;
-  };
 }
