@@ -19,7 +19,7 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user.js";
 import { socket } from "../../App.js";
-import ChatRoom from "./ChatRoom.jsx";
+import ChatRoom from "./ChattingRoom.jsx";
 
 const queryClient = new QueryClient();
 
@@ -82,22 +82,16 @@ export default function ParentFormat() {
     const roomName = `${user.user_id}'s_room`;
     socket.emit("create-room", { roomName, user }, (response) => {
       if (response.number === 2) {
-        onJoinRoom(response.payload);
+        socket.emit("join-room", response.payload, () => {
+          console.log("join-room");
+          console.log(response.payload);
+          navigate(`/chat/${response.payload}`);
+        }); // 이미 채팅방이 존재할 경우 바로 입장
       }
       if (response.number === 0) return alert(response.payload);
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate]);
-
-  // 우리 서비스에서는 같은 버튼으로 채팅방 입장/생성을 구분할 수 있도록 해야함
-  const onJoinRoom = useCallback(
-    (roomName) => () => {
-      socket.emit("join-room", roomName, () => {
-        navigate(`/chat/${roomName}`);
-      });
-    },
-    [navigate]
-  );
 
   // ==================================================================
 
