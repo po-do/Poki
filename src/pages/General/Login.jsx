@@ -14,6 +14,7 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
+    console.log(user);
     // console.log(email, password);
     try {
       const userInfo = await signIn({
@@ -31,7 +32,9 @@ export default function Login() {
 
       setUser(params);
 
-      navigate(userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child");
+      navigate(
+        userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"
+      );
     } catch (error) {
       console.log("signin error", error);
     }
