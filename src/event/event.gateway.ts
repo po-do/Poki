@@ -75,16 +75,16 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @ConnectedSocket() socket: Socket,
     @MessageBody() { roomName, user }: MessagePayload,
   ) {
-    const exists = createRooms.find((createRoom) => createRoom === roomName);
-    if (exists) {
-      return { success: false, payload: `Room ${roomName} already exists` };
-    }
+    // const exists = createRooms.find((createRoom) => createRoom === roomName);
+    // if (exists) {
+    //   return { number: 0, payload: `Room ${roomName} already exists` };
+    // }
 
     const now_user = await this.authService.getUserById(user.id);
 
     //now_user의 코드 길이가 4글자 이하이면 오류 발생
     if (now_user.code.length <= 4) {
-      return { success: false, payload: `Parent-child connection is required` };
+      return { number: 0, payload: `Parent-child connection is required` };
 
     }
 
@@ -93,11 +93,11 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     if (checkRoom) {
       const room = await this.eventService.getRoom(now_user);
       console.log(room.name);
-      return { success: fail, payload: room.name };
+      return { number: 2, payload: room.name };
     }
 
     const parent_id = user.user_id;
-    const child_id = await this.authService.getConnectedUser(now_user);
+    const child_id = await this.authService.getConnectedUser_id(now_user);
 
     if (now_user.type === 'CHILD') {
       const child_id = user.user_id;
@@ -109,12 +109,12 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       this.eventService.createRoom(now_user, child_id, parent_id, roomName);
     }
 
-    // Save room in database
+   
     socket.join(roomName);
     createRooms.push(roomName);
     this.server.emit('create-room', roomName);
 
-    return { success: true, payload: roomName };
+    return { number: 1, payload: roomName };
   }
 
   @SubscribeMessage('join-room')
