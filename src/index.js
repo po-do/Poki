@@ -10,7 +10,6 @@ import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.js";
-import Chatting from "./pages/General/Chatting";
 import Video from "./pages/General/Video";
 
 // Parent Page
@@ -42,6 +41,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/chat/:roomName",
+    element: <ChatRoom />,
     errorElement: <NotFound />,
   },
   {
