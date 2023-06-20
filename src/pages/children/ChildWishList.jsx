@@ -5,7 +5,6 @@ import { getWishlistByUserId } from "../../api/wishlist.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
-  const [wishList, setWishlist] = useState([]);
   const [product, setproduct] = useState([]);
 
   const openModal = () => {
@@ -19,17 +18,20 @@ export default function ChildWishList() {
   useEffect(() => {
     // Fetch wishlist data when the component mounts
     fetchWishlistData();
-  }, [wishList]);
+  }, [product]);
 
   const fetchWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
-      setWishlist(wishlistData.data.item);
-      // const choiceProduct = wishList.filter((item)=>item.Picked === false && item.Given === false);
+      const unPickedItem = wishlistData.data.item.filter(
+        (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
+      );
+      setproduct(unPickedItem);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
   };
+
 
   return (
     <div className="bg-white lg:pb-12">
@@ -40,7 +42,7 @@ export default function ChildWishList() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
       <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
-        {wishList.map((item) => (
+        {product.map((item) => (
           <ChildProductCard
             key={item.id}
             item={item}

@@ -45,14 +45,13 @@ export async function deleteWishList(params) {
 export async function updateWishlistPickStatus(
   params
 ) {
+  console.log(params)
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.patch(
-    `/wishlist/item/${params.itemid}/pickstatus`,
-    params.request
-  );
+    `/wishlist/item/${params.itemid}/pickstatus`);
   return response.data;
 }
 

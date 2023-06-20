@@ -1,7 +1,7 @@
 import React from "react";
 import { deleteWishList } from "../../api/wishlist.js";
 
-export default function ParentProductCard({item}) {
+export default function ParentProductCard({item, onItemClick}) {
   // console.log(item.id);
   // const handleDeleteCard = async () => {
   //   const param = {
@@ -10,10 +10,15 @@ export default function ParentProductCard({item}) {
   //   await deleteWishList(param);
   // }
 
+  const handleClick = () => {
+    onItemClick(item.id);
+  }
+
   return (
     <div
     className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-  >
+    onClick={handleClick}
+    >
     <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
       <img
         src={item.ProductImage}
