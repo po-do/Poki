@@ -1,13 +1,15 @@
 import React from "react";
 import { getWishlistByUserId } from "../../api/wishlist.js";
+import { useState } from "react";
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
 export default function MissionRegisteredGift() {
-  const response = getWishlistByUserId();
-  const wishlistData = response.data;
-  // const pickedItems = wishlistData.item.filter(
-  //   (item) => item.Picked === "TRUE"
-  // );
-  console.log("data",wishlistData)
+  const [pickedWishList, setPickedWishList] = useState();
+  getWishlistByUserId().then((item) => setPickedWishList(item));
+  console.log(pickedWishList);
+  const pickedItems = pickedWishList.item.filter(
+    (item) => item.Picked === "TRUE"
+  );
+  console.log(pickedItems);
   return (
     <>
 
