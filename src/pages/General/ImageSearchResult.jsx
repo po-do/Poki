@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import axios from "axios";
 
 export default function ImageSearchResult({ query,handleSetResult }) {
-  const ID_KEY = process.env.REACT_APP_ClientID;
-  const SECRET_KEY = process.env.REACT_APP_ClientSecret;
+  const ID_KEY = process.env.REACT_APP_CLIENT_ID;
+  const SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
 
   const shoppingData = async () => {
     const URL = "/v1/search/shop.json";
