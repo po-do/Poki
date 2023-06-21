@@ -39,7 +39,6 @@ const ChatFormat = (props) => {
 // client.defaults.baseURL = "http://localhost:4000";
 //client.defaults.baseURL = "https://api.pokids.site:8000";
 client.defaults.baseURL = process.env.REACT_APP_API_URL;
-
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";
 

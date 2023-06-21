@@ -293,6 +293,17 @@ export default function ParentFormat() {
                 <div className=" text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold">
                   Poki
                 </div>
+
+                {/* 햄버거 버튼 */}
+                <button
+                type="button"
+                className=" text-white  lg:ml-24"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Bars3Icon className="h-8 w-7" aria-hidden="true" />
+              </button>
+
+
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul className="flex flex-1 flex-col gap-y-7">

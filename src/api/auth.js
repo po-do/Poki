@@ -56,3 +56,13 @@ export async function getUserType(params) {
   const response = await client.get(`/auth/user/type/${params.userid}`);
   return response.data;
 }
+
+// 유저의 연결 여부 확인 (코드 등록)
+export async function getConnectedUser(params) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  const response = await client.get(`/auth/connected-user`);
+  return response.data;
+}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../parents/ParentProductCard";
 import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
-import GrapeAttachModal from "../../components/Modal/SuccessModal";
-import { createBoard } from "../../api/board.js";
+import SuccessModal from "../../components/Modal/SuccessModal";
+import { createBoard, getBoardStatus } from "../../api/board.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -20,13 +20,16 @@ export default function ChildWishList() {
 
   const handlePicked = async() => {
     openModal();
-    createBoard();
+    const state = await getBoardStatus();
+    if(!state.is_existence){
+      createBoard();
+    }
+
     const params = {
       itemid: selectedItem
+    }
 
-  }
   await updateWishlistPickStatus(params);
-
   }
 
   const handleItemClick = (itemid) => {
@@ -77,7 +80,7 @@ export default function ChildWishList() {
             >
               선물 선택
             </button>
-            {showModal && <GrapeAttachModal closeModal={closeModal} message={"선물 선택 완료"}/>}
+            {showModal && <SuccessModal closeModal={closeModal} message={"선물 선택 완료"}/>}
           </div>
         </div>
       </div>
