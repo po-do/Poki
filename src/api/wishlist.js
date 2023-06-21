@@ -45,7 +45,6 @@ export async function deleteWishList(params) {
 export async function updateWishlistPickStatus(
   params
 ) {
-  console.log(params)
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;

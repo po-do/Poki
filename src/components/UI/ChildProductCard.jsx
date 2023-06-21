@@ -2,7 +2,6 @@ import React from "react";
 import { deleteWishList } from "../../api/wishlist.js";
 
 export default function ChildProductCard({item}) {
-  console.log("hello");
   const handleDeleteCard = async () => {
     const param = {
       itemid: item.id
