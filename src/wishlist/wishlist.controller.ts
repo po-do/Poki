@@ -12,6 +12,7 @@ import { responseWishlistDto } from './dto/response-wishlist.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/auth/user.entity';
 import { BoardService } from 'src/board/board.service';
+import axios from 'axios';
 
 
 
@@ -153,6 +154,24 @@ export class WishlistController {
 
 
         return response
+    }
+
+
+    @Post('/shopping-list')
+    async getShoppingList(@Body('query') query: string): Promise<any> {
+        const api_url = 'https://openapi.naver.com/v1/search/blog?query=' + encodeURI(query); // JSON 결과
+
+        const options = {
+            headers: { 'X-Naver-Client-Id': 'Rludhr2LZIIr17DckGAI', 'X-Naver-Client-Secret': 'jjqz9S6poc' },
+        };
+
+        try {
+            const response = await axios.get(api_url, options);
+            return response.data;
+        } catch (error) {
+            console.log('error = ' + error.response.status);
+            throw new Error('Failed to fetch shopping list');
+        }
     }
 
 }
