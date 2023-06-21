@@ -209,7 +209,7 @@ function Video() {
                 aria-label="call"
                 onClick={() => callUser(idToCall)}
               >
-                <text fontSize="large">통화하기</text>
+                <p fontSize="large">통화하기</p>
               </button>
             )}
             {idToCall}
