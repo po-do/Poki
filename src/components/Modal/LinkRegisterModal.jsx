@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import ImageSearchResult from "../../pages/General/ImageSearchResult";
 import { createWishList } from "../../api/wishlist.js";
+import FailModal from "../Modal/FailModal";
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
   const [open, setOpen] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [failModal, setFailModal] = useState(false);
 
   const handleSetResult = (item) => {
     setSearchResult(item.map((data) => ({ ...data, title: data.title.replace(/<\/?b>/g, "") })));
@@ -25,18 +27,37 @@ export default function LinkRegisterModal({ onClose }) {
     setSelectedItem(item);
   };
 
-  const choiceWishList = async () => {
-    const params = {
-      request: {
-        ProductName: selectedItem.title,
-        ProductLink: selectedItem.link,
-        ProductImage: selectedItem.image
-      }
-    };
+  const openFailModal = () => {
+    setFailModal(true);
+  };
 
-    await createWishList(params);
-    setSelectedItem(null);
-    onClose();
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
+
+  // 에러 처리 필요
+  const choiceWishList = async () => {
+    try {
+      if (selectedItem){
+        const params = {
+          request: {
+            ProductName: selectedItem.title,
+            ProductLink: selectedItem.link,
+            ProductImage: selectedItem.image
+          }
+        };
+        await createWishList(params);
+        setSelectedItem(null);
+        onClose();
+      }
+      else {
+        openFailModal();
+      }
+      
+    } catch (error){
+      console.log(error);
+    }
+
   }
 
   return (
@@ -68,6 +89,7 @@ export default function LinkRegisterModal({ onClose }) {
             >
               닫기
             </button>
+            {/* 선물 검색 API */}
             {open && (
               <ImageSearchResult query={bookSearchKeyword} handleSetResult={handleSetResult} />
             )}
@@ -109,6 +131,9 @@ export default function LinkRegisterModal({ onClose }) {
           onClick={choiceWishList}
         > 결정
         </button>
+        {failModal && (
+          <FailModal closeModal={closeFailModal} message={"선물을 선택해 주세요"} />
+        )}
       </div>
 
     </div>
