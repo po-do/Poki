@@ -18,9 +18,6 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    
-   
-
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         return this.userRepository.createUser(authCredentialsDto);
     }
@@ -55,6 +52,10 @@ export class AuthService {
     async getConnectionCode(user : User): Promise<any> {
         const randomCode = this.getRandomCode();
         // const user = await this.userRepository.findOneBy({ user_id });
+
+        if (user.code !== null) { 
+            throw new UnauthorizedException('Already connected');
+        }
 
         if (!user) {
             throw new NotFoundException('User not found');
@@ -96,6 +97,7 @@ export class AuthService {
         const child = await this.userRepository.findOneBy({ user_id: child_id });
         const parent = await this.userRepository.findOne( { where: { code: connection_code, type: UserType.PARENT } });
 
+
         if (parent) {
             // child.code = connection_code;
             // await this.userRepository.save(child);
@@ -127,13 +129,14 @@ export class AuthService {
         const { code, type } = user;
         const userType: UserType = type as UserType;
         const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+
+        if (!connectedUser) {
+            return null;
+        }
         
-
-
         return connectedUser.id;
 
-    
-        
+
         // if (connectedUser) {
         //     //return connectedUser;
         //     return {
@@ -152,8 +155,10 @@ export class AuthService {
             const { code, type } = user;
             const userType: UserType = type as UserType;
             const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
-          
-    
+
+            if (!connectedUser) {
+                return null;
+            }
     
             return connectedUser.user_id;
         }

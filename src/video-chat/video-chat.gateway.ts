@@ -27,6 +27,7 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
   }
 
   handleConnection(@ConnectedSocket() socket: Socket): any { 
+    console.log("connection 발생 😁")
     socket.emit("me", socket.id)
   }
 
