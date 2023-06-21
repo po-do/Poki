@@ -4,6 +4,7 @@ import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import * as bcrypt from 'bcryptjs';
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { UserType } from "./user-type.enum";
+import { IsNull } from "typeorm";
 
 
 
@@ -38,7 +39,7 @@ export class UserRepository extends Repository<User> {
     }
 
     async findOneByCodeAndDifferentType(code: string, type: UserType): Promise<User | null> {
-        const connectedUser = await this.findOne({ where: { code, type: Not(type) } });
+        const connectedUser = code ? await this.findOne({ where: { code, type: Not(type) } }) : null;
         return connectedUser || null;
       }
 }
