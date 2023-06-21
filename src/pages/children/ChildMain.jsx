@@ -37,7 +37,7 @@ export default function ChildMain() {
       const fetchedGrape = boardQuery?.data?.data?.grape;
       setGrape(fetchedGrape);
     }
-  }, [boardQuery.isSuccess, boardQuery.data]);
+  }, [grape, boardQuery.isSuccess, boardQuery.data]);
 
   async function addGrape() {
     const grapeStatus = await getBoardStatus();
