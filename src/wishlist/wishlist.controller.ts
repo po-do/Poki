@@ -160,7 +160,7 @@ export class WishlistController {
 
     @Post('/shopping-list')
     async getShoppingList(@Body('query') query: string): Promise<any> {
-        const api_url = 'https://openapi.naver.com/v1/search/blog?query=' + encodeURI(query); // JSON 결과
+        const api_url = 'https://openapi.naver.com/v1/search/shop?query=' + encodeURI(query); // JSON 결과
 
         const options = {
             headers: { 'X-Naver-Client-Id': openAPIConfig.id, 'X-Naver-Client-Secret': openAPIConfig.key }, // config 오류때문에 일단 이렇게 처리 차후 수정
