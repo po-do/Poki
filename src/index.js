@@ -8,7 +8,7 @@ import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
 import client from "./api/client.js";
-import Video from "./pages/General/Video";
+import Video from "./pages/Video/Video";
 
 // Parent Page
 import ParentFormat from "./pages/parents/ParentFormat";
@@ -36,7 +36,8 @@ const ChatFormat = (props) => {
 };
 
 // client.defaults.baseURL = "http://3.34.134.62:3000";
-client.defaults.baseURL = "http://localhost:4000";
+client.defaults.baseURL = "http://43.201.98.251:8000";
+// client.defaults.baseURL = "http://localhost:4000";
 
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";

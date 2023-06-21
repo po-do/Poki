@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
 export default function GrapeAttachModal({ closeModal, message }) {
-  const [open, setOpen] = useState(true);
+  const [open] = useState(true);
 
   const setCloseModal = () => {
     closeModal(); // 모달을 닫기 위해 setOpen(false) 호출

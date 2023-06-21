@@ -1,13 +1,6 @@
 import classNames from "classnames";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
@@ -18,14 +11,11 @@ const ChatRoom = () => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const chatContainerEl = useRef(null);
-
   const { roomName } = useParams();
-  const navigate = useNavigate();
 
   // 채팅방 스크롤 자동 내리기
   useEffect(() => {
     if (!chatContainerEl.current) return;
-
     const chatContainer = chatContainerEl.current;
     const { scrollHeight, clientHeight } = chatContainer;
 
@@ -39,7 +29,10 @@ const ChatRoom = () => {
     const fetchChatData = async () => {
       try {
         const response = await ChatRead({ room_name: roomName });
-        setChats(response.Data);
+        console.log("response", response);
+        console.log("roomName", roomName);
+        console.log("responseData", response.Data);
+        setChats(response?.Data);
       } catch (error) {
         console.error(error);
       }
@@ -58,7 +51,7 @@ const ChatRoom = () => {
     };
   }, []);
 
-  // 채팅방 나가기
+  // 채팅메시지 감지
   const onChange = useCallback((e) => {
     setMessage(e.target.value);
   }, []);
@@ -80,13 +73,6 @@ const ChatRoom = () => {
     [message, roomName, user]
   );
 
-  // 채팅방 나가기(우리 서비스에는 필요 없을 듯)
-  const onLeaveRoom = useCallback(() => {
-    socket.emit("leave-room", roomName, () => {
-      navigate(`/format/${user.type}/message`);
-    });
-  }, [navigate, roomName]);
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -94,10 +80,6 @@ const ChatRoom = () => {
           <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 border border-black">
             <div className="px-4 py-5 sm:p-6">
               <div>
-                <h1>Chat Room: {roomName}</h1>
-                <button className="mb-2 block ml-auto" onClick={onLeaveRoom}>
-                  방 나가기
-                </button>
                 <div
                   ref={chatContainerEl}
                   className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto bg-[#b2c7d9] sm:rounded-lg shadow-lg"
