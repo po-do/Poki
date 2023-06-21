@@ -36,8 +36,8 @@ const ChatFormat = (props) => {
 };
 
 // client.defaults.baseURL = "http://3.34.134.62:3000";
-// client.defaults.baseURL = "http://43.201.98.251:8000";
-client.defaults.baseURL = "http://localhost:4000";
+client.defaults.baseURL = "http://43.201.98.251:8000";
+// client.defaults.baseURL = "http://localhost:4000";
 
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";
