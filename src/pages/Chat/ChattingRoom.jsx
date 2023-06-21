@@ -101,9 +101,9 @@ const ChatRoom = () => {
                           : ""}
                       </span>
                       <span
-                        className={`mb-2 bg-white w-max p-3 rounded-md ${
+                        className={`mb-2 bg-white w-max p-3 rounded-md max-w-sm break-words ${
                           user.id === chat.check_id
-                            ? "bg-red-500 self-end text-black"
+                            ? "bg-yellow-300 self-end text-black"
                             : ""
                         }`}
                       >
