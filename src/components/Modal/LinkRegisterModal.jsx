@@ -12,7 +12,6 @@ export default function LinkRegisterModal({ onClose }) {
   const handleSetResult = (item) => {
     setSearchResult(item.map((data) => ({ ...data, title: data.title.replace(/<\/?b>/g, "") })));
   };
-  
 
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);

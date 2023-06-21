@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import RecentMissionList from "../../components/Mission/ChildMissionList";
 import { getBoardStatus, attachBoard } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+import { getWishlistByUserId } from "../../api/wishlist.js";
+
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
+  const [pickedName, setPickedName] = useState("");
+  const [pickedImage, setPickedImage] = useState("");
+
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -29,6 +33,7 @@ export default function ChildMain() {
   };
 
   const boardQuery = useQuery(["boardState"], () => {
+    pickedWishlistData();
     return getBoardStatus();
   });
 
@@ -48,6 +53,23 @@ export default function ChildMain() {
       openAttachModal();
     }
   }
+
+  const pickedWishlistData = async () => {
+    try {
+      const wishlistData = await getWishlistByUserId();
+      // 상품이 없는 경우 에러 처리
+      if (wishlistData.data.item[0]){
+        const PickedItem = wishlistData.data.item.filter(
+          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
+        );
+        setPickedName(PickedItem[0].ProductName);
+        setPickedImage(PickedItem[0].ProductImage);
+      }
+
+    } catch (error) {
+      console.log("Failed to fetch wishlist data:", error);
+    }
+  };
 
   return (
     <>
@@ -127,12 +149,24 @@ export default function ChildMain() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      <div className="mx-auto mb-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
         <div className="flex-1">
           <RecentMissionList />
         </div>
         <div className="mx-auto max-w-3xl flex-1 text-center">
-          <MissionRegisteredGift />
+        {pickedImage ? (
+            <img
+              src={pickedImage}
+              alt={pickedName}
+              className="object-cover object-center sm:h-full sm:w-full"
+            />
+          ) : (
+            <div
+              className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <span className="mt-2 block text-sm font-semibold text-gray-900">선물을 기다리고 있습니다.</span>
+            </div>
+          )}
         </div>
       </div>
       {/* Modal Area */}
@@ -142,7 +176,7 @@ export default function ChildMain() {
       {failAttachModal && (
         <FailModal
           closeModal={closeFailAttachModal}
-          message="붙일수 있는 포도알이 없습니다."
+          message="붙일 수 있는 포도알이 없습니다."
         />
       )}
     </>
