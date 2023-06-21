@@ -7,10 +7,8 @@ import { VideoChatService } from './video-chat.service';
 @WebSocketGateway({
   namespace: 'video-chat',
   cors: {
-    cors: {
-      origin: "http://localhost:3000",
+      origin: "https://api.pokids.site:8000",
       methods: [ "GET", "POST" ]
-    }
   }
 })
 
