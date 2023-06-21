@@ -7,7 +7,7 @@ import {
   setMissionStatusInComplete,
 } from "../../api/mission.js";
 import { updateBoard, getBoardStatus } from "../../api/board.js";
-import GrapeIssuModal from "../../components/Modal/SuccessModal";
+import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
@@ -215,7 +215,7 @@ export default function MissionTempComplete() {
         </div>
       </div>
       {showModal && (
-        <GrapeIssuModal closeModal={closeModal} message="포도알 요청 완료" />
+        <SuccessModal closeModal={closeModal} message="포도알 요청 완료" />
       )}
       {failModal && (
         <FailModal
@@ -224,7 +224,7 @@ export default function MissionTempComplete() {
         />
       )}
       {showReturnModal && (
-        <GrapeIssuModal closeModal={closeShowReturnModal} message="반려 완료" />
+        <SuccessModal closeModal={closeShowReturnModal} message="반려 완료" />
       )}
     </div>
   );
