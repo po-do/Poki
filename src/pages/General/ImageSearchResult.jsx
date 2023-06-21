@@ -22,5 +22,4 @@ export default function ImageSearchResult({ query,handleSetResult }) {
   useEffect(() => {
     shoppingData();
   }, []);
-
 }

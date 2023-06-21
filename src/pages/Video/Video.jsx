@@ -5,15 +5,16 @@ import io from "socket.io-client";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
+import { getConnectedUserId } from "../../api/auth";
 // import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 const socket = io.connect("https://api.pokids.site:8000/video-chat");
-//const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
-
+// const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
 function Video() {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -34,12 +35,27 @@ function Video() {
   /* 소켓 함수들은 useEffect로 한 번만 정의한다. */
   useEffect(() => {
     /* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
+    // navigator.mediaDevices
+    //   .getUserMedia({ video: true, audio: true })
+    //   .then((stream) => {
+    //     setStream(stream);
+    //     if (myVideo.current) myVideo.current.srcObject = stream;
+    //   });
+    const getMediaStream = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
         setStream(stream);
-        if (myVideo.current) myVideo.current.srcObject = stream;
-      });
+        if (myVideo.current) {
+          myVideo.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.log("Failed to get media stream:", error);
+      }
+    };
+    getMediaStream();
 
     socket.on("me", (id) => {
       setMe(id);
@@ -86,6 +102,20 @@ function Video() {
     });
 
     connectionRef.current = peer;
+  };
+
+  const callConnectedUser = async () => {
+    try {
+      const connectedUser = await getConnectedUserId();
+      if (connectedUser) {
+        const { connected_user, is_connected } = connectedUser.data;
+        callUser(connected_user);
+      } else {
+        console.log("There is no connected_user to call");
+      }
+    } catch (error) {
+      console.log("Failed to get connected status:", error);
+    }
   };
 
   const answerCall = () => {
@@ -205,13 +235,22 @@ function Video() {
                 End Call
               </button>
             ) : (
-              <button
-                color="primary"
-                aria-label="call"
-                onClick={() => callUser(idToCall)}
-              >
-                <p fontSize="large">통화하기</p>
-              </button>
+              <div>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callUser(idToCall)}
+                >
+                  <text fontSize="large">통화하기</text>
+                </button>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callConnectedUser()}
+                >
+                  <text fontSize="large">자녀/부모에게 통화하기</text>
+                </button>
+              </div>
             )}
             {idToCall}
             {errorMessage}
