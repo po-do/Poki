@@ -1,17 +1,18 @@
-// import Button from "@material-ui/core/Button";
-// import IconButton from "@material-ui/core/IconButton";
-// import TextField from "@material-ui/core/TextField";
-// import AssignmentIcon from "@material-ui/icons/Assignment";
-// import PhoneIcon from "@material-ui/icons/Phone";
 import React, { useEffect, useRef, useState } from "react";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
 import io from "socket.io-client";
+
+import { useRecoilValue } from "recoil";
+import { userState } from "../../recoil/user";
 // import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
 const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
+
+const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
 function Video() {
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
@@ -42,6 +43,10 @@ function Video() {
 
     socket.on("me", (id) => {
       setMe(id);
+    });
+
+    socket.emit("setUserName", {
+      user_id: user.user_id,
     });
 
     socket.on("callUser", (data) => {
@@ -119,14 +124,6 @@ function Video() {
       track.enabled = !track.enabled;
     });
     setCameraOff(!cameraOff);
-  };
-
-  const createUserSocketConn = () => {
-    // TODO: 프론트에서 이 부분에 recoil로 저장된 user Id를 보내주면 된다.
-    /* 여기에 보내준 유저의 아이디는 실제 아이디로 부탁드립니다. (index 말고) */
-    socket.emit("setUserName", {
-      user_id: "유저아이디",
-    });
   };
 
   return (
