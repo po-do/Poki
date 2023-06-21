@@ -41,9 +41,11 @@ export class AuthController {
     @Patch('/user/connect')
     @UseGuards(AuthGuard())
     async updateChildCode(
-      @Body('child_id') child_id: string,
-      @Body('connection_code') connection_code: string,
+        @GetUser() user: User,
+        @Body('connection_code') connection_code: string,
         ): Promise<{ connected: boolean; type: UserType }> {
+            const child_id = user.user_id;
+            
             const result = await this.authService.updateChildCode(child_id, connection_code);
         return { connected: result.connected, type: result.type };
         // connected true false만 반환하는 코드
@@ -55,8 +57,7 @@ export class AuthController {
     @UseGuards(AuthGuard())
     async getConnectedUser(@GetUser() user: User): Promise<any> {
         const connectedUser =  await this.authService.getConnectedUser(user);
-        
-
+    
         if (connectedUser) {
             //return connectedUser;
             return {
@@ -64,11 +65,19 @@ export class AuthController {
                 success: true,
                 data: {
                   connected_user: connectedUser,
+                  is_connected: true,
                 },
               };
             } else {
-              throw new NotFoundException('Connected user not found');
+                
+                return {
+                    code: 200,
+                    success: true,
+                    data: {
+                    connected_user: null,
+                    is_connected: false,
+                    },
+                };
             }
-
     }
 }
