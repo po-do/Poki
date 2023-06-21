@@ -1,36 +1,42 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../parents/ParentProductCard";
-import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
+import { getWishlistByUserId, updateWishlistPickStatus } from "../../api/wishlist.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 import { createBoard, getBoardStatus } from "../../api/board.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
-  const [product, setproduct] = useState([]);
+  const [product, setProduct] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [showFailModal, setShowFailModal] = useState(false);
 
-  const openModal = async () => {
+  const openModal = () => {
     setShowModal(true);
-    
   };
 
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const handlePicked = async() => {
-    openModal();
-    const state = await getBoardStatus();
-    if(!state.is_existence){
-      createBoard();
-    }
+  const handlePicked = async () => {
+    if (selectedItem) {
+      openModal();
+      const state = await getBoardStatus();
+      if (!state.is_existence) {
+        createBoard();
+      }
 
-    const params = {
-      itemid: selectedItem
-    }
+      const params = {
+        itemid: selectedItem
+      };
 
-  await updateWishlistPickStatus(params);
-  }
+      await updateWishlistPickStatus(params);
+      setSelectedItem(null);
+    } else {
+      setShowFailModal(true);
+    }
+  };
 
   const handleItemClick = (itemid) => {
     setSelectedItem(itemid);
@@ -38,7 +44,7 @@ export default function ChildWishList() {
 
   useEffect(() => {
     fetchWishlistData();
-  }, [product]);
+  }, [selectedItem, product]);
 
   const fetchWishlistData = async () => {
     try {
@@ -46,7 +52,7 @@ export default function ChildWishList() {
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );
-      setproduct(unPickedItem);
+      setProduct(unPickedItem);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -80,7 +86,12 @@ export default function ChildWishList() {
             >
               선물 선택
             </button>
-            {showModal && <SuccessModal closeModal={closeModal} message={"선물 선택 완료"}/>}
+            {showModal && selectedItem ? (
+              <SuccessModal closeModal={closeModal} message={"선물 선택 완료"} />
+            ) : null}
+            {showFailModal ? (
+              <FailModal closeModal={() => setShowFailModal(false)} message={"선물을 선택해주세요."} />
+            ) : null}
           </div>
         </div>
       </div>
