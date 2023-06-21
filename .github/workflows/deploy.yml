@@ -17,9 +17,23 @@ jobs:
       - name: AWS IAM user config
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+          
+      - name: Set up environment variables
+        env:
+          REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
+          REACT_APP_CLIENT_SECRET: ${{ secrets.REACT_APP_CLIENT_SECRET }}
+          REACT_APP_SOCKET_URL: ${{ secrets.REACT_APP_SOCKET_URL }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_VIDEO_SOCKET_URL: ${{ secrets.REACT_APP_VIDEO_SOCKET_URL }}
+        run: |
+          echo "REACT_APP_CLIENT_ID: $REACT_APP_CLIENT_ID"
+          echo "REACT_APP_CLIENT_SECRET: $REACT_APP_CLIENT_SECRET"
+          echo "REACT_APP_SOCKET_URL: $REACT_APP_SOCKET_URL"
+          echo "REACT_APP_API_URL: $REACT_APP_API_URL"
+          echo "REACT_APP_VIDEO_SOCKET_URL: $REACT_APP_VIDEO_SOCKET_URL"
 
       - name: react build
         run: |
@@ -29,7 +43,7 @@ jobs:
       - name: build file to s3
         run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: CloudFront cache
@@ -38,5 +52,5 @@ jobs:
           DISTRIBUTION: ${{ secrets.AWS_CLOUDFRONT_ID }}
           PATHS: "/*"
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
