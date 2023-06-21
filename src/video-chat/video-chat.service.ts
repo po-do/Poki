@@ -28,8 +28,8 @@ export class VideoChatService {
         const socket_connection = await this.socketConnectionRepository.findOneBy({user_id: user_id});
 
         if (!socket_connection) {
-            console.log(`${user_id}를 찾을 수 없습니다.`);
-            //throw new NotFoundException(`${user_id}를 찾을 수 없습니다.`);
+            // console.log(`${user_id}를 찾을 수 없습니다.`);
+            throw new NotFoundException(`${user_id}를 찾을 수 없습니다.`);
         }
         
         return socket_connection?.socket_id;

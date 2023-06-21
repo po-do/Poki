@@ -27,7 +27,7 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
   }
 
   handleConnection(@ConnectedSocket() socket: Socket): any { 
-    this.logger.log("connection 발생 🤣")
+    // this.logger.log("connection 발생 🤣")
     socket.emit("me", socket.id)
   }
 
@@ -46,10 +46,10 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
       if (disconnectedUser) {
         this.videoChatService.deleteConnection(disconnectedUser)
       }
-      this.logger.log("disconnection 발생 😀")
+      this.logger.log("disconnection 발생 😀, 삭제 완료")
       socket.broadcast.emit("callEnded")
     } catch (error) {
-      this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
+      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
     }
   }
 
@@ -59,13 +59,17 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
     @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
     const {userToCall, signalData, from, name} = data;
 
-    const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+    try {
+      const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
 
-		if (userToCallId) {
-			this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
-		} else {
-			socket.emit("noUserToCall", userToCall);
-		}
+      if (userToCallId) {
+        this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
+      } else {
+        socket.emit("noUserToCall", userToCall);
+      }
+    } catch (error) {
+      socket.emit("noUserToCall", userToCall);
+    }
   }
 
   @SubscribeMessage('answerCall')
