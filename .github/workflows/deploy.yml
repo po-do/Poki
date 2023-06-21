@@ -25,11 +25,17 @@ jobs:
           
       - name: Set up environment variables
         run: |
-          echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> .env
-          echo "REACT_APP_CLIENT_SECRET=${{ secrets.REACT_APP_CLIENT_SECRET }}" >> .env
-          echo "REACT_APP_SOCKET_URL=${{ secrets.REACT_APP_SOCKET_URL }}" >> .env
-          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env
-          echo "REACT_APP_VIDEO_SOCKET_URL=${{ secrets.REACT_APP_VIDEO_SOCKET_URL }}" >> .env
+          echo "REACT_APP_CLIENT_ID=$REACT_APP_CLIENT_ID" >> .env
+          echo "REACT_APP_CLIENT_SECRET=$REACT_APP_CLIENT_SECRET" >> .env
+          echo "REACT_APP_SOCKET_URL=$.REACT_APP_SOCKET_URL" >> .env
+          echo "REACT_APP_API_URL=$REACT_APP_API_URL" >> .env
+          echo "REACT_APP_VIDEO_SOCKET_URL=$REACT_APP_VIDEO_SOCKET_URL" >> .env
+        env:
+          REACT_APP_CLIENT_ID: ${{ REACT_APP_CLIENT_ID }}
+          REACT_APP_CLIENT_SECRET: ${{ REACT_APP_CLIENT_SECRET }}
+          REACT_APP_SOCKET_URL: ${{ REACT_APP_SOCKET_URL }}
+          REACT_APP_API_URL: ${{ REACT_APP_API_URL }}
+          REACT_APP_VIDEO_SOCKET_URL: ${{ REACT_APP_VIDEO_SOCKET_URL }}
 
       - name: react build
         run: |
