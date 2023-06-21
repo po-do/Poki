@@ -31,15 +31,14 @@ export default function ChildWishList() {
   const handlePicked = async() => {
     try {
       // 과거에 선택된 선물이 있는 경우
-      const wishlistData = await getWishlistByUserId();
-        const PickedItem = wishlistData.data.item.filter(
-          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE");
-      if (PickedItem[0]) {
-        openFailModal();
-        setMessage("이미 선택된 선물이 있습니다");
-        return;
-      }
-      
+      // const wishlistData = await getWishlistByUserId();
+      // console.log(wishlistData);
+      // if (wishlistData.data.item[0]) {
+      //   openFailModal();
+      //   setMessage("이미 선택된 선물이 있습니다");
+      //   return;
+      // }
+
       // 선택된 아이템이 있는 경우
       if(selectedItem){
         openSuccessModal();
