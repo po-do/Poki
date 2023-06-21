@@ -6,7 +6,7 @@ export default function ImageSearchResult({ query,handleSetResult }) {
   const SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
 
   const shoppingData = async () => {
-    const URL = "/v1/search/shop.json";
+    const URL = "https://openapi.naver.com/v1/search/shop.json";
     await axios
       .get(URL, {
         params: {
@@ -14,7 +14,7 @@ export default function ImageSearchResult({ query,handleSetResult }) {
           display: 10,
           filter : "유아"
         },
-        
+
         headers: {
           "X-Naver-Client-Id": ID_KEY,
           "X-Naver-Client-Secret": SECRET_KEY,
@@ -23,7 +23,7 @@ export default function ImageSearchResult({ query,handleSetResult }) {
       .then((response) => {
         handleSetResult(response.data.items);
         console.log("성공");
-    })
+      })
       .catch((e) => {
         console.log("실패");
       });
