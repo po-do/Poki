@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback } from "react";
+import { Fragment, useState, useCallback, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -128,6 +128,10 @@ export default function ChildFormat() {
 
   // ==================================================================
 
+  // useEffect(() => {
+  //   getCode();
+  // }, []);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -253,7 +257,9 @@ export default function ChildFormat() {
                       />
                       코드 등록
                     </div>
-
+                    {/* 현재 코드가 등록 되어 있는 경우 */}
+                    
+                    {/* 현재 코드가 등록 안되어 경우 */}
                     <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                       <div className="flex gap-x-4">
                         <input
