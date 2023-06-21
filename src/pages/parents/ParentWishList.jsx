@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../parents/ParentProductCard";
-import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
+import {
+  getWishlistByUserId,
+  updateWishlistPickStatus,
+} from "../../api/wishlist.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import { createBoard, getBoardStatus } from "../../api/board.js";
 import FailModal from "../../components/Modal/FailModal";
@@ -12,7 +15,6 @@ export default function ChildWishList() {
   const [message, setMessage] = useState("");
   const openSuccessModal = async () => {
     setShowModal(true);
-    
   };
 
   const closeSuccessModal = () => {
@@ -21,39 +23,39 @@ export default function ChildWishList() {
 
   const openFailModal = async () => {
     setShowFailModal(true);
-    
   };
 
   const closeFailModal = () => {
     setShowFailModal(false);
   };
 
-  const handlePicked = async() => {
+  const handlePicked = async () => {
     try {
       // 과거에 선택된 선물이 있는 경우
       const wishlistData = await getWishlistByUserId();
-        const PickedItem = wishlistData.data.item.filter(
-          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE");
+      const PickedItem = wishlistData.data.item.filter(
+        (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
+      );
       if (PickedItem[0]) {
         openFailModal();
         setMessage("이미 선택된 선물이 있습니다");
         return;
       }
-      
+
       // 선택된 아이템이 있는 경우
-      if(selectedItem){
+      if (selectedItem) {
         openSuccessModal();
         const state = await getBoardStatus();
-        console.log(state)
+        console.log(state);
 
         // 현재 보드가 존재하지 않는 경우
-        if(!state.is_existence){
+        if (!state.is_existence) {
           createBoard();
-        } 
- 
-        const params = {
-          itemid: selectedItem
         }
+
+        const params = {
+          itemid: selectedItem,
+        };
         await updateWishlistPickStatus(params);
         setSelectedItem(null);
       } else {
@@ -61,11 +63,10 @@ export default function ChildWishList() {
         setMessage("선물을 선택해 주세요");
         return;
       }
-
     } catch (error) {
-        console.log(error)
-      }
-  }
+      console.log(error);
+    }
+  };
 
   const handleItemClick = (itemid) => {
     setSelectedItem(itemid);
@@ -115,8 +116,15 @@ export default function ChildWishList() {
             >
               선물 선택
             </button>
-            {showModal && <SuccessModal closeModal={closeSuccessModal} message={"선물 선택 완료"}/>}
-            {showFailModal && <FailModal closeModal={closeFailModal} message={message}/>}
+            {showModal && (
+              <SuccessModal
+                closeModal={closeSuccessModal}
+                message={"선물 선택 완료"}
+              />
+            )}
+            {showFailModal && (
+              <FailModal closeModal={closeFailModal} message={message} />
+            )}
           </div>
         </div>
       </div>
