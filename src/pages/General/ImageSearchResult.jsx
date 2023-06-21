@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import axios from "axios";
 
-export default function ImageSearchResult({ query,handleSetResult }) {
+export default function ImageSearchResult({ query, handleSetResult }) {
   const ID_KEY = process.env.REACT_APP_CLIENT_ID;
   const SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
 
   const shoppingData = async () => {
-    const URL = "https://openapi.naver.com/v1/search/shop.json";
+    const URL = "/v1/search/shop.json";
     await axios
       .get(URL, {
         params: {
           query: query,
           display: 10,
-          filter : "유아"
+          filter: "유아",
         },
 
         headers: {
@@ -27,11 +27,9 @@ export default function ImageSearchResult({ query,handleSetResult }) {
       .catch((e) => {
         console.log("실패");
       });
- 
   };
 
   useEffect(() => {
     shoppingData();
   }, []);
-
 }
