@@ -5,11 +5,12 @@ import RecentMissionList from "../../components/Mission/ChildMissionList";
 import { getBoardStatus, attachBoard } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
-
+  const [failAttachModal, setFailAttachModal] = useState(false);
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -17,6 +18,14 @@ export default function ChildMain() {
 
   const closeAttachModal = () => {
     setAttachModal(false);
+  };
+
+  const openFailAttachModal = () => {
+    setFailAttachModal(true);
+  };
+
+  const closeFailAttachModal = () => {
+    setFailAttachModal(false);
   };
 
   const boardQuery = useQuery(["boardState"], () => {
@@ -31,8 +40,13 @@ export default function ChildMain() {
   }, [boardQuery.isSuccess, boardQuery.data]);
 
   async function addGrape() {
-    await attachBoard();
-    openAttachModal();
+    const grapeStatus = await getBoardStatus();
+    if (grapeStatus.data.grape.deattached_grapes === 0) {
+      openFailAttachModal();
+    } else {
+      await attachBoard();
+      openAttachModal();
+    }
   }
 
   return (
@@ -124,6 +138,12 @@ export default function ChildMain() {
       {/* Modal Area */}
       {attachModal && (
         <SuccessModal closeModal={closeAttachModal} message="등록완료" />
+      )}
+      {failAttachModal && (
+        <FailModal
+          closeModal={closeFailAttachModal}
+          message="붙일수 있는 포도알이 없습니다."
+        />
       )}
     </>
   );
