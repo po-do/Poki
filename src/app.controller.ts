@@ -9,4 +9,8 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+  @Get('/')
+  ping() {
+    return 'health check success';
+  }
 }
