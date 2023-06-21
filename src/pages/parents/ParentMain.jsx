@@ -4,7 +4,7 @@ import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGif
 import { getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 
-export default function ChildMain() {
+export default function ParentMain() {
   const [grape, setGrape] = useState({});
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
