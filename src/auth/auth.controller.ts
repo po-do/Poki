@@ -80,4 +80,32 @@ export class AuthController {
                 };
             }
     }
+
+    @Get('/connected-user/id')
+    @UseGuards(AuthGuard())
+    async getConnectedUserId(@GetUser() user: User): Promise<any> {
+        const connectedUser =  await this.authService.getConnectedUser_id(user);
+    
+        if (connectedUser) {
+            //return connectedUser;
+            return {
+                code: 200,
+                success: true,
+                data: {
+                  connected_user: connectedUser,
+                  is_connected: true,
+                },
+              };
+            } else {
+                
+                return {
+                    code: 200,
+                    success: true,
+                    data: {
+                    connected_user: null,
+                    is_connected: false,
+                    },
+                };
+            }
+    }
 }

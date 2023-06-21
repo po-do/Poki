@@ -9,11 +9,9 @@ const conrsConfig = config.get('cors');
 
 @WebSocketGateway({
   namespace: 'video-chat',
-  cors: {
     cors: {
       origin: [conrsConfig.url],
       methods: [ "GET", "POST" ]
-    }
   }
 })
 
