@@ -1,42 +1,57 @@
 import React, { useState, useEffect } from "react";
 import ParentProductCard from "../parents/ParentProductCard";
-import { getWishlistByUserId, updateWishlistPickStatus } from "../../api/wishlist.js";
+import { getWishlistByUserId,updateWishlistPickStatus } from "../../api/wishlist.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
-import FailModal from "../../components/Modal/FailModal";
 import { createBoard, getBoardStatus } from "../../api/board.js";
-
+import FailModal from "../../components/Modal/FailModal";
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
-  const [product, setProduct] = useState([]);
+  const [product, setproduct] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showFailModal, setShowFailModal] = useState(false);
 
-  const openModal = () => {
+  const openSuccessModal = async () => {
     setShowModal(true);
+    
   };
 
-  const closeModal = () => {
+  const closeSuccessModal = () => {
     setShowModal(false);
   };
 
-  const handlePicked = async () => {
-    if (selectedItem) {
-      openModal();
-      const state = await getBoardStatus();
-      if (!state.is_existence) {
-        createBoard();
+  const openFailModal = async () => {
+    setShowFailModal(true);
+    
+  };
+
+  const closeFailModal = () => {
+    setShowFailModal(false);
+  };
+
+  const handlePicked = async() => {
+    try {
+      // 선택된 아이템이 있는 경우
+      if(selectedItem){
+        openSuccessModal();
+        const state = await getBoardStatus();
+        // 현재 위시리스트가 존재하지 않는 경우
+        if(!state.is_existence){
+          createBoard();
+        }
+    
+        const params = {
+          itemid: selectedItem
+        }
+        await updateWishlistPickStatus(params);
+        setSelectedItem(null);
+      } else {
+        openFailModal();
       }
 
-      const params = {
-        itemid: selectedItem
-      };
-
-      await updateWishlistPickStatus(params);
-      setSelectedItem(null);
-    } else {
-      setShowFailModal(true);
-    }
-  };
+    } catch (error) {
+        console.log(error)
+      }
+  }
 
   const handleItemClick = (itemid) => {
     setSelectedItem(itemid);
@@ -44,7 +59,7 @@ export default function ChildWishList() {
 
   useEffect(() => {
     fetchWishlistData();
-  }, [selectedItem, product]);
+  }, [product]);
 
   const fetchWishlistData = async () => {
     try {
@@ -52,7 +67,7 @@ export default function ChildWishList() {
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );
-      setProduct(unPickedItem);
+      setproduct(unPickedItem);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -86,12 +101,8 @@ export default function ChildWishList() {
             >
               선물 선택
             </button>
-            {showModal && selectedItem ? (
-              <SuccessModal closeModal={closeModal} message={"선물 선택 완료"} />
-            ) : null}
-            {showFailModal ? (
-              <FailModal closeModal={() => setShowFailModal(false)} message={"선물을 선택해주세요."} />
-            ) : null}
+            {showModal && <SuccessModal closeModal={closeSuccessModal} message={"선물 선택 완료"}/>}
+            {showFailModal && <FailModal closeModal={closeFailModal} message={"선물을 선택해 주세요"}/>}
           </div>
         </div>
       </div>
