@@ -14,7 +14,7 @@ export class UserRepository extends Repository<User> {
         super(User, dataSource.createEntityManager());
     }
 
-    async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    async createUser(authCredentialsDto: AuthCredentialsDto): Promise<any> {
         const { user_id, password, user_name, type, code } = authCredentialsDto;
 
         const salt = await bcrypt.genSalt();
@@ -29,6 +29,10 @@ export class UserRepository extends Repository<User> {
 
         try {
             await user.save();
+            return {
+                code: 200,
+                success: true
+            };
         } catch (error) {
             if (error.code === 'ER_DUP_ENTRY') {
                 throw new ConflictException('Existing user_id');
