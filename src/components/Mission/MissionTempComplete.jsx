@@ -72,7 +72,7 @@ export default function MissionTempComplete() {
 
   const { mutate: complete } = useMutation(setMissionStatusComplete, {
     onSuccess: async () => {
-      await addGrape();
+      await addGrape(selectedMissions.length);
       queryClient.invalidateQueries("missions");
     },
   });
@@ -83,12 +83,12 @@ export default function MissionTempComplete() {
     },
   });
 
-  const addGrape = async () => {
+  const addGrape = async (count) => {
     const newStatus = {
       blank: grape?.blank,
       attached_grapes: grape?.attached_grapes,
       total_grapes: grape?.total_grapes,
-      deattached_grapes: grape?.deattached_grapes + 1,
+      deattached_grapes: grape?.deattached_grapes + count,
     };
 
     await updateBoard(newStatus);
