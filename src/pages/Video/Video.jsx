@@ -5,6 +5,7 @@ import io from "socket.io-client";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
+import { getConnectedUser } from "../../api/auth";
 // import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
@@ -14,6 +15,7 @@ const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
 function Video() {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -34,12 +36,27 @@ function Video() {
   /* 소켓 함수들은 useEffect로 한 번만 정의한다. */
   useEffect(() => {
     /* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
+    // navigator.mediaDevices
+    //   .getUserMedia({ video: true, audio: true })
+    //   .then((stream) => {
+    //     setStream(stream);
+    //     if (myVideo.current) myVideo.current.srcObject = stream;
+    //   });
+    const getMediaStream = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
         setStream(stream);
-        if (myVideo.current) myVideo.current.srcObject = stream;
-      });
+        if (myVideo.current) {
+          myVideo.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.log("Failed to get media stream:", error);
+      }
+    };
+    getMediaStream();
 
     socket.on("me", (id) => {
       setMe(id);
@@ -88,6 +105,20 @@ function Video() {
     connectionRef.current = peer;
   };
 
+  const callConnectedUser = async () => {
+    try {
+      const connectedUser = await getConnectedUser();
+      if (connectedUser) {
+        const { connected_user, is_connected } = connectedUser.data;
+        callUser(connected_user);
+      } else {
+        console.log("There is no connected_user to call");
+      }
+    } catch (error) {
+      console.log("Failed to get connected status:", error);
+    }
+  };
+
   const answerCall = () => {
     setCallAccepted(true);
     const peer = new Peer({
@@ -128,53 +159,62 @@ function Video() {
 
   return (
     <>
-      <h1 className="text-center text-white">화상</h1>
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center">
-          <div className="video w-3/4">
+      <h1 style={{ pAlign: "center", color: "#fff" }}>화상</h1>
+      <div className="container">
+        <div className="video-container">
+          <div className="video">
             {stream && (
               <video
                 playsInline
                 muted
                 ref={myVideo}
                 autoPlay
-                className="w-full"
+                style={{ width: "70%" }}
               />
             )}
           </div>
-          <div className="video w-3/4">
+          <div className="video">
             {callAccepted && !callEnded ? (
-              <video playsInline ref={userVideo} autoPlay className="w-full" />
+              <video
+                playsInline
+                ref={userVideo}
+                autoPlay
+                style={{ width: "70%" }}
+              />
             ) : null}
           </div>
-          <div className="flex gap-8 mt-4">
+          <div style={{ display: "flex", gap: "20px" }}>
             <button
-              className={`p-2 text-white ${
-                muted ? "bg-red-500" : "bg-blue-500"
-              }`}
+              variant="contained"
+              color="primary"
               onClick={handleMuteClick}
             >
               {muted ? "음소거 해제" : "음소거"}
             </button>
             <button
-              className={`p-2 text-white ${
-                cameraOff ? "bg-green-500" : "bg-blue-500"
-              }`}
+              variant="contained"
+              color="primary"
               onClick={handleCameraClick}
             >
               {cameraOff ? "카메라 켜기" : "카메라 끄기"}
             </button>
           </div>
         </div>
-        <div className="my-8">
+        <div className="myId">
           <input
-            className="border-2 border-gray-200 w-full p-2 mb-4"
+            id="filled-basic"
+            label="Name"
+            variant="filled"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <button
-            className="p-2 w-full bg-blue-500 text-white mb-8"
+            variant="contained"
+            color="primary"
+            style={{ marginBottom: "2rem" }}
             onClick={() => {
+              // TODO: 소켓-유저 아이디 연결이 완료되면 버튼과 socket 함수를 제거해야 한다.
               socket.emit("setUserName", {
                 user_id: name,
               });
@@ -184,37 +224,44 @@ function Video() {
           </button>
 
           <input
-            className="border-2 border-gray-200 w-full p-2"
+            id="filled-basic"
+            label="ID to call"
+            variant="filled"
             value={idToCall}
             onChange={(e) => setIdToCall(e.target.value)}
           />
-          <div className="call-button mt-4">
+          <div className="call-button">
             {callAccepted && !callEnded ? (
-              <button
-                className="p-2 w-full bg-red-500 text-white"
-                onClick={leaveCall}
-              >
+              <button variant="contained" color="secondary" onClick={leaveCall}>
                 End Call
               </button>
             ) : (
-              <button
-                className="p-2 w-full bg-blue-500 text-white"
-                onClick={() => callUser(idToCall)}
-              >
-                통화하기
-              </button>
+              <div>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callUser(idToCall)}
+                >
+                  <p fontSize="large">통화하기</p>
+                </button>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callConnectedUser()}
+                >
+                  <p fontSize="large">자녀/부모에게 통화하기</p>
+                </button>
+              </div>
             )}
-            <p className="text-red-500">{errorMessage}</p>
+            {idToCall}
+            {errorMessage}
           </div>
         </div>
         <div>
           {receivingCall && !callAccepted ? (
-            <div className="caller mt-8 text-center">
-              <h1 className="text-2xl">{name} 가 전화를 걸었어요</h1>
-              <button
-                className="p-2 w-full bg-blue-500 text-white mt-4"
-                onClick={answerCall}
-              >
+            <div className="caller">
+              <h1>{name} 가 전화를 걸었어요</h1>
+              <button variant="contained" color="primary" onClick={answerCall}>
                 Answer
               </button>
             </div>
