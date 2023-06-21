@@ -4,7 +4,9 @@ import { Logger, Injectable } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+import * as config from 'config';
 
+const corsConfig = config.get('cors');
 
 interface MessagePayload {
   roomName: string;
@@ -16,7 +18,7 @@ let createRooms: string[] = [];
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: [corsConfig.url],
   },
 })
 
