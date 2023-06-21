@@ -127,62 +127,53 @@ function Video() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "#fff" }}>화상</h1>
-      <div className="container">
-        <div className="video-container">
-          <div className="video">
+      <h1 className="text-center text-white">화상</h1>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center justify-center">
+          <div className="video w-3/4">
             {stream && (
               <video
                 playsInline
                 muted
                 ref={myVideo}
                 autoPlay
-                style={{ width: "70%" }}
+                className="w-full"
               />
             )}
           </div>
-          <div className="video">
+          <div className="video w-3/4">
             {callAccepted && !callEnded ? (
-              <video
-                playsInline
-                ref={userVideo}
-                autoPlay
-                style={{ width: "70%" }}
-              />
+              <video playsInline ref={userVideo} autoPlay className="w-full" />
             ) : null}
           </div>
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div className="flex gap-8 mt-4">
             <button
-              variant="contained"
-              color="primary"
+              className={`p-2 text-white ${
+                muted ? "bg-red-500" : "bg-blue-500"
+              }`}
               onClick={handleMuteClick}
             >
               {muted ? "음소거 해제" : "음소거"}
             </button>
             <button
-              variant="contained"
-              color="primary"
+              className={`p-2 text-white ${
+                cameraOff ? "bg-green-500" : "bg-blue-500"
+              }`}
               onClick={handleCameraClick}
             >
               {cameraOff ? "카메라 켜기" : "카메라 끄기"}
             </button>
           </div>
         </div>
-        <div className="myId">
+        <div className="my-8">
           <input
-            id="filled-basic"
-            label="Name"
-            variant="filled"
+            className="border-2 border-gray-200 w-full p-2 mb-4"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{ marginBottom: "20px" }}
           />
           <button
-            variant="contained"
-            color="primary"
-            style={{ marginBottom: "2rem" }}
+            className="p-2 w-full bg-blue-500 text-white mb-8"
             onClick={() => {
-              // TODO: 소켓-유저 아이디 연결이 완료되면 버튼과 socket 함수를 제거해야 한다.
               socket.emit("setUserName", {
                 user_id: name,
               });
@@ -192,35 +183,37 @@ function Video() {
           </button>
 
           <input
-            id="filled-basic"
-            label="ID to call"
-            variant="filled"
+            className="border-2 border-gray-200 w-full p-2"
             value={idToCall}
             onChange={(e) => setIdToCall(e.target.value)}
           />
-          <div className="call-button">
+          <div className="call-button mt-4">
             {callAccepted && !callEnded ? (
-              <button variant="contained" color="secondary" onClick={leaveCall}>
+              <button
+                className="p-2 w-full bg-red-500 text-white"
+                onClick={leaveCall}
+              >
                 End Call
               </button>
             ) : (
               <button
-                color="primary"
-                aria-label="call"
+                className="p-2 w-full bg-blue-500 text-white"
                 onClick={() => callUser(idToCall)}
               >
-                <p fontSize="large">통화하기</p>
+                통화하기
               </button>
             )}
-            {idToCall}
-            {errorMessage}
+            <p className="text-red-500">{errorMessage}</p>
           </div>
         </div>
         <div>
           {receivingCall && !callAccepted ? (
-            <div className="caller">
-              <h1>{name} 가 전화를 걸었어요</h1>
-              <button variant="contained" color="primary" onClick={answerCall}>
+            <div className="caller mt-8 text-center">
+              <h1 className="text-2xl">{name} 가 전화를 걸었어요</h1>
+              <button
+                className="p-2 w-full bg-blue-500 text-white mt-4"
+                onClick={answerCall}
+              >
                 Answer
               </button>
             </div>
