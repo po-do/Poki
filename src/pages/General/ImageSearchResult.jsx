@@ -25,7 +25,7 @@ export default function ImageSearchResult({ query, handleSetResult }) {
         console.log("성공");
       })
       .catch((e) => {
-        console.log("실패");
+        console.log(e);
       });
   };
 
