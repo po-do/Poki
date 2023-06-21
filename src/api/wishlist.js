@@ -83,3 +83,16 @@ export async function updateWishList(params) {
   );
   return response.data;
 }
+
+// 네이버 API 요청
+export async function getShoppingList(params) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  const response = await client.post(
+    `/wishlist/shopping-list`,
+    params.request
+  );
+  return response.data;
+}
