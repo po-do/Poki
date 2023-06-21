@@ -52,7 +52,6 @@ export async function updateBoard(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   console.log("updateBoard 호출");
-  console.log("params", params);
   const response = await client.post(`/board/grape`, params);
   return response.data;
 }

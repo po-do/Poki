@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
-export default function GrapeAttachModal({ closeModal, message }) {
+export default function SuccessModal({ closeModal, message }) {
   const [open] = useState(true);
 
   const setCloseModal = () => {

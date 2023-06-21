@@ -1,7 +1,6 @@
 import React from "react";
 import { getWishlistByUserId } from "../../api/wishlist.js";
 import { useState, useEffect } from "react";
-import { GifIcon } from "@heroicons/react/24/outline";
 
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
 export default function MissionRegisteredGift() {
@@ -14,14 +13,19 @@ export default function MissionRegisteredGift() {
     pickedWishlistData();
   }, []);
 
+  // picked가 된 위시리스트 보상
   const pickedWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
-      const PickedItem = wishlistData.data.item.filter(
-        (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
-      );
-      setPickedName(PickedItem[0].ProductName);
-      setPickedImage(PickedItem[0].ProductImage);
+      // 상품이 없는 경우 에러 처리
+      if (wishlistData.data.item[0]){
+        const PickedItem = wishlistData.data.item.filter(
+          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
+        );
+        setPickedName(PickedItem[0].ProductName);
+        setPickedImage(PickedItem[0].ProductImage);
+      }
+
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
