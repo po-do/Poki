@@ -5,13 +5,12 @@ import io from "socket.io-client";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
-import { getConnectedUser } from "../../api/auth";
+import { getConnectedUserId } from "../../api/auth";
 // import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
-//const socket = io.connect("https://api.pokids.site:8000/video-chat");
-const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
-
+const socket = io.connect("https://api.pokids.site:8000/video-chat");
+// const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
 function Video() {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
@@ -107,7 +106,7 @@ function Video() {
 
   const callConnectedUser = async () => {
     try {
-      const connectedUser = await getConnectedUser();
+      const connectedUser = await getConnectedUserId();
       if (connectedUser) {
         const { connected_user, is_connected } = connectedUser.data;
         callUser(connected_user);
@@ -159,7 +158,7 @@ function Video() {
 
   return (
     <>
-      <h1 style={{ pAlign: "center", color: "#fff" }}>화상</h1>
+      <h1 style={{ textAlign: "center", color: "#fff" }}>화상</h1>
       <div className="container">
         <div className="video-container">
           <div className="video">
@@ -242,14 +241,14 @@ function Video() {
                   aria-label="call"
                   onClick={() => callUser(idToCall)}
                 >
-                  <p fontSize="large">통화하기</p>
+                  <text fontSize="large">통화하기</text>
                 </button>
                 <button
                   color="primary"
                   aria-label="call"
                   onClick={() => callConnectedUser()}
                 >
-                  <p fontSize="large">자녀/부모에게 통화하기</p>
+                  <text fontSize="large">자녀/부모에게 통화하기</text>
                 </button>
               </div>
             )}

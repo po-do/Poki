@@ -66,3 +66,13 @@ export async function getConnectedUser(params) {
   const response = await client.get(`/auth/connected-user`);
   return response.data;
 }
+
+// 유저와 연결된 user의 id 반환
+export async function getConnectedUserId(params) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  const response = await client.get(`/auth/connected-user/id`);
+  return response.data;
+}
