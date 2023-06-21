@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createBoard } from "../../api/board.ts";
+import { createBoard } from "../../api/board.js";
 
 export default function PodoRegisterModal({ onClose , isSelected}) {
   const [podoData, setpodoData] = useState("");

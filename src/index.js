@@ -7,9 +7,8 @@ import "./index.css";
 import App from "./App";
 import NotFound from "./pages/General/NotFound";
 import Signup from "./pages/General/Signup";
-import client from "./api/client.ts";
-import Chatting from "./pages/General/Chatting";
-import Video from "./pages/General/Video";
+import client from "./api/client.js";
+import Video from "./pages/Video/Video";
 
 // Parent Page
 import ParentFormat from "./pages/parents/ParentFormat";
@@ -26,9 +25,23 @@ import ChildWishList from "./pages/children/ChildWishList";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // recoil
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilValue } from "recoil";
+import { userState } from "./recoil/user";
 
-client.defaults.baseURL = "http://3.34.134.62:3000";
+// chatting
+import ParentChatFormat from "./pages/Chat/ParentChatFormat";
+import ChildChatFormat from "./pages/Chat/ChildChatFormat";
+
+const ChatFormat = (props) => {
+  const user = useRecoilValue(userState);
+  console.log(user.type);
+  return user.type === "PARENT" ? <ParentChatFormat /> : <ChildChatFormat />;
+};
+
+// client.defaults.baseURL = "http://3.34.134.62:3000";
+// client.defaults.baseURL = "http://localhost:4000";
+//client.defaults.baseURL = "https://api.pokids.site:8000";
+client.defaults.baseURL = process.env.REACT_APP_API_URL;
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";
 
@@ -44,6 +57,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
+    path: "/chat/:roomName",
+    element: <ChatFormat />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/format/parent",
     element: <ParentFormat />,
     errorElement: <NotFound />,
@@ -52,7 +70,6 @@ const router = createBrowserRouter([
       { path: "/format/parent/mission", element: <Mission /> },
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
       { path: "/format/parent/video", element: <Video /> },
-      { path: "/format/parent/message", element: <Chatting /> },
     ],
   },
   {
@@ -63,7 +80,6 @@ const router = createBrowserRouter([
       { index: true, path: "/format/child", element: <ChildMain /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
-      { path: "/format/child/message", element: <Chatting /> },
     ],
   },
 ]);

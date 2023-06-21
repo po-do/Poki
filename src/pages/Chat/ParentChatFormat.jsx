@@ -1,116 +1,81 @@
-import { Fragment, useState, useCallback, useEffect } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   BellIcon,
   Cog6ToothIcon,
+  DocumentCheckIcon,
   HomeIcon,
-  XMarkIcon,
   GiftIcon,
+  XMarkIcon,
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
+import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { connectUserCode, getConnectedUser } from "../../api/auth.js";
-import SuccessModal from "../../components/Modal/SuccessModal";
-import FailModal from "../../components/Modal/FailModal";
-
+import SuccessModal from "../../components/Modal/SuccessModal.jsx";
 // ======================================
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { userState } from "../../recoil/user";
-import { socket } from "../../App";
+import { userState } from "../../recoil/user.js";
+import { socket } from "../../App.js";
+import ChatRoom from "./ChattingRoom.jsx";
 
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/child", icon: HomeIcon, current: true },
+  { name: "Home", href: "/format/parent", icon: HomeIcon, current: true },
+  {
+    name: "미션",
+    href: "/format/parent/mission",
+    icon: DocumentCheckIcon,
+    current: false,
+  },
   {
     name: "위시리스트",
-    href: "/format/child/wishlist",
+    href: "/format/parent/wishlist",
     icon: GiftIcon,
     current: false,
   },
   {
     name: "화상통화",
-    href: "/format/child/video",
+    href: "/format/parent/video",
     icon: VideoCameraIcon,
     current: false,
   },
+];
+
+const teams = [
+  { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ChildFormat() {
+export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [inputData, setInputData] = useState("");
-  const [inputReadOnly, setInputReadOnly] = useState(false);
-  const [registCodeModal, setRegistCodeModal] = useState(false);
-  const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
-  const [failModal, setFailModal] = useState(false);
+  const [issuedData, setIssuedData] = useState("");
+  const [issuCodeModal, setIssuCodeModal] = useState(false);
 
-  const openRegistCodeModal = () => {
-    setRegistCodeModal(true);
+  const openIssuCodeModal = () => {
+    setIssuCodeModal(true);
   };
 
-  const closeRegistCodeModal = () => {
-    setRegistCodeModal(false);
+  const closeIssuCodeModal = () => {
+    setIssuCodeModal(false);
   };
 
-  const openFailModal = () => {
-    setFailModal(true);
-  };
-
-  const closeFailModal = () => {
-    setFailModal(false);
-  };
-
-  const openCodeFailModal = () => {
-    setRegistCodeFailModal(true);
-  };
-
-  const closeCodeFailModal = () => {
-    setRegistCodeFailModal(false);
-  };
-
-  // recoil
-  const user = useRecoilValue(userState);
-
-  const handleInputChange = (e) => {
-    setInputData(e.target.value);
-  };
-
-  const handleRegistCode = async () => {
-    if (inputData !== "") {
-      const params = {
-        request: {
-          child_id: user.user_id,
-          connection_code: inputData,
-        },
-      };
-      const flag = await connectUserCode(params);
-      console.log(flag.connected);
-      if (flag.connected === true) {
-        console.log("성공");
-        setInputReadOnly(flag.connected);
-        openRegistCodeModal();
-      } else {
-        console.log("입력 코드가 틀렸다는 모달 나와야함");
-        // 입력 코드가 틀렸다는 모달 나와야함
-        openCodeFailModal();
-      }
-    } else {
-      console.log("입력값이 없다는 모달 나와야함");
-      // 입력값이 없다는 모달 나와야함
-      openFailModal();
-    }
+  const codeIssu = async () => {
+    const newData = await createUserCode();
+    setIssuedData(newData.data.connection_code);
+    openIssuCodeModal();
   };
 
   // ==================================================================
   const navigate = useNavigate();
+
+  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
 
   // 채팅방이 없을 시 채팅 아이콘 클릭시 이 함수 호출
   const onCreateRoom = useCallback(() => {
@@ -118,6 +83,8 @@ export default function ChildFormat() {
     socket.emit("create-room", { roomName, user }, (response) => {
       if (response.number === 2) {
         socket.emit("join-room", response.payload, () => {
+          console.log("join-room");
+          console.log(response.payload);
           navigate(`/chat/${response.payload}`);
         }); // 이미 채팅방이 존재할 경우 바로 입장
       }
@@ -127,28 +94,12 @@ export default function ChildFormat() {
   }, [navigate]);
 
   // ==================================================================
-  
-  // 코드 존재 여부 확인 (수정 필요)
-  const [isConnect, setIsConnect] = useState("");
-  const isConnected = async () => {
-    try {
-      const state = await getConnectedUser();
-      // console.log(state);
-      setIsConnect(state.data.connected_user);
-    } catch (error) {
-      console.log("Failed to get connected status:", error);
-    }
-  };
-
-  useEffect(() => {
-    isConnected();
-  }, []);
-
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <div>
+          {/* 접히는 사이드바 */}
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -222,7 +173,7 @@ export default function ChildFormat() {
                                       item.current
                                         ? "bg-indigo-700 text-white"
                                         : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                      "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                                      "group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold"
                                     )}
                                   >
                                     <item.icon
@@ -262,57 +213,33 @@ export default function ChildFormat() {
                               </li>
                             </ul>
                           </li>
-                          
-                          {/* 접히는 사이드바 코드 등록 여부 */}
-                          {!isConnect?(
-                          <>
-                            <li className="mt-auto">
-                            <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                              <Cog6ToothIcon
-                                className="h-6 w-6 shrink-0 text-indigo-200"
-                                aria-hidden="true"
-                              />
-                              코드 등록
+                          <li>
+                            <div className="text-xs font-semibold leading-6 text-indigo-200">
+                              아이 목록
                             </div>
-                            <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                              <div className="flex gap-x-4">
-                                <input
-                                  id="code"
-                                  name="code"
-                                  type="text"
-                                  required
-                                  className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                                    inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                                  }`}
-                                  placeholder="코드 입력"
-                                  readOnly={inputReadOnly} // readonly 속성 추가
-                                  onChange={handleInputChange}
-                                />
-                                <button
-                                  type="submit"
-                                  className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                  onClick={handleRegistCode}
-                                >
-                                  등록
-                                </button>
-                              </div>
-                            </div>
+                            <ul className="-mx-2 mt-2 space-y-1">
+                              {teams.map((team) => (
+                                <li key={team.name}>
+                                  <a
+                                    href={team.href}
+                                    className={classNames(
+                                      team.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                    )}
+                                  >
+                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
+                                      {team.initial}
+                                    </span>
+                                    <span className="truncate">
+                                      {team.name}
+                                    </span>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
                           </li>
-                          </>
-                          ) : (
-                            <li className="mt-auto">
-                              <div>
-                                <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                                  <Cog6ToothIcon
-                                    className="h-6 w-6 shrink-0 text-indigo-200"
-                                    aria-hidden="true"
-                                  />
-                                  코드 등록 완료
-                                </div>
-                              </div>
-                            </li>
-                          )}
-
                         </ul>
                       </nav>
                     </div>
@@ -322,6 +249,7 @@ export default function ChildFormat() {
             </Dialog>
           </Transition.Root>
 
+          {/* 기본 사이드바 */}
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -388,17 +316,38 @@ export default function ChildFormat() {
                       </li>
                     </ul>
                   </li>
-
-                  {/* 기본 사이드바 코드 등록 여부 */}
-                  {!isConnect?(
-                  <>
-                    <li className="mt-auto">
+                  <li>
+                    <div className="text-xl font-semibold leading-6 text-indigo-200">
+                      아이 목록
+                    </div>
+                    <ul className="-mx-2 mt-2 space-y-1">
+                      {teams.map((team) => (
+                        <li key={team.name}>
+                          <a
+                            href={team.href}
+                            className={classNames(
+                              team.current
+                                ? "bg-indigo-700 text-white"
+                                : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                              "group flex gap-x-3 rounded-md p-2 leading-6 font-semibold"
+                            )}
+                          >
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
+                              {team.initial}
+                            </span>
+                            <span className="truncate">{team.name}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                  <li className="mt-auto">
                     <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
                       <Cog6ToothIcon
                         className="h-6 w-6 shrink-0 text-indigo-200"
                         aria-hidden="true"
                       />
-                      코드 등록
+                      코드 발급
                     </div>
                     <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                       <div className="flex gap-x-4">
@@ -406,45 +355,26 @@ export default function ChildFormat() {
                           id="code"
                           name="code"
                           type="text"
-                          required
-                          className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                            inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                          }`}
-                          placeholder="코드 입력"
-                          readOnly={inputReadOnly} // readonly 속성 추가
-                          onChange={handleInputChange}
+                          value={issuedData}
+                          readOnly
+                          className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          placeholder="코드"
                         />
                         <button
                           type="submit"
                           className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          onClick={handleRegistCode}
+                          onClick={codeIssu}
                         >
-                          등록
+                          발급
                         </button>
                       </div>
                     </div>
                   </li>
-                  </>
-                  ) : (
-                    <li className="mt-auto">
-                      <div>
-                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                          <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0 text-indigo-200"
-                            aria-hidden="true"
-                          />
-                          코드 등록 완료
-                        </div>
-                      </div>
-                    </li>
-                  )}
-                  
                 </ul>
               </nav>
             </div>
           </div>
-
-          
+          {/* 헤더 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -467,10 +397,13 @@ export default function ChildFormat() {
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
                   <button
                     type="button"
-                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                   >
-                    <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                    </span>
                   </button>
 
                   {/* Separator */}
@@ -493,24 +426,17 @@ export default function ChildFormat() {
                 </div>
               </div>
             </div>
-
+            {/* 메인 */}
             <main>
-              <Outlet />
+              <ChatRoom />
             </main>
           </div>
         </div>
-
         {/* Modal Area */}
-        {registCodeModal && (
-          <SuccessModal closeModal={closeRegistCodeModal} message="등록완료" />
-        )}
-        {failModal && (
-          <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
-        )}
-        {registCodeFailModal && (
-          <FailModal
-            closeModal={closeCodeFailModal}
-            message="코드가 틀렸습니다."
+        {issuCodeModal && (
+          <SuccessModal
+            closeModal={closeIssuCodeModal}
+            message="코드발급 완료"
           />
         )}
       </QueryClientProvider>

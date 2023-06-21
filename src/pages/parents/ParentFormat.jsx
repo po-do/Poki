@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -12,9 +12,14 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router-dom";
-import CodeRegisterModal from "../../components/UI/CodeRegisterModal";
-import { createUserCode } from "../../api/auth.ts";
+import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SuccessModal from "../../components/Modal/SuccessModal";
+// ======================================
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { userState } from "../../recoil/user";
+import { socket } from "../../App";
 
 const queryClient = new QueryClient();
 
@@ -30,12 +35,6 @@ const navigation = [
     name: "위시리스트",
     href: "/format/parent/wishlist",
     icon: GiftIcon,
-    current: false,
-  },
-  {
-    name: "채팅",
-    href: "/format/parent/message",
-    icon: ChatBubbleLeftRightIcon,
     current: false,
   },
   {
@@ -56,17 +55,45 @@ function classNames(...classes) {
 
 export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
+  const [issuCodeModal, setIssuCodeModal] = useState(false);
+
+  const openIssuCodeModal = () => {
+    setIssuCodeModal(true);
+  };
+
+  const closeIssuCodeModal = () => {
+    setIssuCodeModal(false);
+  };
 
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
+    openIssuCodeModal();
   };
 
-  const handleRegisterClick = () => {
-    setIsModalOpen(true);
-  };
+  // ==================================================================
+  const navigate = useNavigate();
+
+  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
+  // 채팅방이 없을 시 채팅 아이콘 클릭시 이 함수 호출
+  const onCreateRoom = useCallback(() => {
+    const roomName = `${user.user_id}'s_room`;
+    socket.emit("create-room", { roomName, user }, (response) => {
+      if (response.number === 2) {
+        socket.emit("join-room", response.payload, () => {
+          console.log("join-room");
+          console.log(response.payload);
+          navigate(`/chat/${response.payload}`);
+        }); // 이미 채팅방이 존재할 경우 바로 입장
+      }
+      if (response.number === 0) return alert(response.payload);
+      navigate(`/chat/${response.payload}`);
+    });
+  }, [navigate]);
+
+  // ==================================================================
 
   return (
     <>
@@ -162,6 +189,28 @@ export default function ParentFormat() {
                                   </a>
                                 </li>
                               ))}
+                              <li key="채팅">
+                                <button
+                                  onClick={onCreateRoom}
+                                  className={classNames(
+                                    false
+                                      ? "bg-indigo-700 text-white"
+                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                    "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                                  )}
+                                >
+                                  <ChatBubbleLeftRightIcon
+                                    className={classNames(
+                                      false
+                                        ? "text-white"
+                                        : "text-indigo-200 group-hover:text-white",
+                                      "h-6 w-6 shrink-0"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                  채팅
+                                </button>
+                              </li>
                             </ul>
                           </li>
                           <li>
@@ -191,6 +240,36 @@ export default function ParentFormat() {
                               ))}
                             </ul>
                           </li>
+                                            {/* 코드 발급 부분 */}
+                  <li className="mt-auto">
+                    <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                      <Cog6ToothIcon
+                        className="h-6 w-6 shrink-0 text-indigo-200"
+                        aria-hidden="true"
+                      />
+                      코드 발급
+                    </div>
+                    <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                      <div className="flex gap-x-4">
+                        <input
+                          id="code"
+                          name="code"
+                          type="text"
+                          value={issuedData}
+                          readOnly
+                          className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          placeholder="코드"
+                        />
+                        <button
+                          type="submit"
+                          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                          onClick={codeIssu}
+                        >
+                          발급
+                        </button>
+                      </div>
+                    </div>
+                  </li>
                         </ul>
                       </nav>
                     </div>
@@ -214,6 +293,17 @@ export default function ParentFormat() {
                 <div className=" text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold">
                   Poki
                 </div>
+
+                {/* 햄버거 버튼 */}
+                <button
+                type="button"
+                className=" text-white  lg:ml-24"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Bars3Icon className="h-8 w-7" aria-hidden="true" />
+              </button>
+
+
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul className="flex flex-1 flex-col gap-y-7">
@@ -243,6 +333,28 @@ export default function ParentFormat() {
                           </a>
                         </li>
                       ))}
+                      <li key="채팅">
+                        <button
+                          onClick={onCreateRoom}
+                          className={classNames(
+                            false
+                              ? "bg-indigo-700 text-white"
+                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                            "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                          )}
+                        >
+                          <ChatBubbleLeftRightIcon
+                            className={classNames(
+                              false
+                                ? "text-white"
+                                : "text-indigo-200 group-hover:text-white",
+                              "h-6 w-6 shrink-0"
+                            )}
+                            aria-hidden="true"
+                          />
+                          채팅
+                        </button>
+                      </li>
                     </ul>
                   </li>
                   <li>
@@ -270,6 +382,7 @@ export default function ParentFormat() {
                       ))}
                     </ul>
                   </li>
+                  {/* 코드 발급 부분 */}
                   <li className="mt-auto">
                     <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
                       <Cog6ToothIcon
@@ -298,18 +411,20 @@ export default function ParentFormat() {
                         </button>
                       </div>
                     </div>
-                    {isModalOpen && <CodeRegisterModal />}
                   </li>
                 </ul>
               </nav>
             </div>
           </div>
+
+
           {/* 헤더 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                onClick={() => setSidebarOpen(true)}
               >
                 <span className="sr-only">Open sidebar</span>
                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -321,42 +436,55 @@ export default function ParentFormat() {
                 aria-hidden="true"
               />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <div className="relative flex flex-1">
-              </div>
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button type="button" className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500" >
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                </span>
-                </button>
-              
-                {/* Separator */}
-                <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-                        
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative">
-                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                  </Menu.Button>
-                </Menu>
+              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                <div className="relative flex flex-1"></div>
+                <div className="flex items-center gap-x-4 lg:gap-x-6">
+                  <button
+                    type="button"
+                    className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  >
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                    </span>
+                  </button>
+
+                  {/* Separator */}
+                  <div
+                    className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
+                    aria-hidden="true"
+                  />
+
+                  {/* Profile dropdown */}
+                  <Menu as="div" className="relative">
+                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full bg-gray-50"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </Menu>
+                </div>
               </div>
             </div>
+
+            {/* 메인 */}
+            <main>
+              <Outlet />
+            </main>
           </div>
-{/* 메인 */}
-          <main>
-            <Outlet />
-          </main>
         </div>
-      </div>
-      </ QueryClientProvider>
+        {/* Modal Area */}
+        {issuCodeModal && (
+          <SuccessModal
+            closeModal={closeIssuCodeModal}
+            message="코드발급 완료"
+          />
+        )}
+      </QueryClientProvider>
     </>
   );
 }

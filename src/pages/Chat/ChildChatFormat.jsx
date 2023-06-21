@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback, useEffect } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -10,9 +10,8 @@ import {
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { connectUserCode, getConnectedUser } from "../../api/auth.js";
+import { connectUserCode } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
@@ -21,6 +20,7 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
+import ChatRoom from "./ChattingRoom.jsx";
 
 const queryClient = new QueryClient();
 
@@ -127,23 +127,6 @@ export default function ChildFormat() {
   }, [navigate]);
 
   // ==================================================================
-  
-  // 코드 존재 여부 확인 (수정 필요)
-  const [isConnect, setIsConnect] = useState("");
-  const isConnected = async () => {
-    try {
-      const state = await getConnectedUser();
-      // console.log(state);
-      setIsConnect(state.data.connected_user);
-    } catch (error) {
-      console.log("Failed to get connected status:", error);
-    }
-  };
-
-  useEffect(() => {
-    isConnected();
-  }, []);
-
 
   return (
     <>
@@ -262,57 +245,6 @@ export default function ChildFormat() {
                               </li>
                             </ul>
                           </li>
-                          
-                          {/* 접히는 사이드바 코드 등록 여부 */}
-                          {!isConnect?(
-                          <>
-                            <li className="mt-auto">
-                            <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                              <Cog6ToothIcon
-                                className="h-6 w-6 shrink-0 text-indigo-200"
-                                aria-hidden="true"
-                              />
-                              코드 등록
-                            </div>
-                            <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                              <div className="flex gap-x-4">
-                                <input
-                                  id="code"
-                                  name="code"
-                                  type="text"
-                                  required
-                                  className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                                    inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                                  }`}
-                                  placeholder="코드 입력"
-                                  readOnly={inputReadOnly} // readonly 속성 추가
-                                  onChange={handleInputChange}
-                                />
-                                <button
-                                  type="submit"
-                                  className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                  onClick={handleRegistCode}
-                                >
-                                  등록
-                                </button>
-                              </div>
-                            </div>
-                          </li>
-                          </>
-                          ) : (
-                            <li className="mt-auto">
-                              <div>
-                                <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                                  <Cog6ToothIcon
-                                    className="h-6 w-6 shrink-0 text-indigo-200"
-                                    aria-hidden="true"
-                                  />
-                                  코드 등록 완료
-                                </div>
-                              </div>
-                            </li>
-                          )}
-
                         </ul>
                       </nav>
                     </div>
@@ -388,11 +320,7 @@ export default function ChildFormat() {
                       </li>
                     </ul>
                   </li>
-
-                  {/* 기본 사이드바 코드 등록 여부 */}
-                  {!isConnect?(
-                  <>
-                    <li className="mt-auto">
+                  <li className="mt-auto">
                     <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
                       <Cog6ToothIcon
                         className="h-6 w-6 shrink-0 text-indigo-200"
@@ -400,6 +328,7 @@ export default function ChildFormat() {
                       />
                       코드 등록
                     </div>
+
                     <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                       <div className="flex gap-x-4">
                         <input
@@ -423,28 +352,13 @@ export default function ChildFormat() {
                         </button>
                       </div>
                     </div>
+                    {/* {isModalOpen && <CodeRegisterModal />} */}
                   </li>
-                  </>
-                  ) : (
-                    <li className="mt-auto">
-                      <div>
-                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                          <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0 text-indigo-200"
-                            aria-hidden="true"
-                          />
-                          코드 등록 완료
-                        </div>
-                      </div>
-                    </li>
-                  )}
-                  
                 </ul>
               </nav>
             </div>
           </div>
 
-          
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -495,7 +409,7 @@ export default function ChildFormat() {
             </div>
 
             <main>
-              <Outlet />
+              <ChatRoom />
             </main>
           </div>
         </div>

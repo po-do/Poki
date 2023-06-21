@@ -1,4 +1,4 @@
-import client from "./client.ts";
+import client from "./client.js";
 
 // 로컬스토리지 토큰 접근 함수
 export function getAccessToken() {
@@ -6,7 +6,7 @@ export function getAccessToken() {
 }
 
 // 로그인
-export async function signIn(params: SignInParams) {
+export async function signIn(params) {
   const response = await client.post("/auth/signin", params.request);
   client.defaults.headers.common[
     "Authorization"
@@ -16,15 +16,8 @@ export async function signIn(params: SignInParams) {
   return response;
 }
 
-interface SignInParams {
-  request: {
-    userid: string;
-    password: string;
-  };
-}
-
 // 회원가입
-export async function signUp(params: SignUpParams) {
+export async function signUp(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -33,17 +26,8 @@ export async function signUp(params: SignUpParams) {
   return response.data;
 }
 
-export interface SignUpParams {
-  request: {
-    user_id: string;
-    password: string;
-    user_name: string;
-    type: string; //"CHILD" or "PARENT"
-  };
-}
-
 // 부모의 id를 가지고 자식의 연결 code를 생성 -> 생성 후 code를 해당 부모 id에 저장
-export async function createUserCode(params: CreateUserCodeParams) {
+export async function createUserCode(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -53,10 +37,8 @@ export async function createUserCode(params: CreateUserCodeParams) {
   return response.data;
 }
 
-interface CreateUserCodeParams {}
-
 // 자녀가 code로 부모와 연결
-export async function connectUserCode(params: ConnectUserCodeParams) {
+export async function connectUserCode(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -65,15 +47,8 @@ export async function connectUserCode(params: ConnectUserCodeParams) {
   return response.data;
 }
 
-interface ConnectUserCodeParams {
-  request: {
-    id: string; // userid 입니다
-    connection_code: number;
-  };
-}
-
 // 유저의 타입을 받는 함수 ?? 현재 controller에서 제공하지 않음 => 없어도 될듯? recoil에서 가지고 있음
-export async function getUserType(params: GetUserTypeParams) {
+export async function getUserType(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -82,6 +57,12 @@ export async function getUserType(params: GetUserTypeParams) {
   return response.data;
 }
 
-interface GetUserTypeParams {
-  userid: string;
+// 유저의 연결 여부 확인 (코드 등록)
+export async function getConnectedUser(params) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  const response = await client.get(`/auth/connected-user`);
+  return response.data;
 }

@@ -4,31 +4,55 @@ import {
   missionReadChild,
   missionUpdate,
   setMissionStatusComplete,
-} from "../../api/mission.ts";
-import { updateBoard, getBoardByUserId } from "../../api/board.ts";
-
-const people = [
-  { name: 'Lindsay Walto Lindsay Walto' },
-  { name: 'Lindsay Walto Lindsay Walto' },
-  // More people...
-]
+  setMissionStatusInComplete,
+} from "../../api/mission.js";
+import { updateBoard, getBoardStatus } from "../../api/board.js";
+import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
   const queryClient = new QueryClient();
-  // const userId = 2;
-  // const tmp_user_id = { user_id: "2" };
-  const [grape, setGrape] = useState(null);
+  const [grape, setGrape] = useState({});
   const [missions, setMissions] = useState([]);
   const [selectedMissions, setSelectedMissions] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+  const [showReturnModal, setShowReturnModal] = useState(false);
+
+  // 포도알 발행 모달
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
+
+  // 반려 버튼 모달
+  const openShowReturnModal = () => {
+    setShowReturnModal(true);
+  };
+
+  const closeShowReturnModal = () => {
+    setShowReturnModal(false);
+  };
 
   const boardQuery = useQuery(["boardState"], () => {
-    return getBoardByUserId();
+    return getBoardStatus();
   });
 
   useEffect(() => {
     if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape[0];
+      const fetchedGrape = boardQuery?.data?.data?.grape;
       setGrape(fetchedGrape);
     }
   }, [boardQuery.isSuccess, boardQuery.data]);
@@ -60,23 +84,14 @@ export default function MissionTempComplete() {
   });
 
   const addGrape = async () => {
-    const prevStatus = grape;
-    console.log(prevStatus, "prev!");
-
     const newStatus = {
-      blank: prevStatus?.blank,
-      attached_grapes: prevStatus?.attached_grapes,
-      total_grapes: prevStatus?.total_grapes + 1,
-      deattached_grapes: prevStatus?.deattached_grapes + 1,
+      blank: grape?.blank,
+      attached_grapes: grape?.attached_grapes,
+      total_grapes: grape?.total_grapes,
+      deattached_grapes: grape?.deattached_grapes + 1,
     };
-    const boardStatus = {
-      grapeId: 2,
-      request: newStatus,
-    };
-    console.log(newStatus, "this is new status");
 
-    await updateBoard(boardStatus);
-    //await attachBoard(boardStatus);
+    await updateBoard(newStatus);
   };
 
   const handleCheckboxChange = (e, missionId) => {
@@ -86,21 +101,27 @@ export default function MissionTempComplete() {
       setSelectedMissions(selectedMissions.filter((id) => id !== missionId));
     }
   };
-
+  // 반려
   const handleReject = () => {
+    console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
-      const updatedMission = {
-        ...missions.find((mission) => mission.id === missionId),
-      };
-      complete({
+      const param = {
         mission_id: missionId,
-      });
+      };
+      setMissionStatusInComplete(param);
     });
+
+    if (selectedMissions.length > 0) {
+      openShowReturnModal();
+    } else {
+      openFailModal();
+    }
+
     setSelectedMissions([]);
   };
 
+  // 포도알 발행
   const handlePublish = () => {
-    // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const updatedMission = {
         ...missions.find((mission) => mission.id === missionId),
@@ -109,6 +130,13 @@ export default function MissionTempComplete() {
         mission_id: missionId,
       });
     });
+
+    if (selectedMissions.length > 0) {
+      openModal();
+    } else {
+      openFailModal();
+    }
+
     setSelectedMissions([]);
   };
 
@@ -116,28 +144,27 @@ export default function MissionTempComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-        <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
-          <p className="mt-2 text-sm text-gray-700">
-            현재 수행된 미션 목록입니다.
-          </p>
-        </div>
-        <div className="flex mt-4 sm:ml-16 sm:mt-0 sm:flex-none gap-2">
-          <div>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-          >
-            반려
-          </button>
-          </div>
-          
-          <div>
-            <button
-              type="button"
-              className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              포도알 발행
-            </button>
+          <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
+          <div className="flex mt-4 sm:mt-0 sm:flex-none gap-2 justify-between">
+            <p className="mt-2 text-sm text-gray-700">
+              현재 수행된 미션 목록입니다.
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md  bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                onClick={handleReject}
+              >
+                반려
+              </button>
+              <button
+                type="button"
+                className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handlePublish}
+              >
+                포도알 발행
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -147,7 +174,10 @@ export default function MissionTempComplete() {
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th
+                    scope="col"
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                  >
                     완료된 미션
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -159,12 +189,10 @@ export default function MissionTempComplete() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {missions.map((item) => (
+                  <tr key={item.id}>
                     <td className="flex whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      <div>
-                        {person.name}
-                      </div>
+                      <div>{item.content}</div>
                       <div className="ml-auto">
                         <input
                           id="comments"
@@ -172,9 +200,9 @@ export default function MissionTempComplete() {
                           name="comments"
                           type="checkbox"
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                          onChange={(e) => handleCheckboxChange(e, item.id)}
                         />
                       </div>
-                      
                     </td>
                   </tr>
                 ))}
@@ -183,6 +211,18 @@ export default function MissionTempComplete() {
           </div>
         </div>
       </div>
+      {showModal && (
+        <SuccessModal closeModal={closeModal} message="포도알 요청 완료" />
+      )}
+      {failModal && (
+        <FailModal
+          closeModal={closeFailModal}
+          message="체크박스를 선택 해주세요."
+        />
+      )}
+      {showReturnModal && (
+        <SuccessModal closeModal={closeShowReturnModal} message="반려 완료" />
+      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import client from "./client.ts";
-import { getAccessToken } from "./auth.ts";
+import client from "./client.js";
+import { getAccessToken } from "./auth.js";
 
 // 미션 조회 (Read)
 export async function missionRead(params: MissionReadParams) {
@@ -15,7 +15,7 @@ interface MissionReadParams {
 // 미션 생성 (Create)
 export async function missionCreate(params: MissionCreateParams) {
   const accessToken = getAccessToken();
-  console.log(params)
+  console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -64,6 +64,19 @@ interface setMissionStatusCompleteParams {
   mission_id: number;
 }
 
+// 미션 상태 Incomplete로 바꾸기
+export async function setMissionStatusInComplete(
+  params: setMissionStatusCompleteParams
+) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("setMissionStatusComplete 호출");
+  const response = await client.post(`/mission/reject/${params.mission_id}`);
+  return response.data;
+}
+
 // 미션 수정 (Update)
 export async function missionUpdate(params: MissionUpdateParams) {
   const accessToken = getAccessToken();
@@ -89,6 +102,7 @@ interface MissionUpdateParams {
 // 미션 삭제 (Delete)
 export async function missionDelete(params: MissionDeleteParams) {
   const accessToken = getAccessToken();
+  console.log("=====", params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -107,8 +121,8 @@ export async function missionReadChild() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionReadChild 호출");
-  const response = await client.get(`/mission/user/`);
+  // console.log("missionReadChild 호출");
+  const response = await client.get(`/mission/user`);
   return response.data;
 }
 

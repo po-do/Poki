@@ -1,36 +1,73 @@
 import React from "react";
-// import { getWishlistByUserId } from "../../api/wishlist.ts";
+import { getWishlistByUserId } from "../../api/wishlist.js";
+import { useState, useEffect } from "react";
 
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
 export default function MissionRegisteredGift() {
+  const [pickedName, setPickedName] = useState("");
+  const [pickedImage, setPickedImage] = useState("");
+
+
+  useEffect(() => {
+    // Fetch wishlist data when the component mounts
+    pickedWishlistData();
+  }, []);
+
+  // picked가 된 위시리스트 보상
+  const pickedWishlistData = async () => {
+    try {
+      const wishlistData = await getWishlistByUserId();
+      // 상품이 없는 경우 에러 처리
+      if (wishlistData.data.item[0]){
+        const PickedItem = wishlistData.data.item.filter(
+          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
+        );
+        setPickedName(PickedItem[0].ProductName);
+        setPickedImage(PickedItem[0].ProductImage);
+      }
+
+    } catch (error) {
+      console.log("Failed to fetch wishlist data:", error);
+    }
+  };
+
   return (
     <>
-      <h3 className="text-base font-semibold leading-6 text-gray-900 mb-2">
-        등록된 보상
-      </h3>
-      <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white w-6/12 h-2/4 m-auto">
-        <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-          <img
-            src="https://thumbnail.10x10.co.kr/webimage/image/basic600/209/B002095704.jpg?cmd=thumb&w=200&h=200&fit=true&ws=false"
-            // {product.imageSrc}
-            alt="product"
-            className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-          />
+      <div className="m-4 border">
+        <h4 className="text-lg font-bold">등록된 보상</h4>
+        <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+          {pickedImage ? (
+            <img
+              src={pickedImage}
+              alt={pickedName}
+              className="object-cover object-center sm:h-full sm:w-full"
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => (window.location.href = '/format/parent/wishlist')}
+              className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
+                />
+              </svg>
+              <span className="mt-2 block text-sm font-semibold text-gray-900">보상을 선택해 주세요.</span>
+            </button>
+          )}
         </div>
-      </div>
-      <div className="flex flex-1 flex-col space-y-2 p-4">
-        <h3 className="text-sm font-medium text-gray-900">
-          <span aria-hidden="true" className="absolute inset-0 font-bold" />
-          라이언 인형
-        </h3>
-        <p className="text-sm text-gray-500">
-          카카오 인형
-          {/* {product.description} */}
-        </p>
-        <div className="flex flex-1 flex-col justify-end">
-          <p className="text-base font-medium text-gray-900">
-            20000 원{/* {product.price} */}
-          </p>
+        <div>
+          <p className="mt-1">{pickedName}</p>
         </div>
       </div>
     </>

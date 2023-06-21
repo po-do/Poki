@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signIn } from "../../api/auth.ts";
+import { signIn } from "../../api/auth.js";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";
@@ -14,7 +14,8 @@ export default function Login() {
 
   const handleLogIn = async () => {
     console.log("로그인");
-    console.log(email, password);
+    console.log(user);
+    // console.log(email, password);
     try {
       const userInfo = await signIn({
         request: {
@@ -30,8 +31,10 @@ export default function Login() {
       };
 
       setUser(params);
-      navigate(userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child");
 
+      navigate(
+        userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"
+      );
     } catch (error) {
       console.log("signin error", error);
     }

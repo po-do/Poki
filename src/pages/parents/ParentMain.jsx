@@ -1,30 +1,21 @@
 import { React, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import { getBoardByUserId, attachBoard } from "../../api/board.ts";
+import { getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 
-export default function ChildMain() {
-  const [grape, setGrape] = useState(null);
+export default function ParentMain() {
+  const [grape, setGrape] = useState({});
   const boardQuery = useQuery(["boardState"], () => {
-    return getBoardByUserId();
+    return getBoardStatus();
   });
 
   useEffect(() => {
     if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape[0];
+      const fetchedGrape = boardQuery?.data?.data?.grape;
       setGrape(fetchedGrape);
     }
   }, [boardQuery.isSuccess, boardQuery.data]);
-
-  async function addGrape() {
-    const boardStatus = {
-      grapeId: 2,
-      //request: newStatus,
-    };
-    // console.log(boardStatus);
-    await attachBoard(boardStatus);
-  }
 
   return (
     <>
@@ -42,8 +33,8 @@ export default function ChildMain() {
       </div>
       <div className="flex">
         <div className="mb-4 flex-1 border-r border-gray-200">
-          {/* <Grapes GrapesCount={grape.attached_grapes} /> */}
-          <Grapes />
+          <Grapes GrapesCount={grape.attached_grapes} />
+          {/* <Grapes /> */}
         </div>
         <div className="flex-1">
           <div className="ml-10 mr-10 border-b border-gray-200">
