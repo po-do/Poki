@@ -3,12 +3,15 @@ import { Server, Socket } from "socket.io"
 import { SocketConnection } from './video-chat.entity';
 import { Logger } from '@nestjs/common';
 import { VideoChatService } from './video-chat.service';
+import * as config from 'config';
+
+const conrsConfig = config.get('cors');
 
 @WebSocketGateway({
   namespace: 'video-chat',
   cors: {
     cors: {
-      origin: "http://localhost:3000",
+      origin: [conrsConfig.url],
       methods: [ "GET", "POST" ]
     }
   }
