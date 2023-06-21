@@ -11,9 +11,8 @@ import { userState } from "../../recoil/user";
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
 const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
-const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
-
 function Video() {
+  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
