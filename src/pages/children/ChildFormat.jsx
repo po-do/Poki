@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+import grapeLogo from "../../icons/mstile-310x310.png";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -128,6 +129,12 @@ export default function ChildFormat() {
   }, [navigate]);
 
   // ==================================================================
+  const handleAlarm = () => {
+    console.log("알람버튼 클릭s");
+    setShowAlarm(true);
+    console.log(showAlarm);
+  };
+  // ==================================================================
 
   // 코드 존재 여부 확인 (수정 필요)
   const [isConnect, setIsConnect] = useState("");
@@ -206,10 +213,13 @@ export default function ChildFormat() {
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                       <div className="flex h-16 shrink-0 items-center">
                         <img
-                          className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          className="h-12 w-auto"
+                          src={grapeLogo}
                           alt="Your Company"
                         />
+                        <p className="font-semibold text-white text-2xl ml-2 mt-1">
+                          Poki
+                        </p>
                       </div>
                       <nav className="flex flex-1 flex-col">
                         <ul className="flex flex-1 flex-col gap-y-7">
@@ -472,6 +482,7 @@ export default function ChildFormat() {
                   <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
