@@ -4,7 +4,7 @@ import { createWishList } from "../../api/wishlist.js";
 import FailModal from "../Modal/FailModal";
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
-  const [open, setOpen] = useState(false);
+  const [isState, setIsState] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [failModal, setFailModal] = useState(false);
@@ -16,9 +16,13 @@ export default function LinkRegisterModal({ onClose }) {
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
   };
+  // 이쪽 문제
+  const handleOpen= () => {
+    setIsState(true);
+  };
 
-  const handleClick = () => {
-    setOpen((prevState) => !prevState);
+  const handleClose= () => {
+    setIsState(false);
   };
 
   const handleItemClick = (item) => {
@@ -34,7 +38,7 @@ export default function LinkRegisterModal({ onClose }) {
   };
 
   const handleKeyPress = (e) => {
-     if(e.key === 'Enter') { handleClick(); } 
+     if(e.key === 'Enter') { handleOpen(); } 
     }
 
   // 에러 처리 필요
@@ -81,7 +85,7 @@ export default function LinkRegisterModal({ onClose }) {
 
             <button
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={handleClick}
+              onClick={handleOpen}
             >
               검색
             </button>
@@ -93,8 +97,8 @@ export default function LinkRegisterModal({ onClose }) {
               닫기
             </button>
             {/* 선물 검색 API */}
-            {open && (
-              <ImageSearchResult query={bookSearchKeyword} handleSetResult={handleSetResult} />
+            {isState && (
+              <ImageSearchResult onClose={handleClose} query={bookSearchKeyword} handleSetResult={handleSetResult} />
             )}
           </div>
         </div>
