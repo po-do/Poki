@@ -1,32 +1,22 @@
 import { useEffect } from "react";
-import axios from "axios";
-
-export default function ImageSearchResult({ query, handleSetResult }) {
-  const ID_KEY = process.env.REACT_APP_CLIENT_ID;
-  const SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
+import { getShoppingList } from "../../api/wishlist.js";
+export default function ImageSearchResult({ query,handleSetResult }) {
 
   const shoppingData = async () => {
-    const URL = "/v1/search/shop.json";
-    await axios
-      .get(URL, {
-        params: {
-          query: query,
-          display: 10,
-          filter: "유아",
-        },
+    const param = {
+      request : {
+        query : query
+      }
+    }
 
-        headers: {
-          "X-Naver-Client-Id": ID_KEY,
-          "X-Naver-Client-Secret": SECRET_KEY,
-        },
-      })
-      .then((response) => {
-        handleSetResult(response.data.items);
-        console.log("성공");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    await getShoppingList(param)
+    .then((response)=>{
+      handleSetResult(response.items);
+      console.log("Naver Open API Success");
+    }).catch((error) => {
+      console.log(error);
+    });
+    
   };
 
   useEffect(() => {

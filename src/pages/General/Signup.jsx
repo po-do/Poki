@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import { signUp } from "../../api/auth.js";
 import { useNavigate } from "react-router-dom";
+import FailModal from "../../components/Modal/FailModal.jsx";
 
 export default function Signup() {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("parent");
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const navigate = useNavigate();
 
@@ -15,8 +25,8 @@ export default function Signup() {
   };
 
   const handleSignUp = async (e) => {
+
     e.preventDefault();
-    console.log(activeTab);
     try {
       await signUp({
         request: {
@@ -26,10 +36,9 @@ export default function Signup() {
           type: activeTab.toUpperCase(),
         },
       });
-      console.log("회원가입완료");
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.log("signup error", error);
+      openModal();
     }
   };
 
@@ -148,6 +157,7 @@ export default function Signup() {
             >
               Sign up
             </button>
+            {showModal && <FailModal closeModal={closeModal} message={"아이디가 존재합니다"}/>}
           </div>
         </form>
       </div>
