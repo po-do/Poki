@@ -24,14 +24,15 @@ export default function ChildProductCard({item}) {
       <h3 className="text-sm font-medium text-gray-900 ">
           {item.ProductName}
       </h3>
-      <button
-      className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-      onClick={handleDeleteCard}
-      >
-        삭제
-      </button>
     </div>
-
+    <div className="flex justify-center m-3">
+        <button
+        className="w-3/4 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+        onClick={handleDeleteCard}
+        >
+          삭제
+        </button>
+      </div>
   </div>
 
   );
