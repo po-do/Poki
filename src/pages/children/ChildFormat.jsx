@@ -94,7 +94,6 @@ export default function ChildFormat() {
         },
       };
       const flag = await connectUserCode(params);
-      console.log(flag.connected);
       if (flag.connected === true) {
         console.log("성공");
         setInputReadOnly(flag.connected);
@@ -337,70 +336,72 @@ export default function ChildFormat() {
           {/* 기본 사이드바 */}
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            {/* Sidebar component, swap this element with another sidebar if you like */}
-            <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-              <div className="flex h-16 shrink-0 items-center">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
+            <div className="flex h-16 shrink-0 items-center justify-between">
+              <div className="flex mt-3">
                 <img
                   className="h-11 w-auto"
                   src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
                   alt="Poki"
                 />
                 <div className=" text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold">
-                  Poki
+                Poki
                 </div>
               </div>
-              <nav className="flex flex-1 flex-col">
-                <ul className="flex flex-1 flex-col gap-y-7">
-                  <li>
-                    <ul className="-mx-2 space-y-1">
-                      {navigation.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className={classNames(
-                              item.current
-                                ? "bg-indigo-700 text-white"
-                                : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                              "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
-                            )}
-                          >
-                            <item.icon
-                              className={classNames(
-                                item.current
-                                  ? "text-white"
-                                  : "text-indigo-200 group-hover:text-white",
-                                "h-6 w-6 shrink-0"
-                              )}
-                              aria-hidden="true"
-                            />
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                      <li key="채팅">
-                        <button
-                          onClick={onCreateRoom}
+            </div>
+              
+            <nav className="flex flex-1 flex-col">
+              <ul className="flex flex-1 flex-col gap-y-7">
+                <li>
+                  <ul className="-mx-2 space-y-1">
+                    {navigation.map((item) => (
+                      <li key={item.name}>
+                        <a
+                          href={item.href}
                           className={classNames(
-                            false
+                            item.current
                               ? "bg-indigo-700 text-white"
                               : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                             "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                           )}
                         >
-                          <ChatBubbleLeftRightIcon
+                          <item.icon
                             className={classNames(
-                              false
+                              item.current
                                 ? "text-white"
                                 : "text-indigo-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"
                             )}
                             aria-hidden="true"
                           />
-                          채팅
-                        </button>
+                          {item.name}
+                        </a>
                       </li>
-                    </ul>
-                  </li>
+                    ))}
+                    <li key="채팅">
+                      <button
+                        onClick={onCreateRoom}
+                        className={classNames(
+                          false
+                            ? "bg-indigo-700 text-white"
+                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                          "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                        )}
+                      >
+                        <ChatBubbleLeftRightIcon
+                          className={classNames(
+                            false
+                              ? "text-white"
+                              : "text-indigo-200 group-hover:text-white",
+                            "h-6 w-6 shrink-0"
+                          )}
+                          aria-hidden="true"
+                        />
+                        채팅
+                      </button>
+                    </li>
+                  </ul>
+                </li>
 
                   {/* 기본 사이드바 코드 등록 여부 */}
                   {!isConnect ? (
@@ -458,7 +459,7 @@ export default function ChildFormat() {
             </div>
           </div>
 
-          {/* 헤더 */}
+          
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -470,11 +471,11 @@ export default function ChildFormat() {
                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
               </button>
 
-              {/* Separator */}
-              <div
-                className="h-6 w-px bg-gray-900/10 lg:hidden"
-                aria-hidden="true"
-              />
+            {/* Separator */}
+            <div
+              className="h-6 w-px bg-gray-900/10 lg:hidden"
+              aria-hidden="true"
+            />
 
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
@@ -482,17 +483,16 @@ export default function ChildFormat() {
                   <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                    onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
-                  {/* Separator */}
-                  <div
-                    className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-                    aria-hidden="true"
-                  />
+                {/* Separator */}
+                <div
+                  className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
+                  aria-hidden="true"
+                />
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
@@ -513,58 +513,9 @@ export default function ChildFormat() {
               <Outlet />
             </main>
           </div>
-
-          {/* 접히는 알람 */}
-          <Transition.Root show={showAlarm} as={Fragment}>
-            <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
-              <div className="fixed inset-0" />
-
-              <div className="fixed inset-0 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="transform transition ease-in-out duration-500 sm:duration-700"
-                      enterFrom="translate-x-full"
-                      enterTo="translate-x-0"
-                      leave="transform transition ease-in-out duration-500 sm:duration-700"
-                      leaveFrom="translate-x-0"
-                      leaveTo="translate-x-full"
-                    >
-                      <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                        <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                          <div className="px-4 sm:px-6">
-                            <div className="flex items-start justify-between">
-                              <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                                Panel title
-                              </Dialog.Title>
-                              <div className="ml-3 flex h-7 items-center">
-                                <button
-                                  type="button"
-                                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                  onClick={() => setShowAlarm(false)}
-                                >
-                                  <span className="sr-only">Close panel</span>
-                                  <XMarkIcon
-                                    className="h-6 w-6"
-                                    aria-hidden="true"
-                                  />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                            {/* Your content */}
-                          </div>
-                        </div>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
         </div>
+
+
 
         {/* Modal Area */}
         {registCodeModal && (
