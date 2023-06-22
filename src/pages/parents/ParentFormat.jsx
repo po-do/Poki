@@ -20,6 +20,7 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
+import grapeLogo from "../../icons/mstile-310x310.png";
 
 const queryClient = new QueryClient();
 
@@ -165,10 +166,13 @@ export default function ParentFormat() {
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                       <div className="flex h-16 shrink-0 items-center">
                         <img
-                          className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          className="h-12 w-auto"
+                          src={grapeLogo}
                           alt="Your Company"
                         />
+                        <p className="font-semibold text-white text-2xl ml-2 mt-1">
+                          Poki
+                        </p>
                       </div>
                       <nav className="flex flex-1 flex-col">
                         <ul className="flex flex-1 flex-col gap-y-7">

@@ -73,6 +73,7 @@ export default function ChildMain() {
 
   return (
     <>
+    {/* 배너 */}
       <div className="bg-white py-1 sm:py-1">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -85,26 +86,32 @@ export default function ChildMain() {
           </div>
         </div>
       </div>
-      <div className="mb-4">
+
+      {/* 포도판 */}
+      <div className="p-6 rounded-2xl border-4 m-5">
         <Grapes GrapesCount={grape.attached_grapes} />
         {/* <Grapes /> */}
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
-        <div className="flex-1 px-4 sm:px-6 lg:px-8">
+      {/* 현재 포도알 및 관리 현황판 */}
+      <div className="flex p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="w-2/4 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
-          <div className="h-2/4 w-full m-2 border rounded-md border-gray-200 p-1 mr-6">
-            <div className="flex">
-              {Array.from({ length: grape.deattached_grapes }).map(
-                (_, index) => (
-                  <div
-                    key={index}
-                    className="w-10 h-10 mr-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800"
-                  ></div>
-                )
-              )}
+          <div className="h-39 w-94 mt-3 
+          mb-6 border rounded-md border-gray-200 p-1">
+ 
+              <div className="flex justify-center flex-wrap">
+                {Array.from({ length: grape.deattached_grapes }).map(
+                  (_, index) => (
+                    <div
+                      key={index}
+                      className="w-10 h-10 mr-1 mb-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800 flex-shrink-0"
+                    />
+                  )
+                )}
+
             </div>
           </div>
           <button
@@ -117,7 +124,7 @@ export default function ChildMain() {
             포도알 붙이기
           </button>
         </div>
-        <div className="flex-1">
+        <div className="w-2/4">
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               포도알 관리 현황판
@@ -149,7 +156,8 @@ export default function ChildMain() {
         </div>
       </div>
 
-      <div className="mx-auto mb-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      {/* 등록된 미션 및 위시리스트 */}
+      <div className="p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
         <div className="flex-1">
           <RecentMissionList />
         </div>
