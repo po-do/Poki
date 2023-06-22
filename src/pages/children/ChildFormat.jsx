@@ -26,7 +26,7 @@ import { socket } from "../../App";
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/child", icon: HomeIcon, current: true },
+  { name: "Home", href: "/format/child", icon: HomeIcon, current: false },
   {
     name: "위시리스트",
     href: "/format/child/wishlist",
@@ -402,60 +402,61 @@ export default function ChildFormat() {
                     </ul>
                   </li>
 
-                {/* 기본 사이드바 코드 등록 여부 */}
-                {!isConnect?(
-                <>
-                  <li className="mt-auto">
-                  <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200"
-                      aria-hidden="true"
-                    />
-                    코드 등록
-                  </div>
-                  <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                    <div className="flex gap-x-4">
-                      <input
-                        id="code"
-                        name="code"
-                        type="text"
-                        required
-                        className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                          inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                        }`}
-                        placeholder="코드 입력"
-                        readOnly={inputReadOnly} // readonly 속성 추가
-                        onChange={handleInputChange}
-                      />
-                      <button
-                        type="submit"
-                        className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        onClick={handleRegistCode}
-                      >
-                        등록
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                </>
-                ) : (
-                  <li className="mt-auto">
-                    <div>
-                      <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                        <Cog6ToothIcon
-                          className="h-6 w-6 shrink-0 text-indigo-200"
-                          aria-hidden="true"
-                        />
-                        코드 등록 완료
+                  {/* 기본 사이드바 코드 등록 여부 */}
+                  {!isConnect ? (
+                    <>
+                      <li className="mt-auto">
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록
+                        </div>
+                        <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                          <div className="flex gap-x-4">
+                            <input
+                              id="code"
+                              name="code"
+                              type="text"
+                              required
+                              className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                                inputReadOnly
+                                  ? "bg-gray-500 bg-opacity-100"
+                                  : ""
+                              }`}
+                              placeholder="코드 입력"
+                              readOnly={inputReadOnly} // readonly 속성 추가
+                              onChange={handleInputChange}
+                            />
+                            <button
+                              type="submit"
+                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={handleRegistCode}
+                            >
+                              등록
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="mt-auto">
+                      <div>
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록 완료
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                )}
-                
-              </ul>
-            </nav>
+                    </li>
+                  )}
+                </ul>
+              </nav>
+            </div>
           </div>
-        </div>
 
           {/* 헤더 */}
           <div className="lg:pl-72">

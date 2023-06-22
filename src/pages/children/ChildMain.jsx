@@ -51,6 +51,7 @@ export default function ChildMain() {
     } else {
       await attachBoard();
       openAttachModal();
+      boardQuery.refetch();
     }
   }
 
@@ -73,7 +74,7 @@ export default function ChildMain() {
 
   return (
     <>
-    {/* 배너 */}
+      {/* 배너 */}
       <div className="bg-white py-1 sm:py-1">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -99,19 +100,19 @@ export default function ChildMain() {
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
-          <div className="h-39 w-94 mt-3 
-          mb-6 border rounded-md border-gray-200 p-1">
- 
-              <div className="flex justify-center flex-wrap">
-                {Array.from({ length: grape.deattached_grapes }).map(
-                  (_, index) => (
-                    <div
-                      key={index}
-                      className="w-10 h-10 mr-1 mb-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800 flex-shrink-0"
-                    />
-                  )
-                )}
-
+          <div
+            className="h-39 w-94 mt-3 
+          mb-6 border rounded-md border-gray-200 p-1"
+          >
+            <div className="flex justify-center flex-wrap">
+              {Array.from({ length: grape.deattached_grapes }).map(
+                (_, index) => (
+                  <div
+                    key={index}
+                    className="w-10 h-10 mr-1 mb-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800 flex-shrink-0"
+                  />
+                )
+              )}
             </div>
           </div>
           <button
@@ -162,17 +163,17 @@ export default function ChildMain() {
           <RecentMissionList />
         </div>
         <div className="mx-auto max-w-3xl flex-1 text-center">
-        {pickedImage ? (
+          {pickedImage ? (
             <img
               src={pickedImage}
               alt={pickedName}
               className="object-cover object-center sm:h-full sm:w-full"
             />
           ) : (
-            <div
-              className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span className="mt-2 block text-sm font-semibold text-gray-900">선물을 기다리고 있습니다.</span>
+            <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span className="mt-2 block text-sm font-semibold text-gray-900">
+                선물을 기다리고 있습니다.
+              </span>
             </div>
           )}
         </div>
