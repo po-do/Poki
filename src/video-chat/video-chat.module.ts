@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { VideoChatService } from './video-chat.service';
-import { VideoChatGateway } from './video-chat.gateway';
 import { SocketConnectionRepository } from './video-chat.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoChatController } from './video-chat.controller';
@@ -19,21 +18,20 @@ import { JwtService } from '@nestjs/jwt';
       MessageRepository,
       ConversationRepository,
       UserRepository,
-  ]),
+    ])
   ],
-  providers: [
-    VideoChatService, 
-    EventService, 
-    EventGateway, 
+  providers: [VideoChatService,
+    EventService,
+    EventGateway,
     SocketConnectionRepository,
     MessageRepository,
     ConversationRepository,
     AuthService,
     UserRepository,
     JwtService,],
-    
+
   exports: [VideoChatService],
   controllers: [VideoChatController]
 })
 
-export class VideoChatModule {}
+export class VideoChatModule { }
