@@ -120,14 +120,16 @@ export class WishlistController {
             throw new ForbiddenException('parents not have grape');
         }
 
-        const newgrape = await this.boardService.resetBoard(grape.id, userid);
+        //User id를 통해서 board id를 가져온다.
+        const board_id = await this.boardService.getBoardByUserId(userid);
+
+        await this.boardService.deleteBoard(board_id.id);
 
         const response: responseWishlistGivenDto = {
             code: 200,
             success: true,
             data: {
               item: await this.wishlistService.updateWishlistGivenStatus(id),
-              grape: grape,
             },
           };
 

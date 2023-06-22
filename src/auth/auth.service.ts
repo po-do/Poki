@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
 import { UserType } from './user-type.enum';
 import { v4 as uuidv4 } from 'uuid';
+import { ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
         const user = await this.userRepository.findOneBy({id});
     
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new ForbiddenException('User not found');
         }
     
         return user;
