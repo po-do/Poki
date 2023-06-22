@@ -2,18 +2,14 @@ import client from "./client.js";
 import { getAccessToken } from "./auth.js";
 
 // 미션 조회 (Read)
-export async function missionRead(params: MissionReadParams) {
+export async function missionRead(params) {
   const response = await client.get(`/mission/detail/${params.mission_id}`);
   console.log("missionRead 호출");
   return response.data;
 }
 
-interface MissionReadParams {
-  mission_id: number;
-}
-
 // 미션 생성 (Create)
-export async function missionCreate(params: MissionCreateParams) {
+export async function missionCreate(params) {
   const accessToken = getAccessToken();
   console.log(params);
   if (accessToken) {
@@ -24,16 +20,8 @@ export async function missionCreate(params: MissionCreateParams) {
   return response.data;
 }
 
-interface MissionCreateParams {
-  request: {
-    content: string;
-    created_date: string;
-    completed_date: string;
-  };
-}
-
 // 미션 완료대기로 변경 (Complete)
-export async function setMissionStatusWait(params: SetMissionStatusWaitParams) {
+export async function setMissionStatusWait(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -43,14 +31,8 @@ export async function setMissionStatusWait(params: SetMissionStatusWaitParams) {
   return response.data;
 }
 
-interface SetMissionStatusWaitParams {
-  mission_id: number;
-}
-
 // 미션 상태 complete로 바꾸기
-export async function setMissionStatusComplete(
-  params: setMissionStatusCompleteParams
-) {
+export async function setMissionStatusComplete(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -60,14 +42,8 @@ export async function setMissionStatusComplete(
   return response.data;
 }
 
-interface setMissionStatusCompleteParams {
-  mission_id: number;
-}
-
 // 미션 상태 Incomplete로 바꾸기
-export async function setMissionStatusInComplete(
-  params: setMissionStatusCompleteParams
-) {
+export async function setMissionStatusInComplete(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -78,7 +54,7 @@ export async function setMissionStatusInComplete(
 }
 
 // 미션 수정 (Update)
-export async function missionUpdate(params: MissionUpdateParams) {
+export async function missionUpdate(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -91,16 +67,8 @@ export async function missionUpdate(params: MissionUpdateParams) {
   return response.data;
 }
 
-interface MissionUpdateParams {
-  mission_id: number;
-  request: {
-    content: string;
-    created_date: string;
-  };
-}
-
 // 미션 삭제 (Delete)
-export async function missionDelete(params: MissionDeleteParams) {
+export async function missionDelete(params) {
   const accessToken = getAccessToken();
   console.log("=====", params);
   if (accessToken) {
@@ -109,10 +77,6 @@ export async function missionDelete(params: MissionDeleteParams) {
   console.log("missionDelete 호출");
   const response = await client.delete(`/mission/delete/${params.mission_id}`);
   return response.data;
-}
-
-interface MissionDeleteParams {
-  mission_id: number;
 }
 
 // (자녀가) 부모가 생성한 미션 조회 (Read)
@@ -125,10 +89,6 @@ export async function missionReadChild() {
   const response = await client.get(`/mission/user`);
   return response.data;
 }
-
-// interface MissionReadChildParams {
-//   user_id: string;
-// }
 
 // (부모가) 자녀가 완료한 미션 확인  (Confirm)
 export async function missionConfirm() {
