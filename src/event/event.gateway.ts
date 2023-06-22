@@ -18,7 +18,7 @@ let createRooms: string[] = [];
 
 @WebSocketGateway({
   cors: {
-    origin: [corsConfig.url],
+    origin: [corsConfig.url, 'http://localhost:3000'],
   },
 })
 

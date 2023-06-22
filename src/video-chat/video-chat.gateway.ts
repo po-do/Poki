@@ -10,7 +10,7 @@ const conrsConfig = config.get('cors');
 @WebSocketGateway({
   namespace: 'video-chat',
     cors: {
-      origin: [conrsConfig.url],
+      origin: [conrsConfig.url, 'http://localhost:3000'],
       methods: [ "GET", "POST" ]
   }
 })
