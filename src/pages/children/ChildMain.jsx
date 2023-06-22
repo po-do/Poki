@@ -7,13 +7,13 @@ import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import { getWishlistByUserId } from "../../api/wishlist.js";
 
-
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
   const [pickedName, setPickedName] = useState("");
   const [pickedImage, setPickedImage] = useState("");
+  // Overlay Message
   const message = [
     "갖고 싶은 선물을 골라보세요",
   ];
@@ -42,10 +42,11 @@ export default function ChildMain() {
   useEffect(() => {
     if (boardQuery.isSuccess) {
       const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape(fetchedGrape);
+      setGrape("확인",fetchedGrape);
     }
   }, [grape, boardQuery.isSuccess, boardQuery.data]);
 
+  // 안붙혀진 포도 추가
   async function addGrape() {
     const grapeStatus = await getBoardStatus();
     if (grapeStatus.data.grape.deattached_grapes === 0) {
