@@ -38,22 +38,35 @@ export default function Video() {
     //     setStream(stream);
     //     if (myVideo.current) myVideo.current.srcObject = stream;
     //   });
-    const getMediaStream = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+    // const getMediaStream = async () => {
+    //   try {
+    //     const stream = await navigator.mediaDevices.getUserMedia({
+    //       video: true,
+    //       audio: true,
+    //     });
+    //     console.log(stream, 'this is stream!')
+    //     setStream(stream);
+    //     if (myVideo.current) {
+    //       myVideo.current.srcObject = stream;
+    //     }
+    //   } catch (error) {
+    //     console.log("Failed to get media stream:", error);
+    //   }
+    // };
+    // getMediaStream();
+    //        console.log(stream, 'this is stream!')
+    // setStream(stream);
+    // if (myVideo.current) {
+    //   myVideo.current.srcObject = stream;
+    // }
+    navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true,
-        });
-        console.log(stream, 'this is stream!')
-        setStream(stream);
-        if (myVideo.current) {
-          myVideo.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.log("Failed to get media stream:", error);
-      }
-    };
-    getMediaStream();
+        })
+        .then(stream => {
+          console.log(stream)
+          setStream(stream);
+        })
 
     socket.on("me", (id) => {
       setMe(id);
@@ -73,6 +86,15 @@ export default function Video() {
     socket.on("noUserToCall", (data) => {
       setErrorMessage(`${data} 에게 통화를 걸 수 없습니다`);
     });
+    
+    return ()=> {
+      if (stream) {
+        const videoTrack = stream.getVideoTracks();
+        videoTrack.forEach(track => {
+          stream.removeTrack(track);
+        })
+      }
+    }
   }, []);
 
   const callUser = (id) => {
