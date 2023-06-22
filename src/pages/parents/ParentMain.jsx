@@ -19,7 +19,6 @@ export default function ParentMain() {
     "선물을 고른 후 포도 서비스가 시작됩니다",
   ];
 
-
   // 31모으면 눌러서 이벤트 발생해야함 아래꺼
   const updateGiven = async () => {
     if (grape.attached_grapes === 31) {
@@ -67,10 +66,10 @@ export default function ParentMain() {
               </p>
             </div>
           </div>
-      </div>
+        </div>
         {/* 포도알 보드 */}
         <div className="m-8 p-6 rounded-2xl border-4">
-          <Grapes GrapesCount={grape.attached_grapes} />
+          <Grapes GrapesCount={grape.attached_grapes} message={message} />
           {/* <Grapes /> */}
         </div>
 
@@ -122,6 +121,6 @@ export default function ParentMain() {
           </div>
         </div>
       </div>
-      </>
+    </>
   );
 }
