@@ -33,7 +33,7 @@ export default function MissionRegisteredGift() {
 
   return (
     <>
-      <div className="m-4 border">
+
         <h4 className="text-lg font-bold">등록된 보상</h4>
         <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
           {pickedImage ? (
@@ -69,7 +69,6 @@ export default function MissionRegisteredGift() {
         <div>
           <p className="mt-1">{pickedName}</p>
         </div>
-      </div>
     </>
   );
 }
