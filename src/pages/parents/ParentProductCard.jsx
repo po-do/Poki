@@ -31,7 +31,7 @@ export default function ParentProductCard({ item, onItemClick }) {
           />
         </div>
         <div className="flex flex-1 flex-col space-y-2 p-4 ">
-          <h3 className="text-sm font-medium text-gray-900 ">
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-10">
             {item.ProductName}
           </h3>
           <input
