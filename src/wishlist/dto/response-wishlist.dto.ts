@@ -22,6 +22,5 @@ export class responseWishlistGivenDto {
   success: boolean;
   data: {
     item: {};
-    grape: {};
   };
 }
