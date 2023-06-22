@@ -42,34 +42,29 @@ export async function deleteWishList(params) {
 }
 
 // 위시리스트의 pick status 변경
-export async function updateWishlistPickStatus(
-  params
-) {
+export async function updateWishlistPickStatus(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.patch(
-    `/wishlist/item/${params.itemid}/pickstatus`);
+    `/wishlist/item/${params.itemid}/pickstatus`
+  );
   return response.data;
 }
 
-
 // 위시리스트의 given status 변경 (자식)
-export async function updateWishlistGivenStatus(
-  params
-) {
+export async function updateWishlistGivenStatus(params) {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.patch(
+  const response = await client.post(
     `/wishlist/item/${params.itemid}/givenstatus`,
     params.request
   );
   return response.data;
 }
-
 
 // 위시리스트 수정
 export async function updateWishList(params) {
@@ -90,9 +85,6 @@ export async function getShoppingList(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  const response = await client.post(
-    `/wishlist/shopping-list`,
-    params.request
-  );
+  const response = await client.post(`/wishlist/shopping-list`, params.request);
   return response.data;
 }
