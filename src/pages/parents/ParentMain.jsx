@@ -9,6 +9,11 @@ export default function ParentMain() {
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
   });
+  const message = [
+    "위시리스트에서 자녀의 선물을 확인해보세요",
+    "선물을 고른 후 포도 서비스가 시작됩니다",
+  ];
+
 
   useEffect(() => {
     if (boardQuery.isSuccess) {
@@ -35,10 +40,7 @@ export default function ParentMain() {
       </div>
       
       {/* 포도알 보드 */}
-      <div className="m-8 p-6 rounded-2xl border-4">
-        <Grapes GrapesCount={grape.attached_grapes} />
-        {/* <Grapes /> */}
-      </div>
+        <Grapes GrapesCount={grape.attached_grapes} message={message}/>
 
       {/* 포도알 관리 현황 */}
       <div className="flex">

@@ -14,7 +14,9 @@ export default function ChildMain() {
   const [failAttachModal, setFailAttachModal] = useState(false);
   const [pickedName, setPickedName] = useState("");
   const [pickedImage, setPickedImage] = useState("");
-
+  const message = [
+    "갖고 싶은 선물을 골라보세요",
+  ];
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -89,13 +91,10 @@ export default function ChildMain() {
       </div>
 
       {/* 포도판 */}
-      <div className="p-6 rounded-2xl border-4 m-5">
-        <Grapes GrapesCount={grape.attached_grapes} />
-        {/* <Grapes /> */}
-      </div>
+      <Grapes GrapesCount={grape.attached_grapes} message={message}/>
 
       {/* 현재 포도알 및 관리 현황판 */}
-      <div className="flex p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="flex p-6 rounded-2xl border-4 m-10 px-4 mx-44 sm:px-6 lg:px-8">
         <div className="w-2/4 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
@@ -158,7 +157,7 @@ export default function ChildMain() {
       </div>
 
       {/* 등록된 미션 및 위시리스트 */}
-      <div className="p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      <div className="p-6 rounded-2xl border-4 m-10 px-4 mx-44 sm:px-6 lg:px-8 flex">
         <div className="flex-1">
           <RecentMissionList />
         </div>
@@ -178,6 +177,7 @@ export default function ChildMain() {
           )}
         </div>
       </div>
+
       {/* Modal Area */}
       {attachModal && (
         <SuccessModal closeModal={closeAttachModal} message="등록완료" />
