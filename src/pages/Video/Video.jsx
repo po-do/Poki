@@ -207,6 +207,7 @@ export default function Video() {
 								ref={myVideo}
 								autoPlay
 								className="w-3/4 md:w-full"
+								style={{transform: "scaleX(-1)" }}
 							/>
 						)}
 					</div>
