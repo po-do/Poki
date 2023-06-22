@@ -25,7 +25,7 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/parent", icon: HomeIcon, current: true },
+  { name: "Home", href: "/format/parent", icon: HomeIcon, current: false },
   {
     name: "미션",
     href: "/format/parent/mission",
