@@ -29,7 +29,7 @@ export default function Video() {
 	const userVideo = useRef();
 	const connectionRef = useRef();
 
-	const getMediaStream = async () => {
+	async function getMediaStream() {
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({
 				video: true,
@@ -37,9 +37,7 @@ export default function Video() {
 			});
 			console.log(stream, 'this is stream!')
 			setStream(stream);
-			if (myVideo.current) {
-				myVideo.current.srcObject = stream;
-			}
+			myVideo.current.srcObject = stream;
 		} catch (error) {
 			console.log("Failed to get media stream:", error);
 		}
