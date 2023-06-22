@@ -18,12 +18,16 @@ export default function ParentProductCard({ item, onItemClick }) {
   };
 
   return (
-    <>
+    <div
+    className={`flex p-4 border rounded mt-2 ${
+      selectedItem === item ? "bg-gray-200" : ""
+    }`}
+    onClick={handleClick}
+    >
       <div
         className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-        onClick={handleClick}
       >
-        <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none sm:h-96 group-hover:opacity-30">
+        <div >
           <img
             src={item.ProductImage}
             alt={item.ProductName}
@@ -40,14 +44,17 @@ export default function ParentProductCard({ item, onItemClick }) {
             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 absolute top-1"
             checked={selectedItem}
           />
+          
+        </div>
+        <div className="flex justify-center m-3">
           <button
-            className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             // onClick={item.ProductLink}
           >
             링크
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
