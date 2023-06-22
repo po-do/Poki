@@ -44,6 +44,7 @@ export default function Video() {
 			console.log("Failed to get media stream:", error);
 		}
 	};
+	
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
 		/* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
@@ -79,6 +80,12 @@ export default function Video() {
 		// 		setStream(stream);
 		// 		if (myVideo.current) myVideo.current.srcObject = stream;
 		// 	});
+		getMediaStream().then(()=>{
+			console.log('getmediastream~')
+		})
+		.catch((err)=>{
+			console.log(err)
+		});
 
 		socket.on("me", (id) => {
 			setMe(id);
@@ -98,6 +105,11 @@ export default function Video() {
 		socket.on("noUserToCall", (data) => {
 			setErrorMessage(`${data} 에게 통화를 걸 수 없습니다`);
 		});
+
+		socket.on("callEnded", ()=>{
+			setCallEnded(true);
+			connectionRef.current?.destroy();
+		})
 
 	}, []);
 
