@@ -40,8 +40,11 @@ export default function ParentProductCard({ item, onItemClick }) {
             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 absolute top-1"
             checked={selectedItem}
           />
+          
+        </div>
+        <div className="flex justify-center m-3">
           <button
-            className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             // onClick={item.ProductLink}
           >
             링크
