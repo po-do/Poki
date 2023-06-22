@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LinkRegister from "../../components/Modal/LinkRegisterModal";
+import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
 import { getWishlistByUserId } from "../../api/wishlist.js";
 
@@ -61,7 +61,7 @@ export default function ChildWishList() {
             </button>
           </div>
           <div className="relative">
-            {showModal && <LinkRegister onClose={closeModal} />}
+            {showModal && <LinkRegisterModal onClose={closeModal} />}
           </div>
         </div>
       </div>
