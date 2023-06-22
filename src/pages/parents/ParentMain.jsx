@@ -31,11 +31,12 @@ export default function ParentMain() {
           </div>
         </div>
       </div>
-      <div className="flex">
-        <div className="mb-4 flex-1 border-r border-gray-200">
+      <div className="flex flex-col">
+        <div className="mb-4 border-r border-gray-200">
           <Grapes GrapesCount={grape.attached_grapes} />
           {/* <Grapes /> */}
         </div>
+
         <div className="flex-1">
           <div className="ml-10 mr-10 border-b border-gray-200">
             <div className="px-4 sm:px-0">

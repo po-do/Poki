@@ -90,21 +90,25 @@ export default function ChildMain() {
         {/* <Grapes /> */}
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      {/* 현재 포도알 및 관리 현황판 */}
+      <div className="mx-auto m-10 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
         <div className="flex-1 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
-          <div className="h-2/4 w-full m-2 border rounded-md border-gray-200 p-1 mr-6">
-            <div className="flex">
-              {Array.from({ length: grape.deattached_grapes }).map(
-                (_, index) => (
-                  <div
-                    key={index}
-                    className="w-10 h-10 mr-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800"
-                  ></div>
-                )
-              )}
+          <div className="h-39 w-94 mt-3 
+          mb-6 border rounded-md border-gray-200 p-1">
+ 
+              <div className="flex justify-center flex-wrap">
+                {Array.from({ length: grape.deattached_grapes }).map(
+                  (_, index) => (
+                    <div
+                      key={index}
+                      className="w-10 h-10 mr-1 mb-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800 flex-shrink-0"
+                    />
+                  )
+                )}
+
             </div>
           </div>
           <button
@@ -149,6 +153,7 @@ export default function ChildMain() {
         </div>
       </div>
 
+      {/* 최근 미션 리스트 */}
       <div className="mx-auto mb-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
         <div className="flex-1">
           <RecentMissionList />
