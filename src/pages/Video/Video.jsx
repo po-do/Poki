@@ -52,9 +52,9 @@ export default function Video() {
 		//   .then((stream) => {
 		//     setStream(stream);
 		//     if (myVideo.current) myVideo.current.srcObject = stream;
-		//   });
+		//   });`
 		// const getMediaStream = async () => {
-		//   try {
+		//   try {`
 		//     const stream = await navigator.mediaDevices.getUserMedia({
 		//       video: true,
 		//       audio: true,
