@@ -96,7 +96,7 @@ export default function MissionTempComplete() {
     const newStatus = {
       blank: grape?.blank,
       attached_grapes: grape?.attached_grapes,
-      total_grapes: grape?.total_grapes,
+      total_grapes: grape?.total_grapes + count,
       deattached_grapes: grape?.deattached_grapes + count,
     };
 
