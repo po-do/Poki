@@ -34,6 +34,7 @@ import { VideoChatModule } from 'src/video-chat/video-chat.module';
         JwtStrategy,
     ],
     controllers: [EventController],
+    exports: [EventGateway, EventService, TypeOrmModule],
 })
 
 export class EventModule {}

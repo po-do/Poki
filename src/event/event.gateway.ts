@@ -116,8 +116,8 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     const now_user = await this.authService.getUserById(user.id);
 
-    //now_user의 코드 길이가 4글자 이하이면 오류 발생
-    if (now_user.code.length <= 4) {
+     //now_user의 코드 길이가 4글자 이하이거나 null 값이면  오류 발생
+     if (now_user.code.length <= 4 || now_user.code === null) {
       return { number: 0, payload: `Parent-child connection is required` };
 
     }

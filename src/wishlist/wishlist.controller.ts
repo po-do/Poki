@@ -3,12 +3,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { Wishlist } from './wishlist.entity';
-import { GivenStatus, PickedStatus } from './wishlist-status';
 import { GetUserType } from 'src/decorators/get-user.type.decorator';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { GetUserId } from 'src/decorators/get-user.userid.decorator';
 import { GetUserCode } from 'src/decorators/get-user.code.decorator';
-import { responseWishlistDto } from './dto/response-wishlist.dto';
+import { responseWishlistDto, responseWishlistGivenDto } from './dto/response-wishlist.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/auth/user.entity';
 import { BoardService } from 'src/board/board.service';
@@ -110,7 +109,7 @@ export class WishlistController {
         @Param('id', ParseIntPipe) id: number,
         @GetUserType() type: string,
         @GetUserId() userid: number,
-    ): Promise <responseWishlistDto> {
+    ): Promise <responseWishlistGivenDto> {
         if (type !== 'PARENT') {
             throw new ForbiddenException('Only parents can update a wishlist.');
         }
@@ -123,11 +122,12 @@ export class WishlistController {
 
         const newgrape = await this.boardService.resetBoard(grape.id, userid);
 
-        const response: responseWishlistDto = {
+        const response: responseWishlistGivenDto = {
             code: 200,
             success: true,
             data: {
-              item: await this.wishlistService.updateWishlistGivenStatus(id)
+              item: await this.wishlistService.updateWishlistGivenStatus(id),
+              grape: grape,
             },
           };
 

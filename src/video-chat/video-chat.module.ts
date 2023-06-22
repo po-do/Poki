@@ -3,12 +3,12 @@ import { VideoChatService } from './video-chat.service';
 import { SocketConnectionRepository } from './video-chat.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoChatController } from './video-chat.controller';
+import { EventGateway } from 'src/event/event.gateway';
+import { EventService } from 'src/event/event.service';
 import { MessageRepository } from 'src/event/repository/message.repository';
 import { ConversationRepository } from 'src/event/repository/conversation.repository';
-import { UserRepository } from 'src/auth/user.repository';
-import { EventService } from 'src/event/event.service';
-import { EventGateway } from 'src/event/event.gateway';
 import { AuthService } from 'src/auth/auth.service';
+import { UserRepository } from 'src/auth/user.repository';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -28,7 +28,8 @@ import { JwtService } from '@nestjs/jwt';
     ConversationRepository,
     AuthService,
     UserRepository,
-    JwtService],
+    JwtService,],
+
   exports: [VideoChatService],
   controllers: [VideoChatController]
 })
