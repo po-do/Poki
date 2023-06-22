@@ -22,6 +22,7 @@ let createRooms: string[] = [];
 
 @Injectable()
 export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  videoChatService: any;
   constructor(
     private eventService: EventService,
     private authService: AuthService,
@@ -34,12 +35,29 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   afterInit() {}
 
-  handleConnection(@ConnectedSocket() socket: Socket) {
-    this.logger.log(`Socket ${socket.id} connected`);
+  // handleConnection(@ConnectedSocket() socket: Socket) {
+  //   this.logger.log(`Socket ${socket.id} connected`);
+  // }
+
+  // handleDisconnect(@ConnectedSocket() socket: Socket) {
+  //   this.logger.log(`Socket ${socket.id} disconnected`);
+  // }
+
+  handleConnection(@ConnectedSocket() socket: Socket): any { 
+    console.log("connection 발생 😁")
+    socket.emit("me", socket.id)
   }
 
   handleDisconnect(@ConnectedSocket() socket: Socket) {
     this.logger.log(`Socket ${socket.id} disconnected`);
+  }
+
+  @SubscribeMessage('setUserName')
+  handleSetUserName(
+    @MessageBody() data: {user_id: string},
+    @ConnectedSocket() socket: Socket
+    ) {
+    this.videoChatService.createSocketConnection(data.user_id, socket.id);
   }
 
   @SubscribeMessage('message')
@@ -135,5 +153,46 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   ) {
     socket.leave(roomName);
     return { success: true };
+  }
+
+  @SubscribeMessage('disconnect')
+  async handleDisconnectSocket(@ConnectedSocket() socket: Socket) {
+    try {
+      const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
+      if (disconnectedUser) {
+        this.videoChatService.deleteConnection(disconnectedUser)
+      }
+      this.logger.log("disconnection 발생 😀, 삭제 완료")
+      socket.broadcast.emit("callEnded")
+    } catch (error) {
+      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
+    }
+  }
+
+  @SubscribeMessage('callUser')
+  async handleCallUser(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
+    const {userToCall, signalData, from, name} = data;
+
+    try {
+      const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+
+      if (userToCallId) {
+        this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
+      } else {
+        socket.emit("noUserToCall", userToCall);
+      }
+    } catch (error) {
+      socket.emit("noUserToCall", userToCall);
+    }
+  }
+
+  @SubscribeMessage('answerCall')
+  handleAnswerCall(
+    @ConnectedSocket() socket: Socket, 
+    @MessageBody() data: {to: string, signal: any}) {
+    const {to, signal} = data;
+		this.server.to(to).emit("callAccepted", signal)
   }
 }
