@@ -92,7 +92,6 @@ export default function ChildFormat() {
         },
       };
       const flag = await connectUserCode(params);
-      console.log(flag.connected);
       if (flag.connected === true) {
         console.log("성공");
         setInputReadOnly(flag.connected);
@@ -324,181 +323,186 @@ export default function ChildFormat() {
 
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            {/* Sidebar component, swap this element with another sidebar if you like */}
-            <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-              <div className="flex h-16 shrink-0 items-center">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
+            <div className="flex h-16 shrink-0 items-center justify-between">
+              <div className="flex mt-3">
                 <img
                   className="h-11 w-auto"
                   src="https://cdn-icons-png.flaticon.com/512/2431/2431996.png"
                   alt="Poki"
                 />
                 <div className=" text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold">
-                  Poki
+                Poki
                 </div>
               </div>
-              <nav className="flex flex-1 flex-col">
-                <ul className="flex flex-1 flex-col gap-y-7">
-                  <li>
-                    <ul className="-mx-2 space-y-1">
-                      {navigation.map((item) => (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className={classNames(
-                              item.current
-                                ? "bg-indigo-700 text-white"
-                                : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                              "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
-                            )}
-                          >
-                            <item.icon
-                              className={classNames(
-                                item.current
-                                  ? "text-white"
-                                  : "text-indigo-200 group-hover:text-white",
-                                "h-6 w-6 shrink-0"
-                              )}
-                              aria-hidden="true"
-                            />
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                      <li key="채팅">
-                        <button
-                          onClick={onCreateRoom}
+            </div>
+              
+            <nav className="flex flex-1 flex-col">
+              <ul className="flex flex-1 flex-col gap-y-7">
+                <li>
+                  <ul className="-mx-2 space-y-1">
+                    {navigation.map((item) => (
+                      <li key={item.name}>
+                        <a
+                          href={item.href}
                           className={classNames(
-                            false
+                            item.current
                               ? "bg-indigo-700 text-white"
                               : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                             "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                           )}
                         >
-                          <ChatBubbleLeftRightIcon
+                          <item.icon
                             className={classNames(
-                              false
+                              item.current
                                 ? "text-white"
                                 : "text-indigo-200 group-hover:text-white",
                               "h-6 w-6 shrink-0"
                             )}
                             aria-hidden="true"
                           />
-                          채팅
-                        </button>
+                          {item.name}
+                        </a>
                       </li>
-                    </ul>
-                  </li>
-
-                  {/* 기본 사이드바 코드 등록 여부 */}
-                  {!isConnect?(
-                  <>
-                    <li className="mt-auto">
-                    <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                      <Cog6ToothIcon
-                        className="h-6 w-6 shrink-0 text-indigo-200"
-                        aria-hidden="true"
-                      />
-                      코드 등록
-                    </div>
-                    <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                      <div className="flex gap-x-4">
-                        <input
-                          id="code"
-                          name="code"
-                          type="text"
-                          required
-                          className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                            inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                          }`}
-                          placeholder="코드 입력"
-                          readOnly={inputReadOnly} // readonly 속성 추가
-                          onChange={handleInputChange}
+                    ))}
+                    <li key="채팅">
+                      <button
+                        onClick={onCreateRoom}
+                        className={classNames(
+                          false
+                            ? "bg-indigo-700 text-white"
+                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                          "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
+                        )}
+                      >
+                        <ChatBubbleLeftRightIcon
+                          className={classNames(
+                            false
+                              ? "text-white"
+                              : "text-indigo-200 group-hover:text-white",
+                            "h-6 w-6 shrink-0"
+                          )}
+                          aria-hidden="true"
                         />
-                        <button
-                          type="submit"
-                          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          onClick={handleRegistCode}
-                        >
-                          등록
-                        </button>
+                        채팅
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+
+                {/* 기본 사이드바 코드 등록 여부 */}
+                {!isConnect?(
+                <>
+                  <li className="mt-auto">
+                  <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                    <Cog6ToothIcon
+                      className="h-6 w-6 shrink-0 text-indigo-200"
+                      aria-hidden="true"
+                    />
+                    코드 등록
+                  </div>
+                  <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                    <div className="flex gap-x-4">
+                      <input
+                        id="code"
+                        name="code"
+                        type="text"
+                        required
+                        className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                          inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
+                        }`}
+                        placeholder="코드 입력"
+                        readOnly={inputReadOnly} // readonly 속성 추가
+                        onChange={handleInputChange}
+                      />
+                      <button
+                        type="submit"
+                        className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={handleRegistCode}
+                      >
+                        등록
+                      </button>
+                    </div>
+                  </div>
+                </li>
+                </>
+                ) : (
+                  <li className="mt-auto">
+                    <div>
+                      <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                        <Cog6ToothIcon
+                          className="h-6 w-6 shrink-0 text-indigo-200"
+                          aria-hidden="true"
+                        />
+                        코드 등록 완료
                       </div>
                     </div>
                   </li>
-                  </>
-                  ) : (
-                    <li className="mt-auto">
-                      <div>
-                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                          <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0 text-indigo-200"
-                            aria-hidden="true"
-                          />
-                          코드 등록 완료
-                        </div>
-                      </div>
-                    </li>
-                  )}
-                  
-                </ul>
-              </nav>
-            </div>
-          </div>
-
-          
-          <div className="lg:pl-72">
-            <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-              <button
-                type="button"
-                className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-                onClick={() => setSidebarOpen(true)}
-              >
-                <span className="sr-only">Open sidebar</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-              </button>
-
-              {/* Separator */}
-              <div
-                className="h-6 w-px bg-gray-900/10 lg:hidden"
-                aria-hidden="true"
-              />
-
-              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                <div className="relative flex flex-1"></div>
-                <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
-                    type="button"
-                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-
-                  {/* Separator */}
-                  <div
-                    className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-                    aria-hidden="true"
-                  />
-
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative">
-                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </Menu>
-                </div>
-              </div>
-            </div>
-
-            <main>
-              <Outlet />
-            </main>
+                )}
+                
+              </ul>
+            </nav>
           </div>
         </div>
+
+
+        {/* Dynamic Sidebar */}
+        <div className="lg:pl-72">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <span className="sr-only">Open sidebar</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+
+            {/* Separator */}
+            <div
+              className="h-6 w-px bg-gray-900/10 lg:hidden"
+              aria-hidden="true"
+            />
+
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+              <div className="relative flex flex-1"></div>
+              <div className="flex items-center gap-x-4 lg:gap-x-6">
+                <button
+                  type="button"
+                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                >
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+
+                {/* Separator */}
+                <div
+                  className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
+                  aria-hidden="true"
+                />
+
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative">
+                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="h-8 w-8 rounded-full bg-gray-50"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
+                    />
+                  </Menu.Button>
+                </Menu>
+              </div>
+            </div>
+          </div>
+          <main>
+            <Outlet />
+          </main>
+        </div>
+          
+        </div>
+
+
 
         {/* Modal Area */}
         {registCodeModal && (
