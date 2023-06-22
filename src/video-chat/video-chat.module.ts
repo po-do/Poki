@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { VideoChatService } from './video-chat.service';
-import { VideoChatGateway } from './video-chat.gateway';
 import { SocketConnectionRepository } from './video-chat.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoChatController } from './video-chat.controller';

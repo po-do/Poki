@@ -9,8 +9,8 @@ export class VideoChatService {
         private socketConnectionRepository: SocketConnectionRepository
     ) {}
 
-    createSocketConnection(user_id: string, socket_id: string): Promise <void> {
-        return this.socketConnectionRepository.createSocketConnection(user_id, socket_id);
+    async createSocketConnection(user_id: string, socket_id: string): Promise <void> {
+        return await this.socketConnectionRepository.createSocketConnection(user_id, socket_id);
     }
 
     async findConnectionBySocketId(socket_id: string): Promise<string> {
@@ -33,6 +33,7 @@ export class VideoChatService {
     }
 
     async deleteConnection(user_id: string): Promise <void> {
+        console.log(user_id, 'userid')
         const result = await this.socketConnectionRepository.delete({user_id: user_id});
         if (result.affected === 0) {
             //throw new NotFoundException(`${user_id}를 삭제할 수 없습니다.`)

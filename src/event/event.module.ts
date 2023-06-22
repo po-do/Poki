@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { UserRepository } from 'src/auth/user.repository';
+import { VideoChatModule } from 'src/video-chat/video-chat.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { UserRepository } from 'src/auth/user.repository';
             UserRepository,
         ]),
         AuthModule,
+        VideoChatModule
     ],
     providers: [
         EventGateway, 
@@ -29,7 +31,8 @@ import { UserRepository } from 'src/auth/user.repository';
         UserRepository,
         JwtService,
         AuthService,
-        JwtStrategy,],
+        JwtStrategy,
+    ],
     controllers: [EventController],
 })
 

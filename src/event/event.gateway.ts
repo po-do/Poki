@@ -4,7 +4,9 @@ import { Logger, Injectable } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+
 import * as config from 'config';
+import { VideoChatService } from 'src/video-chat/video-chat.service';
 
 const corsConfig = config.get('cors');
 
@@ -24,10 +26,10 @@ let createRooms: string[] = [];
 
 @Injectable()
 export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  videoChatService: any;
   constructor(
     private eventService: EventService,
     private authService: AuthService,
+    private videoChatService: VideoChatService
   ) {}
 
   private logger = new Logger('Gateway');
@@ -50,16 +52,26 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     socket.emit("me", socket.id)
   }
 
-  handleDisconnect(@ConnectedSocket() socket: Socket) {
-    this.logger.log(`Socket ${socket.id} disconnected`);
+  // @SubscribeMessage('disconnect')
+  async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    try {
+      const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
+      if (disconnectedUser) {
+        this.videoChatService.deleteConnection(disconnectedUser)
+      }
+      this.logger.log("disconnection 발생 😀, 삭제 완료")
+      socket.broadcast.emit("callEnded")
+    } catch (error) {
+      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
+    }
   }
 
   @SubscribeMessage('setUserName')
-  handleSetUserName(
+  async handleSetUserName(
     @MessageBody() data: {user_id: string},
     @ConnectedSocket() socket: Socket
     ) {
-    this.videoChatService.createSocketConnection(data.user_id, socket.id);
+    await this.videoChatService.createSocketConnection(data.user_id, socket.id);
   }
 
   @SubscribeMessage('message')
@@ -157,24 +169,11 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     return { success: true };
   }
 
-  @SubscribeMessage('disconnect')
-  async handleDisconnectSocket(@ConnectedSocket() socket: Socket) {
-    try {
-      const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
-      if (disconnectedUser) {
-        this.videoChatService.deleteConnection(disconnectedUser)
-      }
-      this.logger.log("disconnection 발생 😀, 삭제 완료")
-      socket.broadcast.emit("callEnded")
-    } catch (error) {
-      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
-    }
-  }
-
   @SubscribeMessage('callUser')
   async handleCallUser(
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
+      console.log('calluser')
     const {userToCall, signalData, from, name} = data;
 
     try {
