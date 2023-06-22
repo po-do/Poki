@@ -58,15 +58,12 @@ export default function Video() {
 		// setStream(stream);
 		// if (myVideo.current) {
 		//   myVideo.current.srcObject = stream;
-		// }
-		navigator.mediaDevices.getUserMedia({
-			video: true,
-			audio: true,
-		})
-			.then(stream => {
-				console.log(stream)
+		navigator.mediaDevices
+			.getUserMedia({ video: true, audio: true })
+			.then((stream) => {
 				setStream(stream);
-			})
+				if (myVideo.current) myVideo.current.srcObject = stream;
+			});
 
 		socket.on("me", (id) => {
 			setMe(id);
@@ -87,17 +84,10 @@ export default function Video() {
 			setErrorMessage(`${data} 에게 통화를 걸 수 없습니다`);
 		});
 
-		return () => {
-			if (stream) {
-				const videoTrack = stream.getVideoTracks();
-				videoTrack.forEach(track => {
-					stream.removeTrack(track);
-				})
-			}
-		}
 	}, []);
 
 	const callUser = (id) => {
+		console.log('calluser', 'this is front')
 		const peer = new Peer({
 			initiator: true,
 			trickle: false,
@@ -127,6 +117,7 @@ export default function Video() {
 	const callConnectedUser = async () => {
 		try {
 			const connectedUser = await getConnectedUserId();
+			console.log('connectedUser', connectedUser)
 			if (connectedUser) {
 				const { connected_user, is_connected } = connectedUser.data;
 				callUser(connected_user);
@@ -222,13 +213,16 @@ export default function Video() {
 				<div className="myId">
 					<div className="call-button mt-5">
 						{callAccepted && !callEnded ? (
-							<button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+							<button
+								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
+								onClick={leaveCall}
+							>
 								End Call
 							</button>
 						) : (
 							<button
 								color="primary"
-								onClick={() => callConnectedUser()}
+								onClick={async () => await callConnectedUser()}
 								className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full mt-5"
 							>
 								자녀/부모에게 통화하기
