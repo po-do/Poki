@@ -95,7 +95,7 @@ export default function ChildMain() {
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
-          <div className="h-2/4 m-2 border rounded-md border-gray-200 p-1 mr-6">
+          <div className="h-2/4 w-full m-2 border rounded-md border-gray-200 p-1 mr-6">
             <div className="flex">
               {Array.from({ length: grape.deattached_grapes }).map(
                 (_, index) => (
