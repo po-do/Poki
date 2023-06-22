@@ -73,6 +73,7 @@ export default function ChildMain() {
 
   return (
     <>
+    {/* 배너 */}
       <div className="bg-white py-1 sm:py-1">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -85,14 +86,16 @@ export default function ChildMain() {
           </div>
         </div>
       </div>
-      <div className="mb-4">
+
+      {/* 포도판 */}
+      <div className="p-6 rounded-2xl border-4 m-5">
         <Grapes GrapesCount={grape.attached_grapes} />
         {/* <Grapes /> */}
       </div>
 
       {/* 현재 포도알 및 관리 현황판 */}
-      <div className="mx-auto m-10 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
-        <div className="flex-1 px-4 sm:px-6 lg:px-8">
+      <div className="flex p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="w-2/4 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
@@ -121,7 +124,7 @@ export default function ChildMain() {
             포도알 붙이기
           </button>
         </div>
-        <div className="flex-1">
+        <div className="w-2/4">
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               포도알 관리 현황판
@@ -153,8 +156,8 @@ export default function ChildMain() {
         </div>
       </div>
 
-      {/* 최근 미션 리스트 */}
-      <div className="mx-auto mb-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      {/* 등록된 미션 및 위시리스트 */}
+      <div className="p-6 rounded-2xl border-4 m-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
         <div className="flex-1">
           <RecentMissionList />
         </div>
