@@ -20,6 +20,7 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
+import grapeLogo from "../../icons/mstile-310x310.png";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function classNames(...classes) {
 export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
+  const [showAlarm, setShowAlarm] = useState(false);
   // const [issuCodeModal, setIssuCodeModal] = useState(false);
 
   // const openIssuCodeModal = () => {
@@ -92,6 +94,14 @@ export default function ParentFormat() {
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate]);
+
+  // ==================================================================
+
+  const handleAlarm = () => {
+    console.log("알람버튼 클릭s");
+    setShowAlarm(true);
+    console.log(showAlarm);
+  };
 
   // ==================================================================
 
@@ -156,10 +166,13 @@ export default function ParentFormat() {
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                       <div className="flex h-16 shrink-0 items-center">
                         <img
-                          className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          className="h-12 w-auto"
+                          src={grapeLogo}
                           alt="Your Company"
                         />
+                        <p className="font-semibold text-white text-2xl ml-2 mt-1">
+                          Poki
+                        </p>
                       </div>
                       <nav className="flex flex-1 flex-col">
                         <ul className="flex flex-1 flex-col gap-y-7">
@@ -439,6 +452,7 @@ export default function ParentFormat() {
                   <button
                     type="button"
                     className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    onClick={handleAlarm}
                   >
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                     <span className="relative flex h-3 w-3">
@@ -473,7 +487,59 @@ export default function ParentFormat() {
               <Outlet />
             </main>
           </div>
+
+          {/* 접히는 알람 */}
+          <Transition.Root show={showAlarm} as={Fragment}>
+            <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
+              <div className="fixed inset-0" />
+
+              <div className="fixed inset-0 overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="transform transition ease-in-out duration-500 sm:duration-700"
+                      enterFrom="translate-x-full"
+                      enterTo="translate-x-0"
+                      leave="transform transition ease-in-out duration-500 sm:duration-700"
+                      leaveFrom="translate-x-0"
+                      leaveTo="translate-x-full"
+                    >
+                      <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
+                        <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                          <div className="px-4 sm:px-6">
+                            <div className="flex items-start justify-between">
+                              <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                                Panel title
+                              </Dialog.Title>
+                              <div className="ml-3 flex h-7 items-center">
+                                <button
+                                  type="button"
+                                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  onClick={() => setShowAlarm(false)}
+                                >
+                                  <span className="sr-only">Close panel</span>
+                                  <XMarkIcon
+                                    className="h-6 w-6"
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                            {/* Your content */}
+                          </div>
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </div>
+            </Dialog>
+          </Transition.Root>
         </div>
+
         {/* Modal Area */}
         {/* {issuCodeModal && (
           <SuccessModal

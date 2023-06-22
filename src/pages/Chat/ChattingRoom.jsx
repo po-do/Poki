@@ -72,58 +72,55 @@ const ChatRoom = () => {
     },
     [message, roomName, user]
   );
-
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-[780px]">
-          <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
-            <div className="px-4 py-5 sm:p-6">
-              <div>
-                <div
-                  ref={chatContainerEl}
-                  className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto rounded-lg border shadow"
-                >
-                  {chats.map((chat, index) => (
-                    <div
-                      key={index}
-                      className={classNames({
-                        "self-end": user.id === chat.check_id,
-                        "self-center": !chat.sender_id,
-                        "flex flex-col": true,
-                      })}
+      <div className="sm:mx-auto sm:w-full sm:max-w-[780px] mt-2">
+        <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+          <div className="px-4 py-5 sm:p-6">
+            <div>
+              <div
+                ref={chatContainerEl}
+                className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto rounded-lg border shadow"
+              >
+                {chats.map((chat, index) => (
+                  <div
+                    key={index}
+                    className={classNames({
+                      "self-end": user.id === chat.check_id,
+                      "self-center": !chat.sender_id,
+                      "flex flex-col": true,
+                    })}
+                  >
+                    <span>
+                      {chat.sender_id
+                        ? user.id === chat.check_id
+                          ? ""
+                          : chat.sender_id
+                        : ""}
+                    </span>
+                    <span
+                      className={`mb-2 w-max p-3 rounded-md max-w-sm break-words ${
+                        user.id !== chat.check_id
+                          ? "text-indigo-500 border-indigo-400 border-2"
+                          : "bg-indigo-500 text-white"
+                      }`}
                     >
-                      <span>
-                        {chat.sender_id
-                          ? user.id === chat.check_id
-                            ? ""
-                            : chat.sender_id
-                          : ""}
-                      </span>
-                      <span
-                        className={`mb-2 w-max p-3 rounded-md max-w-sm break-words ${
-                          user.id !== chat.check_id
-                            ? "text-indigo-500 border-indigo-400 border-2"
-                            : "bg-indigo-500 text-white"
-                        }`}
-                      >
-                        {chat.message}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <form className="flex mt-6" onSubmit={onSendMessage}>
-                  <input
-                    type="text"
-                    onChange={onChange}
-                    value={message}
-                    className="block w-full rounded-md border-0 pl-4 mr-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  <button className="w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    보내기
-                  </button>
-                </form>
+                      {chat.message}
+                    </span>
+                  </div>
+                ))}
               </div>
+              <form className="flex mt-6" onSubmit={onSendMessage}>
+                <input
+                  type="text"
+                  onChange={onChange}
+                  value={message}
+                  className="block w-full rounded-md border-0 pl-4 mr-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                <button className="w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  보내기
+                </button>
+              </form>
             </div>
           </div>
         </div>

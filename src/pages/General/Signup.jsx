@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signUp } from "../../api/auth.js";
 import { useNavigate } from "react-router-dom";
 import FailModal from "../../components/Modal/FailModal.jsx";
+import grapeLogo from "../../icons/mstile-310x310.png";
 
 export default function Signup() {
   const [username, setUserName] = useState("");
@@ -25,7 +26,6 @@ export default function Signup() {
   };
 
   const handleSignUp = async (e) => {
-
     e.preventDefault();
     try {
       await signUp({
@@ -36,21 +36,21 @@ export default function Signup() {
           type: activeTab.toUpperCase(),
         },
       });
-      navigate('/');
+      navigate("/");
     } catch (error) {
       openModal();
     }
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-indigo-300">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+          className="mx-auto h-32 w-auto"
+          src={grapeLogo}
           alt="Your Company"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
           Sign up to your account
         </h2>
       </div>
@@ -60,7 +60,7 @@ export default function Signup() {
           <div>
             <label
               htmlFor="text"
-              className="block text-sm font-medium leading-6 text-white"
+              className="block text-sm font-medium leading-6 text-black"
             >
               User Name
             </label>
@@ -72,14 +72,14 @@ export default function Signup() {
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-white"
+              className="block text-sm font-medium leading-6 text-black"
             >
               User ID
             </label>
@@ -91,7 +91,7 @@ export default function Signup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function Signup() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 text-black"
               >
                 Password
               </label>
@@ -112,7 +112,7 @@ export default function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -124,11 +124,11 @@ export default function Signup() {
                 name="push-type"
                 type="radio"
                 onClick={() => handleTabClick("parent")}
-                className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+                className="h-4 w-4 border-white/10 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
               />
               <label
                 htmlFor="push-parent"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 text-black"
               >
                 부모님
               </label>
@@ -139,11 +139,11 @@ export default function Signup() {
                 name="push-type"
                 type="radio"
                 onClick={() => handleTabClick("child")}
-                className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+                className="h-4 w-4 border-white/10 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
               />
               <label
                 htmlFor="push-child"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 text-black"
               >
                 자녀
               </label>
@@ -153,11 +153,16 @@ export default function Signup() {
             <button
               type="submit"
               onClick={handleSignUp}
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
             >
               Sign up
             </button>
-            {showModal && <FailModal closeModal={closeModal} message={"아이디가 존재합니다"}/>}
+            {showModal && (
+              <FailModal
+                closeModal={closeModal}
+                message={"아이디가 존재합니다"}
+              />
+            )}
           </div>
         </form>
       </div>

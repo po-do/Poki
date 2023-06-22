@@ -1,27 +1,25 @@
 import React from "react";
 import { deleteWishList } from "../../api/wishlist.js";
 
-export default function ChildProductCard({item}) {
+export default function ChildProductCard({ item }) {
   const handleDeleteCard = async () => {
     const param = {
-      itemid: item.id
-    }
+      itemid: item.id,
+    };
     await deleteWishList(param);
-  }
+  };
 
   return (
-    <div
-    className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-  >
-    <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-      <img
-        src={item.ProductImage}
-        alt={item.ProductName}
-        className="object-contain h-full w-full object-cover object-center sm:h-full sm:w-full"
-      />
-    </div>
-    <div className="flex flex-1 flex-col space-y-2 p-4 ">
-      <h3 className="text-sm font-medium text-gray-900 ">
+    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
+        <img
+          src={item.ProductImage}
+          alt={item.ProductName}
+          className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+        />
+      </div>
+      <div className="flex flex-1 flex-col space-y-2 p-4 ">
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-10 ">
           {item.ProductName}
       </h3>
     </div>

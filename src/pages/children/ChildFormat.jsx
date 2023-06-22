@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+import grapeLogo from "../../icons/mstile-310x310.png";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -51,6 +52,7 @@ export default function ChildFormat() {
   const [registCodeModal, setRegistCodeModal] = useState(false);
   const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
+  const [showAlarm, setShowAlarm] = useState(false);
 
   const openRegistCodeModal = () => {
     setRegistCodeModal(true);
@@ -126,7 +128,13 @@ export default function ChildFormat() {
   }, [navigate]);
 
   // ==================================================================
-  
+  const handleAlarm = () => {
+    console.log("알람버튼 클릭s");
+    setShowAlarm(true);
+    console.log(showAlarm);
+  };
+  // ==================================================================
+
   // 코드 존재 여부 확인 (수정 필요)
   const [isConnect, setIsConnect] = useState("");
   const isConnected = async () => {
@@ -143,11 +151,11 @@ export default function ChildFormat() {
     isConnected();
   }, []);
 
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <div>
+          {/* 접히는 사이드바 */}
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -204,10 +212,13 @@ export default function ChildFormat() {
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                       <div className="flex h-16 shrink-0 items-center">
                         <img
-                          className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          className="h-12 w-auto"
+                          src={grapeLogo}
                           alt="Your Company"
                         />
+                        <p className="font-semibold text-white text-2xl ml-2 mt-1">
+                          Poki
+                        </p>
                       </div>
                       <nav className="flex flex-1 flex-col">
                         <ul className="flex flex-1 flex-col gap-y-7">
@@ -261,43 +272,45 @@ export default function ChildFormat() {
                               </li>
                             </ul>
                           </li>
-                          
+
                           {/* 접히는 사이드바 코드 등록 여부 */}
-                          {!isConnect?(
-                          <>
-                            <li className="mt-auto">
-                            <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                              <Cog6ToothIcon
-                                className="h-6 w-6 shrink-0 text-indigo-200"
-                                aria-hidden="true"
-                              />
-                              코드 등록
-                            </div>
-                            <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                              <div className="flex gap-x-4">
-                                <input
-                                  id="code"
-                                  name="code"
-                                  type="text"
-                                  required
-                                  className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                                    inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                                  }`}
-                                  placeholder="코드 입력"
-                                  readOnly={inputReadOnly} // readonly 속성 추가
-                                  onChange={handleInputChange}
-                                />
-                                <button
-                                  type="submit"
-                                  className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                  onClick={handleRegistCode}
-                                >
-                                  등록
-                                </button>
-                              </div>
-                            </div>
-                          </li>
-                          </>
+                          {!isConnect ? (
+                            <>
+                              <li className="mt-auto">
+                                <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                                  <Cog6ToothIcon
+                                    className="h-6 w-6 shrink-0 text-indigo-200"
+                                    aria-hidden="true"
+                                  />
+                                  코드 등록
+                                </div>
+                                <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                                  <div className="flex gap-x-4">
+                                    <input
+                                      id="code"
+                                      name="code"
+                                      type="text"
+                                      required
+                                      className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                                        inputReadOnly
+                                          ? "bg-gray-500 bg-opacity-100"
+                                          : ""
+                                      }`}
+                                      placeholder="코드 입력"
+                                      readOnly={inputReadOnly} // readonly 속성 추가
+                                      onChange={handleInputChange}
+                                    />
+                                    <button
+                                      type="submit"
+                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                      onClick={handleRegistCode}
+                                    >
+                                      등록
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
                           ) : (
                             <li className="mt-auto">
                               <div>
@@ -311,7 +324,6 @@ export default function ChildFormat() {
                               </div>
                             </li>
                           )}
-
                         </ul>
                       </nav>
                     </div>
@@ -321,6 +333,7 @@ export default function ChildFormat() {
             </Dialog>
           </Transition.Root>
 
+          {/* 기본 사이드바 */}
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
@@ -390,73 +403,73 @@ export default function ChildFormat() {
                   </ul>
                 </li>
 
-                {/* 기본 사이드바 코드 등록 여부 */}
-                {!isConnect?(
-                <>
-                  <li className="mt-auto">
-                  <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200"
-                      aria-hidden="true"
-                    />
-                    코드 등록
-                  </div>
-                  <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                    <div className="flex gap-x-4">
-                      <input
-                        id="code"
-                        name="code"
-                        type="text"
-                        required
-                        className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                          inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                        }`}
-                        placeholder="코드 입력"
-                        readOnly={inputReadOnly} // readonly 속성 추가
-                        onChange={handleInputChange}
-                      />
-                      <button
-                        type="submit"
-                        className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        onClick={handleRegistCode}
-                      >
-                        등록
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                </>
-                ) : (
-                  <li className="mt-auto">
-                    <div>
-                      <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                        <Cog6ToothIcon
-                          className="h-6 w-6 shrink-0 text-indigo-200"
-                          aria-hidden="true"
-                        />
-                        코드 등록 완료
+                  {/* 기본 사이드바 코드 등록 여부 */}
+                  {!isConnect ? (
+                    <>
+                      <li className="mt-auto">
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록
+                        </div>
+                        <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                          <div className="flex gap-x-4">
+                            <input
+                              id="code"
+                              name="code"
+                              type="text"
+                              required
+                              className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                                inputReadOnly
+                                  ? "bg-gray-500 bg-opacity-100"
+                                  : ""
+                              }`}
+                              placeholder="코드 입력"
+                              readOnly={inputReadOnly} // readonly 속성 추가
+                              onChange={handleInputChange}
+                            />
+                            <button
+                              type="submit"
+                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={handleRegistCode}
+                            >
+                              등록
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="mt-auto">
+                      <div>
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록 완료
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                )}
-                
-              </ul>
-            </nav>
+                    </li>
+                  )}
+                </ul>
+              </nav>
+            </div>
           </div>
-        </div>
 
-
-        {/* Dynamic Sidebar */}
-        <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-            <button
-              type="button"
-              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <span className="sr-only">Open sidebar</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
+          
+          <div className="lg:pl-72">
+            <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+              <button
+                type="button"
+                className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <span className="sr-only">Open sidebar</span>
+                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              </button>
 
             {/* Separator */}
             <div
@@ -464,16 +477,16 @@ export default function ChildFormat() {
               aria-hidden="true"
             />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <div className="relative flex flex-1"></div>
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button
-                  type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                <div className="relative flex flex-1"></div>
+                <div className="flex items-center gap-x-4 lg:gap-x-6">
+                  <button
+                    type="button"
+                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  >
+                    <span className="sr-only">View notifications</span>
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
 
                 {/* Separator */}
                 <div
@@ -481,25 +494,25 @@ export default function ChildFormat() {
                   aria-hidden="true"
                 />
 
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative">
-                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                  </Menu.Button>
-                </Menu>
+                  {/* Profile dropdown */}
+                  <Menu as="div" className="relative">
+                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full bg-gray-50"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </Menu>
+                </div>
               </div>
             </div>
+
+            <main>
+              <Outlet />
+            </main>
           </div>
-          <main>
-            <Outlet />
-          </main>
-        </div>
-          
         </div>
 
 

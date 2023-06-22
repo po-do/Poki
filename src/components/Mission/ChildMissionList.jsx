@@ -96,7 +96,7 @@ export default function RecentMissionList() {
               등록된 미션
             </h1>
             <p className="mt-2 text-sm text-gray-700">
-              부모님이 등록한 미션을 보여드립니다.
+              부모님이 등록한 최근 5개의 미션을 보여드립니다.
             </p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">

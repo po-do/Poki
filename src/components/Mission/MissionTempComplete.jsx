@@ -71,8 +71,7 @@ export default function MissionTempComplete() {
   };
 
   const { mutate: complete } = useMutation(setMissionStatusComplete, {
-    onSuccess: async () => {
-      await addGrape(selectedMissions.length);
+    onSuccess: () => {
       queryClient.invalidateQueries("missions");
     },
   });
@@ -121,7 +120,7 @@ export default function MissionTempComplete() {
   };
 
   // 포도알 발행
-  const handlePublish = () => {
+  const handlePublish = async () => {
     selectedMissions.forEach((missionId) => {
       const updatedMission = {
         ...missions.find((mission) => mission.id === missionId),
@@ -130,9 +129,11 @@ export default function MissionTempComplete() {
         mission_id: missionId,
       });
     });
+    console.log("selectedMissions : ", selectedMissions);
 
     if (selectedMissions.length > 0) {
       openModal();
+      await addGrape(selectedMissions.length);
     } else {
       openFailModal();
     }
@@ -212,7 +213,7 @@ export default function MissionTempComplete() {
         </div>
       </div>
       {showModal && (
-        <SuccessModal closeModal={closeModal} message="포도알 요청 완료" />
+        <SuccessModal closeModal={closeModal} message="포도알 발행 완료" />
       )}
       {failModal && (
         <FailModal
