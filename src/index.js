@@ -21,6 +21,9 @@ import ChildFormat from "./pages/children/ChildFormat";
 import ChildMain from "./pages/children/ChildMain";
 import ChildWishList from "./pages/children/ChildWishList";
 
+// pwa
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 // recoil
 import { RecoilRoot, useRecoilValue } from "recoil";
 import { userState } from "./recoil/user";
@@ -88,3 +91,5 @@ root.render(
     </RecoilRoot>
   </React.StrictMode>
 );
+
+serviceWorkerRegistration.register();
