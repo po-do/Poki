@@ -62,6 +62,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
+    path: "/test",
+    element: <Video />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/format/parent",
     element: <ParentFormat />,
     errorElement: <NotFound />,
