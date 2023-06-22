@@ -18,7 +18,6 @@ export default function LinkRegisterModal({ onClose }) {
   };
 
   const handleClick = () => {
-    console.log()
     setOpen((prevState) => !prevState);
   };
 
@@ -33,6 +32,10 @@ export default function LinkRegisterModal({ onClose }) {
   const closeFailModal = () => {
     setFailModal(false);
   };
+
+  const handleKeyPress = (e) => {
+     if(e.key === 'Enter') { handleClick(); } 
+    }
 
   // 에러 처리 필요
   const choiceWishList = async () => {
@@ -71,9 +74,11 @@ export default function LinkRegisterModal({ onClose }) {
               type="text"
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="선물을 검색하세요."
+              onKeyUp={handleKeyPress}
               value={bookSearchKeyword}
               onChange={handleBookSearch}
             />
+
             <button
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={handleClick}
@@ -82,7 +87,6 @@ export default function LinkRegisterModal({ onClose }) {
             </button>
 
             <button
-              type="submit"
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={onClose}
             >
