@@ -1,18 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
-import io from "socket.io-client";
-
+import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { getConnectedUserId } from "../../api/auth";
-// import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
-const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
-function Video() {
+export default function Video() {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
 
   const [me, setMe] = useState("");
@@ -158,99 +155,61 @@ function Video() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "#fff" }}>화상</h1>
-      <div className="container">
-        <div className="video-container">
-          <div className="video">
+      <h1 className="text-center text-purple-600 text-3xl">화상</h1>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+          <div className="flex-grow">
             {stream && (
               <video
                 playsInline
                 muted
                 ref={myVideo}
                 autoPlay
-                style={{ width: "70%" }}
+                className="w-3/4 md:w-full"
               />
             )}
           </div>
-          <div className="video">
+          <div className="flex-grow">
             {callAccepted && !callEnded ? (
               <video
                 playsInline
                 ref={userVideo}
                 autoPlay
-                style={{ width: "70%" }}
+                className="w-3/4 md:w-full"
               />
             ) : null}
           </div>
-          <div style={{ display: "flex", gap: "20px" }}>
-            <button
-              variant="contained"
-              color="primary"
-              onClick={handleMuteClick}
-            >
-              {muted ? "음소거 해제" : "음소거"}
-            </button>
-            <button
-              variant="contained"
-              color="primary"
-              onClick={handleCameraClick}
-            >
-              {cameraOff ? "카메라 켜기" : "카메라 끄기"}
-            </button>
-          </div>
         </div>
-        <div className="myId">
-          <input
-            id="filled-basic"
-            label="Name"
-            variant="filled"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ marginBottom: "20px" }}
-          />
+        <div className="flex my-4">
           <button
             variant="contained"
-            color="primary"
-            style={{ marginBottom: "2rem" }}
-            onClick={() => {
-              // TODO: 소켓-유저 아이디 연결이 완료되면 버튼과 socket 함수를 제거해야 한다.
-              socket.emit("setUserName", {
-                user_id: name,
-              });
-            }}
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleMuteClick}
           >
-            이름 등록
+            {muted ? "음소거 해제" : "음소거"}
           </button>
-
-          <input
-            id="filled-basic"
-            label="ID to call"
-            variant="filled"
-            value={idToCall}
-            onChange={(e) => setIdToCall(e.target.value)}
-          />
-          <div className="call-button">
+          <button
+            variant="contained"
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-2"
+            onClick={handleCameraClick}
+          >
+            {cameraOff ? "카메라 켜기" : "카메라 끄기"}
+          </button>
+        </div>
+        <div className="myId">
+          <div className="call-button mt-5">
             {callAccepted && !callEnded ? (
-              <button variant="contained" color="secondary" onClick={leaveCall}>
+              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
                 End Call
               </button>
             ) : (
-              <div>
-                <button
-                  color="primary"
-                  aria-label="call"
-                  onClick={() => callUser(idToCall)}
-                >
-                  <text fontSize="large">통화하기</text>
-                </button>
-                <button
-                  color="primary"
-                  aria-label="call"
-                  onClick={() => callConnectedUser()}
-                >
-                  <text fontSize="large">자녀/부모에게 통화하기</text>
-                </button>
-              </div>
+              <button
+                color="primary"
+                onClick={() => callConnectedUser()}
+                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full mt-5"
+              >
+                자녀/부모에게 통화하기
+              </button>
             )}
             {idToCall}
             {errorMessage}
@@ -259,8 +218,11 @@ function Video() {
         <div>
           {receivingCall && !callAccepted ? (
             <div className="caller">
-              <h1>{name} 가 전화를 걸었어요</h1>
-              <button variant="contained" color="primary" onClick={answerCall}>
+              <h1 className="text-lg">{name} 가 전화를 걸었어요</h1>
+              <button
+                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                onClick={answerCall}
+              >
                 Answer
               </button>
             </div>
@@ -270,5 +232,3 @@ function Video() {
     </>
   );
 }
-
-export default Video;
