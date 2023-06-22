@@ -15,3 +15,13 @@ export class responseWishlistDto {
     item: {};
   };
 }
+
+
+export class responseWishlistGivenDto {
+  code: number;
+  success: boolean;
+  data: {
+    item: {};
+    grape: {};
+  };
+}
