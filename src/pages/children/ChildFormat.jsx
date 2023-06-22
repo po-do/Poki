@@ -128,6 +128,12 @@ export default function ChildFormat() {
   }, [navigate]);
 
   // ==================================================================
+  const handleAlarm = () => {
+    console.log("알람버튼 클릭s");
+    setShowAlarm(true);
+    console.log(showAlarm);
+  };
+  // ==================================================================
 
   // 코드 존재 여부 확인 (수정 필요)
   const [isConnect, setIsConnect] = useState("");
@@ -472,6 +478,7 @@ export default function ChildFormat() {
                   <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
