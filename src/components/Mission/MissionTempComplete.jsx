@@ -18,7 +18,17 @@ export default function MissionTempComplete() {
   const [selectedMissions, setSelectedMissions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
+  const [overFailModal, setOverFailModal] = useState(false);
   const [showReturnModal, setShowReturnModal] = useState(false);
+
+  // 초과발행 경고
+  const openOverFailModal = () => {
+    setOverFailModal(true);
+  };
+
+  const closeOverFailModal = () => {
+    setOverFailModal(false);
+  };
 
   // 포도알 발행 모달
   const openModal = () => {
@@ -121,21 +131,35 @@ export default function MissionTempComplete() {
 
   // 포도알 발행
   const handlePublish = async () => {
-    selectedMissions.forEach((missionId) => {
-      const updatedMission = {
-        ...missions.find((mission) => mission.id === missionId),
-      };
-      complete({
-        mission_id: missionId,
-      });
-    });
-    console.log("selectedMissions : ", selectedMissions);
+    // 포도상태 가져오기
+    const x = await getBoardStatus();
+    const total = x.data.grape.total_grapes;
 
-    if (selectedMissions.length > 0) {
-      openModal();
-      await addGrape(selectedMissions.length);
+    // && 포도의 현재
+    // check if total_grapes + selectedMissions.length would be more than 31
+    if (total + selectedMissions.length <= 31) {
+      if (selectedMissions.length > 0) {
+        openModal();
+        await addGrape(selectedMissions.length);
+      } else {
+        openFailModal();
+      }
     } else {
-      openFailModal();
+      // if total_grapes + selectedMissions.length would be more than 31, open fail modal
+      openOverFailModal();
+    }
+
+    if (total + selectedMissions.length <= 31) {
+      if (selectedMissions.length > 0) {
+        selectedMissions.forEach((missionId) => {
+          const updatedMission = {
+            ...missions.find((mission) => mission.id === missionId),
+          };
+          complete({
+            mission_id: missionId,
+          });
+        });
+      }
     }
 
     setSelectedMissions([]);
@@ -219,6 +243,12 @@ export default function MissionTempComplete() {
         <FailModal
           closeModal={closeFailModal}
           message="체크박스를 선택 해주세요."
+        />
+      )}
+      {overFailModal && (
+        <FailModal
+          closeModal={closeOverFailModal}
+          message="발행한 포도알이 31개를 넘어서면 안됩니다."
         />
       )}
       {showReturnModal && (
