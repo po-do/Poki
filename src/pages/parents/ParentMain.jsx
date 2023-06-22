@@ -14,6 +14,11 @@ export default function ParentMain() {
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
   });
+  const message = [
+    "위시리스트에서 자녀의 선물을 확인해보세요",
+    "선물을 고른 후 포도 서비스가 시작됩니다",
+  ];
+
 
   // 31모으면 눌러서 이벤트 발생해야함 아래꺼
   const updateGiven = async () => {
@@ -62,8 +67,7 @@ export default function ParentMain() {
               </p>
             </div>
           </div>
-        </div>
-
+      </div>
         {/* 포도알 보드 */}
         <div className="m-8 p-6 rounded-2xl border-4">
           <Grapes GrapesCount={grape.attached_grapes} />
@@ -118,6 +122,6 @@ export default function ParentMain() {
           </div>
         </div>
       </div>
-    </>
+      </>
   );
 }
