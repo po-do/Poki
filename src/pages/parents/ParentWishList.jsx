@@ -82,7 +82,9 @@ export default function ChildWishList() {
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );
+
       setproduct(unPickedItem);
+    
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -98,11 +100,37 @@ export default function ChildWishList() {
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           {product.map((item) => (
-            <ParentProductCard
-              key={item.id}
-              item={item}
-              onItemClick={handleItemClick}
-            />
+            <div
+            key={item.id}
+            className={`flex p-4 border rounded mt-2 ${
+              selectedItem === item.id ? "bg-gray-200" : ""
+            }`}
+            onClick={() => handleItemClick(item.id)}
+            >
+          <div className={`group relative flex flex-col overflow-hidden rounded-lg ${
+                    selectedItem === item.id ? "border-gray-500" : "border-gray-300"
+                  }`}>
+            <div>
+              <img
+                src={item.ProductImage}
+                alt={item.ProductName}
+                className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+              />
+            </div>
+            <div className="flex flex-1 flex-col space-y-2 p-4 ">
+              <h3 className="text-sm font-medium text-gray-900 ">
+                {item.ProductName}
+              </h3>
+            </div>
+            <div className="flex justify-center m-3">
+              <button
+                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                링크
+              </button>
+            </div>
+          </div>
+
+      </div>
           ))}
         </div>
 

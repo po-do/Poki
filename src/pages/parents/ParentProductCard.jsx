@@ -18,12 +18,16 @@ export default function ParentProductCard({ item, onItemClick }) {
   };
 
   return (
-    <>
+    <div
+    className={`flex p-4 border rounded mt-2 ${
+      selectedItem === item ? "bg-gray-200" : ""
+    }`}
+    onClick={handleClick}
+    >
       <div
         className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-        onClick={handleClick}
       >
-        <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none sm:h-96 group-hover:opacity-30">
+        <div >
           <img
             src={item.ProductImage}
             alt={item.ProductName}
@@ -51,6 +55,6 @@ export default function ParentProductCard({ item, onItemClick }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
