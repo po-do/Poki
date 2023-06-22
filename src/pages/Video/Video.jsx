@@ -44,6 +44,7 @@ export default function Video() {
           video: true,
           audio: true,
         });
+        console.log(stream, 'this is stream!')
         setStream(stream);
         if (myVideo.current) {
           myVideo.current.srcObject = stream;
