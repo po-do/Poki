@@ -4,7 +4,9 @@ import { Logger, Injectable } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+
 import * as config from 'config';
+import { VideoChatService } from 'src/video-chat/video-chat.service';
 
 const corsConfig = config.get('cors');
 
@@ -27,6 +29,7 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   constructor(
     private eventService: EventService,
     private authService: AuthService,
+    private videoChatService: VideoChatService
   ) {}
 
   private logger = new Logger('Gateway');
@@ -36,12 +39,39 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   afterInit() {}
 
-  handleConnection(@ConnectedSocket() socket: Socket) {
-    this.logger.log(`Socket ${socket.id} connected`);
+  // handleConnection(@ConnectedSocket() socket: Socket) {
+  //   this.logger.log(`Socket ${socket.id} connected`);
+  // }
+
+  // handleDisconnect(@ConnectedSocket() socket: Socket) {
+  //   this.logger.log(`Socket ${socket.id} disconnected`);
+  // }
+
+  handleConnection(@ConnectedSocket() socket: Socket): any { 
+    console.log("connection 발생 😁")
+    socket.emit("me", socket.id)
   }
 
-  handleDisconnect(@ConnectedSocket() socket: Socket) {
-    this.logger.log(`Socket ${socket.id} disconnected`);
+  // @SubscribeMessage('disconnect')
+  async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    try {
+      const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
+      if (disconnectedUser) {
+        this.videoChatService.deleteConnection(disconnectedUser)
+      }
+      this.logger.log("disconnection 발생 😀, 삭제 완료")
+      socket.broadcast.emit("callEnded")
+    } catch (error) {
+      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
+    }
+  }
+
+  @SubscribeMessage('setUserName')
+  async handleSetUserName(
+    @MessageBody() data: {user_id: string},
+    @ConnectedSocket() socket: Socket
+    ) {
+    await this.videoChatService.createSocketConnection(data.user_id, socket.id);
   }
 
   @SubscribeMessage('message')
@@ -86,8 +116,8 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     const now_user = await this.authService.getUserById(user.id);
 
-    //now_user의 코드 길이가 4글자 이하이면 오류 발생
-    if (now_user.code.length <= 4) {
+     //now_user의 코드 길이가 4글자 이하이거나 null 값이면  오류 발생
+     if (now_user.code.length <= 4 || now_user.code === null) {
       return { number: 0, payload: `Parent-child connection is required` };
 
     }
@@ -137,5 +167,33 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   ) {
     socket.leave(roomName);
     return { success: true };
+  }
+
+  @SubscribeMessage('callUser')
+  async handleCallUser(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
+      console.log('calluser')
+    const {userToCall, signalData, from, name} = data;
+
+    try {
+      const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+
+      if (userToCallId) {
+        this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
+      } else {
+        socket.emit("noUserToCall", userToCall);
+      }
+    } catch (error) {
+      socket.emit("noUserToCall", userToCall);
+    }
+  }
+
+  @SubscribeMessage('answerCall')
+  handleAnswerCall(
+    @ConnectedSocket() socket: Socket, 
+    @MessageBody() data: {to: string, signal: any}) {
+    const {to, signal} = data;
+		this.server.to(to).emit("callAccepted", signal)
   }
 }

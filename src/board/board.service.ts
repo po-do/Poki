@@ -90,7 +90,7 @@ export class BoardService {
             throw new ForbiddenException('You can only update your own board.');
         }
 
-        board.blank = 31;
+        board.blank = 0;
         board.total_grapes = 0;
         board.attached_grapes = 0;
         board.deattached_grapes = 0;
