@@ -29,6 +29,21 @@ export default function Video() {
 	const userVideo = useRef();
 	const connectionRef = useRef();
 
+	const getMediaStream = async () => {
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({
+				video: true,
+				audio: true,
+			});
+			console.log(stream, 'this is stream!')
+			setStream(stream);
+			if (myVideo.current) {
+				myVideo.current.srcObject = stream;
+			}
+		} catch (error) {
+			console.log("Failed to get media stream:", error);
+		}
+	};
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
 		/* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
@@ -58,12 +73,12 @@ export default function Video() {
 		// setStream(stream);
 		// if (myVideo.current) {
 		//   myVideo.current.srcObject = stream;
-		navigator.mediaDevices
-			.getUserMedia({ video: true, audio: true })
-			.then((stream) => {
-				setStream(stream);
-				if (myVideo.current) myVideo.current.srcObject = stream;
-			});
+		// navigator.mediaDevices
+		// 	.getUserMedia({ video: true, audio: true })
+		// 	.then((stream) => {
+		// 		setStream(stream);
+		// 		if (myVideo.current) myVideo.current.srcObject = stream;
+		// 	});
 
 		socket.on("me", (id) => {
 			setMe(id);
@@ -195,6 +210,13 @@ export default function Video() {
 					</div>
 				</div>
 				<div className="flex my-4">
+					<button
+						variant="contained"
+						className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+						onClick={getMediaStream}
+					>
+						자기 얼굴 화면 가져오기~
+					</button>
 					<button
 						variant="contained"
 						className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
