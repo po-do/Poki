@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ParentProductCard from "../parents/ParentProductCard";
 import {
   getWishlistByUserId,
   updateWishlistPickStatus,
@@ -102,7 +101,7 @@ export default function ChildWishList() {
           {product.map((item) => (
             <div
             key={item.id}
-            className={`flex p-4 border rounded mt-2 ${
+            className={`flex border rounded mt-2 ${
               selectedItem === item.id ? "bg-gray-200" : ""
             }`}
             onClick={() => handleItemClick(item.id)}
