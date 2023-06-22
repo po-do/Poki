@@ -12,7 +12,6 @@ export default function LinkRegisterModal({ onClose }) {
   const handleSetResult = (item) => {
     setSearchResult(item.map((data) => ({ ...data, title: data.title.replace(/<\/?b>/g, "") })));
   };
-  
 
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
@@ -106,15 +105,13 @@ export default function LinkRegisterModal({ onClose }) {
               onClick={() => handleItemClick(item)}
             >
               <div className="mr-4 flex-shrink-0">
-                <a href={item.link}>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className={`h-16 w-16 border ${
-                      selectedItem === index ? "border-gray-500" : "border-gray-300"
-                    } bg-white text-gray-300`}
-                  />
-                </a>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className={`h-16 w-16 border ${
+                    selectedItem === index ? "border-gray-500" : "border-gray-300"
+                  } bg-white text-gray-300`}
+                />
               </div>
               <div>
                 <h4 className={`text-lg font-bold ${selectedItem === index ? "text-gray-500" : ""}`}>

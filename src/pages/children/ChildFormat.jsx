@@ -134,7 +134,7 @@ export default function ChildFormat() {
     try {
       const state = await getConnectedUser();
       // console.log(state);
-      setIsConnect(state.data.connected_user);
+      setIsConnect(state.data.is_connected);
     } catch (error) {
       console.log("Failed to get connected status:", error);
     }

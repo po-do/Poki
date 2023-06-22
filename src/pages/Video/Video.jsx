@@ -1,18 +1,20 @@
-// import Button from "@material-ui/core/Button";
-// import IconButton from "@material-ui/core/IconButton";
-// import TextField from "@material-ui/core/TextField";
-// import AssignmentIcon from "@material-ui/icons/Assignment";
-// import PhoneIcon from "@material-ui/icons/Phone";
 import React, { useEffect, useRef, useState } from "react";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
 import io from "socket.io-client";
+
+import { useRecoilValue } from "recoil";
+import { userState } from "../../recoil/user";
+import { getConnectedUserId } from "../../api/auth";
 // import "./App.css";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
 const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
+
 function Video() {
+  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -33,15 +35,34 @@ function Video() {
   /* 소켓 함수들은 useEffect로 한 번만 정의한다. */
   useEffect(() => {
     /* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
+    // navigator.mediaDevices
+    //   .getUserMedia({ video: true, audio: true })
+    //   .then((stream) => {
+    //     setStream(stream);
+    //     if (myVideo.current) myVideo.current.srcObject = stream;
+    //   });
+    const getMediaStream = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
         setStream(stream);
-        if (myVideo.current) myVideo.current.srcObject = stream;
-      });
+        if (myVideo.current) {
+          myVideo.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.log("Failed to get media stream:", error);
+      }
+    };
+    getMediaStream();
 
     socket.on("me", (id) => {
       setMe(id);
+    });
+
+    socket.emit("setUserName", {
+      user_id: user.user_id,
     });
 
     socket.on("callUser", (data) => {
@@ -83,6 +104,20 @@ function Video() {
     connectionRef.current = peer;
   };
 
+  const callConnectedUser = async () => {
+    try {
+      const connectedUser = await getConnectedUserId();
+      if (connectedUser) {
+        const { connected_user, is_connected } = connectedUser.data;
+        callUser(connected_user);
+      } else {
+        console.log("There is no connected_user to call");
+      }
+    } catch (error) {
+      console.log("Failed to get connected status:", error);
+    }
+  };
+
   const answerCall = () => {
     setCallAccepted(true);
     const peer = new Peer({
@@ -119,14 +154,6 @@ function Video() {
       track.enabled = !track.enabled;
     });
     setCameraOff(!cameraOff);
-  };
-
-  const createUserSocketConn = () => {
-    // TODO: 프론트에서 이 부분에 recoil로 저장된 user Id를 보내주면 된다.
-    /* 여기에 보내준 유저의 아이디는 실제 아이디로 부탁드립니다. (index 말고) */
-    socket.emit("setUserName", {
-      user_id: "유저아이디",
-    });
   };
 
   return (
@@ -208,13 +235,22 @@ function Video() {
                 End Call
               </button>
             ) : (
-              <button
-                color="primary"
-                aria-label="call"
-                onClick={() => callUser(idToCall)}
-              >
-                <text fontSize="large">통화하기</text>
-              </button>
+              <div>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callUser(idToCall)}
+                >
+                  <text fontSize="large">통화하기</text>
+                </button>
+                <button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => callConnectedUser()}
+                >
+                  <text fontSize="large">자녀/부모에게 통화하기</text>
+                </button>
+              </div>
             )}
             {idToCall}
             {errorMessage}

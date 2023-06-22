@@ -77,12 +77,12 @@ const ChatRoom = () => {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-[780px]">
-          <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 border border-black">
+          <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
             <div className="px-4 py-5 sm:p-6">
               <div>
                 <div
                   ref={chatContainerEl}
-                  className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto bg-[#b2c7d9] sm:rounded-lg shadow-lg"
+                  className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto rounded-lg border shadow"
                 >
                   {chats.map((chat, index) => (
                     <div
@@ -101,10 +101,10 @@ const ChatRoom = () => {
                           : ""}
                       </span>
                       <span
-                        className={`mb-2 bg-white w-max p-3 rounded-md max-w-sm break-words ${
-                          user.id === chat.check_id
-                            ? "bg-yellow-300 self-end text-black"
-                            : ""
+                        className={`mb-2 w-max p-3 rounded-md max-w-sm break-words ${
+                          user.id !== chat.check_id
+                            ? "text-indigo-500 border-indigo-400 border-2"
+                            : "bg-indigo-500 text-white"
                         }`}
                       >
                         {chat.message}
