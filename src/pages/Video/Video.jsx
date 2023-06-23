@@ -29,19 +29,30 @@ export default function Video() {
 	const userVideo = useRef();
 	const connectionRef = useRef();
 
-	async function getMediaStream() {
+	const getMediaStream = async () => {
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				video: true,
-				audio: true,
-			});
-			console.log(stream, 'this is stream!')
+		  const permissionName = 'camera'; // Adjust the permission name as needed
+		  const permissionStatus = await navigator.permissions.query({ name: permissionName });
+		  
+		  if (permissionStatus.state === 'granted') {
+			const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+			console.log('Stream:', stream);
 			setStream(stream);
 			myVideo.current.srcObject = stream;
+		  } else {
+			permissionStatus.onchange = async () => {
+			  if (permissionStatus.state === 'granted') {
+				const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+				console.log('Stream:', stream);
+				setStream(stream);
+				myVideo.current.srcObject = stream;
+			  }
+			};
+		  }
 		} catch (error) {
-			console.log("Failed to get media stream:", error);
+		  console.log('Failed to get media stream:', error);
 		}
-	};
+	  };
 	
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
