@@ -56,7 +56,7 @@ export default function Video() {
 
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
-		getPrevPermission();
+		getMediaStream();
 		console.log('this is useEffect func.')
 
 		socket.on("me", (id) => {
@@ -148,7 +148,7 @@ export default function Video() {
 
 	const leaveCall = () => {
 		setCallEnded(true);
-		// socket.disconnect();
+		socket.disconnect();
 		connectionRef.current.destroy();
 	};
 
