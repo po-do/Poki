@@ -29,20 +29,23 @@ export default function Video() {
 	const userVideo = useRef();
 	const connectionRef = useRef();
 
-	async function getMediaStream() {
-		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				video: true,
-				audio: true,
-			});
-			console.log(stream, 'this is stream!')
-			setStream(stream);
-			myVideo.current.srcObject = stream;
-		} catch (error) {
-			console.log("Failed to get media stream:", error);
-		}
-	};
-	
+	const getPrevPermission = async () => {
+		const permissionName = 'camera'; // Adjust the permission name as needed
+		navigator.permissions?.query({ name: permissionName }).dispatchEvent((result) => {
+			if (result.state === 'granted') this.getMediaStream();
+		})
+	}
+	const getMediaStream = () => {
+		navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
+			.then((stream) => {
+				setStream(stream);
+				myVideo.current.srcObject = stream;
+			})
+			.catch(() => {
+				window.alert('No webcam or microphone found, or permission is blocked');
+			})
+	}
+
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
 		/* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
@@ -78,12 +81,8 @@ export default function Video() {
 		// 		setStream(stream);
 		// 		if (myVideo.current) myVideo.current.srcObject = stream;
 		// 	});
-		getMediaStream().then(()=>{
-			console.log('getmediastream~')
-		})
-		.catch((err)=>{
-			console.log(err)
-		});
+		getPrevPermission();
+		getMediaStream();
 
 		socket.on("me", (id) => {
 			setMe(id);
@@ -174,7 +173,7 @@ export default function Video() {
 
 	const leaveCall = () => {
 		setCallEnded(true);
-		socket.disconnect();
+		// socket.disconnect();
 		connectionRef.current.destroy();
 	};
 
