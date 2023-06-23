@@ -93,7 +93,9 @@ export default function ChildMain() {
       </div>
 
       {/* 포도판 */}
-      <Grapes GrapesCount={grape.attached_grapes} message={message} />
+      <div className="m-8 p-6 rounded-2xl border-4">
+        <Grapes GrapesCount={grape.attached_grapes} message={message} />
+      </div>
 
       {/* 현재 포도알 및 관리 현황판 */}
       <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">

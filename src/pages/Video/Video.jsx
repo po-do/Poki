@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
-import { socket } from "../../App";
+import io from "socket.io-client";
+// import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { getConnectedUserId } from "../../api/auth";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
+const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 
 export default function Video() {
 	const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
@@ -46,45 +48,16 @@ export default function Video() {
 				if (myVideo.current)
 					myVideo.current.srcObject = stream;
 			})
+			.catch((err)=>{
+				// getMediaStream();
+				console.log(err)
+			})
 	}
 
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
-		/* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
-		// navigator.mediaDevices
-		//   .getUserMedia({ video: true, audio: true })
-		//   .then((stream) => {
-		//     setStream(stream);
-		//     if (myVideo.current) myVideo.current.srcObject = stream;
-		//   });`
-		// const getMediaStream = async () => {
-		//   try {`
-		//     const stream = await navigator.mediaDevices.getUserMedia({
-		//       video: true,
-		//       audio: true,
-		//     });
-		//     console.log(stream, 'this is stream!')
-		//     setStream(stream);
-		//     if (myVideo.current) {
-		//       myVideo.current.srcObject = stream;
-		//     }
-		//   } catch (error) {
-		//     console.log("Failed to get media stream:", error);
-		//   }
-		// };
-		// getMediaStream();
-		//        console.log(stream, 'this is stream!')
-		// setStream(stream);
-		// if (myVideo.current) {
-		//   myVideo.current.srcObject = stream;
-		// navigator.mediaDevices
-		// 	.getUserMedia({ video: true, audio: true })
-		// 	.then((stream) => {
-		// 		setStream(stream);
-		// 		if (myVideo.current) myVideo.current.srcObject = stream;
-		// 	});
 		getPrevPermission();
-		// getMediaStream();
+		console.log('this is useEffect func.')
 
 		socket.on("me", (id) => {
 			setMe(id);
@@ -199,16 +172,14 @@ export default function Video() {
 			<div className="container mx-auto px-4">
 				<div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
 					<div className="flex-grow">
-						{stream && (
-							<video
-								playsInline
-								muted
-								ref={myVideo}
-								autoPlay
-								className="w-3/4 md:w-full"
-								style={{transform: "scaleX(-1)" }}
-							/>
-						)}
+						<video
+							playsInline
+							muted
+							ref={myVideo}
+							autoPlay
+							className="w-3/4 md:w-full"
+							style={{ transform: "scaleX(-1)" }}
+						/>
 					</div>
 					<div className="flex-grow">
 						{callAccepted && !callEnded ? (

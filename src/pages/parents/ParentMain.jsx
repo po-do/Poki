@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import { getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
-import LiveChat from "../Chat/LiveChat";
 
 import {
   getWishlistByUserId,
@@ -122,7 +121,6 @@ export default function ParentMain() {
             </div>
           </div>
         </div>
-        <LiveChat />
       </div>
     </>
   );
