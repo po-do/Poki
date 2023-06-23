@@ -15,7 +15,8 @@ export default function ChildMain() {
   const [pickedImage, setPickedImage] = useState("");
   // Overlay Message
   const message = [
-    "갖고 싶은 선물을 골라보세요",
+    "위시리스트에서 갖고 싶은 선물을 골라보세요",
+    "선물 선택 후 포도 서비스가 시작됩니다"
   ];
 
   const openAttachModal = () => {
@@ -42,7 +43,8 @@ export default function ChildMain() {
   useEffect(() => {
     if (boardQuery.isSuccess) {
       const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape("확인",fetchedGrape);
+      
+      setGrape(fetchedGrape);
     }
   }, [grape, boardQuery.isSuccess, boardQuery.data]);
 

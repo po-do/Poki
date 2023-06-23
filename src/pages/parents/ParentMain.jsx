@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import { getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
+import LiveChat from "../Chat/LiveChat";
+
 import {
   getWishlistByUserId,
   updateWishlistGivenStatus,
@@ -16,7 +18,7 @@ export default function ParentMain() {
   });
   const message = [
     "위시리스트에서 자녀의 선물을 확인해보세요",
-    "선물을 고른 후 포도 서비스가 시작됩니다",
+    "보상 선택 후 포도 서비스가 시작됩니다",
   ];
 
   // 31모으면 눌러서 이벤트 발생해야함 아래꺼
@@ -120,6 +122,7 @@ export default function ParentMain() {
             </div>
           </div>
         </div>
+        <LiveChat />
       </div>
     </>
   );
