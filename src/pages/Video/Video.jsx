@@ -46,6 +46,10 @@ export default function Video() {
 				if (myVideo.current)
 					myVideo.current.srcObject = stream;
 			})
+			.catch((err)=>{
+				// getMediaStream();
+				console.log(err)
+			})
 	}
 
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
@@ -199,16 +203,14 @@ export default function Video() {
 			<div className="container mx-auto px-4">
 				<div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
 					<div className="flex-grow">
-						{stream && (
-							<video
-								playsInline
-								muted
-								ref={myVideo}
-								autoPlay
-								className="w-3/4 md:w-full"
-								style={{transform: "scaleX(-1)" }}
-							/>
-						)}
+						<video
+							playsInline
+							muted
+							ref={myVideo}
+							autoPlay
+							className="w-3/4 md:w-full"
+							style={{ transform: "scaleX(-1)" }}
+						/>
 					</div>
 					<div className="flex-grow">
 						{callAccepted && !callEnded ? (
