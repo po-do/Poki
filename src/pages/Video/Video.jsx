@@ -102,7 +102,8 @@ export default function Video() {
 		});
 
 		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream;
+			if (userVideo.current)
+				userVideo.current.srcObject = stream;
 		});
 
 		socket.on("callAccepted", (signal) => {
@@ -129,21 +130,23 @@ export default function Video() {
 	};
 
 	const answerCall = () => {
-		setCallAccepted(true);
-		const peer = new Peer({
-			initiator: false,
-			trickle: false,
-			stream: stream,
+		setCallAccepted(true, ()=>{
+			const peer = new Peer({
+				initiator: false,
+				trickle: false,
+				stream: stream,
+			});
+			peer.on("signal", (data) => {
+				socket.emit("answerCall", { signal: data, to: caller, name: name });
+			});
+			peer.on("stream", (stream) => {
+				if (userVideo.current)
+					userVideo.current.srcObject = stream;
+			});
+	
+			peer.signal(callerSignal);
+			connectionRef.current = peer;
 		});
-		peer.on("signal", (data) => {
-			socket.emit("answerCall", { signal: data, to: caller, name: name });
-		});
-		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream;
-		});
-
-		peer.signal(callerSignal);
-		connectionRef.current = peer;
 	};
 
 	const leaveCall = () => {
