@@ -99,7 +99,7 @@ const ChatRoom = () => {
                         : ""}
                     </span>
                     <span
-                      className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[16rem] break-words ${
+                      className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
                         user.id !== chat.check_id
                           ? "text-indigo-500 border-indigo-400 border-2"
                           : "bg-indigo-500 text-white"
