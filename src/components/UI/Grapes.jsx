@@ -149,11 +149,11 @@ export default function Grapes({ GrapesCount, message }) {
           setIsUrl(GrapeImage_30);
           break;
         case 31:
-            setIsUrl(GrapeImage_31);
-            break;
+          setIsUrl(GrapeImage_31);
+          break;
         default:
-        setIsUrl(GrapeImage_0);
-        break;
+          setIsUrl(GrapeImage_0);
+          break;
     }
   }
 
@@ -167,7 +167,7 @@ export default function Grapes({ GrapesCount, message }) {
           >
             {message.map((item) => (
               <React.Fragment key={item}>
-                <p className="text-white text-2xl font-bold">{item}</p>
+                <p className="text-white text-2xl font-bold ml-5 mr-5">{item}</p>
                 <br />
               </React.Fragment>
             ))}
