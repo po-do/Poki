@@ -76,8 +76,8 @@ export default function ParentMain() {
         </div>
 
         {/* 포도알 관리 현황 */}
-        <div className="flex">
-          <div className="p-6 rounded-2xl border-4 w-2/4 m-10 border-b border-gray-200">
+        <div className="flex max-[720px]:flex-col">
+          <div className="p-6 rounded-2xl border-4 min-[720px]:w-2/4 m-8 border-gray-200">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
                 포도알 관리 현황판
@@ -108,7 +108,7 @@ export default function ParentMain() {
             </div>
           </div>
           {/* 미션 등록 부분 */}
-          <div className="w-2/4 m-10 p-6 rounded-2xl border-4">
+          <div className="min-[720px]:w-2/4 m-8 p-6 rounded-2xl border-4">
             <div className="mx-auto text-center">
               <MissionRegisteredGift />
               {(grape?.attached_grapes === 31 ? true : false) && (
