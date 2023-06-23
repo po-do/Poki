@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";
 import grapeLogo from "../../icons/mstile-310x310.png";
 import FailModal from "../../components/Modal/FailModal";
+import InstallAlarm from "./InstallAlarm";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -55,6 +56,9 @@ export default function Login() {
 
   return (
     <>
+      <div className="fixed right-0 m-4">
+        <InstallAlarm />
+      </div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-indigo-300">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
