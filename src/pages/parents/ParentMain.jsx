@@ -69,7 +69,7 @@ export default function ParentMain() {
           </div>
         </div>
         {/* 포도알 보드 */}
-        <div className="m-8 p-6 rounded-2xl border-4  md:mx-44">
+        <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
           <Grapes GrapesCount={grape.attached_grapes} message={message} />
           {/* <Grapes /> */}
         </div>
