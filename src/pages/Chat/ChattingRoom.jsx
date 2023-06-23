@@ -80,7 +80,7 @@ const ChatRoom = () => {
             <div>
               <div
                 ref={chatContainerEl}
-                className="flex flex-col p-4 min-h-[600px] max-h-[600px] overflow-auto rounded-lg border shadow"
+                className="flex flex-col p-4 max-[720px]:h-[28.5rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
                 {chats.map((chat, index) => (
                   <div
@@ -110,7 +110,10 @@ const ChatRoom = () => {
                   </div>
                 ))}
               </div>
-              <form className="flex mt-6" onSubmit={onSendMessage}>
+              <form
+                className="flex mt-6 max-[720px]:fixed max-[720px]:bottom-4"
+                onSubmit={onSendMessage}
+              >
                 <input
                   type="text"
                   onChange={onChange}

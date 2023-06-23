@@ -6,6 +6,7 @@ import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import { getWishlistByUserId } from "../../api/wishlist.js";
+import grapeOne from "../../icons/grapeOne.jpg";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
@@ -108,7 +109,11 @@ export default function ChildMain() {
             className="h-39 w-94 mt-3 
           mb-6 border rounded-md border-gray-200 p-1"
           >
-            <div className="flex justify-center flex-wrap h-12">
+            <div
+              className={`flex flex-wrap w-full ${
+                grape.deattached_grapes === 0 ? "h-12" : ""
+              }`}
+            >
               {Array.from({ length: grape.deattached_grapes }).map(
                 (_, index) => (
                   <div
