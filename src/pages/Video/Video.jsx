@@ -85,6 +85,12 @@ export default function Video() {
 
 	}, []);
 
+	useEffect(() => {
+		if (userVideo.current) {
+			userVideo.current.srcObject = stream;
+		}
+	}, [callAccepted, callEnded, stream]);
+
 	const callUser = (id) => {
 		console.log('calluser', 'this is front')
 		const peer = new Peer({
@@ -130,23 +136,22 @@ export default function Video() {
 	};
 
 	const answerCall = () => {
-		setCallAccepted(true, ()=>{
-			const peer = new Peer({
-				initiator: false,
-				trickle: false,
-				stream: stream,
-			});
-			peer.on("signal", (data) => {
-				socket.emit("answerCall", { signal: data, to: caller, name: name });
-			});
-			peer.on("stream", (stream) => {
-				if (userVideo.current)
-					userVideo.current.srcObject = stream;
-			});
-	
-			peer.signal(callerSignal);
-			connectionRef.current = peer;
+		setCallAccepted(true);
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream,
 		});
+		peer.on("signal", (data) => {
+			socket.emit("answerCall", { signal: data, to: caller, name: name });
+		});
+		peer.on("stream", (stream) => {
+			if (userVideo.current)
+				userVideo.current.srcObject = stream;
+		});
+
+		peer.signal(callerSignal);
+		connectionRef.current = peer;
 	};
 
 	const leaveCall = () => {
