@@ -102,7 +102,7 @@ export default function Video() {
 		});
 
 		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream;
+			userVideo.current?.srcObject = stream;
 		});
 
 		socket.on("callAccepted", (signal) => {
@@ -139,7 +139,7 @@ export default function Video() {
 			socket.emit("answerCall", { signal: data, to: caller, name: name });
 		});
 		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream;
+			userVideo.current?.srcObject = stream;
 		});
 
 		peer.signal(callerSignal);
