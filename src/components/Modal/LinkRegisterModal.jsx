@@ -16,7 +16,7 @@ export default function LinkRegisterModal({ onClose }) {
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
   };
-  // 이쪽 문제
+
   const handleOpen= () => {
     setIsState(true);
   };
