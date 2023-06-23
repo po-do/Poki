@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { MdOutlineInstallMobile } from 'react-icons/md';
-
 export default function InstallAlarm() {
     // 사용자에게 설치 프롬프트 띄우기
     const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -44,18 +43,18 @@ export default function InstallAlarm() {
         }
       };
 
-  return (
-    <React.Fragment>
-      {deferredPrompt && (
-        <button
-        type="button"
-        className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        onClick={handleInstallClick}
-        >
-        <MdOutlineInstallMobile className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-        Poki 설치
-        </button>
-      )}
-    </React.Fragment>
-  );
+    return (
+        <div>
+          {deferredPrompt && 
+            <button
+            type="button"
+            className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleInstallClick}
+            >
+            <MdOutlineInstallMobile className="-ml-0.5 h-5 w-5" aria-hidden="true" />
+            Poki 설치
+            </button>
+          }
+        </div>
+    )
 }
