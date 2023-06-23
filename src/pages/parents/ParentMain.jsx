@@ -70,14 +70,14 @@ export default function ParentMain() {
           </div>
         </div>
         {/* 포도알 보드 */}
-        <div className="m-8 p-6 rounded-2xl border-4">
+        <div className="m-8 p-6 rounded-2xl border-4  md:mx-44">
           <Grapes GrapesCount={grape.attached_grapes} message={message} />
           {/* <Grapes /> */}
         </div>
 
-        {/* 포도알 관리 현황 */}
-        <div className="flex max-[720px]:flex-col">
-          <div className="p-6 rounded-2xl border-4 min-[720px]:w-2/4 m-8 border-gray-200">
+        <div className="flex max-[720px]:flex-col md:mx-44">
+          {/* 포도알 관리 현황판 */}
+          <div className="p-6 rounded-2xl border-4 md:w-2/4 m-8 border-gray-200">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
                 포도알 관리 현황판
@@ -107,8 +107,8 @@ export default function ParentMain() {
               </dl>
             </div>
           </div>
-          {/* 미션 등록 부분 */}
-          <div className="min-[720px]:w-2/4 m-8 p-6 rounded-2xl border-4">
+          {/* 등록된 보상 부분 */}
+          <div className="md:w-2/4 m-8 p-6 rounded-2xl border-4">
             <div className="mx-auto text-center">
               <MissionRegisteredGift />
               {(grape?.attached_grapes === 31 ? true : false) && (
