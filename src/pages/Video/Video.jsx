@@ -184,7 +184,7 @@ export default function Video() {
 						/>
 					</div>
 					<div className="flex-grow">
-						{callAccepted && !callEnded ? (
+						{!callEnded ? (
 							<video
 								playsInline
 								ref={userVideo}
