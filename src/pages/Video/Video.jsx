@@ -33,11 +33,11 @@ export default function Video() {
 
 	const getPrevPermission = async () => {
 		const permissionName = 'camera'; // Adjust the permission name as needed
-		const result = await navigator.permissions?.query({ name: permissionName })
-		if (result?.state === 'granted') {
-			console.log('prevpermission called getmediastream')
-			getMediaStream();
-		}
+		// const result = await navigator.permissions?.query({ name: permissionName })
+		// if (result?.state === 'granted') {
+		// 	console.log('prevpermission called getmediastream')
+		// }
+		getMediaStream();
 	}
 	const getMediaStream = () => {
 		navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
@@ -56,7 +56,7 @@ export default function Video() {
 
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
-		getPrevPermission();
+		getMediaStream();
 		console.log('this is useEffect func.')
 
 		socket.on("me", (id) => {
@@ -148,7 +148,7 @@ export default function Video() {
 
 	const leaveCall = () => {
 		setCallEnded(true);
-		// socket.disconnect();
+		socket.disconnect();
 		connectionRef.current.destroy();
 	};
 
