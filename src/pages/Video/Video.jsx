@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
-import { socket } from "../../App";
+import io from "socket.io-client";
+// import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { getConnectedUserId } from "../../api/auth";
 
-// const socket = io.connect("http://localhost:4000/video-chat");
+const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
 
 export default function Video() {
@@ -54,41 +55,8 @@ export default function Video() {
 
 	/* 소켓 함수들은 useEffect로 한 번만 정의한다. */
 	useEffect(() => {
-		/* device중 video를 가져 와서 나의 얼굴을 띄우고 setStream */
-		// navigator.mediaDevices
-		//   .getUserMedia({ video: true, audio: true })
-		//   .then((stream) => {
-		//     setStream(stream);
-		//     if (myVideo.current) myVideo.current.srcObject = stream;
-		//   });`
-		// const getMediaStream = async () => {
-		//   try {`
-		//     const stream = await navigator.mediaDevices.getUserMedia({
-		//       video: true,
-		//       audio: true,
-		//     });
-		//     console.log(stream, 'this is stream!')
-		//     setStream(stream);
-		//     if (myVideo.current) {
-		//       myVideo.current.srcObject = stream;
-		//     }
-		//   } catch (error) {
-		//     console.log("Failed to get media stream:", error);
-		//   }
-		// };
-		// getMediaStream();
-		//        console.log(stream, 'this is stream!')
-		// setStream(stream);
-		// if (myVideo.current) {
-		//   myVideo.current.srcObject = stream;
-		// navigator.mediaDevices
-		// 	.getUserMedia({ video: true, audio: true })
-		// 	.then((stream) => {
-		// 		setStream(stream);
-		// 		if (myVideo.current) myVideo.current.srcObject = stream;
-		// 	});
 		getPrevPermission();
-		// getMediaStream();
+		console.log('this is useEffect func.')
 
 		socket.on("me", (id) => {
 			setMe(id);
