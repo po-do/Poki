@@ -7,14 +7,17 @@ import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import { getWishlistByUserId } from "../../api/wishlist.js";
 
-
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
   const [pickedName, setPickedName] = useState("");
   const [pickedImage, setPickedImage] = useState("");
-
+  // Overlay Message
+  const message = [
+    "위시리스트에서 갖고 싶은 선물을 골라보세요",
+    "선물 선택 후 포도 서비스가 시작됩니다",
+  ];
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -40,10 +43,12 @@ export default function ChildMain() {
   useEffect(() => {
     if (boardQuery.isSuccess) {
       const fetchedGrape = boardQuery?.data?.data?.grape;
+
       setGrape(fetchedGrape);
     }
   }, [grape, boardQuery.isSuccess, boardQuery.data]);
 
+  // 안붙혀진 포도 추가
   async function addGrape() {
     const grapeStatus = await getBoardStatus();
     if (grapeStatus.data.grape.deattached_grapes === 0) {
@@ -51,6 +56,7 @@ export default function ChildMain() {
     } else {
       await attachBoard();
       openAttachModal();
+      boardQuery.refetch();
     }
   }
 
@@ -58,14 +64,13 @@ export default function ChildMain() {
     try {
       const wishlistData = await getWishlistByUserId();
       // 상품이 없는 경우 에러 처리
-      if (wishlistData.data.item[0]){
+      if (wishlistData.data.item[0]) {
         const PickedItem = wishlistData.data.item.filter(
           (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
         );
         setPickedName(PickedItem[0].ProductName);
         setPickedImage(PickedItem[0].ProductImage);
       }
-
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
     }
@@ -73,6 +78,7 @@ export default function ChildMain() {
 
   return (
     <>
+      {/* 배너 */}
       <div className="bg-white py-1 sm:py-1">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -85,24 +91,34 @@ export default function ChildMain() {
           </div>
         </div>
       </div>
-      <div className="mb-4">
-        <Grapes GrapesCount={grape.attached_grapes} />
-        {/* <Grapes /> */}
+
+      {/* 포도판 */}
+      <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
+        <Grapes GrapesCount={grape.attached_grapes} message={message} />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex">
-        <div className="flex-1 px-4 sm:px-6 lg:px-8">
+      {/* 현재 포도알 및 관리 현황판 */}
+      <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">
+        {/* 가지고 있는 포도알 */}
+        <div className="md:w-2/4 px-4 sm:px-6 lg:px-8">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
-          <div className="h-2/4 m-2 border rounded-md border-gray-200 p-1 mr-6">
-            <div className="flex">
+          <div
+            className="h-39 w-94 mt-3 
+          mb-6 border rounded-md border-gray-200 p-1"
+          >
+            <div
+              className={`flex flex-wrap w-full ${
+                grape.deattached_grapes === 0 ? "h-12" : ""
+              }`}
+            >
               {Array.from({ length: grape.deattached_grapes }).map(
                 (_, index) => (
                   <div
                     key={index}
-                    className="w-10 h-10 mr-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800"
-                  ></div>
+                    className="w-10 h-10 mr-1 mb-1 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-400 to-purple-800 flex-shrink-0"
+                  />
                 )
               )}
             </div>
@@ -117,7 +133,8 @@ export default function ChildMain() {
             포도알 붙이기
           </button>
         </div>
-        <div className="flex-1">
+        {/* 관리현황판 */}
+        <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               포도알 관리 현황판
@@ -149,26 +166,28 @@ export default function ChildMain() {
         </div>
       </div>
 
-      <div className="mx-auto mb-5 max-w-7xl px-4 sm:px-6 lg:px-8 flex">
+      {/* 등록된 미션 및 위시리스트 */}
+      <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
         <div className="flex-1">
           <RecentMissionList />
         </div>
-        <div className="mx-auto max-w-3xl flex-1 text-center">
-        {pickedImage ? (
+        <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
+          {pickedImage ? (
             <img
               src={pickedImage}
               alt={pickedName}
               className="object-cover object-center sm:h-full sm:w-full"
             />
           ) : (
-            <div
-              className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span className="mt-2 block text-sm font-semibold text-gray-900">선물을 기다리고 있습니다.</span>
+            <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span className="mt-2 block text-sm font-semibold text-gray-900">
+                선물을 기다리고 있습니다.
+              </span>
             </div>
           )}
         </div>
       </div>
+
       {/* Modal Area */}
       {attachModal && (
         <SuccessModal closeModal={closeAttachModal} message="등록완료" />

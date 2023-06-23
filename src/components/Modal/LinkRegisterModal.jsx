@@ -4,7 +4,7 @@ import { createWishList } from "../../api/wishlist.js";
 import FailModal from "../Modal/FailModal";
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
-  const [open, setOpen] = useState(false);
+  const [isState, setIsState] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [failModal, setFailModal] = useState(false);
@@ -17,9 +17,12 @@ export default function LinkRegisterModal({ onClose }) {
     setbookSearchKeyword(e.target.value);
   };
 
-  const handleClick = () => {
-    console.log()
-    setOpen((prevState) => !prevState);
+  const handleOpen= () => {
+    setIsState(true);
+  };
+
+  const handleClose= () => {
+    setIsState(false);
   };
 
   const handleItemClick = (item) => {
@@ -33,6 +36,10 @@ export default function LinkRegisterModal({ onClose }) {
   const closeFailModal = () => {
     setFailModal(false);
   };
+
+  const handleKeyPress = (e) => {
+     if(e.key === 'Enter') { handleOpen(); } 
+    }
 
   // 에러 처리 필요
   const choiceWishList = async () => {
@@ -60,7 +67,7 @@ export default function LinkRegisterModal({ onClose }) {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-md shadow-md">
         <div className="mb-6">
           <h2 className="text-xl font-bold">선물 검색하기</h2>
@@ -71,26 +78,28 @@ export default function LinkRegisterModal({ onClose }) {
               type="text"
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="선물을 검색하세요."
+              onKeyUp={handleKeyPress}
               value={bookSearchKeyword}
               onChange={handleBookSearch}
             />
+
             <button
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={handleClick}
+              onClick={handleOpen}
             >
               검색
             </button>
 
+
             <button
-              type="submit"
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={onClose}
             >
               닫기
             </button>
             {/* 선물 검색 API */}
-            {open && (
-              <ImageSearchResult query={bookSearchKeyword} handleSetResult={handleSetResult} />
+            {isState && (
+              <ImageSearchResult onClose={handleClose} query={bookSearchKeyword} handleSetResult={handleSetResult} />
             )}
           </div>
         </div>
@@ -122,6 +131,8 @@ export default function LinkRegisterModal({ onClose }) {
             </div>
           ))}
         </div>
+
+        
         <button
           type="submit"
           className="flex-none rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
