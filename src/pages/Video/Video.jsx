@@ -141,7 +141,7 @@ export default function Video() {
 		});
 		peer.on("stream", (stream) => {
 			if (userVideo.current)
-				userVideo.current?.srcObject = stream;
+				userVideo.current.srcObject = stream;
 		});
 
 		peer.signal(callerSignal);
