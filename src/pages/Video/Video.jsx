@@ -28,7 +28,7 @@ export default function Video() {
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const myVideo = useRef();
-	const userVideo = useRef();
+	const userVideo = useRef([]);
 	const connectionRef = useRef();
 
 	const getPrevPermission = async () => {
