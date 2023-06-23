@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Grapes.module.css";
+// import styles from "./Grapes.module.css";
 import { getBoardStatus } from "../../api/board.js";
 import GrapeImage_0 from "../../icons/Grapes/podo_0.png";
 import GrapeImage_1 from "../../icons/Grapes/podo_1.png";
