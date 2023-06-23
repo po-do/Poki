@@ -85,12 +85,6 @@ export default function Video() {
 
 	}, []);
 
-	useEffect(() => {
-		if (userVideo.current) {
-			userVideo.current.srcObject = stream;
-		}
-	}, [callAccepted, callEnded, stream]);
-
 	const callUser = (id) => {
 		console.log('calluser', 'this is front')
 		const peer = new Peer({
