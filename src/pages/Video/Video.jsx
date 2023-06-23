@@ -101,9 +101,8 @@ export default function Video() {
 			});
 		});
 
-		peer.on("stream", (stream) => {
-			if (userVideo.current)
-				userVideo.current.srcObject = stream;
+		peer.on("track", (track, stream) => {
+			userVideo.current.srcObject = stream;
 		});
 
 		socket.on("callAccepted", (signal) => {
@@ -139,9 +138,8 @@ export default function Video() {
 		peer.on("signal", (data) => {
 			socket.emit("answerCall", { signal: data, to: caller, name: name });
 		});
-		peer.on("stream", (stream) => {
-			if (userVideo.current)
-				userVideo.current.srcObject = stream;
+		peer.on("track", (track, stream) => {
+			userVideo.current.srcObject = stream;
 		});
 
 		peer.signal(callerSignal);
@@ -184,7 +182,7 @@ export default function Video() {
 						/>
 					</div>
 					<div className="flex-grow">
-						{!callEnded ? (
+						{callAccepted && !callEnded ? (
 							<video
 								playsInline
 								ref={userVideo}
