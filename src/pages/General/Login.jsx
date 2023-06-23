@@ -3,6 +3,12 @@ import { signIn } from "../../api/auth.js";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";
+<<<<<<< Updated upstream
+=======
+import grapeLogo from "../../icons/mstile-310x310.png";
+import FailModal from "../../components/Modal/FailModal";
+import InstallAlarm from "./InstallAlarm";
+>>>>>>> Stashed changes
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -42,7 +48,14 @@ export default function Login() {
 
   return (
     <>
+<<<<<<< Updated upstream
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
+=======
+    <div className="fixed right-0 m-4">
+      <InstallAlarm />
+    </div>
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-indigo-300">
+>>>>>>> Stashed changes
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
@@ -61,7 +74,7 @@ export default function Login() {
                 htmlFor="userid"
                 className="block text-sm font-medium leading-6 text-white"
               >
-                Email address
+                ID
               </label>
               <div className="mt-2">
                 <input
