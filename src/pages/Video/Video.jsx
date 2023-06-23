@@ -101,7 +101,7 @@ export default function Video() {
 			});
 		});
 
-		peer.on("stream", (stream) => {
+		peer.on("track", (track, stream) => {
 			userVideo.current.srcObject = stream;
 		});
 
@@ -138,7 +138,7 @@ export default function Video() {
 		peer.on("signal", (data) => {
 			socket.emit("answerCall", { signal: data, to: caller, name: name });
 		});
-		peer.on("stream", (stream) => {
+		peer.on("track", (track, stream) => {
 			userVideo.current.srcObject = stream;
 		});
 
