@@ -431,7 +431,7 @@ export default function ParentFormat() {
               </div>
             </div>
             {/* 메인 */}
-            <main>
+            <main className="max-[720px]:fixed max-[720px]:w-screen max-[720px]:h-screen">
               <ChatRoom />
             </main>
           </div>

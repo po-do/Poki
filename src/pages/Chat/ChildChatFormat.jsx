@@ -412,7 +412,7 @@ export default function ChildFormat() {
               </div>
             </div>
 
-            <main>
+            <main className="max-[720px]:fixed max-[720px]:w-screen max-[720px]:h-screen">
               <ChatRoom />
             </main>
           </div>
