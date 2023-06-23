@@ -78,12 +78,7 @@ export default function Video() {
 		// 		setStream(stream);
 		// 		if (myVideo.current) myVideo.current.srcObject = stream;
 		// 	});
-		getMediaStream().then(()=>{
-			console.log('getmediastream~')
-		})
-		.catch((err)=>{
-			console.log(err)
-		});
+		getMediaStream()
 
 		socket.on("me", (id) => {
 			setMe(id);
