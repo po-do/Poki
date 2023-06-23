@@ -39,6 +39,8 @@ export default function Video() {
 		navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
 			.then((stream) => {
 				setStream(stream);
+				console.log(myVideo.current)
+				console.log(stream, 'stream')
 				if (myVideo.current)
 					myVideo.current.srcObject = stream;
 			})
