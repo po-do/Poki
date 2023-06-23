@@ -21,7 +21,7 @@ let createRooms: string[] = [];
 @WebSocketGateway({
   namespace: 'chat',
   cors: {
-    origin: [corsConfig.url],
+    origin: [corsConfig.url, 'http://localhost:3000'],
   },
 })
 
