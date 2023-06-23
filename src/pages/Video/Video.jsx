@@ -33,11 +33,11 @@ export default function Video() {
 
 	const getPrevPermission = async () => {
 		const permissionName = 'camera'; // Adjust the permission name as needed
-		const result = await navigator.permissions?.query({ name: permissionName })
-		if (result?.state === 'granted') {
-			console.log('prevpermission called getmediastream')
-			getMediaStream();
-		}
+		// const result = await navigator.permissions?.query({ name: permissionName })
+		// if (result?.state === 'granted') {
+		// 	console.log('prevpermission called getmediastream')
+		// }
+		getMediaStream();
 	}
 	const getMediaStream = () => {
 		navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
