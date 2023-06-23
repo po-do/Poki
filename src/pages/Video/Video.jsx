@@ -31,18 +31,16 @@ export default function Video() {
 
 	const getPrevPermission = async () => {
 		const permissionName = 'camera'; // Adjust the permission name as needed
-		navigator.permissions?.query({ name: permissionName }).dispatchEvent((result) => {
-			if (result.state === 'granted') this.getMediaStream();
+		navigator.permissions?.query({ name: permissionName }).then((result) => {
+			if (result.state === 'granted') getMediaStream();
 		})
 	}
 	const getMediaStream = () => {
 		navigator.mediaDevices?.getUserMedia({ video: true, audio: true })
 			.then((stream) => {
 				setStream(stream);
-				myVideo.current.srcObject = stream;
-			})
-			.catch(() => {
-				window.alert('No webcam or microphone found, or permission is blocked');
+				if (myVideo.current)
+					myVideo.current.srcObject = stream;
 			})
 	}
 
@@ -82,7 +80,7 @@ export default function Video() {
 		// 		if (myVideo.current) myVideo.current.srcObject = stream;
 		// 	});
 		getPrevPermission();
-		getMediaStream();
+		// getMediaStream();
 
 		socket.on("me", (id) => {
 			setMe(id);
