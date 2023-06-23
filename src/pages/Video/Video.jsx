@@ -227,7 +227,7 @@ export default function Video() {
 						) : (
 							<button
 								color="primary"
-								onClick={async () => await callConnectedUser()}
+								onClick={callConnectedUser}
 								className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full mt-5"
 							>
 								자녀/부모에게 통화하기
