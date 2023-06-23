@@ -6,7 +6,6 @@ import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import { getWishlistByUserId } from "../../api/wishlist.js";
-import grapeOne from "../../icons/grapeOne.jpg";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});

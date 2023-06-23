@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/user.js";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import FailModal from "../../components/Modal/FailModal";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // 저장할 요소 : id, real id, state
   const [user, setUser] = useRecoilState(userState);
+  const [openFailModal, setOpenFailModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,14 +34,24 @@ export default function Login() {
       };
 
       setUser(params);
-
       navigate(
         userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"
       );
     } catch (error) {
+      handleOpenModal();
       console.log("signin error", error);
     }
+
   };
+
+  const handleOpenModal = () => {
+    setOpenFailModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setOpenFailModal(false);
+
+  }
 
   return (
     <>
@@ -105,6 +117,10 @@ export default function Login() {
               >
                 Sign in
               </button>
+              {!openFailModal ?
+                <></>
+                : <FailModal closeModal={handleCloseModal} message={"아이디/패스워드를 다시 확인해 주세요"}/>
+              }
             </div>
           </div>
 

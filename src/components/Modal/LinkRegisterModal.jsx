@@ -16,7 +16,7 @@ export default function LinkRegisterModal({ onClose }) {
   const handleBookSearch = (e) => {
     setbookSearchKeyword(e.target.value);
   };
-  // 이쪽 문제
+
   const handleOpen= () => {
     setIsState(true);
   };
@@ -89,6 +89,7 @@ export default function LinkRegisterModal({ onClose }) {
             >
               검색
             </button>
+
 
             <button
               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
