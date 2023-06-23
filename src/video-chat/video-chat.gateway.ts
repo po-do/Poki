@@ -50,7 +50,6 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
       this.logger.log("disconnection 발생 😀, 삭제 완료")
       socket.broadcast.emit("callEnded")
     } catch (error) {
-      // this.logger.error("findConnectionBySocketId 예외 발생 😂", error, "this is error")
     }
   }
 
