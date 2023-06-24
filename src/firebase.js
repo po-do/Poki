@@ -3,12 +3,14 @@ import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCp-LNOPGB0yOmSAO9OvbR1yj66hZWvESY",
-  authDomain: "poki-ed4fb.firebaseapp.com",
-  projectId: "poki-ed4fb",
-  storageBucket: "poki-ed4fb.appspot.com",
-  messagingSenderId: "815592199870",
-  appId: "1:815592199870:web:598fb00494c87eecc170ef",
+  //프로젝트 설정 > 일반 > 하단의 내 앱 부분 복사
+  apiKey: process.env.REACT_APP_FIRE_API_KEY,
+  authDomain: "poki-c90ad.firebaseapp.com",
+  projectId: "poki-c90ad",
+  storageBucket: "poki-c90ad.appspot.com",
+  messagingSenderId: process.env.REACT_APP_FIRE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIRE_APP_ID,
+  measurementId: process.env.REACT_APP_FIRE_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);

@@ -4,12 +4,13 @@ importScripts(
 );
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCp-LNOPGB0yOmSAO9OvbR1yj66hZWvESY",
-  authDomain: "poki-ed4fb.firebaseapp.com",
-  projectId: "poki-ed4fb",
-  storageBucket: "poki-ed4fb.appspot.com",
-  messagingSenderId: "815592199870",
-  appId: "1:815592199870:web:598fb00494c87eecc170ef",
+  apiKey: "AIzaSyCM06te35Tjgkuur7cgf04Snqzy5WUnu6s",
+  authDomain: "poki-c90ad.firebaseapp.com",
+  projectId: "poki-c90ad",
+  storageBucket: "poki-c90ad.appspot.com",
+  messagingSenderId: "313209790307",
+  appId: "1:313209790307:web:23aa00b8b71edac4aa3d56",
+  measurementId: "G-J2QB8LKF0P"
 };
 
 firebase.initializeApp(firebaseConfig);

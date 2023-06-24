@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Login from "./pages/General/Login";
 import axios from "axios";
 import io from "socket.io-client";
@@ -12,15 +12,16 @@ axios.defaults.withCredentials = true;
 export const socket = io(process.env.REACT_APP_SOCKET_URL);
 
 function App() {
+  const [tokenFcm, setTokenFcm ] = useState("");
   async function requestPermission() {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       // Generate Token
       const token = await getToken(messaging, {
-        vapidKey:
-          "BC4Boa3Tj6AnJULmbbFAB2gfcd_Ve5vjab4SI1wzdcAAxAREnJpfV3RYVwYUdwMOoHryB3gpc15HnAjQekFHp3A",
+        vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
       });
-      console.log("Token Gen", token);
+      // console.log("Token Gen", token);
+      setTokenFcm(token);
       // Send this token  to server ( db)
     } else if (permission === "denied") {
       alert("You denied for the notification");
@@ -32,7 +33,7 @@ function App() {
     requestPermission();
   }, []);
 
-  return <Login />;
+  return <Login token={tokenFcm}/>;
 }
 
 export default App;

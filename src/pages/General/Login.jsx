@@ -7,7 +7,7 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 import FailModal from "../../components/Modal/FailModal";
 import InstallAlarm from "./InstallAlarm";
 
-export default function Login() {
+export default function Login({token}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // 저장할 요소 : id, real id, state
@@ -31,9 +31,10 @@ export default function Login() {
         request: {
           user_id: email,
           password: password,
+          fcm_token: token,
         },
       });
-
+      console.log("userInfo : ",userInfo);
       const params = {
         id: userInfo.data.id,
         user_id: email,
