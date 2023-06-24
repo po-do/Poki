@@ -184,14 +184,12 @@ export default function Video() {
 						/>
 					</div>
 					<div className="flex-grow">
-						{callAccepted && !callEnded ? (
-							<video
-								playsInline
-								ref={userVideo}
-								autoPlay
-								className="w-3/4 md:w-full"
-							/>
-						) : null}
+						<video
+							playsInline
+							ref={userVideo}
+							autoPlay
+							className="w-3/4 md:w-full"
+						/>
 					</div>
 				</div>
 				<div className="flex my-4">
