@@ -181,7 +181,7 @@ export default function ChildMain() {
           ) : (
             <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <span className="mt-2 block text-sm font-semibold text-gray-900">
-                선물을 기다리고 있습니다.
+                원하는 선물을 선택해 보세요.
               </span>
             </div>
           )}
