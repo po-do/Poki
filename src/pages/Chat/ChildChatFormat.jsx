@@ -10,7 +10,6 @@ import {
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
-import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
@@ -22,6 +21,7 @@ import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
+import ChatRoom from "./ChattingRoom.jsx";
 
 const queryClient = new QueryClient();
 
@@ -128,35 +128,34 @@ export default function ChildFormat() {
     });
   }, [navigate]);
 
-  // ==================================================================
-  const handleAlarm = () => {
-    console.log("알람버튼 클릭s");
-    setShowAlarm(true);
-    console.log(showAlarm);
-  };
-  // ==================================================================
+ // ==================================================================
+ const handleAlarm = () => {
+  console.log("알람버튼 클릭s");
+  setShowAlarm(true);
+  console.log(showAlarm);
+};
+// ==================================================================
 
-  // 코드 존재 여부 확인 (수정 필요)
-  const [isConnect, setIsConnect] = useState("");
-  const isConnected = async () => {
-    try {
-      const state = await getConnectedUser();
-      // console.log(state);
-      setIsConnect(state.data.is_connected);
-    } catch (error) {
-      console.log("Failed to get connected status:", error);
-    }
-  };
+// 코드 존재 여부 확인 (수정 필요)
+const [isConnect, setIsConnect] = useState("");
+const isConnected = async () => {
+  try {
+    const state = await getConnectedUser();
+    // console.log(state);
+    setIsConnect(state.data.is_connected);
+  } catch (error) {
+    console.log("Failed to get connected status:", error);
+  }
+};
 
-  useEffect(() => {
-    isConnected();
-  }, []);
+useEffect(() => {
+  isConnected();
+}, []);
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <div>
-          {/* 접히는 사이드바 */}
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -324,9 +323,7 @@ export default function ChildFormat() {
                                 </div>
                               </div>
                             </li>
-                          )}
-
-                          
+                          )}                         
                         </ul>
                       </nav>
                     </div>
@@ -335,8 +332,8 @@ export default function ChildFormat() {
               </div>
             </Dialog>
           </Transition.Root>
-
-          {/* 기본 사이드바 */}
+          
+          {/* 기본 사이드바 */}          
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -403,7 +400,7 @@ export default function ChildFormat() {
                       </li>
                     </ul>
                   </li>
-
+                  
                   {/* 기본 사이드바 코드 등록 여부 */}
                   {!isConnect ? (
                     <>
@@ -455,7 +452,7 @@ export default function ChildFormat() {
                       </div>
                     </li>
                   )}
-                  
+
                 </ul>
               </nav>
             </div>
@@ -512,8 +509,8 @@ export default function ChildFormat() {
               </div>
             </div>
 
-            <main>
-              <Outlet />
+            <main className="max-[720px]:fixed max-[720px]:w-screen max-[720px]:h-screen">
+              <ChatRoom />
             </main>
           </div>
 
