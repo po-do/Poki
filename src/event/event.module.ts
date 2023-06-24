@@ -11,6 +11,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { UserRepository } from 'src/auth/user.repository';
 import { VideoChatModule } from 'src/video-chat/video-chat.module';
+import { PushService } from 'src/push/push.service';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { VideoChatModule } from 'src/video-chat/video-chat.module';
         JwtService,
         AuthService,
         JwtStrategy,
+        PushService
     ],
     controllers: [EventController],
     exports: [EventGateway, EventService, TypeOrmModule],

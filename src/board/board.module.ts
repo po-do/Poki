@@ -8,6 +8,7 @@ import { UserRepository } from 'src/auth/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { PushService } from 'src/push/push.service';
 
 
 @Module({
@@ -25,7 +26,8 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
     UserRepository,
     JwtService,
     AuthService,
-    JwtStrategy],
+    JwtStrategy,
+    PushService],
   exports: [BoardService, TypeOrmModule]
 })
 export class BoardModule {}

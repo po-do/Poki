@@ -10,6 +10,7 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { BoardService } from 'src/board/board.service';
 import { BoardRepository } from 'src/board/board.repository';
+import { PushService } from 'src/push/push.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { BoardRepository } from 'src/board/board.repository';
     JwtService,
     BoardService,
     BoardRepository,
+    PushService
 ],
 })
 export class WishlistModule {}

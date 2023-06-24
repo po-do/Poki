@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../decorators/get-user.decorator';
 import { User } from './user.entity';
 import { UserType } from './user-type.enum';
+import { PushDto } from 'src/push/dto/push.dto';
 
 
 @Controller('auth')
@@ -21,8 +22,8 @@ export class AuthController {
     }
 
     @Post('/signin')
-    signIn(@Body(ValidationPipe) authSignInDto: AuthSignInDto): Promise<{accessToken: string, type:string, id:number}> {
-        return this.authService.siginIn(authSignInDto);
+    signIn(@Body(ValidationPipe) authSignInDto: AuthSignInDto, @Body() pushDto: PushDto): Promise<{accessToken: string, type:string, id:number}> {
+        return this.authService.siginIn(authSignInDto, pushDto);
     }
 
     @Post('/test')

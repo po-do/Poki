@@ -12,5 +12,6 @@ export const typeORMConfig : TypeOrmModuleOptions = {
     password: process.env.MYSQL_PASSWORD || dbConfig.password,
     database: process.env.MYSQL_DB_NAME || dbConfig.database,
     entities: [__dirname + '/../**/*.entity.{js,ts}'],
+    logging: true,
     synchronize: process.env.MYSQL_DB_SYNCHRONIZE || dbConfig.synchronize
 }
