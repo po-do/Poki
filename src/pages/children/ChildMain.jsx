@@ -172,6 +172,9 @@ export default function ChildMain() {
           <RecentMissionList />
         </div>
         <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
+        <h4 className="text-lg font-bold">등록된 보상</h4>
+        <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+          
           {pickedImage ? (
             <img
               src={pickedImage}
@@ -203,7 +206,9 @@ export default function ChildMain() {
               </span>
             </button>
           )}
+          </div>
         </div>
+        <p className="mt-1">{pickedName}</p>
       </div>
 
       {/* Modal Area */}
@@ -216,6 +221,7 @@ export default function ChildMain() {
           message="붙일 수 있는 포도알이 없습니다."
         />
       )}
+
     </>
   );
 }
