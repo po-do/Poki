@@ -71,16 +71,3 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
-
-// Push Manager 사용설정
-self.addEventListener("push", function (event) {
-  const options = {
-    body: event.data.text(),
-    // 여기에는 추가적인 옵션들이 들어갈 수 있습니다.
-    // 예: 알림 아이콘, 알림 클릭 시 열릴 URL 등
-  };
-
-  event.waitUntil(
-    self.registration.showNotification("My Notification Title", options)
-  );
-});

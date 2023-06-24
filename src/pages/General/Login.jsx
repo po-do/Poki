@@ -18,9 +18,9 @@ export default function Login() {
 
   const renderInstallPrompt = () => (
     <div className="fixed right-0 m-4">
-        <InstallAlarm />
+      <InstallAlarm />
     </div>
-    )
+  );
 
   const handleLogIn = async () => {
     console.log("로그인");
