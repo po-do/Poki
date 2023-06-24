@@ -7,9 +7,6 @@ export class PushConnection extends BaseEntity {
     id: number;
 
     @Column()
-    user_id: number;
-
-    @Column()
     fcm_token: string;
 
     @ManyToOne(type => User, user => user.push_connection, {eager: false})
