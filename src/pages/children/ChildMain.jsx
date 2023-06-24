@@ -207,8 +207,8 @@ export default function ChildMain() {
             </button>
           )}
           </div>
+          <p className="mt-1">{pickedName}</p>
         </div>
-        <p className="mt-1">{pickedName}</p>
       </div>
 
       {/* Modal Area */}
