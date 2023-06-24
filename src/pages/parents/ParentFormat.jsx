@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -14,6 +14,8 @@ import {
 import { Outlet } from "react-router-dom";
 import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getConnectedUser } from "../../api/auth.js";
+
 // import SuccessModal from "../../components/Modal/SuccessModal";
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -58,6 +60,22 @@ export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
   const [showAlarm, setShowAlarm] = useState(false);
+  const [isConnect, setIsConnect] = useState("");
+
+  const isConnected = async () => {
+    try {
+      const state = await getConnectedUser();
+      // console.log(state);
+      setIsConnect(state.data.is_connected);
+    } catch (error) {
+      console.log("Failed to get connected status:", error);
+    }
+  };
+  
+  useEffect(() => {
+    isConnected();
+  }, []);
+
   // const [issuCodeModal, setIssuCodeModal] = useState(false);
 
   // const openIssuCodeModal = () => {
@@ -253,36 +271,54 @@ export default function ParentFormat() {
                               ))}
                             </ul>
                           </li>
-                          {/* 코드 발급 부분 */}
-                          <li className="mt-auto">
-                            <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                              <Cog6ToothIcon
-                                className="h-6 w-6 shrink-0 text-indigo-200"
-                                aria-hidden="true"
-                              />
-                              코드 발급
-                            </div>
-                            <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                              <div className="flex gap-x-4">
-                                <input
-                                  id="code"
-                                  name="code"
-                                  type="text"
-                                  value={issuedData}
-                                  readOnly
-                                  className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                                  placeholder="코드"
+
+
+                        {/* 코드 발급 부분 */}
+                        {!isConnect ? (
+                          <>
+                            <li className="mt-auto">
+                              <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                                <Cog6ToothIcon
+                                  className="h-6 w-6 shrink-0 text-indigo-200"
+                                  aria-hidden="true"
                                 />
-                                <button
-                                  type="submit"
-                                  className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                  onClick={codeIssu}
-                                >
-                                  발급
-                                </button>
+                                코드 발급
+                              </div>
+                              <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                                <div className="flex gap-x-4">
+                                  <input
+                                    id="code"
+                                    name="code"
+                                    type="text"
+                                    value={issuedData}
+                                    readOnly
+                                    className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                    placeholder="코드 생성"
+                                  />
+                                  <button
+                                    type="submit"
+                                    className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={codeIssu}
+                                  >
+                                    발급
+                                  </button>
+                                </div>
+                              </div>
+                            </li>
+                          </>
+                        ) : (
+                          <li className="mt-auto">
+                            <div>
+                              <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                                <Cog6ToothIcon
+                                  className="h-6 w-6 shrink-0 text-indigo-200"
+                                  aria-hidden="true"
+                                />
+                                코드 등록 완료
                               </div>
                             </div>
                           </li>
+                        )}   
                         </ul>
                       </nav>
                     </div>
@@ -393,36 +429,53 @@ export default function ParentFormat() {
                       ))}
                     </ul>
                   </li>
+                  
                   {/* 코드 발급 부분 */}
-                  <li className="mt-auto">
-                    <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                      <Cog6ToothIcon
-                        className="h-6 w-6 shrink-0 text-indigo-200"
-                        aria-hidden="true"
-                      />
-                      코드 발급
-                    </div>
-                    <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                      <div className="flex gap-x-4">
-                        <input
-                          id="code"
-                          name="code"
-                          type="text"
-                          value={issuedData}
-                          readOnly
-                          className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                          placeholder="코드"
-                        />
-                        <button
-                          type="submit"
-                          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          onClick={codeIssu}
-                        >
-                          발급
-                        </button>
+                  {!isConnect ? (
+                    <>
+                      <li className="mt-auto">
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 발급
+                        </div>
+                        <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                          <div className="flex gap-x-4">
+                            <input
+                              id="code"
+                              name="code"
+                              type="text"
+                              value={issuedData}
+                              readOnly
+                              className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                              placeholder="코드 생성"
+                            />
+                            <button
+                              type="submit"
+                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={codeIssu}
+                            >
+                              발급
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="mt-auto">
+                      <div>
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록 완료
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  )}   
                 </ul>
               </nav>
             </div>
