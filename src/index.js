@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import * as process from 'process';
 
 //General
 import App from "./App";
@@ -44,6 +45,10 @@ const ChatFormat = (props) => {
 client.defaults.baseURL = process.env.REACT_APP_API_URL;
 client.defaults.withCredentials = true;
 client.defaults.headers.common["Authorization"] = "";
+
+window.global = window;
+window.process = process;
+window.Buffer = [];
 
 const router = createBrowserRouter([
   {
