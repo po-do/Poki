@@ -12,18 +12,21 @@ export class PushConnectionRepository extends Repository<PushConnection> {
     }
 
     async savePushToken(id: number, pushDto: PushDto): Promise <void> {
-        console.log(pushDto);
         const { fcm_token } = pushDto;
-
-        const pushConnection = this.create({
-            fcm_token,
-            user: {id}
+        const isTokenExists = await this.isTokenExists(id, fcm_token);
+        
+        if (!isTokenExists) {
+            const pushConnection = this.create({
+                fcm_token,
+                user: { id },
         });
 
         await this.save(pushConnection);
-        // const pushConnection = new PushConnection();
-        // pushConnection.user_id = userId;
-        // pushConnection.fcm_token = pushDto.fcm_token;
-        // await this.pushConnectionRepository.save(pushConnection);
-      }
     }
+}
+    
+    async isTokenExists(userId: number, fcmToken: string): Promise<boolean> {
+        const existingPushConnection = await this.findOne({ where: { user: { id: userId }, fcm_token: fcmToken } });
+        return !!existingPushConnection; // 중복된 토큰이 존재하면 true, 그렇지 않으면 false 반환
+    }
+}
