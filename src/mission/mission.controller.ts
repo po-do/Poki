@@ -92,4 +92,13 @@ export class MissionController {
         }
         return this.missionService.getApproveListByUserId(id);
     }
+
+    @Post('recommend')
+    async getMissionRecommend(
+        @Body('age') age: number,
+        @Body('place') place: string,
+        @Body('ability') ability: string
+    ): Promise<any> {
+        return this.missionService.getMissionRecommend(age, place, ability);
+    }
 }

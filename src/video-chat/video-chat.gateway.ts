@@ -62,7 +62,6 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
     try {
       const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
-
       if (userToCallId) {
         this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
       } else {
