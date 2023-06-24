@@ -9,6 +9,7 @@ import { typeORMConfig } from './configs/typeorm.config';
 import { BoardModule } from './board/board.module';
 import { EventModule } from './event/event.module';
 import { VideoChatModule } from './video-chat/video-chat.module';
+import { PushModule } from './push/push.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { VideoChatModule } from './video-chat/video-chat.module';
     MissionModule,
     BoardModule,
     EventModule,
-    VideoChatModule
+    VideoChatModule,
+    PushModule,
   ],
 
   controllers: [AppController],

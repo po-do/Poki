@@ -11,6 +11,7 @@ import { UserRepository } from 'src/auth/user.repository';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
+import { PushService } from 'src/push/push.service';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { JwtService } from '@nestjs/jwt';
     UserRepository,
     AuthService,
     JwtStrategy,
-    JwtService,],
+    JwtService,
+    PushService],
   exports: [MissionService, TypeOrmModule]
 })
 export class MissionModule {}

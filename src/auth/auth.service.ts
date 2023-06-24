@@ -9,6 +9,8 @@ import { User } from './user.entity';
 import { UserType } from './user-type.enum';
 import { v4 as uuidv4 } from 'uuid';
 import { ForbiddenException } from '@nestjs/common';
+import { PushService } from 'src/push/push.service';
+import { PushDto } from 'src/push/dto/push.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +18,8 @@ export class AuthService {
     constructor(
         @InjectRepository(UserRepository)
         private userRepository: UserRepository,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private pushService: PushService
     ) {}
 
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -34,7 +37,8 @@ export class AuthService {
         return user;
     }
 
-    async siginIn(authSignInDto: AuthSignInDto):Promise<{accessToken: string, type:string, id:number}> {
+    async siginIn(authSignInDto: AuthSignInDto, pushDto: PushDto):Promise<{accessToken: string, type:string, id:number}> {
+        console.log(authSignInDto);
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
 
@@ -43,6 +47,7 @@ export class AuthService {
             const payload = { user_id };
             const accessToken = await this.jwtService.sign(payload);
 
+            await this.pushService.savePushToken(user.id, pushDto);
             
             return { accessToken, type: user.type, id: user.id };
         } else {
