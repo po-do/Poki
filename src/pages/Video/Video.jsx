@@ -106,6 +106,7 @@ export default function Video() {
 		});
 
 		socket.on("callAccepted", (signal) => {
+			console.log('callaccepted')
 			setCallAccepted(true);
 			peer.signal(signal);
 		});
@@ -129,6 +130,7 @@ export default function Video() {
 	};
 
 	const answerCall = () => {
+		console.log('answercall')
 		setCallAccepted(true);
 		const peer = new Peer({
 			initiator: false,
