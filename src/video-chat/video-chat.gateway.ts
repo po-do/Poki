@@ -7,6 +7,13 @@ import * as config from 'config';
 
 const conrsConfig = config.get('cors');
 
+const connect_socket: {socket_nickname: string, socket_id: string;}[]= [];
+
+class ExtendedSocket extends Socket {
+  nickname: string;
+}
+
+
 @WebSocketGateway({
   namespace: 'video-chat',
     cors: {
@@ -35,7 +42,7 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
   @SubscribeMessage('setUserName')
   async handleSetUserName(
     @MessageBody() data: {user_id: string},
-    @ConnectedSocket() socket: Socket
+    @ConnectedSocket() socket: ExtendedSocket
     ) {
     await this.videoChatService.createSocketConnection(data.user_id, socket.id);
   }
@@ -55,27 +62,30 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   @SubscribeMessage('callUser')
   async handleCallUser(
-    @ConnectedSocket() socket: Socket,
+    @ConnectedSocket() socket: ExtendedSocket,
     @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
       console.log('calluser')
-    const {userToCall, signalData, from, name} = data;
-
-    try {
-      const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
-
-      if (userToCallId) {
-        this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
-      } else {
+      const {userToCall, signalData, from, name} = data;
+      console.log(userToCall)
+      console.log(connect_socket)
+      
+      try {
+        const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+  
+        if (userToCallId) {
+          this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
+        } else {
+          socket.emit("noUserToCall", userToCall);
+        }
+      } catch (error) {
         socket.emit("noUserToCall", userToCall);
       }
-    } catch (error) {
-      socket.emit("noUserToCall", userToCall);
-    }
+
   }
 
   @SubscribeMessage('answerCall')
   handleAnswerCall(
-    @ConnectedSocket() socket: Socket, 
+    @ConnectedSocket() socket: ExtendedSocket, 
     @MessageBody() data: {to: string, signal: any}) {
     const {to, signal} = data;
 		this.server.to(to).emit("callAccepted", signal)
