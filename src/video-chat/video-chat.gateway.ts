@@ -44,22 +44,7 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
     @MessageBody() data: {user_id: string},
     @ConnectedSocket() socket: ExtendedSocket
     ) {
-      const existingSocketIndex = connect_socket.findIndex((s) => s.socket_nickname === data.user_id);
-
-      if (existingSocketIndex === -1) {
-        socket.nickname = data.user_id;
-        connect_socket.push({
-          socket_nickname: socket.nickname,
-          socket_id: socket.id,
-        });
-      };
-
     await this.videoChatService.createSocketConnection(data.user_id, socket.id);
-  }
-
-  getSocketIdByNickname(nickname: string, socketList: { socket_nickname: string, socket_id: string; }[]): string | undefined {
-    const socket = socketList.find((s) => s.socket_nickname === nickname);
-    return socket ? socket.socket_id : undefined;
   }
 
   @SubscribeMessage('disconnect')
@@ -84,33 +69,17 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
       console.log(userToCall)
       console.log(connect_socket)
       
-      try{
-        const socketId = this.getSocketIdByNickname(userToCall, connect_socket);
-        console.log(socketId)
-        if (socketId) {
-          this.server.to(socketId).emit("callUser", {signal: signalData, from, name})
+      try {
+        const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+  
+        if (userToCallId) {
+          this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
         } else {
           socket.emit("noUserToCall", userToCall);
-        } 
+        }
       } catch (error) {
         socket.emit("noUserToCall", userToCall);
       }
-
-      //connect_socket 초기화
-      connect_socket.splice(0, connect_socket.length);
-      console.log(connect_socket)
-
-      // try {
-      //   const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
-  
-      //   if (userToCallId) {
-      //     this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
-      //   } else {
-      //     socket.emit("noUserToCall", userToCall);
-      //   }
-      // } catch (error) {
-      //   socket.emit("noUserToCall", userToCall);
-      // }
 
   }
 
