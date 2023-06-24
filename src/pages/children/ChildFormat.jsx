@@ -324,9 +324,7 @@ export default function ChildFormat() {
                                 </div>
                               </div>
                             </li>
-                          )}
-
-                          
+                          )}                          
                         </ul>
                       </nav>
                     </div>

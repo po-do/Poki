@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback } from "react";
+import { Fragment, useState, useCallback, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -11,7 +11,7 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { connectUserCode } from "../../api/auth.js";
+import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import grapeLogo from "../../icons/mstile-310x310.png";
@@ -52,6 +52,7 @@ export default function ChildFormat() {
   const [registCodeModal, setRegistCodeModal] = useState(false);
   const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
+  const [showAlarm, setShowAlarm] = useState(false);
 
   const openRegistCodeModal = () => {
     setRegistCodeModal(true);
@@ -127,7 +128,29 @@ export default function ChildFormat() {
     });
   }, [navigate]);
 
-  // ==================================================================
+ // ==================================================================
+ const handleAlarm = () => {
+  console.log("알람버튼 클릭s");
+  setShowAlarm(true);
+  console.log(showAlarm);
+};
+// ==================================================================
+
+// 코드 존재 여부 확인 (수정 필요)
+const [isConnect, setIsConnect] = useState("");
+const isConnected = async () => {
+  try {
+    const state = await getConnectedUser();
+    // console.log(state);
+    setIsConnect(state.data.is_connected);
+  } catch (error) {
+    console.log("Failed to get connected status:", error);
+  }
+};
+
+useEffect(() => {
+  isConnected();
+}, []);
 
   return (
     <>
@@ -249,6 +272,58 @@ export default function ChildFormat() {
                               </li>
                             </ul>
                           </li>
+
+                          {/* 접히는 사이드바 코드 등록 여부 */}
+                          {!isConnect ? (
+                            <>
+                              <li className="mt-auto">
+                                <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                                  <Cog6ToothIcon
+                                    className="h-6 w-6 shrink-0 text-indigo-200"
+                                    aria-hidden="true"
+                                  />
+                                  코드 등록
+                                </div>
+                                <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                                  <div className="flex gap-x-4">
+                                    <input
+                                      id="code"
+                                      name="code"
+                                      type="text"
+                                      required
+                                      className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                                        inputReadOnly
+                                          ? "bg-gray-500 bg-opacity-100"
+                                          : ""
+                                      }`}
+                                      placeholder="코드 입력"
+                                      readOnly={inputReadOnly} // readonly 속성 추가
+                                      onChange={handleInputChange}
+                                    />
+                                    <button
+                                      type="submit"
+                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                      onClick={handleRegistCode}
+                                    >
+                                      등록
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
+                          ) : (
+                            <li className="mt-auto">
+                              <div>
+                                <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                                  <Cog6ToothIcon
+                                    className="h-6 w-6 shrink-0 text-indigo-200"
+                                    aria-hidden="true"
+                                  />
+                                  코드 등록 완료
+                                </div>
+                              </div>
+                            </li>
+                          )}                         
                         </ul>
                       </nav>
                     </div>
@@ -257,7 +332,8 @@ export default function ChildFormat() {
               </div>
             </Dialog>
           </Transition.Root>
-
+          
+          {/* 기본 사이드바 */}          
           {/* Static sidebar for desktop */}
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -324,45 +400,65 @@ export default function ChildFormat() {
                       </li>
                     </ul>
                   </li>
-                  <li className="mt-auto">
-                    <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
-                      <Cog6ToothIcon
-                        className="h-6 w-6 shrink-0 text-indigo-200"
-                        aria-hidden="true"
-                      />
-                      코드 등록
-                    </div>
-
-                    <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                      <div className="flex gap-x-4">
-                        <input
-                          id="code"
-                          name="code"
-                          type="text"
-                          required
-                          className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                            inputReadOnly ? "bg-gray-500 bg-opacity-100" : ""
-                          }`}
-                          placeholder="코드 입력"
-                          readOnly={inputReadOnly} // readonly 속성 추가
-                          onChange={handleInputChange}
-                        />
-                        <button
-                          type="submit"
-                          className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          onClick={handleRegistCode}
-                        >
-                          등록
-                        </button>
+                  
+                  {/* 기본 사이드바 코드 등록 여부 */}
+                  {!isConnect ? (
+                    <>
+                      <li className="mt-auto">
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록
+                        </div>
+                        <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
+                          <div className="flex gap-x-4">
+                            <input
+                              id="code"
+                              name="code"
+                              type="text"
+                              required
+                              className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
+                                inputReadOnly
+                                  ? "bg-gray-500 bg-opacity-100"
+                                  : ""
+                              }`}
+                              placeholder="코드 입력"
+                              readOnly={inputReadOnly} // readonly 속성 추가
+                              onChange={handleInputChange}
+                            />
+                            <button
+                              type="submit"
+                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              onClick={handleRegistCode}
+                            >
+                              등록
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="mt-auto">
+                      <div>
+                        <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
+                          <Cog6ToothIcon
+                            className="h-6 w-6 shrink-0 text-indigo-200"
+                            aria-hidden="true"
+                          />
+                          코드 등록 완료
+                        </div>
                       </div>
-                    </div>
-                    {/* {isModalOpen && <CodeRegisterModal />} */}
-                  </li>
+                    </li>
+                  )}
+
                 </ul>
               </nav>
             </div>
           </div>
 
+          {/* 헤더 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -386,6 +482,7 @@ export default function ChildFormat() {
                   <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -416,6 +513,57 @@ export default function ChildFormat() {
               <ChatRoom />
             </main>
           </div>
+
+          {/* 접히는 알람 */}
+          <Transition.Root show={showAlarm} as={Fragment}>
+            <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
+              <div className="fixed inset-0" />
+
+              <div className="fixed inset-0 overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="transform transition ease-in-out duration-500 sm:duration-700"
+                      enterFrom="translate-x-full"
+                      enterTo="translate-x-0"
+                      leave="transform transition ease-in-out duration-500 sm:duration-700"
+                      leaveFrom="translate-x-0"
+                      leaveTo="translate-x-full"
+                    >
+                      <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
+                        <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                          <div className="px-4 sm:px-6">
+                            <div className="flex items-start justify-between">
+                              <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                                Panel title
+                              </Dialog.Title>
+                              <div className="ml-3 flex h-7 items-center">
+                                <button
+                                  type="button"
+                                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  onClick={() => setShowAlarm(false)}
+                                >
+                                  <span className="sr-only">Close panel</span>
+                                  <XMarkIcon
+                                    className="h-6 w-6"
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                            {/* Your content */}
+                          </div>
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </div>
+            </Dialog>
+          </Transition.Root>
         </div>
 
         {/* Modal Area */}
