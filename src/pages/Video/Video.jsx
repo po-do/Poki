@@ -101,12 +101,12 @@ export default function Video() {
 			});
 		});
 
-		peer.on("stream", (stream) => {
-			if (userVideo.current)
-				userVideo.current.srcObject = stream;
+		peer.on("track", (track, stream) => {
+			userVideo.current.srcObject = stream;
 		});
 
 		socket.on("callAccepted", (signal) => {
+			console.log('callaccepted')
 			setCallAccepted(true);
 			peer.signal(signal);
 		});
@@ -130,6 +130,7 @@ export default function Video() {
 	};
 
 	const answerCall = () => {
+		console.log('answercall')
 		setCallAccepted(true);
 		const peer = new Peer({
 			initiator: false,
@@ -139,9 +140,8 @@ export default function Video() {
 		peer.on("signal", (data) => {
 			socket.emit("answerCall", { signal: data, to: caller, name: name });
 		});
-		peer.on("stream", (stream) => {
-			if (userVideo.current)
-				userVideo.current.srcObject = stream;
+		peer.on("track", (track, stream) => {
+			userVideo.current.srcObject = stream;
 		});
 
 		peer.signal(callerSignal);
@@ -184,14 +184,12 @@ export default function Video() {
 						/>
 					</div>
 					<div className="flex-grow">
-						{!callEnded ? (
-							<video
-								playsInline
-								ref={userVideo}
-								autoPlay
-								className="w-3/4 md:w-full"
-							/>
-						) : null}
+						<video
+							playsInline
+							ref={userVideo}
+							autoPlay
+							className="w-3/4 md:w-full"
+						/>
 					</div>
 				</div>
 				<div className="flex my-4">
@@ -229,7 +227,7 @@ export default function Video() {
 						) : (
 							<button
 								color="primary"
-								onClick={async () => await callConnectedUser()}
+								onClick={callConnectedUser}
 								className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full mt-5"
 							>
 								자녀/부모에게 통화하기

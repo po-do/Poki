@@ -172,6 +172,9 @@ export default function ChildMain() {
           <RecentMissionList />
         </div>
         <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
+        <h4 className="text-lg font-bold">등록된 보상</h4>
+        <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+          
           {pickedImage ? (
             <img
               src={pickedImage}
@@ -179,12 +182,32 @@ export default function ChildMain() {
               className="object-cover object-center sm:h-full sm:w-full"
             />
           ) : (
-            <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button
+            type="button"
+            onClick={() => (window.location.href = '/format/child/wishlist')}
+            className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          > 
+          <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
+                />
+                </svg>
               <span className="mt-2 block text-sm font-semibold text-gray-900">
-                선물을 기다리고 있습니다.
+                원하는 선물을 선택해 보세요.
               </span>
-            </div>
+            </button>
           )}
+          </div>
+          <p className="mt-1">{pickedName}</p>
         </div>
       </div>
 
@@ -198,6 +221,7 @@ export default function ChildMain() {
           message="붙일 수 있는 포도알이 없습니다."
         />
       )}
+
     </>
   );
 }
