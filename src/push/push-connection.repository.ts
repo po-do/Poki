@@ -11,13 +11,13 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         super(PushConnection, dataSource.createEntityManager());
     }
 
-    async savePushToken(user_id: number, pushDto: PushDto): Promise <void> {
+    async savePushToken(id: number, pushDto: PushDto): Promise <void> {
         console.log(pushDto);
         const { fcm_token } = pushDto;
 
         const pushConnection = this.create({
-            user_id: user_id,
-            fcm_token
+            fcm_token,
+            user: {id}
         });
 
         await this.save(pushConnection);
