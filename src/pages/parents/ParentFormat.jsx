@@ -2,7 +2,6 @@ import { Fragment, useState, useEffect, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   Cog6ToothIcon,
   DocumentCheckIcon,
   HomeIcon,
@@ -23,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import PodoChar from "../../icons/PodoChar.png";
 
 const queryClient = new QueryClient();
 
@@ -48,9 +48,9 @@ const navigation = [
   },
 ];
 
-const teams = [
-  { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
-];
+// const teams = [
+//   { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -113,15 +113,15 @@ export default function ParentFormat() {
     });
   }, [navigate]);
 
-  // ==================================================================
+  // // ==================================================================
 
-  const handleAlarm = () => {
-    console.log("알람버튼 클릭s");
-    setShowAlarm(true);
-    console.log(showAlarm);
-  };
+  // const handleAlarm = () => {
+  //   console.log("알람버튼 클릭s");
+  //   setShowAlarm(true);
+  //   console.log(showAlarm);
+  // };
 
-  // ==================================================================
+  // // ==================================================================
 
   return (
     <>
@@ -244,7 +244,7 @@ export default function ParentFormat() {
                               </li>
                             </ul>
                           </li>
-                          <li>
+                          {/* <li>
                             <div className="text-xs font-semibold leading-6 text-indigo-200">
                               아이 목록
                             </div>
@@ -270,7 +270,7 @@ export default function ParentFormat() {
                                 </li>
                               ))}
                             </ul>
-                          </li>
+                          </li> */}
 
 
                         {/* 코드 발급 부분 */}
@@ -319,6 +319,7 @@ export default function ParentFormat() {
                             </div>
                           </li>
                         )}   
+                        
                         </ul>
                       </nav>
                     </div>
@@ -342,15 +343,6 @@ export default function ParentFormat() {
                 <div className=" text-white group flex gap-x-3 rounded-md p-2 text-3xl leading-6 font-semibold">
                   Poki
                 </div>
-
-                {/* 햄버거 버튼 */}
-                <button
-                  type="button"
-                  className=" text-white  lg:ml-24"
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  <Bars3Icon className="h-8 w-7" aria-hidden="true" />
-                </button>
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul className="flex flex-1 flex-col gap-y-7">
@@ -404,7 +396,7 @@ export default function ParentFormat() {
                       </li>
                     </ul>
                   </li>
-                  <li>
+                  {/* <li>
                     <div className="text-xl font-semibold leading-6 text-indigo-200">
                       아이 목록
                     </div>
@@ -428,7 +420,7 @@ export default function ParentFormat() {
                         </li>
                       ))}
                     </ul>
-                  </li>
+                  </li> */}
                   
                   {/* 코드 발급 부분 */}
                   {!isConnect ? (
@@ -481,7 +473,7 @@ export default function ParentFormat() {
             </div>
           </div>
 
-          {/* 헤더 */}
+          {/* 햄버거 버튼 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -502,31 +494,30 @@ export default function ParentFormat() {
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                    onClick={handleAlarm}
                   >
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                     <span className="relative flex h-3 w-3">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                     </span>
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
-                  <div
+                  {/* <div
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="rounded-full w-11 h-11 border-2 rounded-2"
+                        src={PodoChar}
                         alt=""
                       />
                     </Menu.Button>
@@ -542,7 +533,7 @@ export default function ParentFormat() {
           </div>
 
           {/* 접히는 알람 */}
-          <Transition.Root show={showAlarm} as={Fragment}>
+          {/* <Transition.Root show={showAlarm} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
               <div className="fixed inset-0" />
 
@@ -581,7 +572,7 @@ export default function ParentFormat() {
                             </div>
                           </div>
                           <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                            {/* Your content */}
+                            Your content
                           </div>
                         </div>
                       </Dialog.Panel>
@@ -590,7 +581,7 @@ export default function ParentFormat() {
                 </div>
               </div>
             </Dialog>
-          </Transition.Root>
+          </Transition.Root> */}
         </div>
 
         {/* Modal Area */}
