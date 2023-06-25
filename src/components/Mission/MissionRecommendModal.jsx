@@ -8,13 +8,10 @@ function PickedMission(...classes) {
 }
 
 // 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하여 나온 답변을 가공하여 보여주는 컴포넌트
-export default function MissionRecommendModal({
-  onClose,
-  result,
-}) {
+export default function MissionRecommendModal({ onClose, result }) {
   const [selected, setSelected] = useState(result[0]);
   const [showFailModal, setShowFailModal] = useState(false);
-  console.log("result",result);
+
   // const mutation = useMutation((params) => missionCreate(params), {
   //   onSuccess: (data) => {
   //     console.log("서버 응답:", data);
@@ -76,12 +73,11 @@ export default function MissionRecommendModal({
       await missionCreate(params);
       console.log("등록 성공");
       window.location.reload();
-      
+
       onClose();
     } catch (error) {
       console.log("등록 실패:", error);
     }
-    
   };
 
   return (
@@ -98,6 +94,7 @@ export default function MissionRecommendModal({
               Privacy setting
             </RadioGroup.Label>
             <div className="-space-y-px rounded-md bg-white">
+              {console.log("missionrecommend", result)}
               {result.map((setting, settingIdx) => (
                 <RadioGroup.Option
                   key={setting}
@@ -136,8 +133,7 @@ export default function MissionRecommendModal({
                             checked ? "text-indigo-900" : "text-gray-900",
                             "block text-sm font-medium"
                           )}
-                        >
-                        </RadioGroup.Label>
+                        ></RadioGroup.Label>
                         <RadioGroup.Description
                           as="span"
                           className={PickedMission(
