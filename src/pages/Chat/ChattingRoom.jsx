@@ -74,7 +74,7 @@ const ChatRoom = () => {
   );
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:max-w-[780px] mt-2">
+      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
         <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
           <div className="px-4 py-5 sm:p-6">
             <div>
@@ -111,7 +111,7 @@ const ChatRoom = () => {
                 ))}
               </div>
               <form
-                className="flex mt-6 max-[720px]:fixed max-[720px]:bottom-4"
+                className="flex mt-6 max-h-96"
                 onSubmit={onSendMessage}
               >
                 <input

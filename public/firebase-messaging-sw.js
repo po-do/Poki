@@ -27,7 +27,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification.body,
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle, notificationOptions);e3 
 });
 
 // importScripts("https://www.gstatic.com/firebasejs/3.5.0/firebase-app.js");
