@@ -24,7 +24,7 @@ export default function Login({token}) {
 
   const handleLogIn = async () => {
     console.log("로그인");
-    console.log(user);
+    // console.log(user);
     // console.log(email, password);
     try {
       const userInfo = await signIn({
@@ -34,7 +34,6 @@ export default function Login({token}) {
           fcm_token: token,
         },
       });
-      console.log("userInfo : ",userInfo);
       const params = {
         id: userInfo.data.id,
         user_id: email,

@@ -13,27 +13,45 @@ export const socket = io(process.env.REACT_APP_SOCKET_URL);
 
 function App() {
   const [tokenFcm, setTokenFcm ] = useState("");
+
   async function requestPermission() {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      // Generate Token
-      const token = await getToken(messaging, {
-        vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
-      });
-      // console.log("Token Gen", token);
-      setTokenFcm(token);
-      // Send this token  to server ( db)
-    } else if (permission === "denied") {
-      alert("You denied for the notification");
+    try {
+      // FCM 요청
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
+        });
+        setTokenFcm(token);
+        // Send this token to server (db)
+      } else if (permission === "denied") {
+        alert("You denied the notification permission.");
+      }
+    } catch (error) {
+      console.log("Error getting notification permission:", error);
+      // Handle the error or retry the request
+      // You can add a delay before retrying, if needed
+      
+      // FCM 요청
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
+        });
+        setTokenFcm(token);
+        // Send this token to server (db)
+      } else if (permission === "denied") {
+        alert("You denied the notification permission.");
+      }
     }
   }
 
   React.useEffect(() => {
-    // Req user for notification permission
     requestPermission();
   }, []);
 
   return <Login token={tokenFcm}/>;
 }
+
 
 export default App;

@@ -2,7 +2,6 @@ import { Fragment, useState, useCallback, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   Cog6ToothIcon,
   HomeIcon,
   XMarkIcon,
@@ -15,6 +14,7 @@ import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import PodoChar from "../../icons/PodoChar.png";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -85,31 +85,31 @@ export default function ChildFormat() {
     setInputData(e.target.value);
   };
 
-  const handleRegistCode = async () => {
-    if (inputData !== "") {
-      const params = {
-        request: {
-          child_id: user.user_id,
-          connection_code: inputData,
-        },
-      };
-      const flag = await connectUserCode(params);
-      console.log(flag.connected);
-      if (flag.connected === true) {
-        console.log("성공");
-        setInputReadOnly(flag.connected);
-        openRegistCodeModal();
-      } else {
-        console.log("입력 코드가 틀렸다는 모달 나와야함");
-        // 입력 코드가 틀렸다는 모달 나와야함
-        openCodeFailModal();
-      }
-    } else {
-      console.log("입력값이 없다는 모달 나와야함");
-      // 입력값이 없다는 모달 나와야함
-      openFailModal();
-    }
-  };
+  // const handleRegistCode = async () => {
+  //   if (inputData !== "") {
+  //     const params = {
+  //       request: {
+  //         child_id: user.user_id,
+  //         connection_code: inputData,
+  //       },
+  //     };
+  //     const flag = await connectUserCode(params);
+  //     console.log(flag.connected);
+  //     if (flag.connected === true) {
+  //       console.log("성공");
+  //       setInputReadOnly(flag.connected);
+  //       openRegistCodeModal();
+  //     } else {
+  //       console.log("입력 코드가 틀렸다는 모달 나와야함");
+  //       // 입력 코드가 틀렸다는 모달 나와야함
+  //       openCodeFailModal();
+  //     }
+  //   } else {
+  //     console.log("입력값이 없다는 모달 나와야함");
+  //     // 입력값이 없다는 모달 나와야함
+  //     openFailModal();
+  //   }
+  // };
 
   // ==================================================================
   const navigate = useNavigate();
@@ -303,7 +303,7 @@ useEffect(() => {
                                     <button
                                       type="submit"
                                       className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                      onClick={handleRegistCode}
+                                      // onClick={handleRegistCode}
                                     >
                                       등록
                                     </button>
@@ -431,7 +431,7 @@ useEffect(() => {
                             <button
                               type="submit"
                               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                              onClick={handleRegistCode}
+                              // onClick={handleRegistCode}
                             >
                               등록
                             </button>
@@ -458,7 +458,7 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* 헤더 */}
+          {/* 햄버거 버튼 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               <button
@@ -479,28 +479,28 @@ useEffect(() => {
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                     onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
-                  <div
+                  {/* <div
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="rounded-full w-11 h-11 border-2 rounded-2"
+                        src={PodoChar}
                         alt=""
                       />
                     </Menu.Button>
@@ -515,7 +515,7 @@ useEffect(() => {
           </div>
 
           {/* 접히는 알람 */}
-          <Transition.Root show={showAlarm} as={Fragment}>
+          {/* <Transition.Root show={showAlarm} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
               <div className="fixed inset-0" />
 
@@ -554,7 +554,7 @@ useEffect(() => {
                             </div>
                           </div>
                           <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                            {/* Your content */}
+                            Your content
                           </div>
                         </div>
                       </Dialog.Panel>
@@ -563,7 +563,7 @@ useEffect(() => {
                 </div>
               </div>
             </Dialog>
-          </Transition.Root>
+          </Transition.Root> */}
         </div>
 
         {/* Modal Area */}
