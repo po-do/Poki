@@ -233,18 +233,12 @@ export default function MissionTempComplete() {
                   >
                     완료된 미션
                   </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">수정</span>
-                  </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                    <span className="sr-only">삭제</span>
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
                   <tr key={item.id} className="flex justify-between">
-                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 w-[50rem] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                       {item.content}
                     </td>
                     <td className="py-4 pl-3 pr-4 text-sm font-medium gap-2">

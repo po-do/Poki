@@ -3,21 +3,19 @@ import { RadioGroup } from "@headlessui/react";
 import MissionRecommendModal from "./MissionRecommendModal";
 
 const ageOptions = [
-  { name: "7~8 세", inStock: true },
-  { name: "9~10 세", inStock: true },
-  { name: "11~12 세", inStock: true },
+  { name: "7~9 세", inStock: true },
+  { name: "10~12 세", inStock: true },
   { name: "13~14 세", inStock: true },
 ];
 
 const placeOptions = [
   { name: "집", inStock: true },
   { name: "학교", inStock: true },
-  { name: "학원", inStock: true },
+  { name: "놀이터", inStock: true },
 ];
 
 const pointOptions = [
-  { name: "자립성", inStock: true },
-  { name: "협동력", inStock: true },
+  { name: "창의력", inStock: true },
   { name: "사고력", inStock: true },
   { name: "자신감", inStock: true },
 ];
@@ -39,18 +37,18 @@ export default function MissionAi() {
   const [placeMem, setplaceMem] = useState([]);
   const [pointMem, setpointMem] = useState([]);
   const [isModal, setIsModal] = useState(false);
-  
+
   const openModal = () => {
     setIsModal(true);
-  }
+  };
 
   const closeModal = () => {
     setIsModal(false);
-  }
+  };
 
   const handleModal = () => {
     openModal();
-  }
+  };
 
   return (
     <div>
@@ -68,31 +66,31 @@ export default function MissionAi() {
           Choose age option
         </RadioGroup.Label>
 
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 m-5">
-          <h3 className="flex item-center justify-center text-xl font-bold mb-4">
-            나이
-          </h3>
-          {ageOptions.map((option) => (
-            <RadioGroup.Option
-              key={option.name}
-              value={option}
-              className={({ active, checked }) =>
-                AgeFilter(
-                  option.inStock
-                    ? "cursor-pointer focus:outline-none"
-                    : "cursor-not-allowed opacity-25",
-                  active ? "ring-2 ring-gray-500 ring-offset-2" : "",
-                  checked
-                    ? "bg-gray-400 text-white hover:bg-gray-500"
-                    : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
-                  "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase sm:flex-1"
-                )
-              }
-              disabled={!option.inStock}
-            >
-              <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
-            </RadioGroup.Option>
-          ))}
+        <div className="gap-3 m-5">
+          <h3 className="text-xl font-bold mb-4">나이</h3>
+          <div className="flex">
+            {ageOptions.map((option) => (
+              <RadioGroup.Option
+                key={option.name}
+                value={option}
+                className={({ active, checked }) =>
+                  AgeFilter(
+                    option.inStock
+                      ? "cursor-pointer focus:outline-none"
+                      : "cursor-not-allowed opacity-25",
+                    active ? "ring-2 ring-gray-500 ring-offset-2" : "",
+                    checked
+                      ? "bg-gray-400 text-white hover:bg-gray-500"
+                      : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
+                    "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase w-36 mx-2"
+                  )
+                }
+                disabled={!option.inStock}
+              >
+                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+              </RadioGroup.Option>
+            ))}
+          </div>
         </div>
       </RadioGroup>
 
@@ -102,31 +100,31 @@ export default function MissionAi() {
           Choose place option
         </RadioGroup.Label>
 
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 m-5">
-          <h3 className="flex item-center justify-center text-xl font-bold mb-4">
-            장소
-          </h3>
-          {placeOptions.map((option) => (
-            <RadioGroup.Option
-              key={option.name}
-              value={option}
-              className={({ active, checked }) =>
-                PlaceFilter(
-                  option.inStock
-                    ? "cursor-pointer focus:outline-none"
-                    : "cursor-not-allowed opacity-25",
-                  active ? "ring-2 ring-gray-500 ring-offset-2" : "",
-                  checked
-                    ? "bg-gray-400 text-white hover:bg-gray-500"
-                    : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
-                  "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase sm:flex-1"
-                )
-              }
-              disabled={!option.inStock}
-            >
-              <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
-            </RadioGroup.Option>
-          ))}
+        <div className="gap-3 m-5">
+          <h3 className="text-xl font-bold mb-4">장소</h3>
+          <div className="flex">
+            {placeOptions.map((option) => (
+              <RadioGroup.Option
+                key={option.name}
+                value={option}
+                className={({ active, checked }) =>
+                  PlaceFilter(
+                    option.inStock
+                      ? "cursor-pointer focus:outline-none"
+                      : "cursor-not-allowed opacity-25",
+                    active ? "ring-2 ring-gray-500 ring-offset-2" : "",
+                    checked
+                      ? "bg-gray-400 text-white hover:bg-gray-500"
+                      : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
+                    "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase w-36 mx-2"
+                  )
+                }
+                disabled={!option.inStock}
+              >
+                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+              </RadioGroup.Option>
+            ))}
+          </div>
         </div>
       </RadioGroup>
 
@@ -136,31 +134,31 @@ export default function MissionAi() {
           Choose point option
         </RadioGroup.Label>
 
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 m-5">
-          <h3 className="flex item-center justify-center text-xl font-bold mb-4">
-            키워드
-          </h3>
-          {pointOptions.map((option) => (
-            <RadioGroup.Option
-              key={option.name}
-              value={option}
-              className={({ active, checked }) =>
-                PointFilter(
-                  option.inStock
-                    ? "cursor-pointer focus:outline-none"
-                    : "cursor-not-allowed opacity-25",
-                  active ? "ring-2 ring-gray-500 ring-offset-2" : "",
-                  checked
-                    ? "bg-gray-400 text-white hover:bg-gray-500"
-                    : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
-                  "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase sm:flex-1"
-                )
-              }
-              disabled={!option.inStock}
-            >
-              <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
-            </RadioGroup.Option>
-          ))}
+        <div className="gap-3 m-5">
+          <h3 className="text-xl font-bold mb-4">키워드</h3>
+          <div className="flex">
+            {pointOptions.map((option) => (
+              <RadioGroup.Option
+                key={option.name}
+                value={option}
+                className={({ active, checked }) =>
+                  PointFilter(
+                    option.inStock
+                      ? "cursor-pointer focus:outline-none "
+                      : "cursor-not-allowed opacity-25",
+                    active ? "ring-2 ring-gray-500 ring-offset-2" : "",
+                    checked
+                      ? "bg-gray-400 text-white hover:bg-gray-500"
+                      : "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50",
+                    "flex items-center justify-center rounded-3xl py-3 px-3 text-sm font-semibold uppercase w-36 mx-2"
+                  )
+                }
+                disabled={!option.inStock}
+              >
+                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+              </RadioGroup.Option>
+            ))}
+          </div>
         </div>
       </RadioGroup>
 
@@ -174,7 +172,12 @@ export default function MissionAi() {
           추천 받기
         </button>
         {isModal && (
-            <MissionRecommendModal onClose={closeModal} ageMem={ageMem} placeMem={placeMem} pointMem={pointMem} />
+          <MissionRecommendModal
+            onClose={closeModal}
+            ageMem={ageMem}
+            placeMem={placeMem}
+            pointMem={pointMem}
+          />
         )}
       </div>
     </div>
