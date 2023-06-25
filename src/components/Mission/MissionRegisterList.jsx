@@ -98,11 +98,11 @@ export default function MissionRegisterList() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
-                    <tr key={item.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <tr key={item.id} className="flex justify-between">
+                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 w-[50rem] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                         {item.content}
                       </td>
-                      <td className="flex justify-end relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2 ">
+                      <td className="py-4 pl-3 pr-4 text-sm font-medium gap-2">
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
                           onClick={() => handleChange(item.id)}
@@ -110,7 +110,7 @@ export default function MissionRegisterList() {
                           수정
                         </button>
                         <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold"
+                          className="text-indigo-600 hover:text-indigo-900 font-bold ml-2"
                           onClick={() => handleDelete(item.id)}
                         >
                           삭제
