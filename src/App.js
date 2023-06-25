@@ -22,24 +22,9 @@ function App() {
       if (permission === "granted") {
         const token = await getToken(messaging, {
           vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
-        }).then(function (token) {
-          messaging.onMessage((payload) => {
-            alert("알림:" + payload.notification.body);
-          });
         });
-        // 포그라운드 구현
-        // if (permission === "granted") {
-        //   const token = await getToken(messaging, {
-        //     vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
-        //   }).then(function(token) {
-        //     messaging.onMessage(payload => {
-        //       alert("알림:" + payload.notification.body);
-        //       })
-        //   })
         setTokenFcm(token);
         // Send this token to server (db)
-        console.log("token", token);
-        return token;
       } else if (permission === "denied") {
         alert("You denied the notification permission.");
       }
