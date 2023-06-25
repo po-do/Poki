@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
 import { missionReadChild, setMissionStatusWait } from "../../api/mission.js";
-import GrapeAttachModal from "../../components/Modal/SuccessModal";
+import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
 // 최근 등록된미션 보여주는 컴포넌트
@@ -118,7 +118,7 @@ export default function RecentMissionList() {
       </div>
 
       {showModal && (
-        <GrapeAttachModal closeModal={closeModal} message="포도알 요청 완료" />
+        <SuccessModal closeModal={closeModal} message="포도알 요청 완료" />
       )}
       {failModal && <FailModal closeModal={closeFailModal} message="체크박스를 선택 해주세요."/>}
     </>
