@@ -30,7 +30,7 @@ export class PushService {
       token: pushToken,
       webpush: {
         fcmOptions: {
-          link: 'http://localhost:3000/',
+          link: 'https://pokids.site',
         },
       },
     };
