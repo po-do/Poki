@@ -59,9 +59,9 @@ export class AuthService {
         const randomCode = this.getRandomCode();
         // const user = await this.userRepository.findOneBy({ user_id });
 
-        if (user.code !== null) { 
-            throw new UnauthorizedException('Already connected');
-        }
+        // if (user.code !== null) { 
+        //     throw new UnauthorizedException('Already connected');
+        // }
 
         if (!user) {
             throw new NotFoundException('User not found');

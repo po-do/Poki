@@ -37,6 +37,7 @@
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "firebase": "^9.23.0",
     "firebase-admin": "^11.9.0",
     "googleapis": "^118.0.0",
     "mysql2": "^3.3.3",
