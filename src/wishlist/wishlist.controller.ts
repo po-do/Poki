@@ -13,6 +13,8 @@ import { User } from 'src/auth/user.entity';
 import { BoardService } from 'src/board/board.service';
 import * as config from 'config';
 import axios from 'axios';
+import { PushService } from 'src/push/push.service';
+import { GetUserPushToken } from 'src/decorators/get-user.pushtoken.decorator';
 
 const openAPIConfig = config.get('openAPI');
 
@@ -23,7 +25,8 @@ export class WishlistController {
     constructor(
         private wishlistService: WishlistService,
         private AuthService: AuthService,
-        private boardService: BoardService) { }
+        private boardService: BoardService,
+        private pushService: PushService) { }
 
     @Get('/user')
     async getWishlistByUserId(
@@ -43,6 +46,8 @@ export class WishlistController {
                 item: await this.wishlistService.getWishlistByUserId(id)
             },
         };
+
+
         return response;
     }
 
@@ -58,7 +63,11 @@ export class WishlistController {
         @GetUserType() type: string,
         @GetUserId() id: number,
         @GetUserCode() code: string,
+        @GetUserPushToken() pushToken: string,
+
     ): Promise<responseWishlistDto> {
+
+
         if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can create a wishlist.');
         }
@@ -69,7 +78,17 @@ export class WishlistController {
             data: {
                 item: await this.wishlistService.createWishlist(CreateWishlistDto, type, code, id)
             },
+            
         };
+
+        if(response.success === true){
+            const title = '위시리스트가 등록되었습니다!';
+            const info = {
+                result: 'success',
+                wishlist: response.data.item, 
+            }
+            await this.pushService.push_noti(pushToken, title, info);
+        }
 
         return response
 
