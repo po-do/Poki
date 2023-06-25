@@ -59,14 +59,16 @@ const ChatRoom = () => {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
 
   const handleKeyPress = (e) => {
-    if(e.key === 'Enter') { onSendMessage() } 
-   }
+    if (e.key === "Enter") {
+      onSendMessage(e);
+    }
+  };
 
   // 메시지 전송
   const onSendMessage = useCallback(
     (e) => {
       e.preventDefault();
-      if (!message) return alert("메시지를 입력해 주세요.");
+      if (!message) return;
 
       // 서버로 메시지와 사용자 정보 전송
       socket.emit("message", { roomName, message, user }, (chat) => {
