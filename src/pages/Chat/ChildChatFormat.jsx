@@ -85,31 +85,31 @@ export default function ChildFormat() {
     setInputData(e.target.value);
   };
 
-  const handleRegistCode = async () => {
-    if (inputData !== "") {
-      const params = {
-        request: {
-          child_id: user.user_id,
-          connection_code: inputData,
-        },
-      };
-      const flag = await connectUserCode(params);
-      console.log(flag.connected);
-      if (flag.connected === true) {
-        console.log("성공");
-        setInputReadOnly(flag.connected);
-        openRegistCodeModal();
-      } else {
-        console.log("입력 코드가 틀렸다는 모달 나와야함");
-        // 입력 코드가 틀렸다는 모달 나와야함
-        openCodeFailModal();
-      }
-    } else {
-      console.log("입력값이 없다는 모달 나와야함");
-      // 입력값이 없다는 모달 나와야함
-      openFailModal();
-    }
-  };
+  // const handleRegistCode = async () => {
+  //   if (inputData !== "") {
+  //     const params = {
+  //       request: {
+  //         child_id: user.user_id,
+  //         connection_code: inputData,
+  //       },
+  //     };
+  //     const flag = await connectUserCode(params);
+  //     console.log(flag.connected);
+  //     if (flag.connected === true) {
+  //       console.log("성공");
+  //       setInputReadOnly(flag.connected);
+  //       openRegistCodeModal();
+  //     } else {
+  //       console.log("입력 코드가 틀렸다는 모달 나와야함");
+  //       // 입력 코드가 틀렸다는 모달 나와야함
+  //       openCodeFailModal();
+  //     }
+  //   } else {
+  //     console.log("입력값이 없다는 모달 나와야함");
+  //     // 입력값이 없다는 모달 나와야함
+  //     openFailModal();
+  //   }
+  // };
 
   // ==================================================================
   const navigate = useNavigate();
@@ -303,7 +303,7 @@ useEffect(() => {
                                     <button
                                       type="submit"
                                       className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                      onClick={handleRegistCode}
+                                      // onClick={handleRegistCode}
                                     >
                                       등록
                                     </button>
@@ -431,7 +431,7 @@ useEffect(() => {
                             <button
                               type="submit"
                               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                              onClick={handleRegistCode}
+                              // onClick={handleRegistCode}
                             >
                               등록
                             </button>
