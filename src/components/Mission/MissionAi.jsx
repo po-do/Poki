@@ -60,9 +60,9 @@ export default function MissionAi() {
         };
 
         const data = await missionRecommend(params);
-        // setResult(data);
-        console.log("성공 : ", data);
+        setResult(data);
 
+        console.log("성공 : ", data);
       } catch (error) {
       console.log("AI Load 실패 : ", error);
     }
