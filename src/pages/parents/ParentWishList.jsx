@@ -90,7 +90,7 @@ export default function ChildWishList() {
   };
 
   return (
-    <div className="bg-white lg:pb-12">
+    <div className="relative bg-white lg:pb-12">
       <div className="px-12 py-7">
         <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
           아이의 위시리스트 목록

@@ -33,7 +33,7 @@ export default function LinkUpdateModal({ onClose, item}) {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-8 rounded-md shadow-md">
         <div className="mb-6">
           <h2 className="text-xl font-bold">링크 수정</h2>
