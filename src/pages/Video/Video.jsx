@@ -163,7 +163,7 @@ export default function Video() {
     setCallEnded(true);
     setIsCalling(false);
     socket.disconnect();
-	socket.emit("callEnd")
+    socket.emit("callEnd");
     connectionRef.current.destroy();
     // force a page reload
     window.location.reload();
@@ -185,32 +185,11 @@ export default function Video() {
 
   return (
     <>
-      <h1 className="mt-2 ml-2 text-3xl tracking-tight text-black sm:text-4xl">
-        영상통화
-      </h1>
-      <div className="p-4 mt-2 rounded-2xl border-4 md:m-4">
-        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
-          <div className="md:w-6/12">
-            <video
-              playsInline
-              muted
-              ref={myVideo}
-              autoPlay
-              className="md:w-full rounded-2xl"
-              style={{ transform: "scaleX(-1)" }}
-            />
-          </div>
-
-          <div className="md:w-6/12">
-            <video
-              playsInline
-              ref={userVideo}
-              autoPlay
-              className="md:w-full rounded-2xl"
-            />
-          </div>
-        </div>
-        <div className="flex justify-center items-center mt-6">
+      <div className="flex justify-between ">
+        <h1 className="mt-2 ml-2 text-3xl tracking-tight text-black sm:text-4xl">
+          영상통화
+        </h1>
+        <div className="flex justify-center items-center mt-2 mr-2">
           <button
             variant="contained"
             className="h-14 w-14 text-white bg-indigo-500 rounded-full p-2 mr-2"
@@ -265,6 +244,28 @@ export default function Video() {
                 </button>
               </div>
             ) : null}
+          </div>
+        </div>
+      </div>
+      <div className="p-4 mt-2 rounded-2xl border-4 md:m-4">
+        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+          <div className="md:w-6/12">
+            <video
+              playsInline
+              muted
+              ref={myVideo}
+              autoPlay
+              className="md:w-full rounded-2xl"
+              style={{ transform: "scaleX(-1)" }}
+            />
+          </div>
+          <div className="md:w-6/12">
+            <video
+              playsInline
+              ref={userVideo}
+              autoPlay
+              className="md:w-full rounded-2xl"
+            />
           </div>
         </div>
       </div>
