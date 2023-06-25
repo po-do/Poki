@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import MissionRecommendModal from "./MissionRecommendModal";
-import { missionRecommend } from "../../api/mission.js"
+import { missionRecommend } from "../../api/mission.js";
 
 const ageOptions = [
   { name: "7~9 세", inStock: true },
@@ -38,7 +38,8 @@ export default function MissionAi() {
   const [placeMem, setplaceMem] = useState([]);
   const [pointMem, setpointMem] = useState([]);
   const [isModal, setIsModal] = useState(false);
-  const [result,setResult] = useState([]);
+  const [result, setResult] = useState([]);
+  const [spiningFlag, setSpiningFlag] = useState(false);
 
   const openModal = () => {
     setIsModal(true);
@@ -49,21 +50,21 @@ export default function MissionAi() {
   };
 
   const handleModal = async () => {
-      // api 호출
-      try {
-        const params = {
-          request: {
-            age: ageMem.name,
-            place: placeMem.name,
-            ability: pointMem.name,
-          },
-        };
+    // api 호출
+    try {
+      const params = {
+        request: {
+          age: ageMem.name,
+          place: placeMem.name,
+          ability: pointMem.name,
+        },
+      };
 
-        const data = await missionRecommend(params);
-        setResult(data);
-
-        console.log("성공 : ", data);
-      } catch (error) {
+      const data = await missionRecommend(params);
+      setSpiningFlag(true);
+      // setResult(data);
+      console.log("성공 : ", data);
+    } catch (error) {
       console.log("AI Load 실패 : ", error);
     }
     openModal();
@@ -188,13 +189,31 @@ export default function MissionAi() {
           className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={handleModal}
         >
-          추천 받기
+          <div className="flex">
+            {spiningFlag && (
+              <svg
+                class="animate-spin h-5 w-5 text-white mr-2"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-50"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-105"
+                  fill="white"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-1.647z"
+                />
+              </svg>
+            )}
+            <span>추천 받기</span>
+          </div>
         </button>
         {isModal && (
-          <MissionRecommendModal
-            onClose={closeModal}
-            result={result.result}
-          />
+          <MissionRecommendModal onClose={closeModal} result={result.result} />
         )}
       </div>
     </div>

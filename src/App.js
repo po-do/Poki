@@ -8,11 +8,12 @@ import { getToken } from "firebase/messaging";
 axios.defaults.withCredentials = true;
 // export const socket = io("http://3.34.134.62:3000");
 // export const socket = io("http://localhost:4000/chat");
+// export const socket = io("http://localhost:4000/chat");
 //export const socket = io("https://api.pokids.site:8000");
 export const socket = io(process.env.REACT_APP_SOCKET_URL);
 
 function App() {
-  const [tokenFcm, setTokenFcm ] = useState("");
+  const [tokenFcm, setTokenFcm] = useState("");
 
   async function requestPermission() {
     try {
@@ -21,17 +22,24 @@ function App() {
       if (permission === "granted") {
         const token = await getToken(messaging, {
           vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
+        }).then(function (token) {
+          messaging.onMessage((payload) => {
+            alert("알림:" + payload.notification.body);
+          });
         });
-      // if (permission === "granted") {
-      //   const token = await getToken(messaging, {
-      //     vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
-      //   }).then(function(token) {
-      //     messaging.onMessage(payload => {
-      //       alert("알림:" + payload.notification.body);
-      //       })
-      //   })
+        // 포그라운드 구현
+        // if (permission === "granted") {
+        //   const token = await getToken(messaging, {
+        //     vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
+        //   }).then(function(token) {
+        //     messaging.onMessage(payload => {
+        //       alert("알림:" + payload.notification.body);
+        //       })
+        //   })
         setTokenFcm(token);
         // Send this token to server (db)
+        console.log("token", token);
+        return token;
       } else if (permission === "denied") {
         alert("You denied the notification permission.");
       }
@@ -39,7 +47,7 @@ function App() {
       console.log("Error getting notification permission:", error);
       // Handle the error or retry the request
       // You can add a delay before retrying, if needed
-      
+
       // FCM 요청
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
@@ -58,8 +66,7 @@ function App() {
     requestPermission();
   }, []);
 
-  return <Login token={tokenFcm}/>;
+  return <Login token={tokenFcm} />;
 }
-
 
 export default App;
