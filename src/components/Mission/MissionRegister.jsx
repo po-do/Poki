@@ -9,7 +9,6 @@ export default function MissionRegister() {
   const queryClient = useQueryClient();
   const [missionRegistModal, setMissionRegistModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
-  const [isState, setIsState] = useState(false);
 
   const openMissionRegistModal = () => {
     setMissionRegistModal(true);
@@ -30,10 +29,6 @@ export default function MissionRegister() {
   const handleInputChange = (e) => {
     setMissionContent(e.target.value);
   };
-
-  const handleKeyPress = (e) => {
-    if(e.key === 'Enter') {handleButtonClick()} 
-   }
 
   const handleButtonClick = () => {
     if (missionContent === "") {
@@ -90,7 +85,6 @@ export default function MissionRegister() {
             id="code"
             name="code"
             type="text"
-            onKeyUp={handleKeyPress}
             value={missionContent}
             onChange={handleInputChange}
             className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
