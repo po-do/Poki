@@ -2,7 +2,6 @@ import { Fragment, useState, useCallback, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   Cog6ToothIcon,
   HomeIcon,
   XMarkIcon,
