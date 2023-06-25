@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class PushDto {
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    fcm_token: string
+    fcm_token?: string;
   }
   

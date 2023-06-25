@@ -38,7 +38,6 @@ export class AuthService {
     }
 
     async siginIn(authSignInDto: AuthSignInDto, pushDto: PushDto):Promise<{accessToken: string, type:string, id:number}> {
-        console.log(authSignInDto);
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
 

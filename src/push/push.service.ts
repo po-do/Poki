@@ -16,7 +16,6 @@ export class PushService {
     ) {}
 
   async savePushToken(user_id: number, pushDto: PushDto): Promise <void> {
-    console.log(pushDto);
     await this.pushConnectionRepository.savePushToken(user_id, pushDto);
   }
 
