@@ -102,7 +102,7 @@ export default function MissionRegisterList() {
                       <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 w-[50rem] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                         {item.content}
                       </td>
-                      <td className="py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                      <td className="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2 ">
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
                           onClick={() => handleChange(item.id)}
