@@ -2,7 +2,6 @@ import { Fragment, useState, useCallback, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   Cog6ToothIcon,
   HomeIcon,
   XMarkIcon,
@@ -16,6 +15,7 @@ import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import PodoChar from "../../icons/PodoChar.png";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -127,14 +127,6 @@ export default function ChildFormat() {
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate]);
-
-  // ==================================================================
-  const handleAlarm = () => {
-    console.log("알람버튼 클릭s");
-    setShowAlarm(true);
-    console.log(showAlarm);
-  };
-  // ==================================================================
 
   // 코드 존재 여부 확인 (수정 필요)
   const [isConnect, setIsConnect] = useState("");
@@ -325,8 +317,6 @@ export default function ChildFormat() {
                               </div>
                             </li>
                           )}
-
-                          
                         </ul>
                       </nav>
                     </div>
@@ -455,7 +445,6 @@ export default function ChildFormat() {
                       </div>
                     </li>
                   )}
-                  
                 </ul>
               </nav>
             </div>
@@ -482,28 +471,28 @@ export default function ChildFormat() {
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                     onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
-                  <div
+                  {/* <div
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="rounded-full w-11 h-11 border-2 rounded-2"
+                        src={PodoChar}
                         alt=""
                       />
                     </Menu.Button>
@@ -516,57 +505,6 @@ export default function ChildFormat() {
               <Outlet />
             </main>
           </div>
-
-          {/* 접히는 알람 */}
-          <Transition.Root show={showAlarm} as={Fragment}>
-            <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
-              <div className="fixed inset-0" />
-
-              <div className="fixed inset-0 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="transform transition ease-in-out duration-500 sm:duration-700"
-                      enterFrom="translate-x-full"
-                      enterTo="translate-x-0"
-                      leave="transform transition ease-in-out duration-500 sm:duration-700"
-                      leaveFrom="translate-x-0"
-                      leaveTo="translate-x-full"
-                    >
-                      <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                        <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                          <div className="px-4 sm:px-6">
-                            <div className="flex items-start justify-between">
-                              <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                                Panel title
-                              </Dialog.Title>
-                              <div className="ml-3 flex h-7 items-center">
-                                <button
-                                  type="button"
-                                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                  onClick={() => setShowAlarm(false)}
-                                >
-                                  <span className="sr-only">Close panel</span>
-                                  <XMarkIcon
-                                    className="h-6 w-6"
-                                    aria-hidden="true"
-                                  />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                            {/* Your content */}
-                          </div>
-                        </div>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
         </div>
 
         {/* Modal Area */}

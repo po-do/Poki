@@ -7,7 +7,7 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 import FailModal from "../../components/Modal/FailModal";
 import InstallAlarm from "./InstallAlarm";
 
-export default function Login() {
+export default function Login({token}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // 저장할 요소 : id, real id, state
@@ -18,22 +18,22 @@ export default function Login() {
 
   const renderInstallPrompt = () => (
     <div className="fixed right-0 m-4">
-        <InstallAlarm />
+      <InstallAlarm />
     </div>
-    )
+  );
 
   const handleLogIn = async () => {
     console.log("로그인");
-    console.log(user);
+    // console.log(user);
     // console.log(email, password);
     try {
       const userInfo = await signIn({
         request: {
           user_id: email,
           password: password,
+          fcm_token: token,
         },
       });
-
       const params = {
         id: userInfo.data.id,
         user_id: email,
@@ -48,17 +48,68 @@ export default function Login() {
       handleOpenModal();
       console.log("signin error", error);
     }
-
   };
 
   const handleOpenModal = () => {
     setOpenFailModal(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setOpenFailModal(false);
+  };
 
-  }
+  // Base64 문자열을 Uint8Array로 변환하는 역할
+  const urlB64ToUint8Array = (base64String) => {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, "+")
+      .replace(/_/g, "/");
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+
+    return outputArray;
+  };
+
+  // 권한 요청 후 구독 로직이 실행되며, 구독이 성공적으로 이루어진 경우에만 서버에 구독 정보가 전송됩니다.
+  // 이 과정이 끝나면 사용자의 브라우저는 Push 알림을 받을 준비가 된 것
+  const handleSub = () => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+
+        // 사용자가 허용한 경우에만 push 구독을 시작합니다.
+        navigator.serviceWorker.ready
+          .then(function (registration) {
+            return registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlB64ToUint8Array(
+                "YOUR_PUBLIC_VAPID_KEY_HERE"
+              ),
+            });
+          })
+          .then(function (subscription) {
+            // 구독이 성공한 경우에 서버에 구독 정보를 전송합니다.
+            return fetch("/api/push/subscribe", {
+              method: "POST",
+              body: JSON.stringify(subscription),
+              headers: {
+                "content-type": "application/json",
+              },
+            });
+          })
+          .catch(function (error) {
+            console.error("Unable to subscribe to push", error);
+          });
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+    });
+  };
 
   return (
     <React.Fragment>
@@ -126,10 +177,14 @@ export default function Login() {
               >
                 Sign in
               </button>
-              {!openFailModal ?
+              {!openFailModal ? (
                 <></>
-                : <FailModal closeModal={handleCloseModal} message={"아이디/패스워드를 다시 확인해 주세요"}/>
-              }
+              ) : (
+                <FailModal
+                  closeModal={handleCloseModal}
+                  message={"아이디/패스워드를 다시 확인해 주세요"}
+                />
+              )}
             </div>
           </div>
 
@@ -141,6 +196,7 @@ export default function Login() {
             >
               회원가입
             </a>
+            <button onClick={handleSub}>구독</button>
           </p>
         </div>
       </div>
