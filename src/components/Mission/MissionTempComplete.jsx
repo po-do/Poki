@@ -20,6 +20,15 @@ export default function MissionTempComplete() {
   const [failModal, setFailModal] = useState(false);
   const [overFailModal, setOverFailModal] = useState(false);
   const [showReturnModal, setShowReturnModal] = useState(false);
+  const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+
+  const openCreateBoardModal = () => {
+    setShowCreateBoardModal(true);
+  };
+
+  const closeCreateBoardModal = () => {
+    setShowCreateBoardModal(false);
+  };
 
   // 초과발행 경고
   const openOverFailModal = () => {
@@ -93,6 +102,10 @@ export default function MissionTempComplete() {
   });
 
   const addGrape = async (count) => {
+    // 포도상태 가져오기
+    const x = await getBoardStatus();
+    const total = x.data.grape.total_grapes;
+
     const newStatus = {
       blank: grape?.blank,
       attached_grapes: grape?.attached_grapes,
@@ -100,7 +113,36 @@ export default function MissionTempComplete() {
       deattached_grapes: grape?.deattached_grapes + count,
     };
 
-    await updateBoard(newStatus);
+    try {
+      await updateBoard(newStatus);
+
+      // 성공모달
+      openModal();
+
+      // COMPLETE로 바꾸는 로직
+      if (total + selectedMissions.length <= 31) {
+        if (selectedMissions.length > 0) {
+          selectedMissions.forEach((missionId) => {
+            const updatedMission = {
+              ...missions.find((mission) => mission.id === missionId),
+            };
+            complete({
+              mission_id: missionId,
+            });
+          });
+        }
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        // 403 Forbidden 에러 처리 로직
+        console.error("Forbidden error:", error.response.data);
+        openCreateBoardModal();
+      } else {
+        // 다른 종류의 오류에 대한 예외 처리 로직
+        console.error("Error:", error);
+        // 예외 처리를 위한 추가 작업을 수행하세요.
+      }
+    }
   };
 
   const handleCheckboxChange = (e, missionId) => {
@@ -139,7 +181,6 @@ export default function MissionTempComplete() {
     // check if total_grapes + selectedMissions.length would be more than 31
     if (total + selectedMissions.length <= 31) {
       if (selectedMissions.length > 0) {
-        openModal();
         await addGrape(selectedMissions.length);
       } else {
         openFailModal();
@@ -147,19 +188,6 @@ export default function MissionTempComplete() {
     } else {
       // if total_grapes + selectedMissions.length would be more than 31, open fail modal
       openOverFailModal();
-    }
-
-    if (total + selectedMissions.length <= 31) {
-      if (selectedMissions.length > 0) {
-        selectedMissions.forEach((missionId) => {
-          const updatedMission = {
-            ...missions.find((mission) => mission.id === missionId),
-          };
-          complete({
-            mission_id: missionId,
-          });
-        });
-      }
     }
 
     setSelectedMissions([]);
@@ -215,19 +243,19 @@ export default function MissionTempComplete() {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
-                  <tr key={item.id}>
-                    <td className="flex whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      <div>{item.content}</div>
-                      <div className="ml-auto">
-                        <input
-                          id="comments"
-                          aria-describedby="comments-description"
-                          name="comments"
-                          type="checkbox"
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          onChange={(e) => handleCheckboxChange(e, item.id)}
-                        />
-                      </div>
+                  <tr key={item.id} className="flex justify-between">
+                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 w-[50rem] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                      {item.content}
+                    </td>
+                    <td className="py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                      <input
+                        id="comments"
+                        aria-describedby="comments-description"
+                        name="comments"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        onChange={(e) => handleCheckboxChange(e, item.id)}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -253,6 +281,12 @@ export default function MissionTempComplete() {
       )}
       {showReturnModal && (
         <SuccessModal closeModal={closeShowReturnModal} message="반려 완료" />
+      )}
+      {showCreateBoardModal && (
+        <FailModal
+          closeModal={closeCreateBoardModal}
+          message="위시리스트에서 선물을 선택해주세요."
+        />
       )}
     </div>
   );

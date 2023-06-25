@@ -9,7 +9,6 @@ export default function MissionRegister() {
   const queryClient = useQueryClient();
   const [missionRegistModal, setMissionRegistModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
-  const [isState, setIsState] = useState(false);
 
   const openMissionRegistModal = () => {
     setMissionRegistModal(true);
@@ -32,8 +31,10 @@ export default function MissionRegister() {
   };
 
   const handleKeyPress = (e) => {
-    if(e.key === 'Enter') {handleButtonClick()} 
-   }
+    if (e.key === "Enter") {
+      handleButtonClick();
+    }
+  };
 
   const handleButtonClick = () => {
     if (missionContent === "") {
@@ -83,29 +84,31 @@ export default function MissionRegister() {
 
   return (
     <>
-      <h3 className="text-xl font-bold mb-4">미션 등록</h3>
-      <div className="w-full lg:col-span-5 lg:pt-2">
-        <div className="flex gap-x-4">
-          <input
-            id="code"
-            name="code"
-            type="text"
-            onKeyUp={handleKeyPress}
-            value={missionContent}
-            onChange={handleInputChange}
-            className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
-            placeholder="미션 입력"
-          />
+      <div className="sm:px-6">
+        <h3 className="text-xl font-bold mb-4">미션 등록</h3>
+        <div className="w-full lg:col-span-5 lg:pt-2">
+          <div className="flex gap-x-4">
+            <input
+              id="code"
+              name="code"
+              type="text"
+              onKeyUp={handleKeyPress}
+              value={missionContent}
+              onChange={handleInputChange}
+              className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+              placeholder="미션 입력"
+            />
 
-          <button
-            className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={handleButtonClick}
-          >
-            미션 등록
-          </button>
+            <button
+              className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={handleButtonClick}
+            >
+              미션 등록
+            </button>
+          </div>
         </div>
       </div>
-      <div>
+
       {/* Modal Area */}
       {missionRegistModal && (
         <SuccessModal
@@ -117,8 +120,6 @@ export default function MissionRegister() {
       {failModal && (
         <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
       )}
-      </div>
-
     </>
   );
 }
