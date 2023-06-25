@@ -49,15 +49,25 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   @SubscribeMessage('disconnect')
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    this.logger.log("disconnection 발생!")
     try {
       const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
       if (disconnectedUser) {
         this.videoChatService.deleteConnection(disconnectedUser)
       }
       this.logger.log("disconnection 발생 😀, 삭제 완료")
-      socket.broadcast.emit("callEnded")
+      //socket.broadcast.emit("callEnded")
     } catch (error) {
+      console.log('An Error occured in disconnect socket')
     }
+  }
+
+  @SubscribeMessage('callEnd')
+  async endCall(
+    @ConnectedSocket() socket: ExtendedSocket
+  ) {
+    console.log('end call')
+    socket.broadcast.emit("callEnded")
   }
 
   @SubscribeMessage('callUser')
