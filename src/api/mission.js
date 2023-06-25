@@ -100,3 +100,15 @@ export async function missionConfirm() {
   const response = await client.get(`/mission/user/approve`);
   return response.data;
 }
+
+// AI 추천 API
+export async function missionRecommend(params) {
+  const accessToken = getAccessToken();
+  // console.log(params);
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("missionRecommend 호출");
+  const response = await client.post("/mission/recommend", params.request);
+  return response.data;
+}
