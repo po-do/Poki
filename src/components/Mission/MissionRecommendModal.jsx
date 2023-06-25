@@ -1,32 +1,7 @@
 import { React, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import FailModal from "../../components/Modal/FailModal";
-
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { missionCreate } from "../../api/mission.js";
-
-const settings = [
-  {
-    name: "Public access",
-    description: "This project would be available to anyone who has the link",
-  },
-  {
-    name: "Private to Project Members",
-    description: "Only members of this project would be able to access",
-  },
-  {
-    name: "Private to you1",
-    description: "You are the only one able to access this project",
-  },
-  {
-    name: "Private to you2",
-    description: "You are the only one able to access this project",
-  },
-  {
-    name: "Private to you3",
-    description: "You are the only one able to access this project",
-  },
-];
+import { missionCreate } from "../../api/mission.js";
 
 function PickedMission(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -35,13 +10,11 @@ function PickedMission(...classes) {
 // 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하여 나온 답변을 가공하여 보여주는 컴포넌트
 export default function MissionRecommendModal({
   onClose,
-  ageMem,
-  placeMem,
-  pointMem,
+  result,
 }) {
-  const [selected, setSelected] = useState(settings[0]);
+  const [selected, setSelected] = useState(result[0]);
   const [showFailModal, setShowFailModal] = useState(false);
-  // const queryClient = useQueryClient();
+  console.log("result",result);
   // const mutation = useMutation((params) => missionCreate(params), {
   //   onSuccess: (data) => {
   //     console.log("서버 응답:", data);
@@ -71,7 +44,7 @@ export default function MissionRecommendModal({
 
   //   mutation.mutate(params);
   // };
-  console.log(selected);
+  // console.log(selected);
 
   // 실패 시 모달
   const openFailModal = async () => {
@@ -82,9 +55,33 @@ export default function MissionRecommendModal({
     setShowFailModal(false);
   };
 
-  const handleModal = () => {
-    // api 호출
-    onClose();
+  const handleModal = async () => {
+    try {
+      var date = new Date();
+      const createdDate =
+        date.getFullYear().toString() +
+        "-" +
+        (date.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        date.getDate().toString();
+
+      const params = {
+        request: {
+          content: selected,
+          created_date: createdDate,
+          completed_date: createdDate,
+        },
+      };
+
+      await missionCreate(params);
+      console.log("등록 성공");
+      window.location.reload();
+      
+      onClose();
+    } catch (error) {
+      console.log("등록 실패:", error);
+    }
+    
   };
 
   return (
@@ -101,14 +98,14 @@ export default function MissionRecommendModal({
               Privacy setting
             </RadioGroup.Label>
             <div className="-space-y-px rounded-md bg-white">
-              {settings.map((setting, settingIdx) => (
+              {result.map((setting, settingIdx) => (
                 <RadioGroup.Option
-                  key={setting.name}
+                  key={setting}
                   value={setting}
                   className={({ checked }) =>
                     PickedMission(
                       settingIdx === 0 ? "rounded-tl-md rounded-tr-md" : "",
-                      settingIdx === settings.length - 1
+                      settingIdx === result.length - 1
                         ? "rounded-bl-md rounded-br-md"
                         : "",
                       checked
@@ -140,7 +137,6 @@ export default function MissionRecommendModal({
                             "block text-sm font-medium"
                           )}
                         >
-                          {setting.name}
                         </RadioGroup.Label>
                         <RadioGroup.Description
                           as="span"
@@ -149,7 +145,7 @@ export default function MissionRecommendModal({
                             "block text-sm"
                           )}
                         >
-                          {setting.description}
+                          {setting}
                         </RadioGroup.Description>
                       </span>
                     </>

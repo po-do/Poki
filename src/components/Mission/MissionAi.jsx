@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import MissionRecommendModal from "./MissionRecommendModal";
+import { missionRecommend } from "../../api/mission.js"
 
 const ageOptions = [
   { name: "7~9 세", inStock: true },
@@ -37,6 +38,7 @@ export default function MissionAi() {
   const [placeMem, setplaceMem] = useState([]);
   const [pointMem, setpointMem] = useState([]);
   const [isModal, setIsModal] = useState(false);
+  const [result,setResult] = useState([]);
 
   const openModal = () => {
     setIsModal(true);
@@ -46,7 +48,24 @@ export default function MissionAi() {
     setIsModal(false);
   };
 
-  const handleModal = () => {
+  const handleModal = async () => {
+      // api 호출
+      try {
+        const params = {
+          request: {
+            age: ageMem.name,
+            place: placeMem.name,
+            ability: pointMem.name,
+          },
+        };
+
+        const data = await missionRecommend(params);
+        // setResult(data);
+        console.log("성공 : ", data);
+
+      } catch (error) {
+      console.log("AI Load 실패 : ", error);
+    }
     openModal();
   };
 
@@ -174,9 +193,7 @@ export default function MissionAi() {
         {isModal && (
           <MissionRecommendModal
             onClose={closeModal}
-            ageMem={ageMem}
-            placeMem={placeMem}
-            pointMem={pointMem}
+            result={result.result}
           />
         )}
       </div>

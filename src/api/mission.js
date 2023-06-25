@@ -104,7 +104,7 @@ export async function missionConfirm() {
 // AI 추천 API
 export async function missionRecommend(params) {
   const accessToken = getAccessToken();
-  console.log(params);
+  // console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
