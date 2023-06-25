@@ -15,6 +15,7 @@ import { connectUserCode, getConnectedUser } from "../../api/auth.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import PodoChar from "../../icons/PodoChar.png";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -479,20 +480,20 @@ useEffect(() => {
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                     onClick={handleAlarm}
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
-                  <div
+                  {/* <div
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
@@ -500,7 +501,7 @@ useEffect(() => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={PodoChar}
                         alt=""
                       />
                     </Menu.Button>
@@ -515,7 +516,7 @@ useEffect(() => {
           </div>
 
           {/* 접히는 알람 */}
-          <Transition.Root show={showAlarm} as={Fragment}>
+          {/* <Transition.Root show={showAlarm} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={setShowAlarm}>
               <div className="fixed inset-0" />
 
@@ -554,7 +555,7 @@ useEffect(() => {
                             </div>
                           </div>
                           <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                            {/* Your content */}
+                            Your content
                           </div>
                         </div>
                       </Dialog.Panel>
@@ -563,7 +564,7 @@ useEffect(() => {
                 </div>
               </div>
             </Dialog>
-          </Transition.Root>
+          </Transition.Root> */}
         </div>
 
         {/* Modal Area */}

@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -11,7 +11,7 @@ import {
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
-import { createUserCode } from "../../api/auth.js";
+import { createUserCode, getConnectedUser } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SuccessModal from "../../components/Modal/SuccessModal.jsx";
 // ======================================
@@ -21,6 +21,7 @@ import { userState } from "../../recoil/user.js";
 import { socket } from "../../App.js";
 import ChatRoom from "./ChattingRoom.jsx";
 import grapeLogo from "../../icons/mstile-310x310.png";
+import PodoChar from "../../icons/PodoChar.png";
 
 const queryClient = new QueryClient();
 
@@ -46,9 +47,9 @@ const navigation = [
   },
 ];
 
-const teams = [
-  { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
-];
+// const teams = [
+//   { id: 1, name: "아이1", href: "#", initial: "C1", current: false },
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -58,6 +59,21 @@ export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
   const [issuCodeModal, setIssuCodeModal] = useState(false);
+  const [isConnect, setIsConnect] = useState("");
+
+  const isConnected = async () => {
+    try {
+      const state = await getConnectedUser();
+      // console.log(state);
+      setIsConnect(state.data.is_connected);
+    } catch (error) {
+      console.log("Failed to get connected status:", error);
+    }
+  };
+  
+  useEffect(() => {
+    isConnected();
+  }, []);
 
   const openIssuCodeModal = () => {
     setIssuCodeModal(true);
@@ -217,7 +233,7 @@ export default function ParentFormat() {
                               </li>
                             </ul>
                           </li>
-                          <li>
+                          {/* <li>
                             <div className="text-xs font-semibold leading-6 text-indigo-200">
                               아이 목록
                             </div>
@@ -243,7 +259,8 @@ export default function ParentFormat() {
                                 </li>
                               ))}
                             </ul>
-                          </li>
+                          </li> */}
+
                         </ul>
                       </nav>
                     </div>
@@ -320,7 +337,7 @@ export default function ParentFormat() {
                       </li>
                     </ul>
                   </li>
-                  <li>
+                  {/* <li>
                     <div className="text-xl font-semibold leading-6 text-indigo-200">
                       아이 목록
                     </div>
@@ -344,7 +361,8 @@ export default function ParentFormat() {
                         </li>
                       ))}
                     </ul>
-                  </li>
+                  </li> */}
+
                   <li className="mt-auto">
                     <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
                       <Cog6ToothIcon
@@ -399,7 +417,7 @@ export default function ParentFormat() {
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="flex m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                   >
@@ -408,21 +426,21 @@ export default function ParentFormat() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                     </span>
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
-                  <div
+                  {/* <div
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="rounded-full w-11 h-11 border-2 rounded-2"
+                        src={PodoChar}
                         alt=""
                       />
                     </Menu.Button>
@@ -430,6 +448,7 @@ export default function ParentFormat() {
                 </div>
               </div>
             </div>
+            
             {/* 메인 */}
             <main className="max-[720px]:fixed max-[720px]:w-screen max-[720px]:h-screen">
               <ChatRoom />
