@@ -163,6 +163,7 @@ export default function Video() {
     setCallEnded(true);
     setIsCalling(false);
     socket.disconnect();
+	socket.emit("callEnd")
     connectionRef.current.destroy();
     // force a page reload
     window.location.reload();
