@@ -3,6 +3,7 @@ import MissionRegister from "../../components/Mission/MissionRegister";
 import MissionRegisterList from "../../components/Mission/MissionRegisterList";
 import MissionComplete from "../../components/Mission/MissionComplete";
 import MissionTempComplete from "../../components/Mission/MissionTempComplete";
+import MissionAi from "../../components/Mission/MissionAi";
 
 export default function Mission() {
   return (
@@ -15,11 +16,13 @@ export default function Mission() {
       <div className="p-6 rounded-2xl border-4">
         <MissionRegister />
       </div>
-
-      <div className="p-6 rounded-2xl border-4 mt-10">
+      <div className="p-6 rounded-2xl border-4 mt-5">
+        <MissionAi />
+      </div>
+      <div className="p-6 rounded-2xl border-4 mt-5">
         <MissionRegisterList />
       </div>
-      <div className="p-6 rounded-2xl border-4 mt-10">
+      <div className="p-6 rounded-2xl border-4 mt-5">
         <MissionTempComplete />
       </div>
 

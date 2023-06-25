@@ -1,81 +1,190 @@
 import { React, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { missionCreate } from "../../api/mission.js";
+import { RadioGroup } from "@headlessui/react";
+import FailModal from "../../components/Modal/FailModal";
+
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import { missionCreate } from "../../api/mission.js";
+
+const settings = [
+  {
+    name: "Public access",
+    description: "This project would be available to anyone who has the link",
+  },
+  {
+    name: "Private to Project Members",
+    description: "Only members of this project would be able to access",
+  },
+  {
+    name: "Private to you1",
+    description: "You are the only one able to access this project",
+  },
+  {
+    name: "Private to you2",
+    description: "You are the only one able to access this project",
+  },
+  {
+    name: "Private to you3",
+    description: "You are the only one able to access this project",
+  },
+];
+
+function PickedMission(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 // 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하여 나온 답변을 가공하여 보여주는 컴포넌트
-export default function MissionRecommendModal({ onClose }) {
-  const [missionContent, setMissionContent] = useState("");
-  const queryClient = useQueryClient();
-  const mutation = useMutation((params) => missionCreate(params), {
-    onSuccess: (data) => {
-      console.log("서버 응답:", data);
-      // 서버 응답을 처리하는 로직을 추가합니다.
-    },
-    onError: (error) => {
-      console.error("미션 생성 실패:", error);
-      // 오류 처리 로직을 추가합니다.
-    },
-    onSettled: () => {
-      // 미션 생성이 완료되면 입력 필드를 초기화합니다.
-      setMissionContent("");
-      // 기존 데이터를 갱신하기 위해 쿼리를 재요청합니다.
-      queryClient.invalidateQueries("missions");
-    },
-  });
+export default function MissionRecommendModal({
+  onClose,
+  ageMem,
+  placeMem,
+  pointMem,
+}) {
+  const [selected, setSelected] = useState(settings[0]);
+  const [showFailModal, setShowFailModal] = useState(false);
+  // const queryClient = useQueryClient();
+  // const mutation = useMutation((params) => missionCreate(params), {
+  //   onSuccess: (data) => {
+  //     console.log("서버 응답:", data);
+  //     // 서버 응답을 처리하는 로직을 추가합니다.
+  //   },
+  //   onError: (error) => {
+  //     console.error("미션 생성 실패:", error);
+  //     // 오류 처리 로직을 추가합니다.
+  //   },
+  //   onSettled: () => {
+  //     // 미션 생성이 완료되면 입력 필드를 초기화합니다.
+  //     setMissionContent("");
+  //     // 기존 데이터를 갱신하기 위해 쿼리를 재요청합니다.
+  //     queryClient.invalidateQueries("missions");
+  //   },
+  // });
 
-  const handleMissionCreate = () => {
+  // const handleMissionCreate = () => {
 
-    const params = {
-      request: {
-        content: missionContent,
-        created_date: "생성 일자",
-        completed_date: "",
-      },
-    };
+  //   const params = {
+  //     request: {
+  //       content: missionContent,
+  //       created_date: "생성 일자",
+  //       completed_date: "",
+  //     },
+  //   };
 
-    mutation.mutate(params);
+  //   mutation.mutate(params);
+  // };
+  console.log(selected);
+
+  // 실패 시 모달
+  const openFailModal = async () => {
+    setShowFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setShowFailModal(false);
+  };
+
+  const handleModal = () => {
+    // api 호출
+    onClose();
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="w-96 bg-white rounded-lg p-8">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-8 rounded-md shadow-md">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold">선물 추천받기</h2>
+        </div>
+
+        {/* 추천 미션 */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">추천 미션</h2>
-          <div className="mb-4">
-            <div className="flex items-center">
-              <input type="checkbox" name="" id="check" className="mr-2" />
-              <h4 className="font-bold">자신의 옷 정리하고 걸어두기</h4>
+          <RadioGroup value={selected} onChange={setSelected}>
+            <RadioGroup.Label className="sr-only">
+              Privacy setting
+            </RadioGroup.Label>
+            <div className="-space-y-px rounded-md bg-white">
+              {settings.map((setting, settingIdx) => (
+                <RadioGroup.Option
+                  key={setting.name}
+                  value={setting}
+                  className={({ checked }) =>
+                    PickedMission(
+                      settingIdx === 0 ? "rounded-tl-md rounded-tr-md" : "",
+                      settingIdx === settings.length - 1
+                        ? "rounded-bl-md rounded-br-md"
+                        : "",
+                      checked
+                        ? "z-10 border-indigo-200 bg-indigo-50"
+                        : "border-gray-200",
+                      "relative flex cursor-pointer border p-4 focus:outline-none"
+                    )
+                  }
+                >
+                  {({ active, checked }) => (
+                    <>
+                      <span
+                        className={PickedMission(
+                          checked
+                            ? "bg-indigo-600 border-transparent"
+                            : "bg-white border-gray-300",
+                          active ? "ring-2 ring-offset-2 ring-indigo-600" : "",
+                          "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center"
+                        )}
+                        aria-hidden="true"
+                      >
+                        <span className="rounded-full bg-white w-1.5 h-1.5" />
+                      </span>
+                      <span className="ml-3 flex flex-col">
+                        <RadioGroup.Label
+                          as="span"
+                          className={PickedMission(
+                            checked ? "text-indigo-900" : "text-gray-900",
+                            "block text-sm font-medium"
+                          )}
+                        >
+                          {setting.name}
+                        </RadioGroup.Label>
+                        <RadioGroup.Description
+                          as="span"
+                          className={PickedMission(
+                            checked ? "text-indigo-700" : "text-gray-500",
+                            "block text-sm"
+                          )}
+                        >
+                          {setting.description}
+                        </RadioGroup.Description>
+                      </span>
+                    </>
+                  )}
+                </RadioGroup.Option>
+              ))}
             </div>
-            <p className="text-gray-700">
-              자녀에게 자신의 옷을 정리하고 걸어두는 미션을 주어 자립성을 기를
-              수 있습니다. 자녀는 옷을 정리하고 옷걸이에 매달아두는 과정을
-              배우고 스스로 처리할 수 있도록 독려됩니다.
-            </p>
-          </div>
-          <div className="mb-4">
-            <div className="flex items-center">
-              <input type="checkbox" name="" id="check" className="mr-2" />
-              <h4 className="font-bold">자신의 옷 정리하고 걸어두기</h4>
-            </div>
-            <p className="text-gray-700">
-              자녀에게 자신의 옷을 정리하고 걸어두는 미션을 주어 자립성을 기를
-              수 있습니다. 자녀는 옷을 정리하고 옷걸이에 매달아두는 과정을
-              배우고 스스로 처리할 수 있도록 독려됩니다.
-            </p>
-          </div>
+          </RadioGroup>
+        </div>
+
+        {/* 버튼 */}
+        <div className="flex justify-end">
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={handleMissionCreate}
+            className="mr-3 rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleModal}
           >
-            등록
+            미션 등록
           </button>
+
+          {/* 모달 확인 */}
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={onClose}
           >
             닫기
           </button>
         </div>
+
+        {/* 실패 모달 */}
+        {showFailModal && (
+          <FailModal
+            closeModal={closeFailModal}
+            message={"추천 미션을 선택해 주세요"}
+          />
+        )}
       </div>
     </div>
   );
