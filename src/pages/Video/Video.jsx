@@ -146,11 +146,15 @@ export default function Video() {
 		connectionRef.current = peer;
 	};
 
-	const leaveCall = () => {
-		setCallEnded(true);
-		socket.disconnect();
-		connectionRef.current.destroy();
-	};
+  const leaveCall = () => {
+    setCallEnded(true);
+    setIsCalling(false);
+    socket.disconnect();
+	socket.emit("callEnd")
+    connectionRef.current.destroy();
+    // force a page reload
+    window.location.reload();
+  };
 
 	const handleMuteClick = () => {
 		stream.getAudioTracks().forEach((track) => {
