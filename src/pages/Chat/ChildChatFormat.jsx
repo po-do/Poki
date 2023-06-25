@@ -499,7 +499,7 @@ useEffect(() => {
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full bg-gray-50"
+                        className="rounded-full w-11 h-11 border-2 rounded-2"
                         src={PodoChar}
                         alt=""
                       />
