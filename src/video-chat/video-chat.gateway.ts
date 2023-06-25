@@ -49,37 +49,47 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   @SubscribeMessage('disconnect')
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
+    this.logger.log("disconnection 발생!")
     try {
       const disconnectedUser = await this.videoChatService.findConnectionBySocketId(socket.id);
       if (disconnectedUser) {
         this.videoChatService.deleteConnection(disconnectedUser)
       }
       this.logger.log("disconnection 발생 😀, 삭제 완료")
-      socket.broadcast.emit("callEnded")
+      //socket.broadcast.emit("callEnded")
     } catch (error) {
+      console.log('An Error occured in disconnect socket')
     }
+  }
+
+  @SubscribeMessage('callEnd')
+  async endCall(
+    @ConnectedSocket() socket: ExtendedSocket
+  ) {
+    console.log('end call')
+    socket.broadcast.emit("callEnded")
   }
 
   @SubscribeMessage('callUser')
   async handleCallUser(
     @ConnectedSocket() socket: ExtendedSocket,
-    @MessageBody() data: {userToCall: string; signalData: any; from: any; name: string}) {
-      console.log('calluser')
-      const {userToCall, signalData, from, name} = data;
-      console.log(userToCall)
-      console.log(connect_socket)
-      
-      try {
-        const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
-  
-        if (userToCallId) {
-          this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
-        } else {
-          socket.emit("noUserToCall", userToCall);
-        }
-      } catch (error) {
+    @MessageBody() data: { userToCall: string; signalData: any; from: any; name: string }) {
+    console.log('calluser')
+    const { userToCall, signalData, from, name } = data;
+    console.log(userToCall)
+    console.log(connect_socket)
+
+    try {
+      const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);
+
+      if (userToCallId) {
+        this.server.to(userToCallId).emit("callUser", { signal: signalData, from, name })
+      } else {
         socket.emit("noUserToCall", userToCall);
       }
+    } catch (error) {
+      socket.emit("noUserToCall", userToCall);
+    }
 
   }
 
