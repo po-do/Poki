@@ -105,6 +105,7 @@ export default function MissionRegister() {
           </button>
         </div>
       </div>
+      <div>
       {/* Modal Area */}
       {missionRegistModal && (
         <SuccessModal
@@ -116,6 +117,8 @@ export default function MissionRegister() {
       {failModal && (
         <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
       )}
+      </div>
+
     </>
   );
 }

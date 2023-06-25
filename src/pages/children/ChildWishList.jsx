@@ -55,11 +55,10 @@ export default function ChildWishList() {
             >
               선물 등록
             </button>
-            
+            {showModal && <LinkRegisterModal onClose={closeModal} />}
           </div>
         </div>
       </div>
-      {showModal && <LinkRegisterModal onClose={closeModal} />}
     </div>
   );
 }
