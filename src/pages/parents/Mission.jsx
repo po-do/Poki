@@ -15,14 +15,14 @@ export default function Mission() {
       <div className="p-6 rounded-2xl border-4">
         <MissionRegister />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 mt-10">
-        <div className="p-6 rounded-2xl border-4">
-          <MissionRegisterList />
-        </div>
-        <div className="p-6 rounded-2xl border-4 mt-4">
-          <MissionTempComplete />
-        </div>
+
+      <div className="p-6 rounded-2xl border-4 mt-10">
+        <MissionRegisterList />
       </div>
+      <div className="p-6 rounded-2xl border-4 mt-10">
+        <MissionTempComplete />
+      </div>
+
       <div className="mt-10 p-6 rounded-2xl border-4">
         <MissionComplete />
       </div>

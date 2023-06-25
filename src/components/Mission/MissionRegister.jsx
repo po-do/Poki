@@ -107,9 +107,9 @@ export default function MissionRegister() {
           />
         )}
 
-        {failModal && (
-          <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
-        )}   
+      {failModal && (
+        <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
+      )}
     </>
   );
 }
