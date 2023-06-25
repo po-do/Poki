@@ -105,20 +105,17 @@ export default function MissionRegister() {
           </button>
         </div>
       </div>
-      <div>
-      {/* Modal Area */}
-      {missionRegistModal && (
-        <SuccessModal
-          closeModal={closeMissionRegistModal}
-          message="미션등록 완료"
-        />
-      )}
+        {/* Modal Area */}
+        {missionRegistModal && (
+          <SuccessModal
+            closeModal={closeMissionRegistModal}
+            message="미션등록 완료"
+          />
+        )}
 
-      {failModal && (
-        <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
-      )}
-      </div>
-
+        {failModal && (
+          <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
+        )}   
     </>
   );
 }
