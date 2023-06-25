@@ -6,7 +6,7 @@ import { MissionRepository } from './mission.repository';
 import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
 import * as config from 'config';
-import { Configuration } from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
 
 const openAIConfig = config.get('openAI');
 const configuration = new Configuration({
