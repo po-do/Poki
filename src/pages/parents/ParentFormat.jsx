@@ -345,13 +345,13 @@ export default function ParentFormat() {
                 </div>
 
                 {/* 햄버거 버튼 */}
-                <button
+                {/* <button
                   type="button"
                   className=" text-white  lg:ml-24"
                   onClick={() => setSidebarOpen(false)}
                 >
                   <Bars3Icon className="h-8 w-7" aria-hidden="true" />
-                </button>
+                </button> */}
               </div>
               <nav className="flex flex-1 flex-col">
                 <ul className="flex flex-1 flex-col gap-y-7">
@@ -482,23 +482,23 @@ export default function ParentFormat() {
             </div>
           </div>
 
-          {/* 헤더 */}
+          {/* 햄버거 버튼 */}
           <div className="lg:pl-72">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-              {/* <button
+              <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
                 onClick={() => setSidebarOpen(true)}
               >
                 <span className="sr-only">Open sidebar</span>
                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-              </button> */}
+              </button>
 
               {/* Separator */}
-              {/* <div
+              <div
                 className="h-6 w-px bg-gray-900/10 lg:hidden"
                 aria-hidden="true"
-              /> */}
+              />
 
               <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                 <div className="relative flex flex-1"></div>
