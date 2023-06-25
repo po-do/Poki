@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique, OneToMany } from "typeorm";
 import { Wishlist } from "../wishlist/wishlist.entity";
 import { Board } from "src/board/board.entity";
+import { PushConnection } from "src/push/push.entity";
 
 @Entity()
 @Unique(['user_id'])
@@ -30,4 +31,7 @@ export class User extends BaseEntity {
 
     @OneToMany(type => Board, board => board.user, { eager: true })
     board: Board;
+
+    @OneToMany(type => PushConnection, push_connection => push_connection.user, { eager: true })
+    push_connection: PushConnection[];
 }
