@@ -94,7 +94,6 @@ export default function ParentFormat() {
     setIssuedData(newData.data.connection_code);
     openIssuCodeModal();
     // force a page reload
-    window.location.reload();
   };
 
   // ==================================================================
