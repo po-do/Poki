@@ -24,6 +24,8 @@ import { socket } from "../../App";
 import grapeLogo from "../../icons/mstile-310x310.png";
 import PodoChar from "../../icons/PodoChar.png";
 
+import { useNotification } from "../../hooks/useNotification.js";
+
 const queryClient = new QueryClient();
 
 const navigation = [
@@ -70,6 +72,8 @@ export default function ParentFormat() {
       console.log("Failed to get connected status:", error);
     }
   };
+
+  useNotification();
 
   useEffect(() => {
     isConnected();
