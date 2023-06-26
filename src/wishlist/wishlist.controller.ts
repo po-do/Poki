@@ -64,11 +64,12 @@ export class WishlistController {
         @GetUserId() id: number,
         @GetUserCode() code: string,
         @GetUser() user: User,
+        @GetUserPushToken() pushToken: string,
     ): Promise<responseWishlistDto> {
 
-        const pushToken = await this.AuthService.getConnectedUserPuhsToken(user);
+        // const pushToken = await this.AuthService.getConnectedUserPuhsToken(user);
         
-        const ConnectPushToken = pushToken[0].fcm_token;
+        // const ConnectPushToken = pushToken[0].fcm_token;
 
 
         if (type !== 'CHILD') {
@@ -88,7 +89,7 @@ export class WishlistController {
         if(response.success === true){
             const title = '위시리스트가 등록되었습니다!';
             const info = `위시리스트: ${response.data.item.ProductName}`;
-            await this.pushService.push_noti(ConnectPushToken, title, info);
+            await this.pushService.push_noti(pushToken, title, info);
         }
 
         return response
