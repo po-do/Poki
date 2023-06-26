@@ -72,6 +72,8 @@ export default function MissionRecommendModal({ onClose, result }) {
 
       await missionCreate(params);
       console.log("등록 성공");
+      
+      // 홈페이지 새로고침
       window.location.reload();
 
       onClose();
