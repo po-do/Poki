@@ -10,13 +10,17 @@ import { responseBoardDto } from './dto/response-board.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+import { GetUserPushToken } from 'src/decorators/get-user.pushtoken.decorator';
+import { PushService } from 'src/push/push.service';
 
 @Controller('board')
 @UseGuards(AuthGuard())
 export class BoardController {
     constructor(
         private boardService: BoardService,
-        private AuthService: AuthService) { }
+        private AuthService: AuthService,
+        private pushService: PushService
+        ) { }
 
     @Post('grape/create')
     @UsePipes(ValidationPipe)
@@ -110,6 +114,7 @@ export class BoardController {
         @Body() CreateBoardDto: CreateBoardDto,
         @GetUserType() type: string,
         @GetUserId() id: number,
+        @GetUserPushToken() pushToken: string
     ): Promise<responseBoardDto> {
         if (type !== 'PARENT') {
             throw new ForbiddenException('only parent can update board');
@@ -129,6 +134,11 @@ export class BoardController {
             },
         };
 
+        const title = '포도알이 발급되었어요! 지금 확인해보세요.';
+        const info = {
+            result: 'success'
+        }
+        await this.pushService.push_noti(pushToken, title, info);
         return response
     }
 
