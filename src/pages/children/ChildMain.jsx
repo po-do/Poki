@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
 import RecentMissionList from "../../components/Mission/ChildMissionList";
 import { getBoardStatus, attachBoard } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
-import { getWishlistByUserId } from "../../api/wishlist.js";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
-  const [pickedName, setPickedName] = useState("");
-  const [pickedImage, setPickedImage] = useState("");
+
+  const boardQuery = useQuery(["boardState"], () => {
+    return getBoardStatus();
+  });
+
   // Overlay Message
   const message = [
     "위시리스트에서 갖고 싶은 선물을 골라보세요",
@@ -35,15 +38,9 @@ export default function ChildMain() {
     setFailAttachModal(false);
   };
 
-  const boardQuery = useQuery(["boardState"], () => {
-    pickedWishlistData();
-    return getBoardStatus();
-  });
-
   useEffect(() => {
     if (boardQuery.isSuccess) {
       const fetchedGrape = boardQuery?.data?.data?.grape;
-
       setGrape(fetchedGrape);
     }
   }, [grape, boardQuery.isSuccess, boardQuery.data]);
@@ -59,22 +56,6 @@ export default function ChildMain() {
       boardQuery.refetch();
     }
   }
-
-  const pickedWishlistData = async () => {
-    try {
-      const wishlistData = await getWishlistByUserId();
-      // 상품이 없는 경우 에러 처리
-      if (wishlistData.data.item[0]) {
-        const PickedItem = wishlistData.data.item.filter(
-          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "TRUE"
-        );
-        setPickedName(PickedItem[0].ProductName);
-        setPickedImage(PickedItem[0].ProductImage);
-      }
-    } catch (error) {
-      console.log("Failed to fetch wishlist data:", error);
-    }
-  };
 
   return (
     <>
@@ -104,6 +85,9 @@ export default function ChildMain() {
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             가지고 있는 포도알
           </h3>
+          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+            현재 가지고 있는
+          </p>
           <div
             className="h-39 w-94 mt-3 
           mb-6 border rounded-md border-gray-200 p-1"
@@ -133,6 +117,7 @@ export default function ChildMain() {
             포도알 붙이기
           </button>
         </div>
+
         {/* 관리현황판 */}
         <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
           <div className="px-4 sm:px-0">
@@ -171,43 +156,10 @@ export default function ChildMain() {
         <div className="flex-1">
           <RecentMissionList />
         </div>
+
+        {/* 등록된 보상 부분*/}
         <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
-        <h4 className="text-lg font-bold">등록된 보상</h4>
-        <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-          
-          {pickedImage ? (
-            <img
-              src={pickedImage}
-              alt={pickedName}
-              className="object-cover object-center sm:h-full sm:w-full"
-            />
-          ) : (
-            <button
-            type="button"
-            onClick={() => (window.location.href = '/format/child/wishlist')}
-            className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          > 
-          <svg
-                className="mx-auto h-12 w-12 text-gray-400"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 48 48"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
-                />
-                </svg>
-              <span className="mt-2 block text-sm font-semibold text-gray-900">
-                원하는 선물을 선택해 보세요.
-              </span>
-            </button>
-          )}
-          </div>
-          <p className="mt-1">{pickedName}</p>
+          <MissionRegisteredGift message={["원하는 선물","원하는 선물을 선택해 주세요"]} />
         </div>
       </div>
 
@@ -221,7 +173,6 @@ export default function ChildMain() {
           message="붙일 수 있는 포도알이 없습니다."
         />
       )}
-
     </>
   );
 }
