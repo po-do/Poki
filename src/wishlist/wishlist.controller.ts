@@ -33,13 +33,13 @@ export class WishlistController {
         @GetUser() user: User,
         @GetUserId() id: number,
         @GetUserType() type: string
-    ): Promise<responseWishlistDto> {
+    ): Promise<responseWishlistGivenDto> {
         
         if (type !== 'CHILD') {
             id = await this.AuthService.getConnectedUser(user);
         }
         
-        const response: responseWishlistDto = {
+        const response: responseWishlistGivenDto = {
             code: 200,
             success: true,
             data: {
@@ -63,9 +63,12 @@ export class WishlistController {
         @GetUserType() type: string,
         @GetUserId() id: number,
         @GetUserCode() code: string,
-        @GetUserPushToken() pushToken: string,
-
+        @GetUser() user: User,
     ): Promise<responseWishlistDto> {
+
+        const pushToken = await this.AuthService.getConnectedUserPuhsToken(user);
+        
+        const ConnectPushToken = pushToken[0].fcm_token;
 
 
         if (type !== 'CHILD') {
@@ -80,14 +83,12 @@ export class WishlistController {
             },
             
         };
+        console.log(response.data.item.ProductName);
 
         if(response.success === true){
             const title = '위시리스트가 등록되었습니다!';
-            const info = {
-                result: 'success',
-                wishlist: response.data.item, 
-            }
-            await this.pushService.push_noti(pushToken, title, info);
+            const info = `위시리스트: ${response.data.item.ProductName}`;
+            await this.pushService.push_noti(ConnectPushToken, title, info);
         }
 
         return response

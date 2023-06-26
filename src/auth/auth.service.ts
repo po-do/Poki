@@ -141,6 +141,9 @@ export class AuthService {
         
         return connectedUser.id;
 
+    
+    
+
 
         // if (connectedUser) {
         //     //return connectedUser;
@@ -156,17 +159,29 @@ export class AuthService {
         //     }
           }
 
-          async getConnectedUser_id(user: User): Promise<any> {
-            const { code, type } = user;
-            const userType: UserType = type as UserType;
-            const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+    async getConnectedUser_id(user: User): Promise<any> {
+        const { code, type } = user;
+        const userType: UserType = type as UserType;
+        const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
 
-            if (!connectedUser) {
-                return null;
-            }
-    
-            return connectedUser.user_id;
+        if (!connectedUser) {
+            return null;
         }
+
+        return connectedUser.user_id;
+        }
+
+    async getConnectedUserPuhsToken(user: User): Promise<any> {
+        const { code, type } = user;
+        const userType: UserType = type as UserType;
+        const connectedUser = await this.userRepository.findOneByCodeAndDifferentType(code, userType);
+
+        if (!connectedUser) {
+            return null;
+        }
+        
+        return connectedUser.push_connection;    
+    }
 
 
     getRandomCode(): string {
