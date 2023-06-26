@@ -99,7 +99,6 @@ export default function ChildWishList() {
 
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-6xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
-          
           {product.map((item) => (
             <div
               key={item.id}
@@ -119,7 +118,9 @@ export default function ChildWishList() {
                   <img
                     src={item.ProductImage}
                     alt={item.ProductName}
-                    className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                    className={`h-full w-full object-cover object-center sm:h-full sm:w-full ${
+                      selectedItem === item.id ? "grayscale" : ""
+                    }`}
                   />
                 </div>
 
@@ -142,7 +143,6 @@ export default function ChildWishList() {
               </div>
             </div>
           ))}
-
         </div>
 
         {/* 선물 선택 버튼 */}
