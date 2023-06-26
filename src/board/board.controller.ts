@@ -114,7 +114,8 @@ export class BoardController {
         @Body() CreateBoardDto: CreateBoardDto,
         @GetUserType() type: string,
         @GetUserId() id: number,
-        @GetUserPushToken() pushToken: string
+        @GetUser() user: User,
+
     ): Promise<responseBoardDto> {
         if (type !== 'PARENT') {
             throw new ForbiddenException('only parent can update board');
@@ -138,6 +139,10 @@ export class BoardController {
         const info = {
             result: 'success'
         }
+
+        const connect_id = await this.AuthService.getConnectedUser(user);
+
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
         await this.pushService.push_noti(pushToken, title, info);
         return response
     }
