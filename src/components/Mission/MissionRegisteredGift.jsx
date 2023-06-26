@@ -3,7 +3,7 @@ import { getWishlistByUserId } from "../../api/wishlist.js";
 import { useState, useEffect } from "react";
 
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
-export default function MissionRegisteredGift() {
+export default function MissionRegisteredGift({message}) {
   const [pickedName, setPickedName] = useState("");
   const [pickedImage, setPickedImage] = useState("");
 
@@ -33,8 +33,7 @@ export default function MissionRegisteredGift() {
 
   return (
     <>
-
-        <h4 className="text-lg font-bold">등록된 보상</h4>
+        <h4 className="text-lg font-bold">{message[0]}</h4>
         <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
           {pickedImage ? (
             <img
@@ -62,7 +61,7 @@ export default function MissionRegisteredGift() {
                   d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
                 />
               </svg>
-              <span className="mt-2 block text-sm font-semibold text-gray-900">보상을 선택해 주세요.</span>
+              <span className="mt-2 block text-sm font-semibold text-gray-900">{message[1]}</span>
             </button>
           )}
         </div>
