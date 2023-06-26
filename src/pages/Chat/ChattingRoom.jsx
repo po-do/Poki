@@ -80,7 +80,7 @@ const ChatRoom = () => {
             <div>
               <div
                 ref={chatContainerEl}
-                className="flex flex-col p-4 max-[720px]:h-[28.5rem] lg:h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
+                className="flex flex-col p-4 max-[720px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
                 {chats.map((chat, index) => (
                   <div
