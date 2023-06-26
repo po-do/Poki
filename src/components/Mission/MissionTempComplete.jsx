@@ -221,8 +221,8 @@ export default function MissionTempComplete() {
           </div>
         </div>
       </div>
-      <div className="mt-8 overflow-y-auto overflow-x-hidden max-h-60">
-        <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
+      <div className="mt-8 overflow-y-auto max-h-60">
+        <div className="-mx-4 -my-2">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
@@ -237,11 +237,8 @@ export default function MissionTempComplete() {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
-                  <tr key={item.id} className="flex justify-between">
-                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                      {item.content}
-                    </td>
-                    <td className="py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                  <tr key={item.id} className="flex">
+                    <td className="py-4 pl-4 pr-4 text-sm font-medium gap-2">
                       <input
                         id="comments"
                         aria-describedby="comments-description"
@@ -250,6 +247,9 @@ export default function MissionTempComplete() {
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         onChange={(e) => handleCheckboxChange(e, item.id)}
                       />
+                    </td>
+                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                      {item.content}
                     </td>
                   </tr>
                 ))}

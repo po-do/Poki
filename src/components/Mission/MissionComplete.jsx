@@ -22,22 +22,28 @@ export default function MissionComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-        <h3 className="text-xl font-bold mb-4">완료된 미션</h3>
+          <h3 className="text-xl font-bold mb-4">완료된 미션</h3>
           <p className="mt-2 text-sm text-gray-700">
             현재 완료된 미션 목록입니다.
           </p>
         </div>
       </div>
-      <div className="mt-8 overflow-y-auto overflow-x-hidden max-h-60">
+      <div className="mt-8 overflow-y-auto max-h-60">
         <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th
+                    scope="col"
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                  >
                     완료 날짜
                   </th>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th
+                    scope="col"
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                  >
                     완료된 미션
                   </th>
                 </tr>
