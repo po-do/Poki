@@ -7,6 +7,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { UseGuards } from "@nestjs/common";
 import { response } from "express";
 
+
+
 @UseGuards(AuthGuard())
 @Injectable()
 export class PushService {
@@ -30,7 +32,7 @@ export class PushService {
       token: pushToken,
       webpush: {
         fcmOptions: {
-          link: 'http://localhost:3000',
+          link: 'https://pokids.site/',
         },
       },
     };
