@@ -15,20 +15,24 @@ const firebaseConfig = {
 };
 
 
+
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
+onBackgroundMessage(messaging, (payload) => {
+  console.log("Received background message ", payload);
+
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
+    icon: "/logo192.png",
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // eslint-disable-next-line no-restricted-globals
+  return self.registration.showNotification(
+    notificationTitle,
+    notificationOptions
+  );
 });
 
 // importScripts("https://www.gstatic.com/firebasejs/3.5.0/firebase-app.js");

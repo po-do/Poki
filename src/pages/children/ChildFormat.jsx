@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { userState } from "../../recoil/user";
 import { socket } from "../../App";
 
+import { useNotification } from "../../hooks/useNotification.js";
+
 const queryClient = new QueryClient();
 
 const navigation = [
@@ -53,6 +55,8 @@ export default function ChildFormat() {
   const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
   const [showAlarm, setShowAlarm] = useState(false);
+
+  useNotification();
 
   const openRegistCodeModal = () => {
     setRegistCodeModal(true);
