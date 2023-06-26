@@ -68,7 +68,8 @@ export default function ParentMain() {
             </div>
           </div>
         </div>
-        {/* 포도알 보드 */}
+      <div className="mx-32 px-8 py-4 sm:px-6 sm:py-4">
+                {/* 포도알 보드 */}
         <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
           <Grapes GrapesCount={grape.attached_grapes} message={message} />
           {/* <Grapes /> */}
@@ -121,6 +122,9 @@ export default function ParentMain() {
             </div>
           </div>
         </div>
+      </div>
+
+
       </div>
     </>
   );
