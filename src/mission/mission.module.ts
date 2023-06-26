@@ -12,20 +12,23 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { PushService } from 'src/push/push.service';
+import { PushConnectionRepository } from 'src/push/push-connection.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       MissionRepository,
       BoardRepository,
-      UserRepository,]),
+      UserRepository,
+      PushConnectionRepository,]),
       AuthModule,
       BoardModule
   ],
   controllers: [MissionController],
   providers: [
     MissionService, 
-    MissionRepository, 
+    MissionRepository,
+    PushConnectionRepository, 
     BoardRepository,
     BoardService,
     UserRepository,

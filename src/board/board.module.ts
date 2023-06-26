@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { PushService } from 'src/push/push.service';
+import { PushConnectionRepository } from 'src/push/push-connection.repository';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { PushService } from 'src/push/push.service';
     TypeOrmModule.forFeature([
       BoardRepository,
       UserRepository,
+      PushConnectionRepository,
     ]),
     AuthModule,
   ],
@@ -23,6 +25,7 @@ import { PushService } from 'src/push/push.service';
   providers: [
     BoardService, 
     BoardRepository,
+    PushConnectionRepository,
     UserRepository,
     JwtService,
     AuthService,
