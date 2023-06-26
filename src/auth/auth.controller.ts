@@ -7,12 +7,17 @@ import { GetUser } from '../decorators/get-user.decorator';
 import { User } from './user.entity';
 import { UserType } from './user-type.enum';
 import { PushDto } from 'src/push/dto/push.dto';
+import { GetUserId } from 'src/decorators/get-user.userid.decorator';
+import { PushService }  from 'src/push/push.service';   
+import { GetUserType } from 'src/decorators/get-user.type.decorator';
+
 
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private authService: AuthService,
+        private pushService: PushService,
     ) {}
 
     //localhost:3000/auth/signup
@@ -109,4 +114,21 @@ export class AuthController {
                 };
             }
     }
+
+    @Get('/getPushToken')
+    @UseGuards(AuthGuard())
+    async getPushTokenByUserId(
+        @GetUser() user: User,
+       
+    ): Promise<any> {
+        console.log(user);
+      
+        const id = await this.authService.getConnectedUser(user);
+        
+        
+        const response =  await this.pushService.getPushToeknByUserId(id);
+
+        return response;
+    
+        };
 }

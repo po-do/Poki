@@ -14,7 +14,7 @@ import { BoardService } from 'src/board/board.service';
 import * as config from 'config';
 import axios from 'axios';
 import { PushService } from 'src/push/push.service';
-import { GetUserPushToken } from 'src/decorators/get-user.pushtoken.decorator';
+
 
 const openAPIConfig = config.get('openAPI');
 
@@ -64,12 +64,15 @@ export class WishlistController {
         @GetUserId() id: number,
         @GetUserCode() code: string,
         @GetUser() user: User,
-        @GetUserPushToken() pushToken: string,
+        // @GetUserPushToken() pushToken: string,
     ): Promise<responseWishlistDto> {
 
-        // const pushToken = await this.AuthService.getConnectedUserPuhsToken(user);
+        // // const pushToken = await this.AuthService.getConnectedUserPuhsToken(user);
         
-        // const ConnectPushToken = pushToken[0].fcm_token;
+        // // const ConnectPushToken = pushToken[0].fcm_token;
+        const connect_id = await this.AuthService.getConnectedUser(user);
+
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
 
         if (type !== 'CHILD') {
