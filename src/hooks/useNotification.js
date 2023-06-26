@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Login from "./pages/General/Login";
-import axios from "axios";
-import io from "socket.io-client";
-// foreground import
-import { messaging } from "./firebase";
-import { getToken } from "firebase/messaging";
+// useNotification.js
+import { useEffect, useState } from "react";
+import { messaging } from "../firebase";
+import { getToken, onMessage } from "firebase/messaging";
 
-axios.defaults.withCredentials = true;
-// export const socket = io("http://3.34.134.62:3000");
-// export const socket = io("http://localhost:4000/chat");
-// export const socket = io("http://localhost:4000/chat");
-//export const socket = io("https://api.pokids.site:8000");
-export const socket = io(process.env.REACT_APP_SOCKET_URL);
-
-function App() {
+export function useNotification() {
   const [tokenFcm, setTokenFcm] = useState("");
 
   async function requestPermission() {
@@ -38,9 +28,20 @@ function App() {
 
   useEffect(() => {
     requestPermission();
+
+    const unsubscribe = onMessage(messaging, (payload) => {
+      console.log("Message received in the foreground: ", payload);
+
+      // Create and display a browser notification
+      if (Notification.permission === "granted") {
+        new Notification(payload.notification.title, {
+          body: payload.notification.body,
+          icon: "/logo192.png",
+          // you can add more options here if needed
+        });
+      }
+    });
+
+    return unsubscribe;
   }, []);
-
-  return <Login token={tokenFcm} />;
 }
-
-export default App;
