@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useState, useEffect, useCallback, useRef } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -16,7 +16,6 @@ import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getConnectedUser } from "../../api/auth.js";
 
-import SuccessModal from "../../components/Modal/SuccessModal";
 // ======================================
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +25,7 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 import PodoChar from "../../icons/PodoChar.png";
 
 import { useNotification } from "../../hooks/useNotification.js";
+import { async } from "@firebase/util";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +70,13 @@ export default function ParentFormat() {
   const [issuedData, setIssuedData] = useState("");
   const [isConnect, setIsConnect] = useState("");
 
+  const [timer, setTimer] = useState(180000);
+  const [minute, setMinute] = useState(3);
+  const [second, setSecond] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  const [codeText, setCodeText] = useState("발급");
+
   const isConnected = async () => {
     try {
       const state = await getConnectedUser();
@@ -84,7 +91,47 @@ export default function ParentFormat() {
 
   useEffect(() => {
     isConnected();
-  }, []);
+
+    let tempMinute = parseInt(timer / 1000 / 60).toString();
+    let tempSecond = parseInt(timer / 1000 % 60).toString();
+    if (tempSecond.length === 1) tempSecond = "0" + tempSecond;
+    setMinute(tempMinute);
+    setSecond(tempSecond);
+
+    if(timer <= 0){
+      setCodeText("재발급");
+      setTimer(180000); // Reset the timer to 3 minutes
+      stopTimer();
+  }
+  }, [timer]);
+
+  useEffect(() => {
+    let intervalId;
+  
+    if (running && !isConnect) {
+      console.log("111");
+      intervalId = setInterval(() => {
+        setTimer((time) => time - 1000);
+      }, 1000);
+    } else {
+      clearInterval(intervalId); // Clear the interval if not running
+    }
+  
+    return () => clearInterval(intervalId);
+  }, [running]);
+
+  const startTimer = () => {
+    setRunning(true);
+  };
+  
+  const stopTimer = () => {
+    setRunning(false);
+  };
+
+  const requestAgain = async () => {
+        setTimer(180000); // Reset the timer to 3 minutes
+        startTimer(); // Start the timer
+  };
 
   // const [issuCodeModal, setIssuCodeModal] = useState(false);
 
@@ -99,6 +146,7 @@ export default function ParentFormat() {
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
+    requestAgain();
     // openIssuCodeModal();
     // force a page reload
   };
@@ -282,7 +330,7 @@ export default function ParentFormat() {
                                     className="h-6 w-6 shrink-0 text-indigo-200"
                                     aria-hidden="true"
                                   />
-                                  코드 발급
+                                  코드 발급 {minute} : {second}
                                 </div>
                                 <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                                   <div className="flex gap-x-4">
@@ -300,7 +348,7 @@ export default function ParentFormat() {
                                       className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                       onClick={codeIssu}
                                     >
-                                      발급
+                                      {codeText}
                                     </button>
                                   </div>
                                 </div>
@@ -430,7 +478,7 @@ export default function ParentFormat() {
                             className="h-6 w-6 shrink-0 text-indigo-200"
                             aria-hidden="true"
                           />
-                          코드 발급
+                          코드 발급 {minute} : {second}
                         </div>
                         <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                           <div className="flex gap-x-4">
@@ -448,7 +496,7 @@ export default function ParentFormat() {
                               className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                               onClick={codeIssu}
                             >
-                              발급
+                              {codeText}
                             </button>
                           </div>
                         </div>
