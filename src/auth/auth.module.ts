@@ -28,7 +28,7 @@ const redisConfig = config.get('redis');
     TypeOrmModule.forFeature([UserRepository, PushConnectionRepository]),
     CacheModule.register({
       store: redisStore,
-      host: 'localhost'as string,
+      host: redisConfig.host,
       port: redisConfig.port
     }),
   ],

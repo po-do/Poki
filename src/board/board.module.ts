@@ -26,8 +26,8 @@ const redisConfig = config.get('redis');
     AuthModule,
     CacheModule.register({
       store: redisStore,
-      host: 'localhost'as string,
-      port: 6379
+      host: redisConfig.host,
+      port: redisConfig.port
     }),
   ],
   controllers: [BoardController],

@@ -30,7 +30,7 @@ const redisConfig = config.get('redis');
       BoardModule,
       CacheModule.register({
         store: redisStore,
-        host: 'localhost'as string,
+        host: redisConfig.host,
         port: redisConfig.port
       }),
   ],

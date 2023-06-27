@@ -29,7 +29,7 @@ const redisConfig = config.get('redis');
         VideoChatModule,
         CacheModule.register({
             store: redisStore,
-            host: 'localhost'as string,
+            host: redisConfig.host,
             port: redisConfig.port
           }),
     ],
