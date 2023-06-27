@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
 import { getWishlistByUserId } from "../../api/wishlist.js";
+import { Dialog, Transition } from "@headlessui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +25,7 @@ export default function ChildWishList() {
   const fetchWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
+      console.log("wishlistData",wishlistData);
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );
@@ -35,11 +38,9 @@ export default function ChildWishList() {
   return (
     <div className="relative bg-white lg:pb-12">
       {/* 제목 */}
-      <div className="px-12 py-7">
-        <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+      <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
           나의 위시리스트 목록
         </p>
-      </div>
 
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-6xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-8">
@@ -62,7 +63,7 @@ export default function ChildWishList() {
             >
               선물 등록
             </button>
-            {showModal && <LinkRegisterModal closeModal={closeModal} />}
+            {showModal && <LinkRegisterModal onClose={closeModal} />}
           </div>
         </div>
       </div>

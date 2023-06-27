@@ -1,6 +1,12 @@
 import React from "react";
-
-export default function ChildProductCard({ handleDeleteCard, item }) {
+import { deleteWishList } from "../../api/wishlist";
+export default function ChildProductCard({ item }) {
+  const handleDeleteCard = async () => {
+    const param = {
+      itemid: item.id,
+    };
+    await deleteWishList(param);
+  };
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">

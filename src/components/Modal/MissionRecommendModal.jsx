@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import FailModal from "../../components/Modal/FailModal";
+import FailModal from "./FailModal";
 import { missionCreate } from "../../api/mission.js";
 
 function PickedMission(...classes) {
