@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ForbiddenException } from '@nestjs/common';
 import { PushService } from 'src/push/push.service';
 import { PushDto } from 'src/push/dto/push.dto';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +21,8 @@ export class AuthService {
         @InjectRepository(UserRepository)
         private userRepository: UserRepository,
         private jwtService: JwtService,
-        private pushService: PushService
+        private pushService: PushService,
+        @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     ) {}
 
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -74,8 +77,9 @@ export class AuthService {
             };
         }
 
-        user.code = randomCode;
-        await user.save();
+        await this.cacheManager.set(randomCode, user.user_id, {ttl: 180});
+        // user.code = randomCode;
+        // await user.save();
 
         const response = {
             code: 200,
@@ -100,13 +104,21 @@ export class AuthService {
 
     async updateChildCode(child_id: string, connection_code: string): Promise<{ connected: boolean; type: UserType }> {
         const child = await this.userRepository.findOneBy({ user_id: child_id });
-        const parent = await this.userRepository.findOne( { where: { code: connection_code, type: UserType.PARENT } });
+        //const parent = await this.userRepository.findOne( { where: { code: connection_code, type: UserType.PARENT } });
+        const parent_id = await this.cacheManager.get(connection_code);
 
-
-        if (parent) {
+        if (parent_id) {
             // child.code = connection_code;
             // await this.userRepository.save(child);
             // 변동 사항 : uuid를 저장하는 것으로 수정
+            const parent = await this.userRepository.findOneBy({ user_id: parent_id as string});
+            // console.log(parent);
+            // console.log(parent_id);
+
+            if (!parent || parent.type !== UserType.PARENT) {
+                throw new NotFoundException('Parent not found');
+            }
+
             const uuid = uuidv4();
             
             child.code = uuid;
@@ -114,6 +126,9 @@ export class AuthService {
 
             await this.userRepository.save(child);
             await this.userRepository.save(parent);
+
+            // 레디스에서 해당 임시 코드 삭제
+            await this.cacheManager.del(connection_code);
 
             return { connected: true, type: UserType.PARENT };
         } else {
@@ -184,7 +199,7 @@ export class AuthService {
     }
 
 
-    getRandomCode(): string {
+    private getRandomCode(): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let code = '';
         for (let i = 0; i < 4; i++) {

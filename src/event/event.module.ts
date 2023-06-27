@@ -12,7 +12,11 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { UserRepository } from 'src/auth/user.repository';
 import { VideoChatModule } from 'src/video-chat/video-chat.module';
 import { PushService } from 'src/push/push.service';
+import * as redisStore from 'cache-manager-redis-store'
+import { CacheModule } from '@nestjs/cache-manager';
+import * as config from 'config';
 
+const redisConfig = config.get('redis');
 
 @Module({
     imports: [
@@ -22,7 +26,12 @@ import { PushService } from 'src/push/push.service';
             UserRepository,
         ]),
         AuthModule,
-        VideoChatModule
+        VideoChatModule,
+        CacheModule.register({
+            store: redisStore,
+            host: redisConfig.host,
+            port: redisConfig.port
+          }),
     ],
     providers: [
         EventGateway, 
