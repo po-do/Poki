@@ -9,9 +9,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { PushService } from 'src/push/push.service';
 import { PushConnectionRepository } from 'src/push/push-connection.repository';
-import { PushModule } from 'src/push/push.module';
+import * as redisStore from 'cache-manager-redis-store'
+import { CacheModule } from '@nestjs/cache-manager';
+
  
 const jwtConfig = config.get('jwt');
+const redisConfig = config.get('redis');
 
 @Module({
   imports : [
@@ -23,6 +26,12 @@ const jwtConfig = config.get('jwt');
       }
     }),
     TypeOrmModule.forFeature([UserRepository, PushConnectionRepository]),
+    CacheModule.register({
+      store: redisStore,
+      host: redisConfig.host,
+      port: redisConfig.port,
+      password: redisConfig.password
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, UserRepository, JwtStrategy, PushService, PushConnectionRepository],
