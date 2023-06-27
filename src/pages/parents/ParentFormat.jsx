@@ -79,20 +79,20 @@ export default function ParentFormat() {
     isConnected();
   }, []);
 
-  const [issuCodeModal, setIssuCodeModal] = useState(false);
+  // const [issuCodeModal, setIssuCodeModal] = useState(false);
 
-  const openIssuCodeModal = () => {
-    setIssuCodeModal(true);
-  };
+  // const openIssuCodeModal = () => {
+  //   setIssuCodeModal(true);
+  // };
 
-  const closeIssuCodeModal = () => {
-    setIssuCodeModal(false);
-  };
+  // const closeIssuCodeModal = () => {
+  //   setIssuCodeModal(false);
+  // };
 
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
-    openIssuCodeModal();
+    // openIssuCodeModal();
     // force a page reload
   };
 
@@ -526,13 +526,13 @@ export default function ParentFormat() {
         </div>
 
         {/* Modal Area */}
-        {issuCodeModal && (
+        {/* {issuCodeModal && (
           <SuccessModal
             closeModal={closeIssuCodeModal}
             message="코드발급 완료"
             className="invisible"
           />
-        )}
+        )} */}
       </QueryClientProvider>
     </>
   );
