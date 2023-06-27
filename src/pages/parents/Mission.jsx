@@ -27,9 +27,9 @@ export default function Mission() {
           <MissionTempComplete />
         </div>
 
-        <div className="p-6 rounded-2xl border-4 mt-5">
+        {/* <div className="p-6 rounded-2xl border-4 mt-5">
           <MissionComplete />
-        </div>
+        </div> */}
       </div>
     </div>
   );

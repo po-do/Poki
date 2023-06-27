@@ -33,7 +33,7 @@ export async function createUserCode(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get("/auth/user/code");
-  console.log("createUserCode");
+  console.log("createUserCode : ",response);
   return response.data;
 }
 

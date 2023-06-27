@@ -3,7 +3,7 @@ import { getWishlistByUserId } from "../../api/wishlist.js";
 import { useState, useEffect } from "react";
 
 // 부모와 연결된 자식의 위시리스트를 가져와서 그 위시리스트의 상태가 picked인 것을 가져와 이미지를 뿌려주면된다.
-export default function MissionRegisteredGift({message}) {
+export default function MissionRegisteredGift({message, link}) {
   const [pickedName, setPickedName] = useState("");
   const [pickedImage, setPickedImage] = useState("");
 
@@ -44,7 +44,7 @@ export default function MissionRegisteredGift({message}) {
           ) : (
             <button
               type="button"
-              onClick={() => (window.location.href = '/format/parent/wishlist')}
+              onClick={() => (window.location.href = `${link}/wishlist`)}
               className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <svg

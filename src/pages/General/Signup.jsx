@@ -51,7 +51,7 @@ export default function Signup() {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
-          Sign up to your account
+          Poki에 가입해 주세요
         </h2>
       </div>
 
@@ -60,9 +60,9 @@ export default function Signup() {
           <div>
             <label
               htmlFor="text"
-              className="block text-sm font-medium leading-6 text-black"
+              className="block text-sm font-bold leading-6 text-black"
             >
-              User Name
+              이름
             </label>
             <div className="mt-2">
               <input
@@ -79,9 +79,9 @@ export default function Signup() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-black"
+              className="block text-sm font-bold leading-6 text-black"
             >
-              User ID
+              아이디
             </label>
             <div className="mt-2">
               <input
@@ -96,12 +96,12 @@ export default function Signup() {
             </div>
           </div>
           <div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-black"
-              >
-                Password
+                className="block text-sm font-bold leading-6 text-black"
+                >
+                패스워드
               </label>
             </div>
             <div className="mt-2">
@@ -128,7 +128,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-parent"
-                className="block text-sm font-medium leading-6 text-black"
+                className="block text-sm font-bold leading-6 text-black"
               >
                 부모님
               </label>
@@ -143,7 +143,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-child"
-                className="block text-sm font-medium leading-6 text-black"
+                className="block text-sm font-bold leading-6 text-black"
               >
                 자녀
               </label>

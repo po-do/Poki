@@ -162,6 +162,7 @@ export default function ChildMain() {
           <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
             <MissionRegisteredGift
               message={["원하는 선물", "원하는 선물을 선택해 주세요"]}
+              link ={`child`}
             />
           </div>
         </div>
