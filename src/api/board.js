@@ -29,7 +29,7 @@ export async function getBoardStatus() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  // console.log("getBoardStatus 호출");
+  console.log("getBoardStatus 호출");
   const response = await client.post(`/board/grape/user`);
   return response.data;
 }

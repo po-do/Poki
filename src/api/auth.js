@@ -13,6 +13,7 @@ export async function signIn(params) {
   ] = `Bearer ${response.data.accessToken}`;
   // 토큰을 로컬 스토리지에 저장
   localStorage.setItem("access_token", response.data.accessToken);
+  console.log("signIn");
   return response;
 }
 
@@ -23,6 +24,7 @@ export async function signUp(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/auth/signup", params.request);
+  console.log("signUp");
   return response.data;
 }
 
@@ -44,6 +46,7 @@ export async function connectUserCode(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.patch("/auth/user/connect", params.request);
+  console.log("connectUserCode");
   return response.data;
 }
 
@@ -54,6 +57,7 @@ export async function getUserType(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/user/type/${params.userid}`);
+  console.log("getUserType");
   return response.data;
 }
 
@@ -64,6 +68,7 @@ export async function getConnectedUser(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/connected-user`);
+  console.log("getConnectedUser");
   return response.data;
 }
 
@@ -74,5 +79,6 @@ export async function getConnectedUserId(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/connected-user/id`);
+  console.log("getConnectedUserId");
   return response.data;
 }

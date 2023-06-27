@@ -13,6 +13,7 @@ import {
   parse,
   parseISO,
   startOfToday,
+  isAfter,
 } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 import { missionReadChild } from "../../api/mission.js";
@@ -22,11 +23,13 @@ function classNames(...classes) {
 }
 
 export default function Example() {
-  let today = startOfToday();
+  // let today = startOfToday();
+  let today = new Date(2023, 5, 29);
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-  const [missions, setMissions] = useState([]);
+  const [completedMissions, setCompletedMissions] = useState([]);
+  const [reservedMissions, setReservedMissions] = useState([]);
 
   useEffect(() => {
     getMission();
@@ -34,7 +37,19 @@ export default function Example() {
 
   const getMission = async () => {
     const missionsData = await missionReadChild();
-    setMissions(missionsData);
+
+    const compMissions = missionsData.filter((data) => {
+      return parseISO(data.completed_date) <= today;
+    });
+
+    const resMissions = missionsData.filter((data) => {
+      return parseISO(data.created_date) > today;
+    });
+    // console.log(compMissions);
+    // console.log(resMissions);
+
+    setCompletedMissions(compMissions);
+    setReservedMissions(resMissions);
   };
 
   let days = eachDayOfInterval({
@@ -52,9 +67,15 @@ export default function Example() {
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
-  let selectedDayMeetings = missions.filter((mission) =>
+  let selectedCompDayMeetings = completedMissions.filter((mission) =>
+    isSameDay(parseISO(mission.completed_date), selectedDay)
+  );
+  // console.log("selectedCompDayMeetings", selectedCompDayMeetings);
+
+  let selectedResDayMeetings = reservedMissions.filter((mission) =>
     isSameDay(parseISO(mission.created_date), selectedDay)
   );
+  // console.log("selectedResDayMeetings", selectedResDayMeetings);
 
   return (
     <div className="pt-16">
@@ -132,10 +153,19 @@ export default function Example() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
-                    {missions.some((mission) =>
-                      isSameDay(parseISO(mission.created_date), day)
+                    {/* 완료된 미션 */}
+                    {completedMissions.some((mission) =>
+                      isSameDay(parseISO(mission.completed_date), day)
                     ) && (
-                      <div className="w-1 h-1 rounded-full bg-sky-500"></div>
+                      <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                    )}
+                    {/* 예약된 미션 */}
+                    {reservedMissions.some(
+                      (mission) =>
+                        isAfter(parseISO(mission.created_date), new Date()) &&
+                        isSameDay(parseISO(mission.created_date), day)
+                    ) && (
+                      <div className="w-2 h-2 rounded-full bg-gray-500"></div>
                     )}
                   </div>
                 </div>
@@ -143,15 +173,18 @@ export default function Example() {
             </div>
           </div>
           <section className="mt-12 md:mt-0 md:pl-14">
-            <h2 className="font-semibold text-gray-900">오늘의 미션</h2>
+            <h2 className="font-semibold text-gray-900">미션</h2>
             <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedDayMeetings.length > 0 ? (
-                selectedDayMeetings.map((mission) => (
-                  <Meeting key={mission.id} Mission={mission} />
-                ))
-              ) : (
-                <p>No mission for today.</p>
-              )}
+              {selectedCompDayMeetings.length > 0
+                ? selectedCompDayMeetings.map((mission) => (
+                    <Meeting key={mission.id} Mission={mission} />
+                  ))
+                : ""}
+              {selectedResDayMeetings.length > 0
+                ? selectedResDayMeetings.map((mission) => (
+                    <Meeting key={mission.id} Mission={mission} flag={true} />
+                  ))
+                : ""}
             </ol>
           </section>
         </div>
@@ -160,7 +193,7 @@ export default function Example() {
   );
 }
 
-function Meeting({ Mission }) {
+function Meeting({ Mission, flag }) {
   // let DateTime = parseISO(meeting.MissionDatetime);
 
   return (
@@ -168,7 +201,11 @@ function Meeting({ Mission }) {
       <div className="flex-auto">
         <p className="text-gray-900">{Mission.content}</p>
         <p className="mt-0.5">
-          <time dateTime={Mission.created_date}>{Mission.created_date}</time>
+          <time dateTime={Mission.completed_date}>
+            {flag === true
+              ? `${Mission.created_date} 예약`
+              : `${Mission.completed_date} 완료`}
+          </time>
         </p>
       </div>
       <Menu
