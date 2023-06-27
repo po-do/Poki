@@ -100,6 +100,7 @@ export default function ParentFormat() {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
     openIssuCodeModal();
+    // force a page reload
   };
 
   // ==================================================================

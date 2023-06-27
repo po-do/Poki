@@ -98,11 +98,12 @@ export default function ChildFormat() {
         },
       };
       const flag = await connectUserCode(params);
-      console.log(flag.connected);
+      // console.log(flag.connected);
       if (flag.connected === true) {
-        console.log("성공");
+        console.log("등록 성공");
         setInputReadOnly(flag.connected);
         openRegistCodeModal();
+        // force a page reload
       } else {
         console.log("입력 코드가 틀렸다는 모달 나와야함");
         // 입력 코드가 틀렸다는 모달 나와야함
