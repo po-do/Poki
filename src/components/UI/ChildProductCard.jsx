@@ -1,13 +1,6 @@
 import React from "react";
-import { deleteWishList } from "../../api/wishlist.js";
 
-export default function ChildProductCard({ item }) {
-  const handleDeleteCard = async () => {
-    const param = {
-      itemid: item.id,
-    };
-    await deleteWishList(param);
-  };
+export default function ChildProductCard({ handleDeleteCard, item }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
@@ -19,7 +12,7 @@ export default function ChildProductCard({ item }) {
 
     {/* 상품 이름 */}
     <div className="flex flex-1 flex-col space-y-2 p-4 ">
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-10 ">
+        <h3 className="text-sm font-medium text-gray-900">
           {item.ProductName}
       </h3>
     </div>

@@ -108,7 +108,7 @@ export default function ChildWishList() {
               onClick={() => handleItemClick(item.id)}
             >
               <div
-                className={`group relative flex flex-col overflow-hidden rounded-lg ${
+                className={`group relative flex flex-col overflow-hidden rounded-lg  border border-gray-200${
                   selectedItem === item.id
                     ? "border-gray-500"
                     : "border-gray-300"
@@ -166,6 +166,7 @@ export default function ChildWishList() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
