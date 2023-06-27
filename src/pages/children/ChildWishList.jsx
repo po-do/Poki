@@ -62,7 +62,7 @@ export default function ChildWishList() {
             >
               선물 등록
             </button>
-            {showModal && <LinkRegisterModal onClose={closeModal} />}
+            {showModal && <LinkRegisterModal closeModal={closeModal} />}
           </div>
         </div>
       </div>
