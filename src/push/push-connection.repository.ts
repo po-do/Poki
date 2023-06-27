@@ -13,9 +13,10 @@ export class PushConnectionRepository extends Repository<PushConnection> {
 
     async savePushToken(id: number, pushDto: PushDto): Promise <void> {
         const { fcm_token } = pushDto;
+
         const isTokenExists = await this.isTokenExists(id, fcm_token);
         
-        if (!isTokenExists) {
+        if (!isTokenExists && fcm_token == null) {
             const pushConnection = this.create({
                 fcm_token,
                 user: { id },
