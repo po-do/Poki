@@ -7,6 +7,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { UseGuards } from "@nestjs/common";
 import { response } from "express";
 import { NotFoundException } from "@nestjs/common";
+import { getMessaging } from "firebase-admin/messaging";
 
 
 
@@ -38,10 +39,9 @@ export class PushService {
         return fcm_token_list;
 
     }
-
+  
   async push_noti(pushToken: string[], title: string, body: any): Promise <void> {
-    // Firebase 서비스 계정 키(JSON 파일)의 절대 경로를 가져옵니다.
-    // 푸시 메시지 내용
+  
     const message = {
       notification: {
         title: title,
@@ -51,23 +51,22 @@ export class PushService {
       webpush: {
         fcmOptions: {
           link: 'https://pokids.site/',
-        },
+        }
+      ,
       },
     };
     console.log(message);
     console.log(pushToken);
-    console.log(response);
+    
     // 푸시 알림 보내기
-    admin
-      .messaging()
-      .sendEachForMulticast(message)
-      .then((response) => {
-        // Response is a message ID string.
-        console.log('Successfully sent message:', response);
-      })
-      .catch((error) => {
-        console.log('Error sending message:', error);
-      });
+    getMessaging().sendEachForMulticast(message)
+    .then((response) => {
+      // Response is a message ID string.
+      console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+    });
   }
 
 }
