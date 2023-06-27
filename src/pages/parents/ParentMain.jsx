@@ -109,6 +109,7 @@ export default function ParentMain() {
           <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
             <MissionRegisteredGift
               message={["등록된 보상", "보상을 선택해 주세요"]}
+              link ={`parent`}
             />
             {(grape?.attached_grapes === 31 ? true : false) && (
               <button

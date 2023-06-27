@@ -3,11 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { missionCreate } from "../../api/mission.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+import MissionReserveModal from "../../components/Modal/MissionReserveModal.jsx";
 
 export default function MissionRegister() {
   const [missionContent, setMissionContent] = useState("");
   const queryClient = useQueryClient();
   const [missionRegistModal, setMissionRegistModal] = useState(false);
+  const [missionReserveModal, setmissionReserveModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
 
   const openMissionRegistModal = () => {
@@ -16,6 +18,14 @@ export default function MissionRegister() {
 
   const closeMissionRegistModal = () => {
     setMissionRegistModal(false);
+  };
+
+  const openMissionReserveModal = () => {
+    setmissionReserveModal(true);
+  };
+
+  const closeMissionReserveModal = () => {
+    setmissionReserveModal(false);
   };
 
   const openFailModal = () => {
@@ -36,6 +46,15 @@ export default function MissionRegister() {
     } else {
       openMissionRegistModal();
       handleMissionCreate();
+    }
+  };
+
+  const handleReserveClick = () => {
+    if (missionContent === "") {
+      openFailModal();
+    } else {
+      // 예약 일자
+      openMissionReserveModal();
     }
   };
 
@@ -97,13 +116,28 @@ export default function MissionRegister() {
           >
             미션 등록
           </button>
+
+          <button
+            className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleReserveClick}
+          >
+            미션 예약
+          </button>
         </div>
+
       </div>
         {/* Modal Area */}
         {missionRegistModal && (
           <SuccessModal
             closeModal={closeMissionRegistModal}
             message="미션등록 완료"
+          />
+        )}
+
+        {missionReserveModal && (
+          <MissionReserveModal
+            closeModal={closeMissionReserveModal}
+            missionContent = {missionContent}
           />
         )}
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import MissionRecommendModal from "./MissionRecommendModal";
+import MissionRecommendModal from "../Modal/MissionRecommendModal";
 import { missionRecommend } from "../../api/mission.js";
 
 const ageOptions = [

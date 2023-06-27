@@ -12,7 +12,7 @@ import {
 import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { connectUserCode, getConnectedUser } from "../../api/auth.js";
-import SuccessModal from "../../components/Modal/SuccessModal";
+// import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import grapeLogo from "../../icons/mstile-310x310.png";
 import PodoChar from "../../icons/PodoChar.png";
@@ -51,20 +51,19 @@ export default function ChildFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [inputData, setInputData] = useState("");
   const [inputReadOnly, setInputReadOnly] = useState(false);
-  const [registCodeModal, setRegistCodeModal] = useState(false);
+  // const [registCodeModal, setRegistCodeModal] = useState(false);
   const [registCodeFailModal, setRegistCodeFailModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
-  const [showAlarm, setShowAlarm] = useState(false);
 
   useNotification();
 
-  const openRegistCodeModal = () => {
-    setRegistCodeModal(true);
-  };
+  // const openRegistCodeModal = () => {
+  //   setRegistCodeModal(true);
+  // };
 
-  const closeRegistCodeModal = () => {
-    setRegistCodeModal(false);
-  };
+  // const closeRegistCodeModal = () => {
+  //   setRegistCodeModal(false);
+  // };
 
   const openFailModal = () => {
     setFailModal(true);
@@ -102,7 +101,7 @@ export default function ChildFormat() {
       if (flag.connected === true) {
         console.log("등록 성공");
         setInputReadOnly(flag.connected);
-        openRegistCodeModal();
+        // openRegistCodeModal();
         // force a page reload
       } else {
         console.log("입력 코드가 틀렸다는 모달 나와야함");
@@ -513,9 +512,9 @@ export default function ChildFormat() {
         </div>
 
         {/* Modal Area */}
-        {registCodeModal && (
+        {/* {registCodeModal && (
           <SuccessModal closeModal={closeRegistCodeModal} message="등록완료" />
-        )}
+        )} */}
         {failModal && (
           <FailModal closeModal={closeFailModal} message="입력값이 없습니다." />
         )}
