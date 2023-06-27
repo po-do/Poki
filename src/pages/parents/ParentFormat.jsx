@@ -9,6 +9,7 @@ import {
   XMarkIcon,
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
+  CalendarIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router-dom";
 import { createUserCode } from "../../api/auth.js";
@@ -34,6 +35,12 @@ const navigation = [
     name: "미션",
     href: "/format/parent/mission",
     icon: DocumentCheckIcon,
+    current: false,
+  },
+  {
+    name: "캘린더",
+    href: "/format/parent/calendar",
+    icon: CalendarIcon,
     current: false,
   },
   {

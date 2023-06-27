@@ -23,7 +23,7 @@ import ChildMain from "./pages/children/ChildMain";
 import ChildWishList from "./pages/children/ChildWishList";
 
 // pwa
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 // recoil
 import { RecoilRoot, useRecoilValue } from "recoil";
@@ -32,6 +32,7 @@ import { userState } from "./recoil/user";
 // chatting
 import ParentChatFormat from "./pages/Chat/ParentChatFormat";
 import ChildChatFormat from "./pages/Chat/ChildChatFormat";
+import ParentCalendar from "./pages/parents/ParentCalendar";
 
 const ChatFormat = (props) => {
   const user = useRecoilValue(userState);
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
       { path: "/format/parent/mission", element: <Mission /> },
       { path: "/format/parent/wishlist", element: <ParentWishList /> },
       { path: "/format/parent/video", element: <Video /> },
+      { path: "/format/parent/calendar", element: <ParentCalendar /> },
     ],
   },
   {

@@ -40,10 +40,19 @@ const ChatRoom = () => {
     fetchChatData();
   }, [roomName]);
 
+  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
+
+  useEffect(() => {
+    socket.emit("setUserName", {
+      user_id: user.user_id,
+    });
+  }, [user]);
+  
   // 채팅방 메시지 전송
   useEffect(() => {
     const messageHandler = (chat) =>
       setChats((prevChats) => [...prevChats, chat]);
+
     socket.on("message", messageHandler);
 
     return () => {
@@ -55,8 +64,6 @@ const ChatRoom = () => {
   const onChange = useCallback((e) => {
     setMessage(e.target.value);
   }, []);
-
-  const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
 
   // 메시지 전송
   const onSendMessage = useCallback(
