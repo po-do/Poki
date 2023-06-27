@@ -12,6 +12,10 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { UserRepository } from 'src/auth/user.repository';
 import { VideoChatModule } from 'src/video-chat/video-chat.module';
 import { PushService } from 'src/push/push.service';
+import { ChatSocketConnectionRepository } from './repository/event.repository';
+import { PushConnectionRepository } from 'src/push/push-connection.repository';
+
+
 
 
 @Module({
@@ -20,6 +24,8 @@ import { PushService } from 'src/push/push.service';
             ConversationRepository,
             MessageRepository,
             UserRepository,
+            ChatSocketConnectionRepository,
+            PushConnectionRepository,
         ]),
         AuthModule,
         VideoChatModule
@@ -28,12 +34,14 @@ import { PushService } from 'src/push/push.service';
         EventGateway, 
         EventService,
         ConversationRepository,
+        ChatSocketConnectionRepository,
+        PushConnectionRepository,
         MessageRepository,
         UserRepository,
         JwtService,
         AuthService,
         JwtStrategy,
-        PushService
+        PushService,
     ],
     controllers: [EventController],
     exports: [EventGateway, EventService, TypeOrmModule],
