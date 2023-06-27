@@ -3,7 +3,6 @@ import ImageSearchResult from "../../pages/General/ImageSearchResult";
 import { createWishList } from "../../api/wishlist.js";
 import FailModal from "../Modal/FailModal";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function LinkRegisterModal({ onClose }) {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
@@ -97,7 +96,7 @@ export default function LinkRegisterModal({ onClose }) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:item-center sm:p-6">
                 {/* 선물 검색 및 닫기 버튼 */}
                 <div className="mb-6">
-                  <h2 className="text-xl font-bold">선물 검색하기</h2>
+                  <h2 className="text-xl font-bold mb-2">선물 검색하기</h2>
 
                   <div className="flex gap-3">
                     <input

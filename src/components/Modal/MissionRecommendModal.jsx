@@ -1,7 +1,8 @@
-import { React, useState } from "react";
+import { React, Fragment, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import FailModal from "./FailModal";
 import { missionCreate } from "../../api/mission.js";
+import { Dialog, Transition } from "@headlessui/react";
 
 function PickedMission(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -9,6 +10,7 @@ function PickedMission(...classes) {
 
 // 배치되어있는 버튼을 선택해서 선택한 키워드로 GPT에게 질문하여 나온 답변을 가공하여 보여주는 컴포넌트
 export default function MissionRecommendModal({ onClose, result }) {
+  const [open] = useState(true);
   const [selected, setSelected] = useState(result[0]);
   const [showFailModal, setShowFailModal] = useState(false);
 
@@ -43,9 +45,8 @@ export default function MissionRecommendModal({ onClose, result }) {
   // };
   // console.log(selected);
 
-  // 실패 시 모달
-  const openFailModal = async () => {
-    setShowFailModal(true);
+  const setCloseModal = () => {
+    onClose(); // 모달을 닫기 위해 setOpen(false) 호출
   };
 
   const closeFailModal = () => {
@@ -72,7 +73,7 @@ export default function MissionRecommendModal({ onClose, result }) {
 
       await missionCreate(params);
       console.log("등록 성공");
-      
+
       // 홈페이지 새로고침
       window.location.reload();
 
@@ -83,103 +84,135 @@ export default function MissionRecommendModal({ onClose, result }) {
   };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-8 rounded-md shadow-md">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold">선물 추천받기</h2>
-        </div>
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setCloseModal}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
 
-        {/* 추천 미션 */}
-        <div>
-          <RadioGroup value={selected} onChange={setSelected}>
-            <RadioGroup.Label className="sr-only">
-              Privacy setting
-            </RadioGroup.Label>
-            <div className="-space-y-px rounded-md bg-white">
-              {console.log("missionrecommend", result)}
-              {result.map((setting, settingIdx) => (
-                <RadioGroup.Option
-                  key={setting}
-                  value={setting}
-                  className={({ checked }) =>
-                    PickedMission(
-                      settingIdx === 0 ? "rounded-tl-md rounded-tr-md" : "",
-                      settingIdx === result.length - 1
-                        ? "rounded-bl-md rounded-br-md"
-                        : "",
-                      checked
-                        ? "z-10 border-indigo-200 bg-indigo-50"
-                        : "border-gray-200",
-                      "relative flex cursor-pointer border p-4 focus:outline-none"
-                    )
-                  }
-                >
-                  {({ active, checked }) => (
-                    <>
-                      <span
-                        className={PickedMission(
-                          checked
-                            ? "bg-indigo-600 border-transparent"
-                            : "bg-white border-gray-300",
-                          active ? "ring-2 ring-offset-2 ring-indigo-600" : "",
-                          "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center"
-                        )}
-                        aria-hidden="true"
-                      >
-                        <span className="rounded-full bg-white w-1.5 h-1.5" />
-                      </span>
-                      <span className="ml-3 flex flex-col">
-                        <RadioGroup.Label
-                          as="span"
-                          className={PickedMission(
-                            checked ? "text-indigo-900" : "text-gray-900",
-                            "block text-sm font-medium"
-                          )}
-                        ></RadioGroup.Label>
-                        <RadioGroup.Description
-                          as="span"
-                          className={PickedMission(
-                            checked ? "text-indigo-700" : "text-gray-500",
-                            "block text-sm"
-                          )}
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center lg:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:tr    anslate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 lg:max-w-sm sm:p-6 lg:max-w-sm">
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold mb-2">선물 추천 받기</h2>
+                </div>
+                {/* 추천 미션 */}
+                <div>
+                  <RadioGroup value={selected} onChange={setSelected}>
+                    <RadioGroup.Label className="sr-only">
+                      Privacy setting
+                    </RadioGroup.Label>
+                    <div className="-space-y-px rounded-md bg-white">
+                      {console.log("missionrecommend", result)}
+                      {result.map((setting, settingIdx) => (
+                        <RadioGroup.Option
+                          key={setting}
+                          value={setting}
+                          className={({ checked }) =>
+                            PickedMission(
+                              settingIdx === 0
+                                ? "rounded-tl-md rounded-tr-md"
+                                : "",
+                              settingIdx === result.length - 1
+                                ? "rounded-bl-md rounded-br-md"
+                                : "",
+                              checked
+                                ? "z-10 border-indigo-200 bg-indigo-50"
+                                : "border-gray-200",
+                              "relative flex cursor-pointer border p-4 focus:outline-none"
+                            )
+                          }
                         >
-                          {setting}
-                        </RadioGroup.Description>
-                      </span>
-                    </>
+                          {({ active, checked }) => (
+                            <>
+                              <span
+                                className={PickedMission(
+                                  checked
+                                    ? "bg-indigo-600 border-transparent"
+                                    : "bg-white border-gray-300",
+                                  active
+                                    ? "ring-2 ring-offset-2 ring-indigo-600"
+                                    : "",
+                                  "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center"
+                                )}
+                                aria-hidden="true"
+                              >
+                                <span className="rounded-full bg-white w-1.5 h-1.5" />
+                              </span>
+                              <span className="ml-3 flex flex-col">
+                                <RadioGroup.Label
+                                  as="span"
+                                  className={PickedMission(
+                                    checked
+                                      ? "text-indigo-900"
+                                      : "text-gray-900",
+                                    "block text-sm font-medium"
+                                  )}
+                                ></RadioGroup.Label>
+                                <RadioGroup.Description
+                                  as="span"
+                                  className={PickedMission(
+                                    checked
+                                      ? "text-indigo-700"
+                                      : "text-gray-500",
+                                    "block text-sm"
+                                  )}
+                                >
+                                  {setting}
+                                </RadioGroup.Description>
+                              </span>
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="mr-2 px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
+                    onClick={handleModal}
+                  >
+                    미션 등록
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-indigo-500 text-white rounded-md cursor-pointer"
+                    onClick={setCloseModal}
+                  >
+                    닫기
+                  </button>
+
+                  {/* 실패 모달 */}
+                  {showFailModal && (
+                    <FailModal
+                      closeModal={closeFailModal}
+                      message={"추천 미션을 선택해 주세요"}
+                    />
                   )}
-                </RadioGroup.Option>
-              ))}
-            </div>
-          </RadioGroup>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
         </div>
-
-        {/* 버튼 */}
-        <div className="flex justify-end">
-          <button
-            className="mr-3 rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={handleModal}
-          >
-            미션 등록
-          </button>
-
-          {/* 모달 확인 */}
-          <button
-            className="rounded-md bg-indigo-500 mt-4 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={onClose}
-          >
-            닫기
-          </button>
-        </div>
-
-        {/* 실패 모달 */}
-        {showFailModal && (
-          <FailModal
-            closeModal={closeFailModal}
-            message={"추천 미션을 선택해 주세요"}
-          />
-        )}
-      </div>
-    </div>
+      </Dialog>
+    </Transition.Root>
   );
 }
