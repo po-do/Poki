@@ -134,7 +134,7 @@ export default function Login({token}) {
                 htmlFor="userid"
                 className="block text-sm font-medium leading-6 text-black"
               >
-                ID
+                아이디
               </label>
               <div className="mt-2">
                 <input
@@ -153,7 +153,7 @@ export default function Login({token}) {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-black"
                 >
-                  Password
+                  패스워드
                 </label>
               </div>
               <div className="mt-2">
@@ -175,7 +175,7 @@ export default function Login({token}) {
                 onClick={handleLogIn}
                 className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
               >
-                Sign in
+                로그인
               </button>
               {!openFailModal ? (
                 <></>
@@ -196,7 +196,7 @@ export default function Login({token}) {
             >
               회원가입
             </a>
-            <button onClick={handleSub}>구독</button>
+            {/* <button onClick={handleSub}>구독</button> */}
           </p>
         </div>
       </div>
