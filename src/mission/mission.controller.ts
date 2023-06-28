@@ -12,6 +12,7 @@ import { GetUserType } from 'src/decorators/get-user.type.decorator';
 import { AuthService } from 'src/auth/auth.service';
 import { PushService } from 'src/push/push.service';
 import { GetUserPushToken } from 'src/decorators/get-user.pushtoken.decorator';
+import { RecommendMissionDto } from './dto/recommend-mission.dto';
 
 @Controller('/mission')
 @UseGuards(AuthGuard())
@@ -133,12 +134,24 @@ export class MissionController {
         return this.missionService.getApproveListByUserId(id);
     }
 
-    @Post('recommend')
-    async getMissionRecommend(
-        @Body('age') age: number,
-        @Body('place') place: string,
-        @Body('ability') ability: string
+    @Post('/recommend')
+    async getCachedMission(
+        @Body() recommendMissionDto: RecommendMissionDto
     ): Promise<any> {
-        return this.missionService.getMissionRecommend(age, place, ability);
+
+        return this.missionService.getCachedMission(recommendMissionDto);
     }
+
+    @Get('/user/incomplete')
+    async getIncompleteListByUserId(
+        @GetUser() user:User,
+        @GetUserId() id:number,
+        @GetUserType() type:string): Promise <Mission[]> {
+
+        if (type !== 'PARENT') {
+            id = await this.AuthService.getConnectedUser(user);
+        }
+        return this.missionService.getIncompleteListByUserId(id);
+    }
+
 }

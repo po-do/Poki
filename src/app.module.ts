@@ -10,6 +10,9 @@ import { BoardModule } from './board/board.module';
 import { EventModule } from './event/event.module';
 import { VideoChatModule } from './video-chat/video-chat.module';
 import { PushModule } from './push/push.module';
+// import { CacheService } from './cache/cache.service';
+// import { CacheModule } from './cache/cache.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -21,6 +24,7 @@ import { PushModule } from './push/push.module';
     EventModule,
     VideoChatModule,
     PushModule,
+    RedisModule,
   ],
 
   controllers: [AppController],
