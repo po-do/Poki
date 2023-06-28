@@ -149,19 +149,10 @@ export class MissionService {
         // key를 이용, cached된 mission을 가져 옴
         const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
         let missions = await this.cacheManager.get(key)
-        console.log("이제 마지막 콘솔이길 바래요", missions)
         
         if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
             const mission = await this.getMissionRecommend(recommendMissionDto);
-            if (!missions) {
-                missions = mission.result;
-            }
-            else {
-                console.log('이 데이터 추가될듯', mission.result)
-                missions = [...missions, ...mission.result]
-                console.log(missions, '이거로 바뀔듯')
-            }
-            await this.cacheManager.set(key, missions, 5000);
+            await this.cacheManager.set(key, mission.result, 100); // 조절 요망, ttl
 
             return mission;
         }
@@ -171,7 +162,6 @@ export class MissionService {
     }
 
     private randomizeData(missions: any[], count: number): any {
-        console.log(missions, 'missions 이거 다 이거')
         const shuffledMissions = missions.slice(0); // 배열 복사
         const result = [];
         let remaining = Math.min(count, shuffledMissions.length); // 최대 다섯 개의 요소 선택
