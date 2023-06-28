@@ -26,6 +26,13 @@ export class MissionService {
         private cacheManager: RedisService
     ) {}
 
+    private todayDate(): string{
+        let date = new Date();
+        const currentDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + date.getDate().toString();
+
+        return currentDate;
+    }
+
     createMission(createMissionDto: CreateMissionDto, user_id: string): Promise <Mission> {
         return this.missionRepository.createMission(createMissionDto, user_id);
     }
@@ -45,9 +52,7 @@ export class MissionService {
         mission.status = mission_status;
         
         if (mission_status == "COMPLETE"){
-            let date = new Date();
-            const currentDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + date.getDate().toString();
-            mission.completed_date = currentDate   
+            mission.completed_date = this.todayDate();
         }
         
         await this.missionRepository.save(mission);
@@ -58,7 +63,10 @@ export class MissionService {
         const mission = await this.getMissionByMissionId(mission_id, user_id);
 
         mission.content = updateMissionDto.content;
-        mission.created_date = updateMissionDto.created_date;
+        if (new Date(updateMissionDto.created_date) >= new Date(this.todayDate()))
+        {
+            mission.created_date = updateMissionDto.created_date;
+        }
         
         await this.missionRepository.save(mission);
         return mission;
@@ -105,16 +113,8 @@ export class MissionService {
 
     async getIncompleteListByUserId(id: number): Promise <Mission[]> {
         const query = await this.missionRepository.createQueryBuilder('mission');
-        var date = new Date();
-        const currentDate =
-          date.getFullYear().toString() +
-          "-" +
-          (date.getMonth() + 1).toString().padStart(2, "0") +
-          "-" +
-          date.getDate().toString();
-        console.log(currentDate)
 
-        query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: currentDate});
+        query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: this.todayDate()});
 
         const missions = await query.getMany();
         return missions;
