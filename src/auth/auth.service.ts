@@ -40,7 +40,7 @@ export class AuthService {
         return user;
     }
 
-    async siginIn(authSignInDto: AuthSignInDto, pushDto: PushDto):Promise<{accessToken: string, type:string, id:number}> {
+    async siginIn(authSignInDto: AuthSignInDto, pushDto: PushDto):Promise<{accessToken: string, type:string, id:number, user_name:string}> {
         const { user_id, password } = authSignInDto;
         const user = await this.userRepository.findOneBy({ user_id });
 
@@ -51,7 +51,7 @@ export class AuthService {
 
             await this.pushService.savePushToken(user.id, pushDto);
             
-            return { accessToken, type: user.type, id: user.id };
+            return { accessToken, type: user.type, id: user.id, user_name: user.user_name };
         } else {
             throw new UnauthorizedException('login faild');
         }
