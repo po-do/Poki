@@ -1,10 +1,17 @@
 import client from "./client.js";
 import { getAccessToken } from "./auth.js";
 
-// 미션 조회 (Read)
+// 미션 조회 (Read) => 구버전 삭제 필요
 export async function missionRead(params) {
   const response = await client.get(`/mission/detail/${params.mission_id}`);
   console.log("missionRead 호출");
+  return response.data;
+}
+
+// 미션 조회 (Read)
+export async function newMissionRead(params) {
+  const response = await client.get(`/mission/user/incomplete`);
+  // console.log("newMissionRead 호출");
   return response.data;
 }
 
@@ -112,3 +119,4 @@ export async function missionRecommend(params) {
   const response = await client.post("/mission/recommend", params.request);
   return response.data;
 }
+

@@ -13,7 +13,7 @@ export async function signIn(params) {
   ] = `Bearer ${response.data.accessToken}`;
   // 토큰을 로컬 스토리지에 저장
   localStorage.setItem("access_token", response.data.accessToken);
-  console.log("signIn");
+  // console.log("signIn");
   return response;
 }
 
@@ -24,7 +24,7 @@ export async function signUp(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/auth/signup", params.request);
-  console.log("signUp");
+  // console.log("signUp");
   return response.data;
 }
 

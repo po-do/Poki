@@ -39,8 +39,8 @@ export default function Login({token}) {
         id: userInfo.data.id,
         user_id: email,
         type: userInfo.data.type,
+        name : userInfo.data.user_name,
       };
-      console.log("userInfo : ",userInfo);
       setUser(params);
       navigate(
         userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"

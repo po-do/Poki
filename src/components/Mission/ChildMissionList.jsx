@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 // import { useQuery } from "@tanstack/react-query";
-import { missionReadChild, setMissionStatusWait } from "../../api/mission.js";
+import { newMissionRead, setMissionStatusWait } from "../../api/mission.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
@@ -33,10 +33,10 @@ export default function RecentMissionList() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild();
-    const incompleteMissions = missionsData.filter(
-      (mission) => mission.status === "INCOMPLETE"
-    );
+    const incompleteMissions = await newMissionRead();
+    // const incompleteMissions = missionsData.filter(
+    //   (mission) => mission.status === "INCOMPLETE"
+    // );
     setMissions(incompleteMissions);
   };
 
