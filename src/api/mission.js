@@ -2,15 +2,20 @@ import client from "./client.js";
 import { getAccessToken } from "./auth.js";
 
 // 미션 조회 (Read) => 구버전 삭제 필요
-export async function missionRead(params) {
-  const response = await client.get(`/mission/detail/${params.mission_id}`);
-  console.log("missionRead 호출");
-  return response.data;
-}
+// export async function missionRead(params) {
+//   const response = await client.get(`/mission/detail/${params.mission_id}`);
+//   console.log("missionRead 호출");
+//   return response.data;
+// }
 
-// 미션 조회 (Read)
+// 현재일 기준 수행 가능한 미션 조회 (Read)
 export async function newMissionRead(params) {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.get(`/mission/user/incomplete`);
+  
   // console.log("newMissionRead 호출");
   return response.data;
 }
@@ -18,7 +23,6 @@ export async function newMissionRead(params) {
 // 미션 생성 (Create)
 export async function missionCreate(params) {
   const accessToken = getAccessToken();
-  console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
