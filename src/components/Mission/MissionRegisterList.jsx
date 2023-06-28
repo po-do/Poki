@@ -33,6 +33,7 @@ export default function MissionRegisterList() {
 
   const getMission = async () => {
     const incompleteMissions = await newMissionRead();
+    console.log(incompleteMissions);
     setMissions(incompleteMissions);
   };
 
@@ -124,11 +125,8 @@ export default function MissionRegisterList() {
       {failModal && (
         <FailModal closeModal={closeFailModal} message="삭제되었습니다." />
       )}
-      {showModal ? (
-        <UpdateModal onClose={closeModal} item_id={selectedMission} />
-      ) : (
-        <></>
-      )}
+      {showModal &&
+        <UpdateModal onClose={closeModal} item_id={selectedMission} />}
     </>
   );
 }
