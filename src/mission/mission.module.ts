@@ -12,6 +12,9 @@ import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { PushService } from 'src/push/push.service';
+import type { RedisClientOptions } from 'redis'
+import * as redisStore from 'cache-manager-redis-store'
+import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
   imports: [
@@ -20,7 +23,8 @@ import { PushService } from 'src/push/push.service';
       BoardRepository,
       UserRepository,]),
       AuthModule,
-      BoardModule
+      BoardModule,
+      RedisModule
   ],
   controllers: [MissionController],
   providers: [
