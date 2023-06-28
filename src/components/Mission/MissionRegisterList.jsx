@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { missionReadChild, missionDelete } from "../../api/mission.js";
+import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
 import UpdateModal from "../Modal/UpdateModal.jsx";
 
@@ -32,10 +32,7 @@ export default function MissionRegisterList() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild();
-    const incompleteMissions = missionsData.filter(
-      (mission) => mission.status === "INCOMPLETE"
-    );
+    const incompleteMissions = await newMissionRead();
     setMissions(incompleteMissions);
   };
 
@@ -78,7 +75,7 @@ export default function MissionRegisterList() {
           <div className="sm:flex-auto">
             <h3 className="text-xl font-bold mb-4">등록된 미션</h3>
             <p className="mt-2 text-sm text-gray-700">
-              현재 등록된 미션 목록입니다.
+              현재 아이가 수행할 수 있는 미션 목록입니다.
             </p>
           </div>
         </div>
