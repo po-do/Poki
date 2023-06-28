@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
-import UpdateModal from "../Modal/UpdateModal.jsx";
+import UpdateModal from "../Modal/UpdateModal";
 
 // 데이터를 가져오는 함수
 async function fetchMissions() {

@@ -40,12 +40,17 @@ export default function MissionRegister() {
     setMissionContent(e.target.value);
   };
 
+  const setMission = () => {
+    setMissionContent("");
+  }
+
   const handleButtonClick = () => {
     if (missionContent === "") {
       openFailModal();
     } else {
       openMissionRegistModal();
       handleMissionCreate();
+      setMission();
     }
   };
 
@@ -85,7 +90,7 @@ export default function MissionRegister() {
         request: {
           content: missionContent,
           created_date: createdDate,
-          completed_date: createdDate,
+          // completed_date: createdDate,
         },
       };
 
@@ -99,7 +104,7 @@ export default function MissionRegister() {
     <>
       <div>
         <h3 className="text-xl font-bold mb-4">미션 등록</h3>
-        <p className="ml-4 mt-2 text-sm text-gray-700">
+        <p className="ml-4 mt-2 text-sm text-gray-700 mb-4">
         아이가 수행할 미션을 등록해 주세요. 미래에 수행할 미션도 예약할 수 있습니다.
         </p>
       </div>
@@ -143,6 +148,7 @@ export default function MissionRegister() {
         <MissionReserveModal
           closeModal={closeMissionReserveModal}
           missionContent={missionContent}
+          setMissions = {setMission}
         />
       )}
 
