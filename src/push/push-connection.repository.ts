@@ -15,6 +15,8 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         const { fcm_token } = pushDto;
 
         const isTokenExists = await this.isTokenExists(id, fcm_token);
+        console.log(isTokenExists);
+        console.log(fcm_token);
         
         if (!isTokenExists && fcm_token !== null) {
             const pushConnection = this.create({
