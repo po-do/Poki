@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
@@ -7,6 +7,9 @@ import { MissionStatus } from './mission-status.enum';
 import { UpdateMissionDto } from './dto/update-mission.dto';
 import * as config from 'config';
 import { Configuration, OpenAIApi } from 'openai';
+import { RecommendMissionDto } from './dto/recommend-mission.dto'
+import { RedisService } from 'src/redis/redis.service';
+import { LessThanOrEqual } from 'typeorm';
 
 const openAIConfig = config.get('openAI');
 const configuration = new Configuration({
@@ -19,7 +22,8 @@ const openai = new OpenAIApi(configuration)
 export class MissionService {
     constructor(
         @InjectRepository(MissionRepository)
-        private missionRepository: MissionRepository
+        private missionRepository: MissionRepository,
+        private cacheManager: RedisService
     ) {}
 
     createMission(createMissionDto: CreateMissionDto, user_id: string): Promise <Mission> {
@@ -86,7 +90,6 @@ export class MissionService {
     }
 
     async getApproveListByUserId(id: number): Promise <Mission[]> {
-        /* [TODO] user_id 받아오는 데코레이터 사용해서 부모이면 자신의 id 말고 자녀 id 받아오도록 */
         const query = await this.missionRepository.createQueryBuilder('mission');
         query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.WAIT_APPROVAL});
 
@@ -94,7 +97,24 @@ export class MissionService {
         return missions;
     }
 
-    async getMissionRecommend(age: number, place: string, ability: string): Promise <any> {
+    async getIncompleteListByUserId(id: number): Promise <Mission[]> {
+        const query = await this.missionRepository.createQueryBuilder('mission');
+        var date = new Date();
+        const currentDate =
+          date.getFullYear().toString() +
+          "-" +
+          (date.getMonth() + 1).toString().padStart(2, "0") +
+          "-" +
+          date.getDate().toString();
+        console.log(currentDate)
+
+        query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: currentDate});
+
+        const missions = await query.getMany();
+        return missions;
+    }
+
+    async getMissionRecommend(recommendMissionDto : RecommendMissionDto): Promise <any> {
         // const response = await openai.createCompletion({
         //     model: "text-davinci-003",
         //     prompt: `${age}살 아이가 ${place}에서 수행할 만한 일 다섯가지를 한 문장씩 알려줘. 아이의 ${ability} 능력을 향상시키는 일이었으면 좋겠어. 각각의 미션은 모두 '-하기'라는 접미사로 끝내도록 하고 구체적으로 말해줘. 각 미션에 대해 자녀가 수행해야 할 것과 자녀가 배우게 될 점을 간단히 말해줘. 모두 말했다면 'end'라는 단어를 통해 종료를 알려줘.`,
@@ -106,6 +126,7 @@ export class MissionService {
         //     stop: ["end"]
         // });
         // return { result: response.data.choices };
+        const {age, place, ability} = recommendMissionDto;
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
@@ -115,7 +136,49 @@ export class MissionService {
         });
         let text = response.data.choices[0].message.content;
         let items = text.split('\n').map(item => item.replace(/^\d+\.\s*/, ''));
-        console.log(items);
         return { result: items };
+    }
+
+    async getCachedMission(recommendMissionDto : RecommendMissionDto): Promise <any> {
+        // key를 이용, cached된 mission을 가져 옴
+        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
+        let missions = await this.cacheManager.get(key)
+        
+        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
+            const mission = await this.getMissionRecommend(recommendMissionDto);
+            if (!missions) {
+                missions = mission.result;
+            }
+            else {
+                missions.push(mission.result)
+            }
+            await this.cacheManager.set(key, missions, 5000);
+
+            return mission;
+        }
+
+        const randomMission = this.randomizeData(missions, 5);
+        return { result: randomMission };
+    }
+
+    private randomizeData(missions: any[], count: number): any {
+        console.log(missions, 'missions 이거 다 이거')
+        const shuffledMissions = missions.slice(0); // 배열 복사
+        const result = [];
+        let remaining = Math.min(count, shuffledMissions.length); // 최대 다섯 개의 요소 선택
+
+        let currentIndex = shuffledMissions.length;
+      
+        while (remaining > 0) {
+          const randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+      
+          // 요소를 랜덤하게 선택하여 결과 배열에 추가
+          [shuffledMissions[currentIndex], shuffledMissions[randomIndex]] = [shuffledMissions[randomIndex], shuffledMissions[currentIndex]];
+          result.push(shuffledMissions[currentIndex]);
+          remaining--;
+        }
+
+        return result;
     }
 }
