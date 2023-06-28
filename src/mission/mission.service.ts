@@ -44,6 +44,12 @@ export class MissionService {
         const mission = await this.getMissionByMissionId(mission_id, user_id);
         mission.status = mission_status;
         
+        if (mission_status == "COMPLETE"){
+            let date = new Date();
+            const currentDate = date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + date.getDate().toString();
+            mission.completed_date = currentDate   
+        }
+        
         await this.missionRepository.save(mission);
         return mission;
     }

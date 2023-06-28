@@ -8,7 +8,4 @@ export class CreateMissionDto {
 
     @IsNotEmpty()
     created_date: string // 추후 수정 예정, Date type
-
-    @IsNotEmpty()
-    completed_date: string // 추후 수정 예정, Date type
 }
