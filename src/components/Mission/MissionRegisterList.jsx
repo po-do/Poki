@@ -1,15 +1,23 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
 import UpdateModal from "../Modal/UpdateModal";
 
+// 데이터를 가져오는 함수
+async function fetchMissions() {
+  return await newMissionRead();
+}
+
 export default function MissionRegisterList() {
-  const [missions, setMissions] = useState([]);
+  // const [missions, setMissions] = useState([]);
   const [selectedMission, setSelectedMission] = useState(null);
   const [failModal, setFailModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  // const [checkedMissionsId, setCheckedMissionsId] = useState([]);
-  // const [checkedMissionsList, setCheckedMissionsList] = useState([]);
+
+  const { data: missions, refetch } = useQuery(["missions"], fetchMissions, {
+    refetchInterval: 1000, // 1초마다 데이터를 자동으로 새로 고침합니다.
+  });
 
   const openModal = () => {
     setShowModal(true);
@@ -27,27 +35,11 @@ export default function MissionRegisterList() {
     setFailModal(false);
   };
 
-  useEffect(() => {
-    getMission();
-  }, [missions]);
-
-  const getMission = async () => {
-    const incompleteMissions = await newMissionRead();
-    setMissions(incompleteMissions);
-  };
-
   // 미션수정 ===================
   const handleChange = async (item) => {
-    //   if (e.target.checked) {
-    //     setCheckedMissionsId([...checkedMissionsId, mission.id]);
-    //     setCheckedMissionsList([...checkedMissionsList, mission]);
-    //   } else {
-    //     setCheckedMissionsId(checkedMissionsId.filter((id) => id !== mission.id));
-    //     setCheckedMissionsList(checkedMissionsList.filter((m) => m === mission));
-    //     // checkedMissionsList에서 채크 안된놈들 지우기
-    //   }
     setSelectedMission(item);
     openModal();
+    refetch();
   };
 
   // 미션삭제 ===================
@@ -55,17 +47,9 @@ export default function MissionRegisterList() {
     const params = {
       mission_id: mission_id,
     };
-
     await missionDelete(params);
-
     openFailModal();
-    // await Promise.all(
-    //   checkedMissionsId.map((misvsionId) =>
-    //     missionDelete({ mission_id: missionId })
-    //   )
-    // );
-    // setCheckedMissionsId([]);
-    // setMissions([]);
+    refetch();
   };
 
   return (
@@ -94,27 +78,28 @@ export default function MissionRegisterList() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {missions.map((item) => (
-                    <tr key={item.id} className="flex">
-                      <td className="flex whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium gap-2">
-                        <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold"
-                          onClick={() => handleChange(item.id)}
-                        >
-                          수정
-                        </button>
-                        <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold ml-2"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          삭제
-                        </button>
-                      </td>
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        {item.content}
-                      </td>
-                    </tr>
-                  ))}
+                  {missions &&
+                    missions.map((item) => (
+                      <tr key={item.id} className="flex">
+                        <td className="flex whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium gap-2">
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900 font-bold"
+                            onClick={() => handleChange(item.id)}
+                          >
+                            수정
+                          </button>
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900 font-bold ml-2"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            삭제
+                          </button>
+                        </td>
+                        <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                          {item.content}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

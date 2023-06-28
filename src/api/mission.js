@@ -8,6 +8,7 @@ import { getAccessToken } from "./auth.js";
 //   return response.data;
 // }
 
+// 미션 조회 (Read)
 // 현재일 기준 수행 가능한 미션 조회 (Read)
 export async function newMissionRead() {
   const accessToken = getAccessToken();
@@ -15,8 +16,7 @@ export async function newMissionRead() {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/mission/user/incomplete`);
-  
-  // console.log("newMissionRead 호출");
+  console.log("newMissionRead 호출");
   return response.data;
 }
 
@@ -123,4 +123,3 @@ export async function missionRecommend(params) {
   const response = await client.post("/mission/recommend", params.request);
   return response.data;
 }
-
