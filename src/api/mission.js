@@ -9,9 +9,13 @@ export async function missionRead(params) {
 }
 
 // 미션 조회 (Read)
-export async function newMissionRead(params) {
+export async function newMissionRead() {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
   const response = await client.get(`/mission/user/incomplete`);
-  // console.log("newMissionRead 호출");
+  console.log("newMissionRead 호출");
   return response.data;
 }
 
@@ -92,7 +96,7 @@ export async function missionReadChild() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionReadChild 호출");
+  // console.log("missionReadChild 호출");
   const response = await client.get(`/mission/user`);
   return response.data;
 }
@@ -119,4 +123,3 @@ export async function missionRecommend(params) {
   const response = await client.post("/mission/recommend", params.request);
   return response.data;
 }
-
