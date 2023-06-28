@@ -152,7 +152,7 @@ export class MissionService {
         
         if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
             const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 100); // 조절 요망, ttl
+            await this.cacheManager.set(key, mission.result, 1500); // 조절 요망, ttl
 
             return mission;
         }

@@ -4,7 +4,7 @@ import Redis from 'ioredis';
 @Injectable()
 export class RedisService {
     private redisClient: Redis;
-    private cacheCapacity: number = 3; // 조절 요망, n개의 캐시 저장 가능
+    private cacheCapacity: number = 4; // 조절 요망, n개의 캐시 저장 가능
     constructor(){
         this.redisClient = new Redis();
     }
