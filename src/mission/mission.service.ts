@@ -143,6 +143,7 @@ export class MissionService {
         // key를 이용, cached된 mission을 가져 옴
         const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
         let missions = await this.cacheManager.get(key)
+        console.log("이제 마지막 콘솔이길 바래요", missions)
         
         if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
             const mission = await this.getMissionRecommend(recommendMissionDto);
@@ -150,7 +151,9 @@ export class MissionService {
                 missions = mission.result;
             }
             else {
-                missions.push(mission.result)
+                console.log('이 데이터 추가될듯', mission.result)
+                missions = [...missions, ...mission.result]
+                console.log(missions, '이거로 바뀔듯')
             }
             await this.cacheManager.set(key, missions, 5000);
 
