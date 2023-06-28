@@ -200,7 +200,7 @@ export default function MissionTempComplete() {
           <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
           <div className="flex mt-4 sm:mt-0 sm:flex-none gap-2 justify-between">
             <p className="mt-2 text-sm text-gray-700">
-              현재 수행된 미션 목록입니다.
+              미션을 수행 완료했습니다. 아이에게 칭찬 포도알을 주세요. 
             </p>
             <div className="flex gap-3">
               <button
@@ -215,7 +215,7 @@ export default function MissionTempComplete() {
                 className="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={handlePublish}
               >
-                포도알 발행
+                포도알 주기
               </button>
             </div>
           </div>

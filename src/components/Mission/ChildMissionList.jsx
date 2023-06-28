@@ -1,13 +1,12 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { missionReadChild, setMissionStatusWait } from "../../api/mission.js";
+import { newMissionRead, setMissionStatusWait } from "../../api/mission.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
 // 데이터를 가져오는 함수
 async function fetchMissions() {
-  const missionsData = await missionReadChild();
-  return missionsData.filter((mission) => mission.status === "INCOMPLETE");
+  return await newMissionRead();
 }
 
 // 최근 등록된미션 보여주는 컴포넌트
@@ -35,6 +34,7 @@ export default function RecentMissionList() {
   const closeFailModal = () => {
     setFailModal(false);
   };
+
 
   const handleChange = (e, mission) => {
     if (e.target.checked) {
