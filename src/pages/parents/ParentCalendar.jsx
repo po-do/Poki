@@ -17,6 +17,8 @@ import {
 } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 import { missionReadChild } from "../../api/mission.js";
+import { getWishlistByUserId } from "../../api/wishlist.js";
+import { BsGift } from "react-icons/bs";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -29,9 +31,31 @@ export default function ParentCalendar() {
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
   const [completedMissions, setCompletedMissions] = useState([]);
   const [reservedMissions, setReservedMissions] = useState([]);
+  // ===================================================================
+  const [givenList, setGivenList] = useState([]);
+
+  // given 된 위시리스트
+  const givenData = async () => {
+    try {
+      const wishlistData = await getWishlistByUserId();
+
+      // 상품이 없는 경우 에러 처리
+      if (wishlistData.data.item[0]) {
+        const givenItem = wishlistData.data.item.filter(
+          (wishItem) => wishItem.Given === "TRUE"
+        );
+
+        setGivenList(givenItem);
+      }
+    } catch (error) {
+      console.log("Failed to fetch wishlist data:", error);
+    }
+  };
+  // ===================================================================
 
   useEffect(() => {
     getMission();
+    givenData();
   }, []);
 
   const getMission = async () => {
@@ -76,14 +100,18 @@ export default function ParentCalendar() {
   );
   // console.log("selectedResDayMeetings", selectedResDayMeetings);
 
+  let selectedGiftDayMeetings = givenList.filter((gift) =>
+    isSameDay(parseISO(gift.GivenAt), selectedDay)
+  );
+
   return (
     <div className="pt-16">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
-              <h2 className="flex-auto font-semibold text-gray-900">
-                {format(firstDayCurrentMonth, "MMMM yyyy")}
+              <h2 className="flex-auto font-semibold text-gray-900 ml-4">
+                {format(firstDayCurrentMonth, "MMMM")}
               </h2>
               <button
                 type="button"
@@ -103,13 +131,13 @@ export default function ParentCalendar() {
               </button>
             </div>
             <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
-              <div>S</div>
-              <div>M</div>
-              <div>T</div>
-              <div>W</div>
-              <div>T</div>
-              <div>F</div>
-              <div>S</div>
+              <div>일</div>
+              <div>월</div>
+              <div>화</div>
+              <div>수</div>
+              <div>목</div>
+              <div>금</div>
+              <div>토</div>
             </div>
             <div className="grid grid-cols-7 mt-2 text-sm">
               {days.map((day, dayIdx) => (
@@ -152,6 +180,14 @@ export default function ParentCalendar() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
+                    {/* 받은 선물 표시 */}
+                    {givenList.some((gift) =>
+                      isSameDay(parseISO(gift.GivenAt), day)
+                    ) && (
+                      <div className="mb-2 mt-2">
+                        <BsGift />
+                      </div>
+                    )}
                     {/* 완료된 미션 */}
                     {completedMissions.some((mission) =>
                       isSameDay(parseISO(mission.completed_date), day)
@@ -173,18 +209,57 @@ export default function ParentCalendar() {
           </div>
           <section className="mt-12 md:mt-0 md:pl-14">
             <h2 className="font-semibold text-gray-900">미션</h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedCompDayMeetings.length > 0
-                ? selectedCompDayMeetings.map((mission) => (
-                    <Meeting key={mission.id} Mission={mission} />
-                  ))
-                : ""}
-              {selectedResDayMeetings.length > 0
-                ? selectedResDayMeetings.map((mission) => (
-                    <Meeting key={mission.id} Mission={mission} flag={true} />
-                  ))
-                : ""}
+            <ol className="space-y-1 text-sm leading-6 text-gray-500">
+              {selectedCompDayMeetings.length > 0 ? (
+                selectedCompDayMeetings.map((mission) => (
+                  <Meeting
+                    key={mission.id}
+                    Mission={mission}
+                    given_flag={false}
+                  />
+                ))
+              ) : (
+                <p className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+                  미션이 없습니다.
+                </p>
+              )}
             </ol>
+
+            <section>
+              <h2 className="font-semibold text-gray-900 mt-4">예약 미션</h2>
+              <ol className="space-y-1 text-sm leading-6 text-gray-500">
+                {selectedResDayMeetings.length > 0 ? (
+                  selectedResDayMeetings.map((mission) => (
+                    <Meeting
+                      key={mission.id}
+                      Mission={mission}
+                      flag={true}
+                      given_flag={false}
+                    />
+                  ))
+                ) : (
+                  <p className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+                    예약된 미션이 없습니다.
+                  </p>
+                )}
+              </ol>
+            </section>
+
+            {/* 받은 선물 부분 */}
+            <section>
+              <h2 className="font-semibold text-gray-900 mt-4">받은 선물</h2>
+              <ol className="space-y-1 text-sm leading-6 text-gray-500">
+                {selectedGiftDayMeetings.length > 0 ? (
+                  selectedGiftDayMeetings.map((gift) => (
+                    <Meeting key={gift.id} Mission={gift} given_flag={true} />
+                  ))
+                ) : (
+                  <p className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+                    받은 선물이 없습니다.
+                  </p>
+                )}
+              </ol>
+            </section>
           </section>
         </div>
       </div>
@@ -192,20 +267,43 @@ export default function ParentCalendar() {
   );
 }
 
-function Meeting({ Mission, flag }) {
-  // let DateTime = parseISO(meeting.MissionDatetime);
-
+function Meeting({ Mission, flag, given_flag }) {
   return (
     <li className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <div className="flex-auto">
-        <p className="text-gray-900">{Mission.content}</p>
-        <p className="mt-0.5">
-          <time dateTime={Mission.completed_date}>
-            {flag === true
-              ? `${Mission.created_date} 예약`
-              : `${Mission.completed_date} 완료`}
-          </time>
-        </p>
+        {given_flag === false && (
+          <>
+            <p className="text-gray-900">{Mission.content}</p>
+            <p className="mt-0.5">
+              <time dateTime={Mission.completed_date}>
+                {flag === true
+                  ? `${Mission.created_date} 예약`
+                  : `${Mission.completed_date} 완료`}
+              </time>
+            </p>
+          </>
+        )}
+
+        {/* 받은선물 */}
+        {given_flag && (
+          <>
+            <p className="text-gray-900"></p>
+            <div className="flex items-center">
+              <div>
+                <img
+                  className="inline-block h-36 w-36"
+                  src={Mission.ProductImage}
+                  alt=""
+                />
+              </div>
+              <div className="ml-6">
+                <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                  {Mission.ProductName}
+                </p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <Menu
         as="div"
