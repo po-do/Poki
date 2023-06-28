@@ -14,6 +14,11 @@ import { JwtService } from '@nestjs/jwt';
 import { PushService } from 'src/push/push.service';
 import { RedisModule } from 'src/redis/redis.module';
 import { PushConnectionRepository } from 'src/push/push-connection.repository';
+import { CacheModule } from '@nestjs/cache-manager';
+import * as redisStore from 'cache-manager-redis-store'
+import * as config from 'config';
+
+const redisConfig = config.get('redis');
 
 @Module({
   imports: [
@@ -24,7 +29,13 @@ import { PushConnectionRepository } from 'src/push/push-connection.repository';
       PushConnectionRepository,]),
       AuthModule,
       BoardModule,
-      RedisModule
+      RedisModule,
+      CacheModule.register({
+        store: redisStore,
+        host: redisConfig.host,
+        port: redisConfig.port,
+        password: redisConfig.password
+      }),
   ],
   controllers: [MissionController],
   providers: [

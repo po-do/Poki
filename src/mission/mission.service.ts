@@ -158,7 +158,7 @@ export class MissionService {
         }
 
         const randomMission = this.randomizeData(missions, 5);
-        return randomMission;
+        return { result: randomMission };
     }
 
     private randomizeData(missions: any[], count: number): any {
