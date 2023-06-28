@@ -9,8 +9,6 @@ import { response } from "express";
 import { NotFoundException } from "@nestjs/common";
 import { getMessaging } from "firebase-admin/messaging";
 
-
-
 @UseGuards(AuthGuard())
 @Injectable()
 export class PushService {
@@ -32,7 +30,9 @@ export class PushService {
         }
         const pushConnection = await query.getMany();
 
-        const fcm_token_list = pushConnection.map((item) => item.fcm_token);
+        const fcm_token_list = pushConnection
+          .map((item) => item.fcm_token)
+          .filter((token) => token !== '');
         
         console.log(fcm_token_list);
         

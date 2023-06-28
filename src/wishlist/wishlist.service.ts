@@ -1,4 +1,4 @@
-import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Injectable, ForbiddenException, NotFoundException,} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistRepository } from './wishlist.repository';
 import { Wishlist } from './wishlist.entity';
@@ -94,7 +94,10 @@ export class WishlistService {
         } else {
             wishlist.Given = GivenStatus.FALSE;
         }
-      
+
+
+        // 지금 현재 시간을 받아옴
+        wishlist.GivenAt = new Date();
        
         
         await this.wishlistRepository.save(wishlist);
