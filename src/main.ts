@@ -16,7 +16,7 @@ async function bootstrap() {
   const serverConfig = config.get('server');
   const port = process.env.SERVER_PORT || serverConfig.get('port');
 
- // Firebase 서비스 계정 키(JSON 파일)의 절대 경로를 가져옵니다.
+//  Firebase 서비스 계정 키(JSON 파일)의 절대 경로를 가져옵니다.
  const serviceAccountPath = path.resolve(__dirname, '../config/poki-c90ad-firebase-adminsdk-bj7hc-a1f750ecc3.json');
 
  // Firebase Admin SDK 초기화

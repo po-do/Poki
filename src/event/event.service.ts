@@ -5,14 +5,18 @@ import { MessageRepository } from './repository/message.repository';
 import { User } from 'src/auth/user.entity';
 import { Conversation } from './entity/conversation.entity';
 import { Message } from './entity/message.entity';
+import { ChatSocketConnectionRepository } from './repository/event.repository';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class EventService {
     constructor(
         @InjectRepository(MessageRepository)
         @InjectRepository(ConversationRepository)
+        @InjectRepository(ChatSocketConnectionRepository)
         private messageRepository: MessageRepository,
         private conversationRepository: ConversationRepository,
+        private chatSocketConnectionRepository: ChatSocketConnectionRepository,
     ) { }
 
     async createRoom(now_user: User, child_id:string, parent_id:string, roomName:string): Promise<{ code: number; success: boolean, Data:any }> {
@@ -71,11 +75,38 @@ export class EventService {
       
         return messages ;
       }
+
+      async createChatSocketConnection(user_id: string, socket_id: string): Promise <void> {
+        return await this.chatSocketConnectionRepository.createSocketConnection(user_id, socket_id);
+
+      }
+
+      async findChatConnectionBySocketId(socket_id: string): Promise<string> {
+        const chatsocket_connection = await this.chatSocketConnectionRepository.findOneBy({socket_id: socket_id});
+        if (!chatsocket_connection) {
+            //console.log(`${socket_id}를 찾을 수 없습니다.`);
+            throw new NotFoundException(`${socket_id}를 찾을 수 없습니다.`);
+        }
+        return chatsocket_connection?.user_id;
+
+    }
+
+    async deleteChatConnection(user_id: string): Promise <void> {
+        console.log(user_id, 'userid')
+        const result = await this.chatSocketConnectionRepository.delete({user_id: user_id});
+        if (result.affected === 0) {
+            //throw new NotFoundException(`${user_id}를 삭제할 수 없습니다.`)
+            console.log(`${user_id}를 삭제할 수 없습니다.`)
+        }
+    }
+
+    // 유저의 아이디가 chat_socket_connection 테이블에 존재하는지 확인
+    async checkChatConnection(user_id: string): Promise<boolean> {
+        const chatsocket_connection = await this.chatSocketConnectionRepository.findOneBy({user_id: user_id});
+        if (chatsocket_connection) {
+            return true;
+        }
+        return false;
+    }
         
-
-
-
-
-
-
 }

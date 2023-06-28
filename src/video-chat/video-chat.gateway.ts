@@ -7,7 +7,6 @@ import * as config from 'config';
 
 const conrsConfig = config.get('cors');
 
-const connect_socket: {socket_nickname: string, socket_id: string;}[]= [];
 
 class ExtendedSocket extends Socket {
   nickname: string;
@@ -77,7 +76,7 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
     console.log('calluser')
     const { userToCall, signalData, from, name } = data;
     console.log(userToCall)
-    console.log(connect_socket)
+    
 
     try {
       const userToCallId = await this.videoChatService.findConnectionByUserId(userToCall);

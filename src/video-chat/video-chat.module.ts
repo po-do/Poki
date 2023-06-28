@@ -12,7 +12,7 @@ import { VideoChatController } from './video-chat.controller';
   ]),
   ],
   providers: [VideoChatService, VideoChatGateway, SocketConnectionRepository],
-  exports: [VideoChatService],
+  exports: [VideoChatService, TypeOrmModule],
   controllers: [VideoChatController]
 })
 
