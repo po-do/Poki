@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import * as process from 'process';
+import * as process from "process";
 
 //General
 import App from "./App";
@@ -95,13 +95,12 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <RouterProvider router={router} />
-    </RecoilRoot>
-  </React.StrictMode>
+  <RecoilRoot>
+    <RouterProvider router={router} />
+  </RecoilRoot>
 );
 
 serviceWorkerRegistration.register();
