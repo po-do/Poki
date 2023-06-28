@@ -6,11 +6,15 @@ import { getBoardStatus, attachBoard } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+// recoil 사용
+import { useRecoilValue } from 'recoil';
+import { userState } from "../../recoil/user.js";
 
 export default function ChildMain() {
   const [grape, setGrape] = useState({});
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
+  const user = useRecoilValue(userState);
 
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
@@ -65,10 +69,10 @@ export default function ChildMain() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Child Main
+                {user.name}의 포도알 보드판
               </h2>
               <p className="mt-2 text-lg leading-8 text-gray-600">
-                아이들의 포도 관리 현황을 파악해보세요~
+                부모님이 주시는 미션을 수행해서 포도알 보드판을 완성해요~ 😀
               </p>
             </div>
           </div>
