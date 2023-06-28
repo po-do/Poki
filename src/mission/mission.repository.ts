@@ -13,7 +13,9 @@ export class MissionRepository extends Repository<Mission> {
     }
 
     async createMission(createMissionDto: CreateMissionDto, user_id: string): Promise <Mission> {
-        const {content, created_date, completed_date} = createMissionDto;
+        const { content, created_date } = createMissionDto;
+        var date = new Date();
+        const completed_date = '2200-12-30'
 
         const mission = this.create({
             user_id: user_id,
