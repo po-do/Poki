@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
-import UpdateModal from "../Modal/UpdateModal.jsx";
+import UpdateModal from "../Modal/UpdateModal";
 
 export default function MissionRegisterList() {
   const [missions, setMissions] = useState([]);
