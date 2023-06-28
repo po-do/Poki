@@ -9,7 +9,7 @@ import { getAccessToken } from "./auth.js";
 // }
 
 // 현재일 기준 수행 가능한 미션 조회 (Read)
-export async function newMissionRead(params) {
+export async function newMissionRead() {
   const accessToken = getAccessToken();
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
