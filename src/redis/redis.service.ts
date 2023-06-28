@@ -36,6 +36,7 @@ export class RedisService {
     async evictLFUItems(): Promise<void> {
         const items = await this.redisClient.zrange('cache', 0, -1, 'WITHSCORES');
         console.log(items)
+        await this.redisClient.del(items[0])
         await this.redisClient.zrem('cache', items[0]).then(async()=>{
             if (!await this.isCacheFull()) {
                 console.log('this is full');
