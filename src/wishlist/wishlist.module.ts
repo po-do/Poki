@@ -11,19 +11,33 @@ import { JwtService } from '@nestjs/jwt';
 import { BoardService } from 'src/board/board.service';
 import { BoardRepository } from 'src/board/board.repository';
 import { PushService } from 'src/push/push.service';
+import { PushConnectionRepository } from 'src/push/push-connection.repository';
+import * as redisStore from 'cache-manager-redis-store'
+import { CacheModule } from '@nestjs/cache-manager';
+import * as config from 'config';
+
+const redisConfig = config.get('redis');
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       WishlistRepository,
       UserRepository,
+      PushConnectionRepository,
      ]),
     AuthModule,
+    CacheModule.register({
+      store: redisStore,
+      host: redisConfig.host,
+      port: redisConfig.port,
+      password: redisConfig.password
+    }),
   ],
   controllers: [WishlistController],
   providers: [
     WishlistService, 
     WishlistRepository,
+    PushConnectionRepository,
     AuthService,
     JwtStrategy,
     UserRepository,

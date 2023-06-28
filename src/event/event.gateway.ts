@@ -4,9 +4,9 @@ import { Logger, Injectable } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
-
+import { PushService } from 'src/push/push.service';
 import * as config from 'config';
-import { VideoChatService } from 'src/video-chat/video-chat.service';
+
 
 const corsConfig = config.get('cors');
 
@@ -30,7 +30,8 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   constructor(
     private eventService: EventService,
     private authService: AuthService,
-    private videoChatService: VideoChatService
+    private pushService: PushService,
+   
   ) {}
 
   private logger = new Logger('Gateway');
@@ -47,6 +48,25 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   // @SubscribeMessage('disconnect')
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
     this.logger.log("disconnection 발생 😀")
+    try {
+      const disconnectedUser = await this.eventService.findChatConnectionBySocketId(socket.id);
+      if (disconnectedUser) {
+        this.eventService.deleteChatConnection(disconnectedUser)
+      }
+      this.logger.log("disconnection 발생 😀, 삭제 완료")
+      //socket.broadcast.emit("callEnded")
+    } catch (error) {
+      console.log('An Error occured in disconnect socket')
+    }
+
+  }
+
+  @SubscribeMessage('setUserName')
+  async handleSetUserName(
+    @MessageBody() data: {user_id: string},
+    @ConnectedSocket() socket: Socket
+    ) {
+    await this.eventService.createChatSocketConnection(data.user_id, socket.id);
   }
 
   @SubscribeMessage('message')
@@ -58,26 +78,48 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     this.eventService.createMessage(user.user_id, message, roomName, user.id);
 
     socket.to(roomName).emit('message', { sender_id: user.user_id, message });
+    
+    const now_user = await this.authService.getUserById(user.id);
+
+    // 채팅방에 상대방이 있는지 확인
+
+    
+    const connect_userId = await this.authService.getConnectedUser_id(now_user);
+    
+    const check = await this.eventService.checkChatConnection(connect_userId);
+
+      if (!check) {
+        const connect_id = await this.authService.getConnectedUser(now_user);
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+        console.log(pushToken);
+        console.log(message);
+
+        const title = '새로운 메시지가 도착했습니다.';
+        const info = message;
+        await this.pushService.push_noti(pushToken, title, info);
+    }
+
     return { sender_id: user.user_id, message, check_id: user.id };
   }
 
+  // 삭제 금지
   @SubscribeMessage('room-list')
   handleRoomList() {
     return createRooms;
   }
 
-  @SubscribeMessage('delete-room')
-  handleDeleteRoom(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody() roomName: string,
-  ) {
-    socket.leave(roomName);
-    createRooms = createRooms.filter((createRoom) => createRoom !== roomName);
-    this.server.emit('delete-room', roomName);
-    this.server.emit('room-list', createRooms); // 방 목록 갱신
+  // @SubscribeMessage('delete-room')
+  // handleDeleteRoom(
+  //   @ConnectedSocket() socket: Socket,
+  //   @MessageBody() roomName: string,
+  // ) {
+  //   socket.leave(roomName);
+  //   createRooms = createRooms.filter((createRoom) => createRoom !== roomName);
+  //   this.server.emit('delete-room', roomName);
+  //   this.server.emit('room-list', createRooms); // 방 목록 갱신
 
-    return { success: true };
-  }
+  //   return { success: true };
+  // }
 
   @SubscribeMessage('create-room')
   async handleCreateRoom(
@@ -135,13 +177,13 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     return { success: true };
   }
 
-  @SubscribeMessage('leave-room')
-  handleLeaveRoom(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody() roomName: string,
-  ) {
-    socket.leave(roomName);
-    return { success: true };
-  }
+  // @SubscribeMessage('leave-room')
+  // handleLeaveRoom(
+  //   @ConnectedSocket() socket: Socket,
+  //   @MessageBody() roomName: string,
+  // ) {
+  //   socket.leave(roomName);
+  //   return { success: true };
+  // }
 
 }

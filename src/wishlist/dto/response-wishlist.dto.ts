@@ -12,7 +12,7 @@ export class responseWishlistDto {
   code: number;
   success: boolean;
   data: {
-    item: {};
+    item: {id: number, ProductName: string, ProductLink: string, ProductImage: string, Given: string, Picked: string};
   };
 }
 

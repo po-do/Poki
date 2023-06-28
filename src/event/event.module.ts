@@ -12,7 +12,14 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { UserRepository } from 'src/auth/user.repository';
 import { VideoChatModule } from 'src/video-chat/video-chat.module';
 import { PushService } from 'src/push/push.service';
+import { ChatSocketConnectionRepository } from './repository/event.repository';
+import { PushConnectionRepository } from 'src/push/push-connection.repository';
+import * as redisStore from 'cache-manager-redis-store'
+import { CacheModule } from '@nestjs/cache-manager';
+import * as config from 'config';
 
+
+const redisConfig = config.get('redis');
 
 @Module({
     imports: [
@@ -20,20 +27,30 @@ import { PushService } from 'src/push/push.service';
             ConversationRepository,
             MessageRepository,
             UserRepository,
+            ChatSocketConnectionRepository,
+            PushConnectionRepository,
         ]),
         AuthModule,
-        VideoChatModule
+        VideoChatModule,
+        CacheModule.register({
+            store: redisStore,
+            host: redisConfig.host,
+            port: redisConfig.port,
+            password: redisConfig.password
+          }),
     ],
     providers: [
         EventGateway, 
         EventService,
         ConversationRepository,
+        ChatSocketConnectionRepository,
+        PushConnectionRepository,
         MessageRepository,
         UserRepository,
         JwtService,
         AuthService,
         JwtStrategy,
-        PushService
+        PushService,
     ],
     controllers: [EventController],
     exports: [EventGateway, EventService, TypeOrmModule],

@@ -27,7 +27,8 @@ export class MissionController {
     async createMission(
         @Body() createMissionDto: CreateMissionDto,
         @GetUserId() user_id: string,
-        @GetUserPushToken() pushToken: string
+        @GetUser() user: User,
+        // @GetUserPushToken() pushToken: any
         ): Promise<Mission> {
         const mission = await this.missionService.createMission(createMissionDto, user_id);
 
@@ -36,6 +37,9 @@ export class MissionController {
             result: 'success',
             mission: mission.content
         }
+        const connect_id = await this.AuthService.getConnectedUser(user);
+
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
         await this.pushService.push_noti(pushToken, title, info);
         return mission;
     }
@@ -51,12 +55,16 @@ export class MissionController {
     async updateStatusCompleteByMissionId(
         @Param('mission_id') mission_id: number,
         @GetUserId() user_id: string,
-        @GetUserPushToken() pushToken: string
+        @GetUser() user: User,
         ): Promise<Mission> {
         const title = '자녀가 미션을 완료했어요!';
         const info = {
             result: 'success'
         }
+        const connect_id = await this.AuthService.getConnectedUser(user);
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+
+
         await this.pushService.push_noti(pushToken, title, info);
         return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
     }
@@ -72,12 +80,16 @@ export class MissionController {
     async updateStatusRejectByMissionId(
         @Param('mission_id') mission_id: number,
         @GetUserId() user_id: string,
-        @GetUserPushToken() pushToken: string
+        @GetUser() user: User,
         ): Promise <Mission>{
         const title = '포도알 발급이 거절됐어요😥';
         const info = {
             result: 'success'
         }
+
+        const connect_id = await this.AuthService.getConnectedUser(user);
+        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+
         await this.pushService.push_noti(pushToken, title, info);
         return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
     }
