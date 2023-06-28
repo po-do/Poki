@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
@@ -10,14 +10,14 @@ async function fetchMissions() {
 }
 
 export default function MissionRegisterList() {
-  // const [missions, setMissions] = useState([]);
+  const [missions, setMissions] = useState([]);
   const [selectedMission, setSelectedMission] = useState(null);
   const [failModal, setFailModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const { data: missions, refetch } = useQuery(["missions"], fetchMissions, {
-    refetchInterval: 1000, // 1초마다 데이터를 자동으로 새로 고침합니다.
-  });
+  // const { data: missions, refetch } = useQuery(["missions"], fetchMissions, {
+  //   refetchInterval: 1000, // 1초마다 데이터를 자동으로 새로 고침합니다.
+  // });
 
   const openModal = () => {
     setShowModal(true);
@@ -35,11 +35,21 @@ export default function MissionRegisterList() {
     setFailModal(false);
   };
 
+  useEffect(() => {
+    getMission();
+  }, [missions]);
+
+  const getMission = async () => {
+    const incompleteMissions = await newMissionRead();
+    console.log(incompleteMissions);
+    setMissions(incompleteMissions);
+  };
+
   // 미션수정 ===================
   const handleChange = async (item) => {
     setSelectedMission(item);
     openModal();
-    refetch();
+    // refetch();
   };
 
   // 미션삭제 ===================
@@ -49,7 +59,7 @@ export default function MissionRegisterList() {
     };
     await missionDelete(params);
     openFailModal();
-    refetch();
+    // refetch();
   };
 
   return (
@@ -109,11 +119,8 @@ export default function MissionRegisterList() {
       {failModal && (
         <FailModal closeModal={closeFailModal} message="삭제되었습니다." />
       )}
-      {showModal ? (
-        <UpdateModal onClose={closeModal} item_id={selectedMission} />
-      ) : (
-        <></>
-      )}
+      {showModal &&
+        <UpdateModal onClose={closeModal} item_id={selectedMission} />}
     </>
   );
 }
