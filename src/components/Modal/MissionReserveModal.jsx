@@ -49,6 +49,7 @@ export default function MissionReserveModal({ closeModal, missionContent, setMis
       // Make a POST request to create the wishlist item
       const response = await missionUpdate(data);
       console.log("수정 완료:", response);
+      window.location.reload();
       closeModal();
     } catch (error) {
       console.log("수정 실패:", error);
