@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useState, useEffect, useCallback, useRef } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -16,7 +16,6 @@ import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getConnectedUser } from "../../api/auth.js";
 
-import SuccessModal from "../../components/Modal/SuccessModal";
 // ======================================
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
@@ -70,6 +69,15 @@ export default function ParentFormat() {
   const [issuedData, setIssuedData] = useState("");
   const [isConnect, setIsConnect] = useState("");
 
+  // 코드 유효 시간
+  const [timer, setTimer] = useState(180000);
+  const [minute, setMinute] = useState(3);
+  const [second, setSecond] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [codeText, setCodeText] = useState("발급");
+  const [realTime, setRealTime] = useState(false);
+
+  // 코드 발급
   const isConnected = async () => {
     try {
       const state = await getConnectedUser();
@@ -80,11 +88,58 @@ export default function ParentFormat() {
     }
   };
 
+  // FCM 알림
   useNotification();
 
+  // 코드 발급 타이머
   useEffect(() => {
+    // 현재 연결 상태
     isConnected();
-  }, []);
+
+    let tempMinute = parseInt(timer / 1000 / 60).toString();
+    let tempSecond = parseInt((timer / 1000) % 60).toString();
+    if (tempSecond.length === 1) tempSecond = "0" + tempSecond;
+    setMinute(tempMinute);
+    setSecond(tempSecond);
+
+    // 0초가 지나면 초기화
+    if (timer <= 0) {
+      setCodeText("재발급");
+      setRealTime(false);
+      stopTimer();
+    }
+  }, [timer]);
+
+  //
+  useEffect(() => {
+    let intervalId;
+    // 작동하며, 부모와 연결되어 있지 않다면 타이머 작동
+    if (running && !isConnect) {
+      intervalId = setInterval(() => {
+        setTimer((time) => time - 1000);
+      }, 1000);
+    } else {
+      clearInterval(intervalId); // Clear the interval if not running
+    }
+
+    return () => clearInterval(intervalId);
+  }, [running]);
+
+  // 타이머 시작
+  const startTimer = () => {
+    setRunning(true);
+    setRealTime(true);
+  };
+  //타이머 중단
+  const stopTimer = () => {
+    setRunning(false);
+  };
+
+  // 재 발급
+  const requestAgain = async () => {
+    setTimer(180000); // Reset the timer to 3 minutes
+    startTimer(); // Start the timer
+  };
 
   // const [issuCodeModal, setIssuCodeModal] = useState(false);
 
@@ -99,8 +154,8 @@ export default function ParentFormat() {
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
-    // openIssuCodeModal();
-    // force a page reload
+    // 코드 발급
+    requestAgain();
   };
 
   // ==================================================================
@@ -297,10 +352,17 @@ export default function ParentFormat() {
                                     />
                                     <button
                                       type="submit"
-                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                      className={`flex-none rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                                        realTime
+                                          ? "text-white cursor-not-allowed"
+                                          : "bg-indigo-500 text-white"
+                                      }`}
                                       onClick={codeIssu}
+                                      disabled={realTime}
                                     >
-                                      발급
+                                      {realTime
+                                        ? `${minute} : ${second}`
+                                        : `${codeText}`}
                                     </button>
                                   </div>
                                 </div>
@@ -445,10 +507,17 @@ export default function ParentFormat() {
                             />
                             <button
                               type="submit"
-                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              className={`flex-none rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                                realTime
+                                  ? "text-white cursor-not-allowed"
+                                  : "bg-indigo-500 text-white"
+                              }`}
                               onClick={codeIssu}
+                              disabled={realTime}
                             >
-                              발급
+                              {realTime
+                                ? `${minute} : ${second}`
+                                : `${codeText}`}
                             </button>
                           </div>
                         </div>

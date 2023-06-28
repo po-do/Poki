@@ -34,12 +34,13 @@ export default function Login({token}) {
           fcm_token: token,
         },
       });
+
       const params = {
         id: userInfo.data.id,
         user_id: email,
         type: userInfo.data.type,
       };
-
+      console.log("userInfo : ",userInfo);
       setUser(params);
       navigate(
         userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"
@@ -123,7 +124,7 @@ export default function Login({token}) {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
-            Sign in to your account
+            Poki에 오신 것을 환영합니다.
           </h2>
         </div>
 
