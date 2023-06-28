@@ -25,7 +25,6 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 import PodoChar from "../../icons/PodoChar.png";
 
 import { useNotification } from "../../hooks/useNotification.js";
-import { async } from "@firebase/util";
 
 const queryClient = new QueryClient();
 
@@ -70,13 +69,15 @@ export default function ParentFormat() {
   const [issuedData, setIssuedData] = useState("");
   const [isConnect, setIsConnect] = useState("");
 
+  // 코드 유효 시간
   const [timer, setTimer] = useState(180000);
   const [minute, setMinute] = useState(3);
   const [second, setSecond] = useState(0);
   const [running, setRunning] = useState(false);
-
   const [codeText, setCodeText] = useState("발급");
+  const [realTime, setRealTime] = useState(false);
 
+  // 코드 발급
   const isConnected = async () => {
     try {
       const state = await getConnectedUser();
@@ -87,50 +88,57 @@ export default function ParentFormat() {
     }
   };
 
+  // FCM 알림
   useNotification();
 
+  // 코드 발급 타이머
   useEffect(() => {
+    // 현재 연결 상태
     isConnected();
 
     let tempMinute = parseInt(timer / 1000 / 60).toString();
-    let tempSecond = parseInt(timer / 1000 % 60).toString();
+    let tempSecond = parseInt((timer / 1000) % 60).toString();
     if (tempSecond.length === 1) tempSecond = "0" + tempSecond;
     setMinute(tempMinute);
     setSecond(tempSecond);
 
-    if(timer <= 0){
+    // 0초가 지나면 초기화
+    if (timer <= 0) {
       setCodeText("재발급");
-      setTimer(180000); // Reset the timer to 3 minutes
+      setRealTime(false);
       stopTimer();
-  }
+    }
   }, [timer]);
 
+  //
   useEffect(() => {
     let intervalId;
-  
+    // 작동하며, 부모와 연결되어 있지 않다면 타이머 작동
     if (running && !isConnect) {
-      console.log("111");
       intervalId = setInterval(() => {
         setTimer((time) => time - 1000);
       }, 1000);
     } else {
       clearInterval(intervalId); // Clear the interval if not running
     }
-  
+
     return () => clearInterval(intervalId);
   }, [running]);
 
+  // 타이머 시작
   const startTimer = () => {
     setRunning(true);
+    setRealTime(true);
   };
-  
+  //타이머 중단
   const stopTimer = () => {
     setRunning(false);
   };
 
+  // 재 발급
   const requestAgain = async () => {
-        setTimer(180000); // Reset the timer to 3 minutes
-        startTimer(); // Start the timer
+    setTimer(180000); // Reset the timer to 3 minutes
+    startTimer(); // Start the timer
   };
 
   // const [issuCodeModal, setIssuCodeModal] = useState(false);
@@ -146,9 +154,8 @@ export default function ParentFormat() {
   const codeIssu = async () => {
     const newData = await createUserCode();
     setIssuedData(newData.data.connection_code);
+    // 코드 발급
     requestAgain();
-    // openIssuCodeModal();
-    // force a page reload
   };
 
   // ==================================================================
@@ -330,7 +337,7 @@ export default function ParentFormat() {
                                     className="h-6 w-6 shrink-0 text-indigo-200"
                                     aria-hidden="true"
                                   />
-                                  코드 발급 {minute} : {second}
+                                  코드 발급
                                 </div>
                                 <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                                   <div className="flex gap-x-4">
@@ -345,10 +352,17 @@ export default function ParentFormat() {
                                     />
                                     <button
                                       type="submit"
-                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                      className={`flex-none rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                                        realTime
+                                          ? "text-white cursor-not-allowed"
+                                          : "bg-indigo-500 text-white"
+                                      }`}
                                       onClick={codeIssu}
+                                      disabled={realTime}
                                     >
-                                      {codeText}
+                                      {realTime
+                                        ? `${minute} : ${second}`
+                                        : `${codeText}`}
                                     </button>
                                   </div>
                                 </div>
@@ -478,7 +492,7 @@ export default function ParentFormat() {
                             className="h-6 w-6 shrink-0 text-indigo-200"
                             aria-hidden="true"
                           />
-                          코드 발급 {minute} : {second}
+                          코드 발급
                         </div>
                         <div className="w-full max-w-md lg:col-span-5 lg:pt-2">
                           <div className="flex gap-x-4">
@@ -493,10 +507,17 @@ export default function ParentFormat() {
                             />
                             <button
                               type="submit"
-                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              className={`flex-none rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                                realTime
+                                  ? "text-white cursor-not-allowed"
+                                  : "bg-indigo-500 text-white"
+                              }`}
                               onClick={codeIssu}
+                              disabled={realTime}
                             >
-                              {codeText}
+                              {realTime
+                                ? `${minute} : ${second}`
+                                : `${codeText}`}
                             </button>
                           </div>
                         </div>
