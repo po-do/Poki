@@ -1,23 +1,16 @@
-import { React, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { newMissionRead, setMissionStatusWait } from "../../api/mission.js";
+import { React, useEffect, useState } from "react";
+// import { useQuery } from "@tanstack/react-query";
+import { missionReadChild, setMissionStatusWait } from "../../api/mission.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 
-// 데이터를 가져오는 함수
-async function fetchMissions() {
-  return await newMissionRead();
-}
-
 // 최근 등록된미션 보여주는 컴포넌트
 export default function RecentMissionList() {
+  const [missions, setMissions] = useState([]);
   const [checkedMissionsId, setCheckedMissionsId] = useState([]);
   const [checkedMissionsList, setCheckedMissionsList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
-  const { data: missions, refetch } = useQuery(["missions"], fetchMissions, {
-    refetchInterval: 1000, // 1초마다 데이터를 자동으로 새로 고침합니다.
-  });
 
   const openModal = () => {
     setShowModal(true);
@@ -35,6 +28,17 @@ export default function RecentMissionList() {
     setFailModal(false);
   };
 
+  useEffect(() => {
+    getMission();
+  }, [missions]);
+
+  const getMission = async () => {
+    const missionsData = await missionReadChild();
+    const incompleteMissions = missionsData.filter(
+      (mission) => mission.status === "INCOMPLETE"
+    );
+    setMissions(incompleteMissions);
+  };
 
   const handleChange = (e, mission) => {
     if (e.target.checked) {
@@ -58,7 +62,7 @@ export default function RecentMissionList() {
       openFailModal();
     }
     setCheckedMissionsId([]);
-    refetch();
+    setMissions([]);
   };
 
   const getRecentMissions = () => {
@@ -82,6 +86,7 @@ export default function RecentMissionList() {
       </div>
     ));
   };
+
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8">
@@ -115,12 +120,7 @@ export default function RecentMissionList() {
       {showModal && (
         <SuccessModal closeModal={closeModal} message="포도알 요청 완료" />
       )}
-      {failModal && (
-        <FailModal
-          closeModal={closeFailModal}
-          message="체크박스를 선택 해주세요."
-        />
-      )}
+      {failModal && <FailModal closeModal={closeFailModal} message="체크박스를 선택 해주세요."/>}
     </>
   );
 }
