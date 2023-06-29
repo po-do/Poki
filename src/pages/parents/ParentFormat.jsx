@@ -29,7 +29,7 @@ import { useNotification } from "../../hooks/useNotification.js";
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/parent", icon: HomeIcon, current: false },
+  { name: "홈", href: "/format/parent", icon: HomeIcon, current: false },
   {
     name: "미션",
     href: "/format/parent/mission",
