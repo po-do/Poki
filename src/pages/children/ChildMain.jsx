@@ -130,7 +130,7 @@ export default function ChildMain() {
                 포도알 관리 현황판
               </h3>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                Personal details and application.
+                현재 가지고 있는 포도알 정보를 확인할 수 있습니다.
               </p>
             </div>
             <div className="mt-6 border-t border-gray-100">
