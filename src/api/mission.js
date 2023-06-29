@@ -1,12 +1,12 @@
 import client from "./client.js";
 import { getAccessToken } from "./auth.js";
 
-// 미션 조회 (Read) => 구버전 삭제 필요
-// export async function missionRead(params) {
-//   const response = await client.get(`/mission/detail/${params.mission_id}`);
-//   console.log("missionRead 호출");
-//   return response.data;
-// }
+// 미션 조회 (Read)
+export async function missionRead(params) {
+  const response = await client.get(`/mission/detail/${params.mission_id}`);
+  console.log("missionRead 호출");
+  return response.data;
+}
 
 // 미션 조회 (Read)
 // 현재일 기준 수행 가능한 미션 조회 (Read)
