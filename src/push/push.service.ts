@@ -8,6 +8,7 @@ import { UseGuards } from "@nestjs/common";
 import { response } from "express";
 import { NotFoundException } from "@nestjs/common";
 import { getMessaging } from "firebase-admin/messaging";
+import { ForbiddenException } from "@nestjs/common";
 
 @UseGuards(AuthGuard())
 @Injectable()
@@ -33,6 +34,11 @@ export class PushService {
         const fcm_token_list = pushConnection
           .map((item) => item.fcm_token)
           .filter((token) => token !== '');
+
+        //fcm_token_list 가 null 일때  forbidden exception
+        if (fcm_token_list.length == 0) {
+          throw new ForbiddenException(`fcm_token_list with user ID "${user_id}" not found`);
+        }
         
         console.log(fcm_token_list);
         

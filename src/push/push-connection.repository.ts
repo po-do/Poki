@@ -18,7 +18,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         console.log(isTokenExists);
         console.log(fcm_token);
         
-        if (!isTokenExists && fcm_token !== null) {
+        if (!isTokenExists && fcm_token !== '') {
             const pushConnection = this.create({
                 fcm_token,
                 user: { id },

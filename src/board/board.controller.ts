@@ -143,6 +143,7 @@ export class BoardController {
         const connect_id = await this.AuthService.getConnectedUser(user);
 
         const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+
         await this.pushService.push_noti(pushToken, title, info);
         return response
     }
