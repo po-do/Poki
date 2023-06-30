@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import styles from "./Grapes.module.css";
+import styles from "./Grapes.module.css";
 import { getBoardStatus } from "../../api/board.js";
 import GrapeImage_0 from "../../icons/Grapes/podo_0.png";
 import GrapeImage_1 from "../../icons/Grapes/podo_1.png";
@@ -193,7 +193,15 @@ export default function Grapes({ GrapesCount, message }) {
       <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
         <img src={isUrl} alt={isUrl} className="object-cover object-center sm:h-full sm:w-full" />
       </div>
-    
+    {/* 보물 상자 */}
+      {/* <div class="treasure" onclick="alert('Hoooray you found the treasure')"></div> */}
+
+    {/* 말풍선 */}
+      {/* <div class="talk-bubble tri-right border round btm-right-in">
+  <div class="talktext">
+    <p>Now flipped the other way and square. Uses .border and .btm-right-in</p>
+  </div>
+</div> */}
     </div>
   );
 }
