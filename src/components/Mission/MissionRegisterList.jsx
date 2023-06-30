@@ -83,7 +83,7 @@ export default function MissionRegisterList() {
           </div>
         </div>
         <div className="mt-8 overflow-y-auto max-h-60">
-          <div className="-mx-4 -my-2">
+          <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
                 <thead>
@@ -98,8 +98,11 @@ export default function MissionRegisterList() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
-                    <tr key={item.id} className="flex">
-                      <td className="flex whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium gap-2">
+                    <tr key={item.id} className="flex justify-between">
+                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                        {item.content}
+                      </td>
+                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
                           onClick={() => handleChange(item.id)}
@@ -112,9 +115,6 @@ export default function MissionRegisterList() {
                         >
                           삭제
                         </button>
-                      </td>
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        {item.content}
                       </td>
                     </tr>
                   ))}
