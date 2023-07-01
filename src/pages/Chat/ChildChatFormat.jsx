@@ -26,7 +26,7 @@ import ChatRoom from "./ChattingRoom.jsx";
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/child", icon: HomeIcon, current: false },
+  { name: "홈", href: "/format/child", icon: HomeIcon, current: false },
   {
     name: "위시리스트",
     href: "/format/child/wishlist",

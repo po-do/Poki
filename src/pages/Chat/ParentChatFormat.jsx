@@ -9,6 +9,7 @@ import {
   XMarkIcon,
   VideoCameraIcon,
   ChatBubbleLeftRightIcon,
+  CalendarIcon
 } from "@heroicons/react/24/outline";
 import { createUserCode, getConnectedUser } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -25,11 +26,17 @@ import PodoChar from "../../icons/PodoChar.png";
 const queryClient = new QueryClient();
 
 const navigation = [
-  { name: "Home", href: "/format/parent", icon: HomeIcon, current: false },
+  { name: "홈", href: "/format/parent", icon: HomeIcon, current: false },
   {
     name: "미션",
     href: "/format/parent/mission",
     icon: DocumentCheckIcon,
+    current: false,
+  },
+  {
+    name: "캘린더",
+    href: "/format/parent/calendar",
+    icon: CalendarIcon,
     current: false,
   },
   {
