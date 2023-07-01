@@ -13,6 +13,7 @@ import { PushModule } from './push/push.module';
 // import { CacheService } from './cache/cache.service';
 // import { CacheModule } from './cache/cache.module';
 import { RedisModule } from './redis/redis.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { RedisModule } from './redis/redis.module';
     VideoChatModule,
     PushModule,
     RedisModule,
+    ScheduleModule.forRoot()
   ],
 
   controllers: [AppController],
