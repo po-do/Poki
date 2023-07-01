@@ -22,7 +22,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         if (!isTokenExists && fcm_token !== '') {
             const pushConnection = this.create({
                 fcm_token,
-                createdAt: new Date(), // 현재 시간
+                lastLoginTime: new Date(), // 현재 시간
                 user: { id },
         });
 
@@ -33,7 +33,15 @@ export class PushConnectionRepository extends Repository<PushConnection> {
     
     async isTokenExists(userId: number, fcmToken: string): Promise<boolean> {
         const existingPushConnection = await this.findOne({ where: { user: { id: userId }, fcm_token: fcmToken } });
-        return !!existingPushConnection; // 중복된 토큰이 존재하면 true, 그렇지 않으면 false 반환
+        //return !!existingPushConnection; // 중복된 토큰이 존재하면 true, 그렇지 않으면 false 반환
+        if (existingPushConnection) {
+            // 이미 존재하는 토큰인 경우 시간만 갱신합니다.
+            existingPushConnection.lastLoginTime = new Date();
+            await this.save(existingPushConnection);
+            return true;
+        }
+    
+        return false; // 중복된 토큰이 존재하지 않으면 false 반환
     }
 
     @Cron(CronExpression.EVERY_WEEK, { timeZone: "Asia/Seoul" }) // 매 주 월요일 00:00:00에 실행되는 cron 작업
@@ -45,7 +53,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         await this.createQueryBuilder()
             .delete()
             .from(PushConnection)
-            .where("createdAt <= :expirationTime", { expirationTime })
+            .where("lastLoginTime <= :expirationTime", { expirationTime })
             .execute();
     }
 
