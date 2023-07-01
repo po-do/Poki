@@ -124,7 +124,7 @@ export class MissionService {
           (date.getMonth() + 1).toString().padStart(2, "0") +
           "-" +
           date.getDate().toString();
-      
+
         query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: currentDate});
 
         const missions = await query.getMany();
