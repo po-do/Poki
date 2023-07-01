@@ -28,11 +28,6 @@ export class PushConnectionRepository extends Repository<PushConnection> {
 
         await this.save(pushConnection);
     }
-    //   // 2주 지난 토큰 삭제 로직 호출
-    //   setTimeout(async () => {
-    //     await this.deleteExpiredTokens();
-    // }, 2 * 7 * 24 * 60 * 60 * 1000); 
-    
 
 }
     
@@ -41,21 +36,11 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         return !!existingPushConnection; // 중복된 토큰이 존재하면 true, 그렇지 않으면 false 반환
     }
 
-    //  async deleteExpiredTokens(): Promise<void> {
-    //     const expirationTime = new Date();
-    //     expirationTime.setDate(expirationTime.getDate() - 14); // 현재 시간으로부터 1분 전 시간 설정
-
-    //     await this.createQueryBuilder()
-    //         .delete()
-    //         .from(PushConnection)
-    //         .where("createdAt <= :expirationTime", { expirationTime })
-    //         .execute();
-    // }
-    @Cron(CronExpression.EVERY_MINUTE) // 매분에 실행되는 cron 작업
+    @Cron(CronExpression.EVERY_WEEK, { timeZone: "Asia/Seoul" }) // 매 주 월요일 00:00:00에 실행되는 cron 작업
     async deleteExpiredTokens() {
         console.log("Running deleteExpiredTokens");
         const expirationTime = new Date();
-        expirationTime.setMinutes(expirationTime.getMinutes() - 1); // 현재 시간으로부터 1분전 시간 설정
+        expirationTime.setDate(expirationTime.getDate() - 7); // 현재 시간으로부터 1주 전 시간 설정
 
         await this.createQueryBuilder()
             .delete()
