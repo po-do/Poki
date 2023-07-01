@@ -3,9 +3,14 @@ import Grapes from "../../components/UI/ChildGrapes";
 // recoil 사용
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user.js";
+import CodeConnectModal from "../../components/Modal/CodeConnectModal";
+
+// 코드등록
+import { connectUserCode, getConnectedUserId } from "../../api/auth";
 
 export default function ChildMain() {
   const user = useRecoilValue(userState);
+  const [condition, setCondition] = useState(false);
 
   // Overlay Message
   const message = [
@@ -13,8 +18,18 @@ export default function ChildMain() {
     "선물 선택 후 포도 서비스가 시작됩니다",
   ];
 
+  useEffect(() => {
+    const fetchUserCondition = async () => {
+      const result = await getConnectedUserId();
+      setCondition(result.data.is_connected);
+    };
+    fetchUserCondition();
+    console.log(condition);
+  }, []);
+
   return (
     <>
+      {condition === false && <CodeConnectModal closeModal={setCondition} />}
       <div className="relative bg-white py-1">
         {/* 배너 */}
         <div className="px-4 py-2">
@@ -29,12 +44,12 @@ export default function ChildMain() {
             </div>
           </div>
         </div>
-
         {/* 포도판 */}
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
           <Grapes message={message} />
         </div>
       </div>
+      {/* 만약 코드등록이 되어있지 않다면 코드를 등록하라는 모달이 기본으로 나오게 만들기 -> 유저상태조회후 코드가 없으면 출력 */}
     </>
   );
 }

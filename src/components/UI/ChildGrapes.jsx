@@ -250,7 +250,7 @@ export default function Grapes({ message }) {
 
       {/* Modal Area */}
       {attachModal && (
-        <SuccessModal closeModal={closeAttachModal} message="등록완료" />
+        <SuccessModal closeModal={closeAttachModal} message="포도알을 하나 붙였습니다." />
       )}
       {failAttachModal && (
         <FailModal
