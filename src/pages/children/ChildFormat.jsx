@@ -153,7 +153,7 @@ export default function ChildFormat() {
       <QueryClientProvider client={queryClient}>
         <div>
           {/* 접히는 사이드바 */}
-          <Transition.Root show={sidebarOpen} as={Fragment}>
+          {/* <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
               as="div"
               className="relative z-50 lg:hidden"
@@ -205,7 +205,6 @@ export default function ChildFormat() {
                         </button>
                       </div>
                     </Transition.Child>
-                    {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                       <div className="flex h-16 shrink-0 items-center">
                         <img
@@ -270,7 +269,6 @@ export default function ChildFormat() {
                             </ul>
                           </li>
 
-                          {/* 접히는 사이드바 코드 등록 여부 */}
                           {!isConnect ? (
                             <>
                               <li className="mt-auto">
@@ -328,12 +326,11 @@ export default function ChildFormat() {
                 </Transition.Child>
               </div>
             </Dialog>
-          </Transition.Root>
+          </Transition.Root> */}
 
           {/* 기본 사이드바 */}
           {/* Static sidebar for desktop */}
-          <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            {/* Sidebar component, swap this element with another sidebar if you like */}
+          {/* <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
               <div className="flex h-16 shrink-0 items-center">
                 <img
@@ -399,7 +396,7 @@ export default function ChildFormat() {
                   </li>
 
                   {/* 기본 사이드바 코드 등록 여부 */}
-                  {!isConnect ? (
+                  {/* {!isConnect ? (
                     <>
                       <li className="mt-auto">
                         <div className="-mx-2 flex gap-x-3 rounded-md p-2 text-lg font-semibold leading-6 text-indigo-200">
@@ -452,10 +449,10 @@ export default function ChildFormat() {
                 </ul>
               </nav>
             </div>
-          </div>
+          </div> */}
 
           {/* 헤더 */}
-          <div className="lg:pl-72">
+          <div className="">
             <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
               {/* <button
                 type="button"

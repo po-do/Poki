@@ -99,29 +99,29 @@ export default function BottomButton() {
 
   return (
     <>
-      <nav className="navigation-bar">
-        <ul className="list-items">
-          <span className="pointer"></span>
+      <div>
+        <nav className="navigation-bar">
+          <ul className="list-items">
+            <span className="pointer"></span>
 
-          {navigation.map((item) => (
-            <li key={item.name} className="item">
-              <button
-                className="link"
-                onClick={() =>
-                  (window.location.href = `${item.href}`)
-                }
-              >
-                <item.icon />
+            {navigation.map((item) => (
+              <li key={item.name} className="item">
+                <button
+                  className="link"
+                  onClick={() => (window.location.href = `${item.href}`)}
+                >
+                  <item.icon />
+                </button>
+              </li>
+            ))}
+            <li key="채팅" className="item">
+              <button className="link" onClick={onCreateRoom}>
+                <ChatBubbleLeftRightIcon />
               </button>
             </li>
-          ))}
-          <li key="채팅" className="item">
-            <button className="link" onClick={onCreateRoom}>
-              <ChatBubbleLeftRightIcon />
-            </button>
-          </li>
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      </div>
     </>
   );
 }
