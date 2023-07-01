@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import RecentMissionList from "../../components/Mission/ChildMissionList";
-import { getBoardStatus, attachBoard } from "../../api/board.js";
-import Grapes from "../../components/UI/Grapes";
-import SuccessModal from "../../components/Modal/SuccessModal";
-import FailModal from "../../components/Modal/FailModal";
+import Grapes from "../../components/UI/ChildGrapes";
 // recoil 사용
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user.js";
+import CodeConnectModal from "../../components/Modal/CodeConnectModal";
+
+// 코드등록
+import { connectUserCode, getConnectedUserId } from "../../api/auth";
 
 export default function ChildMain() {
-  const [grape, setGrape] = useState({});
-  const [attachModal, setAttachModal] = useState(false);
-  const [failAttachModal, setFailAttachModal] = useState(false);
   const user = useRecoilValue(userState);
-
-  const boardQuery = useQuery(["boardState"], () => {
-    return getBoardStatus();
-  });
+  const [condition, setCondition] = useState(false);
 
   // Overlay Message
   const message = [
@@ -26,46 +18,21 @@ export default function ChildMain() {
     "선물 선택 후 포도 서비스가 시작됩니다",
   ];
 
-  const openAttachModal = () => {
-    setAttachModal(true);
-  };
-
-  const closeAttachModal = () => {
-    setAttachModal(false);
-  };
-
-  const openFailAttachModal = () => {
-    setFailAttachModal(true);
-  };
-
-  const closeFailAttachModal = () => {
-    setFailAttachModal(false);
-  };
-
   useEffect(() => {
-    if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape(fetchedGrape);
-    }
-  }, [grape, boardQuery.isSuccess, boardQuery.data]);
-
-  // 안붙혀진 포도 추가
-  async function addGrape() {
-    const grapeStatus = await getBoardStatus();
-    if (grapeStatus.data.grape.deattached_grapes === 0) {
-      openFailAttachModal();
-    } else {
-      await attachBoard();
-      openAttachModal();
-      boardQuery.refetch();
-    }
-  }
+    const fetchUserCondition = async () => {
+      const result = await getConnectedUserId();
+      setCondition(result.data.is_connected);
+    };
+    fetchUserCondition();
+    console.log(condition);
+  }, []);
 
   return (
     <>
-      <div className="relative bg-white py-1 sm:py-1">
+      {condition === false && <CodeConnectModal closeModal={setCondition} />}
+      <div className="relative bg-white py-1">
         {/* 배너 */}
-        <div className="px-12 py-7">
+        <div className="px-4 py-2">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -77,15 +44,14 @@ export default function ChildMain() {
             </div>
           </div>
         </div>
-
         {/* 포도판 */}
-        <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
-          <Grapes GrapesCount={grape.attached_grapes} message={message} />
+        <div className="m-auto md:w-6/12 max-[720px]:w-full">
+          <Grapes message={message} />
         </div>
 
         {/* 현재 포도알 및 관리 현황판 */}
-        <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">
-          {/* 가지고 있는 포도알 */}
+        {/* <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">
+          주석 - 가지고 있는 포도알
           <div className="md:w-2/4 px-4 sm:px-6 lg:px-8">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               가지고 있는 포도알
@@ -123,7 +89,7 @@ export default function ChildMain() {
             </button>
           </div>
 
-          {/* 관리현황판 */}
+          주석 - 관리현황판
           <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -154,22 +120,22 @@ export default function ChildMain() {
               </dl>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        {/* 등록된 미션 및 위시리스트 */}
-        <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
+        {/* 등록된 미션 및 위시리스트 *0000000000/}
+        {/* <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
           <div className="flex-1">
             <RecentMissionList />
           </div>
 
-          {/* 등록된 보상 부분*/}
+          등록된 보상 부분
           <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
             <MissionRegisteredGift
               message={["원하는 선물", "원하는 선물을 선택해 주세요"]}
               link ={`child`}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Modal Area */}
         {attachModal && (
@@ -182,6 +148,7 @@ export default function ChildMain() {
           />
         )}
       </div>
+      {/* 만약 코드등록이 되어있지 않다면 코드를 등록하라는 모달이 기본으로 나오게 만들기 -> 유저상태조회후 코드가 없으면 출력 */}
     </>
   );
 }
