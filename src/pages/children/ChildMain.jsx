@@ -1,16 +1,46 @@
 import React, { useEffect, useState } from "react";
 import Grapes from "../../components/UI/ChildGrapes";
 // recoil 사용
+import { getConnectedUserId } from "../../api/auth.js";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user.js";
-import CodeConnectModal from "../../components/Modal/CodeConnectModal";
-
-// 코드등록
-import { connectUserCode, getConnectedUserId } from "../../api/auth";
+import { CodeConnectModal } from "../../components/Modal/CodeConnectModal";
 
 export default function ChildMain() {
   const user = useRecoilValue(userState);
   const [condition, setCondition] = useState(false);
+
+  useEffect(() => {
+    const navigationItems = document.querySelectorAll(
+      ".navigation-bar .list-items .item"
+    );
+    const navigationPointer = document.querySelector(
+      ".navigation-bar .pointer"
+    );
+
+    const handleClick = (e) => {
+      e.preventDefault();
+
+      navigationItems.forEach((item) => item.classList.remove("active"));
+      e.currentTarget.classList.add("active");
+
+      const parentWidth = e.currentTarget.parentElement.clientWidth;
+      const leftPercent =
+        (parentWidth / navigationItems.length) *
+        Array.from(navigationItems).indexOf(e.currentTarget);
+      navigationPointer.style.left = `${leftPercent}px`;
+    };
+
+    navigationItems.forEach((item) => {
+      item.addEventListener("click", handleClick);
+    });
+
+    return () => {
+      navigationItems.forEach((item) => {
+        item.removeEventListener("click", handleClick);
+      });
+    };
+  }, []);
 
   // Overlay Message
   const message = [
@@ -48,6 +78,39 @@ export default function ChildMain() {
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
           <Grapes message={message} />
         </div>
+
+        {/* 버튼 */}
+        {/* 홈, 미션, 위시리스트, 채팅, 화상채팅 */}
+        <nav class="navigation-bar">
+          <ul class="list-items">
+            <span class="pointer"></span>
+            <li class="item active">
+              <a class="link" href="">
+                <i class="fas fa-home fa-2x"> </i>
+              </a>
+            </li>
+            <li class="item">
+              <a class="link" href="#">
+                <i class="fas fa-search fa-2x"> </i>
+              </a>
+            </li>
+            <li class="item">
+              <a class="link" href="#">
+                <i class="fas fa-heart fa-2x"> </i>
+              </a>
+            </li>
+            <li class="item">
+              <a class="link" href="#">
+                <i class="fas fa-bell fa-2x"> </i>
+              </a>
+            </li>
+            <li class="item">
+              <a class="link" href="#">
+                <i class="fas fa-user fa-2x"> </i>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
         {/* 현재 포도알 및 관리 현황판 */}
         {/* <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">
@@ -122,7 +185,8 @@ export default function ChildMain() {
           </div>
         </div> */}
 
-        {/* 등록된 미션 및 위시리스트 *0000000000/}
+
+        {/* 등록된 미션 및 위시리스트 */}
         {/* <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
           <div className="flex-1">
             <RecentMissionList />
@@ -137,8 +201,9 @@ export default function ChildMain() {
           </div>
         </div> */}
 
+
         {/* Modal Area */}
-        {attachModal && (
+        {/* {attachModal && (
           <SuccessModal closeModal={closeAttachModal} message="등록완료" />
         )}
         {failAttachModal && (
@@ -146,7 +211,7 @@ export default function ChildMain() {
             closeModal={closeFailAttachModal}
             message="붙일 수 있는 포도알이 없습니다."
           />
-        )}
+        )} */}
       </div>
       {/* 만약 코드등록이 되어있지 않다면 코드를 등록하라는 모달이 기본으로 나오게 만들기 -> 유저상태조회후 코드가 없으면 출력 */}
     </>

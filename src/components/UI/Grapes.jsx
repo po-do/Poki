@@ -194,7 +194,8 @@ export default function Grapes({ GrapesCount, message }) {
           className="object-cover object-center sm:h-full sm:w-full"
         />
       </div>
-      {/* 보물 상자 */}
+      
+    {/* 보물 상자 */}
       {/* <div class="treasure" onclick="alert('Hoooray you found the treasure')"></div> */}
 
       {/* 말풍선 */}
