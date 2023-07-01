@@ -88,10 +88,10 @@ export default function ParentMain() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Parent Main
+                지수현 부모님의 포도알 보드판
               </h2>
               <p className="mt-2 text-lg leading-8 text-gray-600">
-                아이들의 포도 관리 현황을 파악해보세요~
+                아이들의 포도 관리 현황을 파악해보세요~ 🥰
               </p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function ParentMain() {
                 포도알 관리 현황판
               </h3>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                Personal details and application.
+                현재 자녀의 포도알 정보를 확인할 수 있습니다.
               </p>
             </div>
             <div className="mt-6 border-t border-gray-100">
@@ -141,7 +141,7 @@ export default function ParentMain() {
           <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
             <MissionRegisteredGift
               message={["등록된 보상", "보상을 선택해 주세요"]}
-              link ={`parent`}
+              link={`parent`}
             />
             {(grape?.attached_grapes === 31 ? true : false) && (
               <button
@@ -153,7 +153,6 @@ export default function ParentMain() {
             )}
           </div>
         </div>
-        
       </div>
     </>
   );

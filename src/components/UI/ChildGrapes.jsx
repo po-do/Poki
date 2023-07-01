@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getBoardStatus } from "../../api/board.js";
+import styles from "./ChildGrapes.module.css";
+import { getBoardStatus, attachBoard } from "../../api/board.js";
 import GrapeImage_0 from "../../icons/Grapes/podo_0.png";
 import GrapeImage_1 from "../../icons/Grapes/podo_1.png";
 import GrapeImage_2 from "../../icons/Grapes/podo_2.png";
@@ -33,9 +34,18 @@ import GrapeImage_29 from "../../icons/Grapes/podo_29.png";
 import GrapeImage_30 from "../../icons/Grapes/podo_30.png";
 import GrapeImage_31 from "../../icons/Grapes/podo_31.png";
 
-export default function Grapes({ GrapesCount, message }) {
+import SuccessModal from "../../components/Modal/SuccessModal";
+import FailModal from "../../components/Modal/FailModal";
+import GiftModal from "../Modal/GiftModal";
+import { useQuery } from "@tanstack/react-query";
+
+export default function Grapes({ message }) {
+  const [grape, setGrape] = useState({});
   const [showOverlay, setShowOverlay] = useState(null);
   const [isUrl, setIsUrl] = useState("");
+  const [attachModal, setAttachModal] = useState(false);
+  const [failAttachModal, setFailAttachModal] = useState(false);
+  const [giftModal, setGiftModal] = useState(false);
 
   const handleOverlayClick = () => {
     setShowOverlay(false);
@@ -48,10 +58,57 @@ export default function Grapes({ GrapesCount, message }) {
     }
   };
 
+  const openAttachModal = () => {
+    setAttachModal(true);
+  };
+
+  const closeAttachModal = () => {
+    setAttachModal(false);
+  };
+
+  const openFailAttachModal = () => {
+    setFailAttachModal(true);
+  };
+
+  const closeFailAttachModal = () => {
+    setFailAttachModal(false);
+  };
+
+  const openSetGiftModal = () => {
+    setGiftModal(true);
+  };
+
+  const closeSetGiftModal = () => {
+    setGiftModal(false);
+  };
+
+  const boardQuery = useQuery(["boardState"], () => {
+    return getBoardStatus();
+  });
+
+  // 안붙혀진 포도 추가
+  async function addGrape() {
+    const grapeStatus = await getBoardStatus();
+    if (grapeStatus.data.grape.deattached_grapes === 0) {
+      openFailAttachModal();
+    } else {
+      await attachBoard();
+      openAttachModal();
+      boardQuery.refetch();
+    }
+  }
+
   useEffect(() => {
-    showGrape(GrapesCount);
+    showGrape(grape.attached_grapes);
     getState();
-  }, [GrapesCount]);
+  }, [grape.attached_grapes]);
+
+  useEffect(() => {
+    if (boardQuery.isSuccess) {
+      const fetchedGrape = boardQuery?.data?.data?.grape;
+      setGrape(fetchedGrape);
+    }
+  }, [grape, boardQuery.isSuccess, boardQuery.data]);
 
   const showGrape = (count) => {
     switch (count) {
@@ -170,39 +227,38 @@ export default function Grapes({ GrapesCount, message }) {
           ))}
         </div>
       )}
-
-      {/* <div className={styles.uvas}>
-          줄기
-          <div className={styles.tallo}></div>
-          잎파리
-          <div className={styles.hojas}></div>
-          1번째 부터 31번째 포도
-          {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
-            <span
-              className={`${styles[`u${n}`]} ${
-                n <= GrapesCount ? styles.grape : ""
-              }`}
-              key={n}
-            ></span>
-          ))}
-        </div> */}
-
-      <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+      {/* 포도판 부분 */}
+      <div className="relative mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
         <img
           src={isUrl}
           alt={isUrl}
           className="object-cover object-center sm:h-full sm:w-full"
         />
-      </div>
-      {/* 보물 상자 */}
-      {/* <div class="treasure" onclick="alert('Hoooray you found the treasure')"></div> */}
+        {/* 보물 상자 */}
+        <div className={styles.treasure} onClick={openSetGiftModal}></div>
 
-      {/* 말풍선 */}
-      {/* <div class="talk-bubble tri-right border round btm-right-in">
-  <div class="talktext">
-    <p>Now flipped the other way and square. Uses .border and .btm-right-in</p>
-  </div>
-</div> */}
+        {/* 캐릭터 */}
+        <div className={styles.character} onClick={addGrape}></div>
+
+        {/* 말풍선 */}
+        <div className={`${styles.talkBubbleComplete}`}>
+          <div className={styles.talktext}>
+            <p>{grape.deattached_grapes} 개</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal Area */}
+      {attachModal && (
+        <SuccessModal closeModal={closeAttachModal} message="포도알을 하나 붙였습니다." />
+      )}
+      {failAttachModal && (
+        <FailModal
+          closeModal={closeFailAttachModal}
+          message="붙일 수 있는 포도알이 없습니다."
+        />
+      )}
+      {giftModal && <GiftModal closeModal={closeSetGiftModal} />}
     </div>
   );
 }

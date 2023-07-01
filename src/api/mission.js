@@ -2,20 +2,31 @@ import client from "./client.js";
 import { getAccessToken } from "./auth.js";
 
 // 미션 조회 (Read)
-export async function missionRead(params) {
-  const response = await client.get(`/mission/detail/${params.mission_id}`);
-  console.log("missionRead 호출");
+// export async function missionRead(params) {
+//   const response = await client.get(`/mission/detail/${params.mission_id}`);
+//   console.log("missionRead 호출");
+//   return response.data;
+// }
+
+
+// 현재일 기준 수행 가능한 미션 조회 (Read)
+export async function newMissionRead() {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  const response = await client.get(`/mission/user/incomplete`);
+  console.log("newMissionRead 호출");
   return response.data;
 }
 
 // 미션 생성 (Create)
 export async function missionCreate(params) {
   const accessToken = getAccessToken();
-  console.log(params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionCreate 호출");
+  // console.log("missionCreate 호출");
   const response = await client.post("/mission/create", params.request);
   return response.data;
 }
@@ -59,7 +70,7 @@ export async function missionUpdate(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionUpdate 호출");
+  // console.log("missionUpdate 호출");
   const response = await client.patch(
     `/mission/update/${params.mission_id}`,
     params.request
@@ -74,7 +85,7 @@ export async function missionDelete(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionDelete 호출");
+  // console.log("missionDelete 호출");
   const response = await client.delete(`/mission/delete/${params.mission_id}`);
   return response.data;
 }
@@ -85,7 +96,7 @@ export async function missionReadChild() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  //console.log("missionReadChild 호출");
+
   const response = await client.get(`/mission/user`);
   return response.data;
 }
@@ -96,7 +107,7 @@ export async function missionConfirm() {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionConfirm 호출");
+  // console.log("missionConfirm 호출");
   const response = await client.get(`/mission/user/approve`);
   return response.data;
 }
@@ -108,7 +119,7 @@ export async function missionRecommend(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("missionRecommend 호출");
+  // console.log("missionRecommend 호출");
   const response = await client.post("/mission/recommend", params.request);
   return response.data;
 }

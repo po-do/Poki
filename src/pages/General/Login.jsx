@@ -34,12 +34,13 @@ export default function Login({token}) {
           fcm_token: token,
         },
       });
+
       const params = {
         id: userInfo.data.id,
         user_id: email,
         type: userInfo.data.type,
+        name : userInfo.data.user_name,
       };
-
       setUser(params);
       navigate(
         userInfo.data.type === "PARENT" ? "/format/parent" : "/format/child"
