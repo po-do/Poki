@@ -15,3 +15,12 @@ export class responseBoardDto {
   };
   is_existence?: boolean;
 }
+
+export class responseSseBoardDto {
+  data: {
+    code: number;
+    success: boolean;
+    grape: {};
+    is_existence?: boolean;
+  };
+}
