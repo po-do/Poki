@@ -1,16 +1,47 @@
 import { React, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import { getBoardStatus } from "../../api/board.js";
+import { getBoardStatus, getBoardStatusSSE } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
-
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { getAccessToken } from "../../api/auth";
 import {
   getWishlistByUserId,
   updateWishlistGivenStatus,
 } from "../../api/wishlist";
 
+
 export default function ParentMain() {
   const [grape, setGrape] = useState({});
+
+  const handleConnect = () => {
+    const accessToken = getAccessToken();
+
+    const sse = new EventSourcePolyfill(`http://localhost:4000/board/grape/sse/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+
+    sse.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      // setText(data.grape)
+      console.log(data)
+    }
+
+    sse.addEventListener('connect', e => {
+      const {data: receivedData} = e;
+      console.log(receivedData)
+    })
+
+    sse.addEventListener('리스너네임', e => {
+      const { data: receivedData } = e;
+
+      // setData(JSON.parse(receivedSections));
+      console.log("count event data", receivedData);
+      // setCount(receivedCount);
+    })
+  }
 
   const boardQuery = useQuery(["boardState"], () => {
     return getBoardStatus();
@@ -46,7 +77,8 @@ export default function ParentMain() {
       const fetchedGrape = boardQuery?.data?.data?.grape;
       setGrape(fetchedGrape);
     }
-  }, [grape, boardQuery.isSuccess, boardQuery.data]);
+    handleConnect();
+  }, [grape]);
 
   return (
     <>
