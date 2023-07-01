@@ -5,7 +5,7 @@ import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
-
+import BottomButton from "../General/BottomButton";
 // 채팅방 설정
 const ChatRoom = () => {
   const [chats, setChats] = useState([]);
@@ -131,6 +131,8 @@ const ChatRoom = () => {
             </div>
           </div>
         </div>
+      <BottomButton />
+
       </div>
     </>
   );
