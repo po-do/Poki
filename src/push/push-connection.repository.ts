@@ -22,7 +22,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         if (!isTokenExists && fcm_token !== '') {
             const pushConnection = this.create({
                 fcm_token,
-                lastLoginTime: new Date(), // 현재 시간
+                last_login_time: new Date(), // 현재 시간
                 user: { id },
         });
 
@@ -36,7 +36,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         //return !!existingPushConnection; // 중복된 토큰이 존재하면 true, 그렇지 않으면 false 반환
         if (existingPushConnection) {
             // 이미 존재하는 토큰인 경우 시간만 갱신합니다.
-            existingPushConnection.lastLoginTime = new Date();
+            existingPushConnection.last_login_time = new Date();
             await this.save(existingPushConnection);
             return true;
         }
@@ -53,7 +53,7 @@ export class PushConnectionRepository extends Repository<PushConnection> {
         await this.createQueryBuilder()
             .delete()
             .from(PushConnection)
-            .where("lastLoginTime <= :expirationTime", { expirationTime })
+            .where("last_login_time <= :expirationTime", { expirationTime })
             .execute();
     }
 
