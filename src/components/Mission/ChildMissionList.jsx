@@ -34,10 +34,7 @@ export default function RecentMissionList() {
 
   const getMission = async () => {
     const missionsData = await newMissionRead();
-    const incompleteMissions = missionsData.filter(
-      (mission) => mission.status === "INCOMPLETE"
-    );
-    setMissions(incompleteMissions);
+    setMissions(missionsData);
   };
 
   const handleChange = (e, mission) => {

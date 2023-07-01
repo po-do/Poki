@@ -33,7 +33,6 @@ export default function MissionRegisterList() {
 
   const getMission = async () => {
     const missionsData = await newMissionRead();
-
     setMissions(missionsData);
   };
 
