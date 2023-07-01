@@ -1,4 +1,6 @@
-import { Body, Controller, Get, Param, Post, Delete, Patch, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, ForbiddenException } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, Patch, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, ForbiddenException, Sse  } from '@nestjs/common';
+import { Observable, interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthGuard } from '@nestjs/passport';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -10,7 +12,6 @@ import { responseBoardDto } from './dto/response-board.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { GetUserPushToken } from 'src/decorators/get-user.pushtoken.decorator';
 import { PushService } from 'src/push/push.service';
 
 @Controller('board')
@@ -64,6 +65,49 @@ export class BoardController {
     getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
         return this.boardService.getBoardById(id);
     }
+
+    @Sse('/grape/sse/user')
+    async sseGetBoardByUserId(
+      @GetUser() user: User,
+      @GetUserId() id: number,
+      @GetUserType() type: string,
+    ): Promise<Observable<responseBoardDto>> {
+      
+        if (type !== 'PARENT') {
+        id = await this.AuthService.getConnectedUser(user);
+      }
+  
+      const grape = await this.boardService.getBoardByUserId(id);
+  
+      if (!grape) {
+        const response: responseBoardDto = {
+          code: 200,
+          success: true,
+          data: {
+            grape: {
+              id: 0,
+              blank: 0,
+              total_grapes: 0,
+              attached_grapes: 0,
+              deattached_grapes: 0,
+            },
+          },
+          is_existence: false,
+        };
+        return interval(1000).pipe(map(() => response));
+      }
+  
+      const response: responseBoardDto = {
+        code: 200,
+        success: true,
+        data: {
+          grape: await this.boardService.getBoardByUserId(id),
+        },
+        is_existence: true,
+      };
+      return interval(1000).pipe(map(() => response));
+    }
+  
 
     @Post('/grape/user')
     async getBoardByUserId(
