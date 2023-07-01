@@ -77,28 +77,68 @@ export class BoardController {
     ): Promise<Observable<responseSseBoardDto>> {
       console.log('sseGetBoardByUserId');
     
-      EventEmitter.defaultMaxListeners = 1000;
+      EventEmitter.defaultMaxListeners = 10;
     
       if (type !== 'PARENT') {
         id = await this.AuthService.getConnectedUser(user);
       }
-    
+
+      const use_grape = await this.boardService.getBoardByUserId(id);
+
       return new Observable<responseSseBoardDto>((observer) => {
         let localVersion = 0; // Local version variable
-        const intervalId = setInterval(async () => { // Get the global version
-           if ( localVersion < globalVersion ){
+    
+        const initialData = async () => {
+            if (!use_grape) {
+                const initialResponse: responseSseBoardDto = {
+                    data: {
+                        code: 200,
+                        success: true,
+                        grape: {
+                            id:0,
+                            blank: 0,
+                            total_grapes: 0,
+                            attached_grapes: 0,
+                            deattached_grapes: 0,
+                        },
+                        is_existence: false,
+                    },
+                };
+                observer.next(initialResponse);
+                localVersion = globalVersion; // Update the local version
+                return;
+            }
+          // 맨 처음 보드 상태를 불러옴
+          const initialResponse: responseSseBoardDto = {
+            data: {
+              code: 200,
+              success: true,
+              grape: await this.boardService.getBoardByUserId(id),
+              is_existence: true,
+            },
+          };
+          observer.next(initialResponse);
+          localVersion = globalVersion; // Update the local version
+        };
+    
+        const updateData = async () => {
+          if (localVersion < globalVersion) {
             const response: responseSseBoardDto = {
-                data: {
-                    code: 200,
-                    success: true,
-                    grape: await this.boardService.getBoardByUserId(id),
-                    is_existence: true,
-                },
-              };
+              data: {
+                code: 200,
+                success: true,
+                grape: await this.boardService.getBoardByUserId(id),
+                is_existence: true,
+              },
+            };
             observer.next(response);
             localVersion = globalVersion; // Update the local version
           }
-        }, 1000);
+        };
+    
+        initialData(); // 맨 처음 보드 상태를 불러옴
+    
+        const intervalId = setInterval(updateData, 1000);
     
         // Clean up the interval when the client disconnects
         observer.complete = () => {
@@ -108,7 +148,6 @@ export class BoardController {
         return observer;
       });
     }
-
     @Post('/grape/user')
     async getBoardByUserId(
         @GetUser() user: User,
