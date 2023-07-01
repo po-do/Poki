@@ -1,9 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
 import { getWishlistByUserId } from "../../api/wishlist.js";
-import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
