@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { missionReadChild, missionDelete } from "../../api/mission.js";
+import { newMissionRead, missionDelete } from "../../api/mission.js";
 import FailModal from "../../components/Modal/FailModal";
 import UpdateModal from "../Modal/UpdateModal.jsx";
 
@@ -32,11 +32,9 @@ export default function MissionRegisterList() {
   }, [missions]);
 
   const getMission = async () => {
-    const missionsData = await missionReadChild();
-    const incompleteMissions = missionsData.filter(
-      (mission) => mission.status === "INCOMPLETE"
-    );
-    setMissions(incompleteMissions);
+    const missionsData = await newMissionRead();
+
+    setMissions(missionsData);
   };
 
   // 미션수정 ===================

@@ -236,3 +236,75 @@
     rgb(107, 33, 168)
   );
 }
+
+/* 보물 상자 */
+.treasure {
+  width: 200px;
+  height: 200px;
+  float: left;
+  background-image: url(https://i.ibb.co/gw33r3k/land.png);
+}
+
+.treasure:hover {
+  background-image: url(https://i.ibb.co/9tXz1bL/landh.png);
+  cursor: pointer;
+}
+
+.treasure:active {
+  background-image: url(https://i.ibb.co/JqVS2xD/treasure.png);
+}
+
+/* 말풍선 */
+.talk-bubble {
+	margin: 40px;
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	height: auto;
+	background-color: lightyellow;
+}
+
+.border {
+	border: 8px solid #666;
+}
+
+.round {
+	border-radius: 30px;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+}
+
+.talktext {
+	padding: 1em;
+	text-align: left;
+	line-height: 1.5em;
+}
+
+.talktext p {
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+}
+
+/*Right triangle, placed bottom right side slightly in*/
+.tri-right.border.btm-right-in:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: auto;
+	right: 30px;
+	bottom: -40px;
+	border: 20px solid;
+	border-color: #666 #666 transparent transparent;
+}
+.tri-right.btm-right-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: auto;
+	right: 38px;
+	bottom: -20px;
+	border: 12px solid;
+	border-color: lightyellow lightyellow transparent transparent;
+}
