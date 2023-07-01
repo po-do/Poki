@@ -1,15 +1,7 @@
-<<<<<<< Updated upstream
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
-import { getWishlistByUserId } from "../../api/wishlist.js";
-=======
-import { React, useEffect, useState } from "react";
-// import { useQuery } from "@tanstack/react-query";
-import { newMissionRead, setMissionStatusWait } from "../../api/mission.js";
-import SuccessModal from "../../components/Modal/SuccessModal";
-import FailModal from "../../components/Modal/FailModal";
->>>>>>> Stashed changes
+import { newMissionRead } from "../../api/wishlist.js";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -28,10 +20,9 @@ export default function ChildWishList() {
     fetchWishlistData();
   }, [product]);
 
-<<<<<<< Updated upstream
   const fetchWishlistData = async () => {
     try {
-      const wishlistData = await getWishlistByUserId();
+      const wishlistData = await newMissionRead();
       console.log("wishlistData",wishlistData);
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
@@ -39,20 +30,6 @@ export default function ChildWishList() {
       setproduct(unPickedItem);
     } catch (error) {
       console.log("Failed to fetch wishlist data:", error);
-=======
-  const getMission = async () => {
-    const missionsData = await newMissionRead();
-    setMissions(missionsData);
-  };
-
-  const handleChange = (e, mission) => {
-    if (e.target.checked) {
-      setCheckedMissionsId([...checkedMissionsId, mission.id]);
-      setCheckedMissionsList([...checkedMissionsList, mission]);
-    } else {
-      setCheckedMissionsId(checkedMissionsId.filter((id) => id !== mission.id));
-      setCheckedMissionsList(checkedMissionsList.filter((m) => m === mission));
->>>>>>> Stashed changes
     }
   };
 

@@ -79,20 +79,13 @@ export default function ChildMain() {
         </div> */}
 
         {/* 포도판 */}
-<<<<<<< Updated upstream
-        <div className="m-auto p-1 rounded-2xl md:border-4 max-[720px]:w-full">
-=======
-        <div className=" m-auto p-1 rounded-2xl md:w-6/12 max-[620px]:w-full">
->>>>>>> Stashed changes
+        <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
           <Grapes GrapesCount={grape.attached_grapes} message={message} />
         </div>
 
         {/* 현재 포도알 및 관리 현황판 */}
         {/* <div className="flex max-[720px]:flex-col p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8">
-<<<<<<< Updated upstream
           주석 - 가지고 있는 포도알
-=======
->>>>>>> Stashed changes
           <div className="md:w-2/4 px-4 sm:px-6 lg:px-8">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               가지고 있는 포도알
@@ -130,10 +123,7 @@ export default function ChildMain() {
             </button>
           </div>
 
-<<<<<<< Updated upstream
           주석 - 관리현황판
-=======
->>>>>>> Stashed changes
           <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -166,20 +156,13 @@ export default function ChildMain() {
           </div>
         </div> */}
 
-<<<<<<< Updated upstream
         {/* 등록된 미션 및 위시리스트 *0000000000/}
-=======
-        {/* 등록된 미션 및 위시리스트 */}
->>>>>>> Stashed changes
         {/* <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
           <div className="flex-1">
             <RecentMissionList />
           </div>
 
-<<<<<<< Updated upstream
           등록된 보상 부분
-=======
->>>>>>> Stashed changes
           <div className="mx-auto max-w-3xl flex-1 text-center max-[720px]:mt-4">
             <MissionRegisteredGift
               message={["원하는 선물", "원하는 선물을 선택해 주세요"]}
