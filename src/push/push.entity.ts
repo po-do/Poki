@@ -10,7 +10,7 @@ export class PushConnection extends BaseEntity {
     fcm_token: string;
 
     @CreateDateColumn({ type: "timestamp" })
-    createdAt: Date;
+    lastLoginTime: Date;
 
     @ManyToOne(type => User, user => user.push_connection, {eager: false})
     user: User;
