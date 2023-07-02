@@ -12,7 +12,7 @@ const cacheModule = CacheModule.register({
     host: redisConfig.host,
     port: redisConfig.port,
     password: redisConfig.password,
-    ttl: 1000 // 조절 요망, cache 유지 시간 
+    // ttl: 1000 // 조절 요망, cache 유지 시간 
   })
 })
 

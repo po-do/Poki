@@ -2,7 +2,7 @@ import { IsNotEmpty } from "class-validator";
 
 export class RecommendMissionDto {
     @IsNotEmpty()
-    age: number
+    age: string
     
     @IsNotEmpty()
     place: string

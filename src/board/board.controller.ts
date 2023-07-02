@@ -52,16 +52,32 @@ export class BoardController {
             },
         };
 
+        globalVersion += 1;
+
         return response
 
     }
 
-    @Delete('/grape/:id')
-    deleteBoard(
-        @Param('id', ParseIntPipe) id: number,
+    @Delete('/grape')
+    async deleteBoard(
         @GetUserType() type: string,
+        @GetUserId() userid: number,
     ): Promise<{ code: number; success: boolean }> {
-        return this.boardService.deleteBoard(id);
+        if (type !== 'PARENT') {
+            throw new ForbiddenException('Only parents can update a wishlist.');
+        }
+
+        const grape = await this.boardService.getBoardByUserId(userid);
+
+        if (!grape) {
+            throw new ForbiddenException('parents not have grape');
+        }
+
+        //User id를 통해서 board id를 가져온다.
+        const board_id = await this.boardService.getBoardByUserId(userid);
+        globalVersion += 1;
+
+        return await this.boardService.deleteBoard(board_id.id);
     }
 
     @Get('/grape/:id')
@@ -75,19 +91,13 @@ export class BoardController {
       @GetUserId() id: number,
       @GetUserType() type: string,
     ): Promise<Observable<responseSseBoardDto>> {
-      console.log('sseGetBoardByUserId');
-    
       EventEmitter.defaultMaxListeners = 10;
-    
       if (type !== 'PARENT') {
         id = await this.AuthService.getConnectedUser(user);
       }
-
       const use_grape = await this.boardService.getBoardByUserId(id);
-
       return new Observable<responseSseBoardDto>((observer) => {
         let localVersion = 0; // Local version variable
-    
         const initialData = async () => {
             if (!use_grape) {
                 const initialResponse: responseSseBoardDto = {
@@ -109,20 +119,39 @@ export class BoardController {
                 return;
             }
           // 맨 처음 보드 상태를 불러옴
-          const initialResponse: responseSseBoardDto = {
-            data: {
-              code: 200,
-              success: true,
-              grape: await this.boardService.getBoardByUserId(id),
-              is_existence: true,
-            },
-          };
-          observer.next(initialResponse);
-          localVersion = globalVersion; // Update the local version
-        };
-    
+            const initialResponse: responseSseBoardDto = {
+                data: {
+                code: 200,
+                success: true,
+                grape: await this.boardService.getBoardByUserId(id),
+                is_existence: true,
+                },
+            };
+            observer.next(initialResponse);
+            localVersion = globalVersion; // Update the local version
+            };
         const updateData = async () => {
           if (localVersion < globalVersion) {
+            const use_grape = await this.boardService.getBoardByUserId(id);
+            if (!use_grape) {
+                const response: responseSseBoardDto = {
+                    data: {
+                        code: 200,
+                        success: true,
+                        grape: {
+                            id:0,
+                            blank: 0,
+                            total_grapes: 0,
+                            attached_grapes: 0,
+                            deattached_grapes: 0,
+                        },
+                        is_existence: false,
+                    },
+                };
+                observer.next(response);
+                localVersion = globalVersion; // Update the local version
+                return;
+            }
             const response: responseSseBoardDto = {
               data: {
                 code: 200,
@@ -135,19 +164,16 @@ export class BoardController {
             localVersion = globalVersion; // Update the local version
           }
         };
-    
         initialData(); // 맨 처음 보드 상태를 불러옴
-    
-        const intervalId = setInterval(updateData, 1000);
-    
+        const intervalId = setInterval(updateData, 100);
         // Clean up the interval when the client disconnects
         observer.complete = () => {
           clearInterval(intervalId);
         };
-    
         return observer;
       });
     }
+    
     @Post('/grape/user')
     async getBoardByUserId(
         @GetUser() user: User,
