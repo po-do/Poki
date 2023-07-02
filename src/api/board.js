@@ -14,6 +14,17 @@ export async function createBoard() {
   return response.data;
 }
 
+// 포도 삭제
+export async function deleteBoard() {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("deleteBoard 호출");
+  const response = await client.delete(`/board/grape`);
+  return response.data;
+}
+
 // ???
 export async function getBoardById() {
   const accessToken = getAccessToken();
