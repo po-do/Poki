@@ -34,7 +34,6 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
   }
 
   handleConnection(@ConnectedSocket() socket: Socket): any { 
-    console.log("connection 발생 😁")
     socket.emit("me", socket.id)
   }
 
@@ -57,7 +56,6 @@ export class VideoChatGateway implements OnGatewayInit, OnGatewayConnection, OnG
       this.logger.log("disconnection 발생 😀, 삭제 완료")
       //socket.broadcast.emit("callEnded")
     } catch (error) {
-      console.log('An Error occured in disconnect socket')
     }
   }
 

@@ -91,7 +91,6 @@ export class BoardController {
       @GetUserId() id: number,
       @GetUserType() type: string,
     ): Promise<Observable<responseSseBoardDto>> {
-      console.log('sseGetBoardByUserId');
       EventEmitter.defaultMaxListeners = 10;
       if (type !== 'PARENT') {
         id = await this.AuthService.getConnectedUser(user);
