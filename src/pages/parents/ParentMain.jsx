@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import MissionRegisteredGift from "../../components/Mission/MissionRegisteredGift";
-import { getBoardStatus } from "../../api/board.js";
+import { deleteBoard, getBoardStatus } from "../../api/board.js";
 import Grapes from "../../components/UI/Grapes";
-
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { getAccessToken } from "../../api/auth";
 import {
   getWishlistByUserId,
   updateWishlistGivenStatus,
@@ -12,9 +12,26 @@ import {
 export default function ParentMain() {
   const [grape, setGrape] = useState({});
 
-  const boardQuery = useQuery(["boardState"], () => {
-    return getBoardStatus();
-  });
+  const handleConnect = () => {
+    const accessToken = getAccessToken();
+
+    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      heartbeatTimeout: 180000
+    })
+
+    sse.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      setGrape(data.grape)
+    }
+
+    sse.addEventListener('connect', e => {
+      const {data: receivedData} = e;
+      console.log(receivedData)
+    })
+  }
   const message = [
     "위시리스트에서 자녀의 선물을 확인해보세요",
     "보상 선택 후 포도 서비스가 시작됩니다",
@@ -32,21 +49,17 @@ export default function ParentMain() {
         itemid: pickedItemId,
       };
       console.log("31개를 모아서 GIVEN을 TRUE로 만듬");
+      await deleteBoard();
       await updateWishlistGivenStatus(params);
-      // refetch board state after updating
-      boardQuery.refetch();
-
-      // force a page reload
+      
+      await getBoardStatus();
       window.location.reload();
     }
   };
 
   useEffect(() => {
-    if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape(fetchedGrape);
-    }
-  }, [grape, boardQuery.isSuccess, boardQuery.data]);
+    handleConnect();
+  }, []);
 
   return (
     <>

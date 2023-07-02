@@ -4,9 +4,11 @@ import { messaging } from "../firebase";
 import { getToken, onMessage } from "firebase/messaging";
 
 export function useNotification() {
+  console.log('noti 호출됨')
   const [tokenFcm, setTokenFcm] = useState("");
 
   async function requestPermission() {
+    console.log('requestPermission 호출')
     try {
       // FCM 요청
       const permission = await Notification.requestPermission();

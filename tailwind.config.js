@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/**/*.{js,jsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      LeeSeoyun: ["LeeSeoyun"],
+    },
   },
-  plugins: [],
+  // 이 부분을 추가해줍니다!
+  plugins: [require("tailwind-scrollbar-hide")],
 };

@@ -150,6 +150,12 @@ export default function ChildFormat() {
       <div className="flex flex-col h-full">
         <div className="h-[10%] bg-white border-gray-400 shadow-sm flex justify-end relative">
           <div className="border-b absolute bottom-0 left-0 right-0"></div>
+          <a
+            className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            href="/"
+          >
+            로그아웃
+          </a>
           <img
             className="rounded-full m-4 w-11 h-11 border-2 rounded-2"
             src={PodoChar}

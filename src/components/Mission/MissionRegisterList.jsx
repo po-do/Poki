@@ -79,7 +79,7 @@ export default function MissionRegisterList() {
             </p>
           </div>
         </div>
-        <div className="mt-8 overflow-y-auto max-h-60">
+        <div className="mt-8 overflow-y-auto scrollbar-hide max-h-60">
           <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
