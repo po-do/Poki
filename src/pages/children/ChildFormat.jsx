@@ -227,7 +227,7 @@ export default function ChildFormat() {
                                     className={classNames(
                                       item.current
                                         ? "bg-indigo-700 text-white"
-                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-800",
                                       "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                                     )}
                                   >
@@ -250,7 +250,7 @@ export default function ChildFormat() {
                                   className={classNames(
                                     false
                                       ? "bg-indigo-700 text-white"
-                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      : "text-indigo-200 hover:text-white hover:bg-indigo-800",
                                     "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                                   )}
                                 >
@@ -297,7 +297,7 @@ export default function ChildFormat() {
                                     />
                                     <button
                                       type="submit"
-                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                      className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                       onClick={handleRegistCode}
                                     >
                                       등록
@@ -353,7 +353,7 @@ export default function ChildFormat() {
                             className={classNames(
                               item.current
                                 ? "bg-indigo-700 text-white"
-                                : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                : "text-indigo-200 hover:text-white hover:bg-indigo-800",
                               "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                             )}
                           >
@@ -376,7 +376,7 @@ export default function ChildFormat() {
                           className={classNames(
                             false
                               ? "bg-indigo-700 text-white"
-                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                              : "text-indigo-200 hover:text-white hover:bg-indigo-800",
                             "group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold"
                           )}
                         >
@@ -424,7 +424,7 @@ export default function ChildFormat() {
                             />
                             <button
                               type="submit"
-                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                               onClick={handleRegistCode}
                             >
                               등록
@@ -490,7 +490,7 @@ export default function ChildFormat() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative flex">
                     <a
-                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                       href="/"
                     >
                       로그아웃

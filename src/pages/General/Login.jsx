@@ -7,7 +7,7 @@ import grapeLogo from "../../icons/mstile-310x310.png";
 import FailModal from "../../components/Modal/FailModal";
 import InstallAlarm from "./InstallAlarm";
 
-export default function Login({token}) {
+export default function Login({ token }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // 저장할 요소 : id, real id, state
@@ -39,7 +39,7 @@ export default function Login({token}) {
         id: userInfo.data.id,
         user_id: email,
         type: userInfo.data.type,
-        name : userInfo.data.user_name,
+        name: userInfo.data.user_name,
       };
       setUser(params);
       navigate(
@@ -116,7 +116,7 @@ export default function Login({token}) {
     <React.Fragment>
       {/* PWA 설치 버튼 */}
       {renderInstallPrompt()}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-indigo-300">
+      <div className="bg-c4c4fb flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-32 w-auto"
@@ -174,7 +174,7 @@ export default function Login({token}) {
               <button
                 type="submit"
                 onClick={handleLogIn}
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
+                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
               >
                 로그인
               </button>
