@@ -13,6 +13,7 @@ import {
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
+import BottomButton from "../General/BottomButton";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
@@ -269,6 +270,10 @@ export default function Video() {
           </div>
         </div>
       </div>
+      <div className="fixed bottom-0 w-full">
+        <BottomButton />
+      </div>
+
     </>
   );
 }

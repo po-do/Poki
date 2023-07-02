@@ -22,7 +22,7 @@ export default function UpdateModal({ onClose, item_id }) {
         "-" +
         (date.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        date.getDate().toString();
+        date.getDate().toString().padStart(2, '0');
       // Create an object with the data to send to the server
       const data = {
         mission_id: item_id,

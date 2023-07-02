@@ -11,6 +11,7 @@ module.exports = {
       LeeSeoyun: ["LeeSeoyun"],
     },
   },
-  // 이 부분을 추가해줍니다!
-  plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwind-scrollbar-hide")
+  ],
 };

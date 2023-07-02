@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LinkRegisterModal from "../../components/Modal/LinkRegisterModal";
 import ChildProductCard from "../../components/UI/ChildProductCard";
 import { getWishlistByUserId } from "../../api/wishlist.js";
+import BottomButton from "../General/BottomButton";
 
 export default function ChildWishList() {
   const [showModal, setShowModal] = useState(false);
@@ -66,7 +67,10 @@ export default function ChildWishList() {
             {showModal && <LinkRegisterModal onClose={closeModal} />}
           </div>
         </div>
+        
       </div>
+
+      <BottomButton />
     </div>
   );
 }
