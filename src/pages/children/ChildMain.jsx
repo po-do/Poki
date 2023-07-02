@@ -10,7 +10,7 @@ import { connectUserCode, getConnectedUserId } from "../../api/auth";
 
 export default function ChildMain() {
   const user = useRecoilValue(userState);
-  const [condition, setCondition] = useState(false);
+  const [condition, setCondition] = useState(null);
 
   // Overlay Message
   const message = [
@@ -26,6 +26,11 @@ export default function ChildMain() {
     fetchUserCondition();
     console.log(condition);
   }, []);
+
+  // condition이 null이면 아무것도 렌더링하지 않음
+  if (condition === null) {
+    return null;
+  }
 
   return (
     <>
