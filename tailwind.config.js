@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      'LeeSeoyun': ["LeeSeoyun"],
+      LeeSeoyun: ["LeeSeoyun"],
     },
   },
-  plugins: [],
+  // 이 부분을 추가해줍니다!
+  plugins: [require("tailwind-scrollbar-hide")],
 };
