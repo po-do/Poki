@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        c4c4fb: "#c4c4fb"
+      },
+    },
     fontFamily: {
       LeeSeoyun: ["LeeSeoyun"],
     },
