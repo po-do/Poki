@@ -503,7 +503,13 @@ export default function ParentFormat() {
                   /> */}
 
                   {/* Profile dropdown */}
-                  <Menu as="div" className="relative">
+                  <Menu as="div" className="relative flex">
+                    <a
+                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                      href="/"
+                    >
+                      로그아웃
+                    </a>
                     <Menu.Button className="-m-1.5 flex items-center p-1.5">
                       <span className="sr-only">Open user menu</span>
                       <img

@@ -51,6 +51,7 @@ export default function MissionAi() {
 
   const handleModal = async () => {
     setSpiningFlag(true);
+    console.time('그냥')
     // api 호출
     try {
       const params = {
@@ -64,6 +65,7 @@ export default function MissionAi() {
       const data = await missionRecommend(params);
       setResult(data);
       console.log("성공 : ", data);
+      console.timeEnd('그냥')
     } catch (error) {
       console.log("AI Load 실패 : ", error);
     }
