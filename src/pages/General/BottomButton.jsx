@@ -1,49 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 // recoil 사용
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user.js";
-import CodeConnectModal from "../../components/Modal/CodeConnectModal.jsx";
-import {
-  HomeIcon,
-  GiftIcon,
-  VideoCameraIcon,
-  ChatBubbleLeftRightIcon,
-  ListBulletIcon,
-} from "@heroicons/react/24/outline";
 
-// ======================================
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../App.js";
 import { useNotification } from "../../hooks/useNotification.js";
 
 // NavBar
 import "./CssBottomButton.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faListCheck, faGift, faSquarePhone, faComments } from "@fortawesome/free-solid-svg-icons";
 
-const navigation = [
-  // 홈
-  { name: "홈", href: "/format/child", icon: HomeIcon, current: false },
-  // 미션
-  {
-    name: "미션",
-    href: "/format/child/mission",
-    icon: ListBulletIcon,
-    current: false,
-  },
-  // 위시리스트
-  {
-    name: "위시리스트",
-    href: "/format/child/wishlist",
-    icon: GiftIcon,
-    current: false,
-  },
-  // 화상통화
-  {
-    name: "화상통화",
-    href: "/format/child/video",
-    icon: VideoCameraIcon,
-    current: false,
-  },
-];
 
 export default function BottomButton() {
   const user = useRecoilValue(userState);
@@ -59,22 +27,20 @@ export default function BottomButton() {
     );
 
     const handleClick = (e) => {
-      e.preventDefault();
-
       navigationItems.forEach((item) => item.classList.remove("active"));
       e.currentTarget.classList.add("active");
-
+  
       const parentWidth = e.currentTarget.parentElement.clientWidth;
       const leftPercent =
         (parentWidth / navigationItems.length) *
         Array.from(navigationItems).indexOf(e.currentTarget);
       navigationPointer.style.left = `${leftPercent}px`;
     };
-
+  
     navigationItems.forEach((item) => {
       item.addEventListener("click", handleClick);
     });
-
+  
     return () => {
       navigationItems.forEach((item) => {
         item.removeEventListener("click", handleClick);
@@ -99,29 +65,37 @@ export default function BottomButton() {
 
   return (
     <>
-      <div>
-        <nav className="navigation-bar">
-          <ul className="list-items">
-            <span className="pointer"></span>
+      <nav className="navigation-bar">
+      <ul className="list-items">
+        <span className="pointer"></span>
+        <li className="item active">
+          <a className="link" href="/format/child">
+            <FontAwesomeIcon icon={faHome} size="2x" />
+          </a>
+        </li>
+        <li className="item">
+          <a className="link" href="/format/child/mission">
+            <FontAwesomeIcon icon={faListCheck} size="2x" />
+          </a>
+        </li>
+        <li className="item">
+          <a className="link" href="/format/child/wishlist">
+            <FontAwesomeIcon icon={faGift} size="2x" />
+          </a>
+        </li>
+        <li className="item">
+          <a className="link" onClick={onCreateRoom}>
+            <FontAwesomeIcon icon={faComments} size="2x" />
+          </a>
+        </li>
+        <li className="item">
+          <a className="link" href="/format/child/video">
+            <FontAwesomeIcon icon={faSquarePhone} size="2x" />
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-            {navigation.map((item) => (
-              <li key={item.name} className="item">
-                <button
-                  className="link"
-                  onClick={() => (window.location.href = `${item.href}`)}
-                >
-                  <item.icon />
-                </button>
-              </li>
-            ))}
-            <li key="채팅" className="item">
-              <button className="link" onClick={onCreateRoom}>
-                <ChatBubbleLeftRightIcon />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
     </>
   );
 }

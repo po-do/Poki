@@ -270,7 +270,7 @@ export default function Video() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="fixed bottom-0 w-full">
         <BottomButton />
       </div>
 
