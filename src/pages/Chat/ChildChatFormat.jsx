@@ -165,7 +165,7 @@ export default function ChildFormat() {
         <div className="h-[80%] bg-white">
           <ChatRoom />
         </div>
-        <div className="h-[10%]">
+        <div className="h-[10%] bg-white">
           <BottomButton />
         </div>
       </div>
