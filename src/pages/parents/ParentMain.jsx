@@ -15,7 +15,7 @@ export default function ParentMain() {
   const handleConnect = () => {
     const accessToken = getAccessToken();
 
-    const sse = new EventSourcePolyfill(`http://localhost:4000/board/grape/sse/user`, {
+    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       },
