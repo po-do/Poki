@@ -121,6 +121,7 @@ export class MissionService {
         query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: this.todayDate()});
 
         const missions = await query.getMany();
+        console.log(missions)
         return missions;
     }
 
