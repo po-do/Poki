@@ -38,6 +38,8 @@ import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
 import GiftModal from "../Modal/GiftModal";
 import { useQuery } from "@tanstack/react-query";
+import { getAccessToken } from "../../api/auth";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 export default function Grapes({ message }) {
   const [grape, setGrape] = useState({});
@@ -51,12 +53,21 @@ export default function Grapes({ message }) {
     setShowOverlay(false);
   };
 
-  const getState = async () => {
-    const grapeStatus = await getBoardStatus();
-    if (!grapeStatus.data.grape.blank) {
-      setShowOverlay(true);
+  const handleConnect = () => {
+    const accessToken = getAccessToken();
+
+    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      heartbeatTimeout: 180000
+    })
+
+    sse.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      setGrape(data.grape)
     }
-  };
+  }
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -88,27 +99,21 @@ export default function Grapes({ message }) {
 
   // 안붙혀진 포도 추가
   async function addGrape() {
-    const grapeStatus = await getBoardStatus();
-    if (grapeStatus.data.grape.deattached_grapes === 0) {
+    if (grape.deattached_grapes === 0) {
       openFailAttachModal();
     } else {
       await attachBoard();
       openAttachModal();
-      boardQuery.refetch();
     }
   }
 
   useEffect(() => {
     showGrape(grape.attached_grapes);
-    getState();
   }, [grape.attached_grapes]);
 
   useEffect(() => {
-    if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape(fetchedGrape);
-    }
-  }, [grape, boardQuery.isSuccess, boardQuery.data]);
+    handleConnect();
+  }, []);
 
   const showGrape = (count) => {
     switch (count) {
@@ -214,7 +219,7 @@ export default function Grapes({ message }) {
   return (
     <div className="relative">
       {/* overlay 창 구현 */}
-      {showOverlay && (
+      {!grape.blank && (
         <div
           className="flex-col rounded-2xl absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-10"
           onClick={handleOverlayClick}

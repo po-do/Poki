@@ -1,4 +1,6 @@
 import client from "./client.js";
+import * as process from 'process';
+import { EventSourcePolyfill } from "event-source-polyfill";
 import { getAccessToken } from "./auth.js";
 
 // 포도 생성 (create) => 포도판 생성
@@ -9,6 +11,17 @@ export async function createBoard() {
   }
   console.log("createBoard 호출");
   const response = await client.post("/board/grape/create");
+  return response.data;
+}
+
+// 포도 삭제
+export async function deleteBoard() {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  }
+  console.log("deleteBoard 호출");
+  const response = await client.delete(`/board/grape`);
   return response.data;
 }
 
@@ -32,6 +45,15 @@ export async function getBoardStatus() {
   console.log("getBoardStatus 호출");
   const response = await client.post(`/board/grape/user`);
   return response.data;
+}
+
+export async function connectCall() {
+  const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/connect`)
+
+  sse.addEventListener('connect', e => {
+    const {data: receivedData} = e;
+    console.log(receivedData)
+  })
 }
 
 // ????
