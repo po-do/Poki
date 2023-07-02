@@ -117,14 +117,8 @@ export class MissionService {
     async getIncompleteListByUserId(id: number): Promise <Mission[]> {
         const query = await this.missionRepository.createQueryBuilder('mission');
         var date = new Date();
-        const currentDate =
-          date.getFullYear().toString() +
-          "-" +
-          (date.getMonth() + 1).toString().padStart(2, "0") +
-          "-" +
-          date.getDate().toString();
 
-        query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: currentDate});
+        query.where('mission.user_id = :user_id', {user_id: id}).andWhere('mission.status = :status', {status: MissionStatus.INCOMPLETE}).andWhere('mission.created_date <= :currentDate', {currentDate: this.todayDate()});
 
         const missions = await query.getMany();
         return missions;
@@ -132,7 +126,6 @@ export class MissionService {
 
     async getMissionRecommend(recommendMissionDto : RecommendMissionDto): Promise <any> {
         const {age, place, ability} = recommendMissionDto;
-        console.log('age', age)
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
@@ -153,198 +146,6 @@ export class MissionService {
         if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
             const mission = await this.getMissionRecommend(recommendMissionDto);
             await this.cacheManager.set(key, mission.result, 1500, 4); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestOne(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 4); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestTwo(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 4); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestThree(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 20) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 4); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestFour(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 20) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 4); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestFive(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 10); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestSix(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 10); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestSeven(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 20) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 10); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestEight(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 20) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 10); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestNine(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 15); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestTen(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 15); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestEleven(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 20) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 1500, 15); // 조절 요망, ttl
-
-            return mission;
-        }
-
-        const randomMission = this.randomizeData(missions, 5);
-        return { result: randomMission };
-    }
-
-    async getCachedMissionTestTwelve(recommendMissionDto : RecommendMissionDto): Promise <any> {
-        // key를 이용, cached된 mission을 가져 옴
-        const key = `mission:${recommendMissionDto.age}:${recommendMissionDto.place}:${recommendMissionDto.ability}`
-        let missions = await this.cacheManager.get(key)
-        
-        if (!missions || missions.length < 15) { // 조절 요망, 같은 카테고리(key)에 대해 최대 n개 캐싱
-            const mission = await this.getMissionRecommend(recommendMissionDto);
-            await this.cacheManager.set(key, mission.result, 3000, 25); // 조절 요망, ttl
 
             return mission;
         }
