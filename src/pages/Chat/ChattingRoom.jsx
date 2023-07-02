@@ -5,7 +5,6 @@ import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
-
 // 채팅방 설정
 const ChatRoom = () => {
   const [chats, setChats] = useState([]);
@@ -81,13 +80,13 @@ const ChatRoom = () => {
   );
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
-        <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+      {/* <div classN ame="sm:mx-auto sm:w-full sm:max-w-[780px] border">
+        <div className="bg-white w-full px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400"> */}
           <div className="px-4 py-5 sm:p-6">
             <div>
               <div
                 ref={chatContainerEl}
-                className="flex flex-col p-4 max-[720px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
+                className="flex flex-col p-4 max-[1000px]:h-[40rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
                 {chats.map((chat, index) => (
                   <div
@@ -124,14 +123,14 @@ const ChatRoom = () => {
                   value={message}
                   className="block w-full rounded-md border-0 pl-4 mr-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <button className="w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <button className="whitespace-nowrap w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   보내기
                 </button>
               </form>
             </div>
           </div>
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </>
   );
 };

@@ -8,9 +8,15 @@ import CodeConnectModal from "../../components/Modal/CodeConnectModal";
 // 코드등록
 import { connectUserCode, getConnectedUserId } from "../../api/auth";
 
+import BottomButton from "../General/BottomButton";
+import { useNotification } from "../../hooks/useNotification.js";
+
 export default function ChildMain() {
   const user = useRecoilValue(userState);
   const [condition, setCondition] = useState(null);
+
+  useNotification();
+
 
   // Overlay Message
   const message = [
@@ -53,8 +59,8 @@ export default function ChildMain() {
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
           <Grapes message={message} />
         </div>
+        <BottomButton />
       </div>
-      {/* 만약 코드등록이 되어있지 않다면 코드를 등록하라는 모달이 기본으로 나오게 만들기 -> 유저상태조회후 코드가 없으면 출력 */}
     </>
   );
 }
