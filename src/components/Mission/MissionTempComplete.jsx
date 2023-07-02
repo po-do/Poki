@@ -200,7 +200,7 @@ export default function MissionTempComplete() {
           <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
           <div className="flex mt-4 sm:mt-0 sm:flex-none gap-2 justify-between">
             <p className="mt-2 text-sm text-gray-700">
-              미션을 수행 완료했습니다. 아이에게 칭찬 포도알을 주세요. 
+              미션을 수행 완료했습니다. 아이에게 칭찬 포도알을 주세요.
             </p>
             <div className="flex gap-3">
               <button
@@ -221,7 +221,7 @@ export default function MissionTempComplete() {
           </div>
         </div>
       </div>
-      <div className="mt-8 overflow-hidden max-h-60">
+      <div className="mt-8 overflow-y-auto scrollbar-hide max-h-60">
         <div className="-mx-4 -my-2">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <table className="min-w-full divide-y divide-gray-300">
