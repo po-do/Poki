@@ -33,6 +33,7 @@ import { userState } from "./recoil/user";
 import ParentChatFormat from "./pages/Chat/ParentChatFormat";
 import ChildChatFormat from "./pages/Chat/ChildChatFormat";
 import ParentCalendar from "./pages/parents/ParentCalendar";
+import ChildMission from "./pages/children/ChildMission";
 
 const ChatFormat = (props) => {
   const user = useRecoilValue(userState);
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: "/format/child", element: <ChildMain /> },
+      { path: "/format/child/mission", element: <ChildMission /> },
       { path: "/format/child/wishlist", element: <ChildWishList /> },
       { path: "/format/child/video", element: <Video /> },
     ],
