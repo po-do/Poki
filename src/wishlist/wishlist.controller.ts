@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Delete, Patch, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, ForbiddenException } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, Patch, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, ForbiddenException, Sse } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
@@ -131,23 +131,7 @@ export class WishlistController {
     @Post('/item/:id/givenstatus')
     async updateWishlistGivenStatus(
         @Param('id', ParseIntPipe) id: number,
-        @GetUserType() type: string,
-        @GetUserId() userid: number,
     ): Promise <responseWishlistGivenDto> {
-        if (type !== 'PARENT') {
-            throw new ForbiddenException('Only parents can update a wishlist.');
-        }
-
-        const grape = await this.boardService.getBoardByUserId(userid);
-
-        if (!grape) {
-            throw new ForbiddenException('parents not have grape');
-        }
-
-        //User id를 통해서 board id를 가져온다.
-        const board_id = await this.boardService.getBoardByUserId(userid);
-
-        await this.boardService.deleteBoard(board_id.id);
 
         const response: responseWishlistGivenDto = {
             code: 200,
