@@ -84,7 +84,7 @@ export default function MissionRegister() {
         "-" +
         (date.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        date.getDate().toString();
+        date.getDate().toString().padStart(2, '0');
 
       const params = {
         request: {
