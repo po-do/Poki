@@ -103,8 +103,8 @@ const ChatRoom = () => {
 
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
-        <div className="bg-white px-6 pb-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px]">
+        <div className="bg-white px-6 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
           <div className="flex pt-6 ml-4 gap-3">
             <img
               className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
@@ -117,7 +117,7 @@ const ChatRoom = () => {
             <div>
               <div
                 ref={chatContainerEl}
-                className="flex flex-col p-4 max-[720px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
+                className="flex flex-col p-4 max-[1200px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
                 {chats.map((chat, index) => {
                   // 현재 메시지와 다음 메시지의 날짜를 비교

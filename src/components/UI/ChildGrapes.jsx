@@ -236,7 +236,7 @@ export default function Grapes({ message }) {
         </div>
       )}
       {/* 포도판 부분 */}
-      <div className="relative mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+      <div className="relative flex-shrink-0 sm:mb-0 sm:mr-4">
         <img
           src={isUrl}
           alt={isUrl}

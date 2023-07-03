@@ -12,8 +12,6 @@
 .navigation-bar {
   background: #fff;
   border-radius: 3px;
-  /*   min-height: 30px;
-  min-width: 200px; */
   overflow: hidden;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   position: fixed;
