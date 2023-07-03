@@ -16,7 +16,6 @@ export default function ChildMain() {
 
   useNotification();
 
-
   // Overlay Message
   const message = [
     "위시리스트에서 갖고 싶은 선물을 골라보세요",
@@ -43,17 +42,18 @@ export default function ChildMain() {
       <div className="relative bg-white py-1">
         {/* 배너 */}
         <div className="px-4 py-2">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <div className="sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 {user.name}의 포도알 보드판
               </h2>
-              <p className="mt-2 text-lg leading-8 text-gray-600">
+              <p className="mt-2 text-lg text-gray-700">
                 부모님이 주시는 미션을 수행해서 포도알 보드판을 완성해요~ 😀
               </p>
             </div>
           </div>
         </div>
+
         {/* 포도판 */}
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
           <Grapes message={message} />

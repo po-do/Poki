@@ -186,9 +186,16 @@ export default function Video() {
   return (
     <>
       <div className="flex justify-between ">
-        <h1 className="mt-2 ml-2 text-3xl tracking-tight text-black sm:text-4xl">
-          영상통화
-        </h1>
+        <div className="px-4 py-2">
+          <div className="sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                영상통화
+              </h2>
+            </div>
+          </div>
+        </div>
+
         <div className="flex justify-center items-center mt-2 mr-2">
           <button
             variant="contained"
@@ -246,6 +253,11 @@ export default function Video() {
             ) : null}
           </div>
         </div>
+      </div>
+      <div className="px-4 py-2">
+        <p className="mt-2 text-lg text-gray-700">
+          부모님과 영상통화를 진행해요~ 😀
+        </p>
       </div>
       <div className="p-4 mt-2 rounded-2xl border-4 md:m-4">
         <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
