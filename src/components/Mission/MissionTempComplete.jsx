@@ -9,6 +9,8 @@ import {
 import { updateBoard, getBoardStatus } from "../../api/board.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
 import FailModal from "../../components/Modal/FailModal";
+import { getAccessToken } from "../../api/auth.js";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 // 미션의 상태가 WAIT_APPROVAL 즉 완료대기상태인것을 보여주는 컴포넌트
 export default function MissionTempComplete() {
@@ -21,6 +23,26 @@ export default function MissionTempComplete() {
   const [overFailModal, setOverFailModal] = useState(false);
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+
+  const handleConnect = () => {
+    const accessToken = getAccessToken();
+
+    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      heartbeatTimeout: 180000
+    })
+
+    sse.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      setGrape(data.grape)
+    }
+  }
+  
+  useEffect(()=>{
+    handleConnect();
+  }, [])
 
   const openCreateBoardModal = () => {
     setShowCreateBoardModal(true);
@@ -65,29 +87,43 @@ export default function MissionTempComplete() {
     setShowReturnModal(false);
   };
 
-  const boardQuery = useQuery(["boardState"], () => {
-    return getBoardStatus();
-  });
+  
+
+  // const boardQuery = useQuery(["boardState"], () => {
+  //   return getBoardStatus();
+  // });
+
+  // useEffect(() => {
+  //   if (boardQuery.isSuccess) {
+  //     const fetchedGrape = boardQuery?.data?.data?.grape;
+  //     setGrape(fetchedGrape);
+  //   }
+  // }, [boardQuery.isSuccess, boardQuery.data]);
+
+  // useEffect(() => {
+  //   async function getmission() {
+  //     await getMission();
+  //   }
+  //   // console.log("there is something fetching data!");
+  // }, [grape]);
+
+  
 
   useEffect(() => {
-    if (boardQuery.isSuccess) {
-      const fetchedGrape = boardQuery?.data?.data?.grape;
-      setGrape(fetchedGrape);
-    }
-  }, [boardQuery.isSuccess, boardQuery.data]);
+    const getMission = async () => {
+      const missionsData = await missionReadChild();
+      const incompleteMissions = missionsData.filter(
+        (mission) => mission.status === "WAIT_APPROVAL"
+      );
+      setMissions(incompleteMissions);
+    };
 
-  useEffect(() => {
-    getMission();
-    // console.log("there is something fetching data!");
-  }, [boardQuery.isSuccess, boardQuery.data, missions]);
+    const intervalId = setInterval(getMission, 1000); // 1초마다 fetchData 함수 호출
 
-  const getMission = async () => {
-    const missionsData = await missionReadChild();
-    const incompleteMissions = missionsData.filter(
-      (mission) => mission.status === "WAIT_APPROVAL"
-    );
-    setMissions(incompleteMissions);
-  };
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
+    };
+  }, []);
 
   const { mutate: complete } = useMutation(setMissionStatusComplete, {
     onSuccess: () => {

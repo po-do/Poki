@@ -28,24 +28,21 @@ export default function MissionRegisterList() {
   };
 
   useEffect(() => {
-    getMission();
-  }, [missions]);
+    const getMission = async () => {
+      const missionsData = await newMissionRead();
+      setMissions(missionsData);
+    };
+    const intervalId = setInterval(getMission, 1000);
+    
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
+    };
+  }, []);
 
-  const getMission = async () => {
-    const missionsData = await newMissionRead();
-    setMissions(missionsData);
-  };
+  
 
   // 미션수정 ===================
   const handleChange = async (item) => {
-    //   if (e.target.checked) {
-    //     setCheckedMissionsId([...checkedMissionsId, mission.id]);
-    //     setCheckedMissionsList([...checkedMissionsList, mission]);
-    //   } else {
-    //     setCheckedMissionsId(checkedMissionsId.filter((id) => id !== mission.id));
-    //     setCheckedMissionsList(checkedMissionsList.filter((m) => m === mission));
-    //     // checkedMissionsList에서 채크 안된놈들 지우기
-    //   }
     setSelectedMission(item);
     openModal();
   };
@@ -59,13 +56,6 @@ export default function MissionRegisterList() {
     await missionDelete(params);
 
     openFailModal();
-    // await Promise.all(
-    //   checkedMissionsId.map((misvsionId) =>
-    //     missionDelete({ mission_id: missionId })
-    //   )
-    // );
-    // setCheckedMissionsId([]);
-    // setMissions([]);
   };
 
   return (
@@ -97,6 +87,9 @@ export default function MissionRegisterList() {
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
+                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                        <pre className="whitespace-pre-wrap font-medium" style={{ fontFamily: 'LeeSeoyun' }}>{item.content}</pre>
+                      </td>
                       <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
@@ -110,9 +103,6 @@ export default function MissionRegisterList() {
                         >
                           삭제
                         </button>
-                      </td>
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        {item.content}
                       </td>
                     </tr>
                   ))}
