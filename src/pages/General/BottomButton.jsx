@@ -52,7 +52,9 @@ export default function BottomButton() {
       ".navigation-bar .list-items .item"
     );
 
-    const navigation_pointer = document.querySelector(".navigation-bar .pointer");
+    const navigation_pointer = document.querySelector(
+      ".navigation-bar .pointer"
+    );
 
     navigation_items_elms.forEach((item, index) => {
       item.addEventListener("click", (e) => {
@@ -86,7 +88,7 @@ export default function BottomButton() {
           <span
             className="pointer"
             style={{ left: `${(100 / 5) * activeItem}%` }}
-          ></span>
+          ></span> 
           <li className={`item ${activeItem === 0 ? "active" : ""}`}>
             <a className="link" href="/format/child">
               <FontAwesomeIcon icon={faHome} size="2x" />
@@ -103,9 +105,9 @@ export default function BottomButton() {
             </a>
           </li>
           <li className={`item ${activeItem === 3 ? "active" : ""}`}>
-            <a className="link" onClick={onCreateRoom}>
+            <button className="link" onClick={onCreateRoom}>
               <FontAwesomeIcon icon={faComments} size="2x" />
-            </a>
+            </button>
           </li>
           <li className={`item ${activeItem === 4 ? "active" : ""}`}>
             <a className="link" href="/format/child/video">
