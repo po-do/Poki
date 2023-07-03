@@ -15,23 +15,26 @@ export default function ParentMain() {
   const handleConnect = () => {
     const accessToken = getAccessToken();
 
-    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      heartbeatTimeout: 180000
-    })
+    const sse = new EventSourcePolyfill(
+      `${process.env.REACT_APP_API_URL}/board/grape/sse/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        heartbeatTimeout: 180000,
+      }
+    );
 
     sse.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      setGrape(data.grape)
-    }
+      const data = JSON.parse(event.data);
+      setGrape(data.grape);
+    };
 
-    sse.addEventListener('connect', e => {
-      const {data: receivedData} = e;
-      console.log(receivedData)
-    })
-  }
+    sse.addEventListener("connect", (e) => {
+      const { data: receivedData } = e;
+      console.log(receivedData);
+    });
+  };
   const message = [
     "위시리스트에서 자녀의 선물을 확인해보세요",
     "보상 선택 후 포도 서비스가 시작됩니다",
@@ -51,7 +54,7 @@ export default function ParentMain() {
       console.log("31개를 모아서 GIVEN을 TRUE로 만듬");
       await deleteBoard();
       await updateWishlistGivenStatus(params);
-      
+
       await getBoardStatus();
       window.location.reload();
     }
@@ -69,7 +72,7 @@ export default function ParentMain() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                지수현 부모님의 포도알 보드판
+                자녀의 포도알
               </h2>
               <p className="mt-2 text-lg leading-8 text-gray-600">
                 아이들의 포도 관리 현황을 파악해보세요~ 🥰
@@ -79,7 +82,7 @@ export default function ParentMain() {
         </div>
 
         {/* 포도판 */}
-        <div className="m-auto p-1 rounded-2xl md:border-4 md:w-6/12 max-[720px]:w-full">
+        <div className="m-auto p-1 md:w-6/12 max-[720px]:w-full">
           <Grapes GrapesCount={grape.attached_grapes} message={message} />
           {/* <Grapes /> */}
         </div>
@@ -127,7 +130,7 @@ export default function ParentMain() {
             {(grape?.attached_grapes === 31 ? true : false) && (
               <button
                 onClick={updateGiven}
-                className="w-25 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-25 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 선물지급완료
               </button>

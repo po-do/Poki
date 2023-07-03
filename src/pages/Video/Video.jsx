@@ -13,7 +13,6 @@ import {
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
-import BottomButton from "../General/BottomButton";
 
 // const socket = io.connect("http://localhost:4000/video-chat");
 // const socket = io.connect("https://api.pokids.site:8000/video-chat");
@@ -193,7 +192,7 @@ export default function Video() {
         <div className="flex justify-center items-center mt-2 mr-2">
           <button
             variant="contained"
-            className="h-14 w-14 text-white bg-indigo-500 rounded-full p-2 mr-2"
+            className="h-14 w-14 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2 mr-2"
             onClick={handleMuteClick}
           >
             {/* 음소거, 해제 */}
@@ -201,7 +200,7 @@ export default function Video() {
           </button>
           <button
             variant="contained"
-            className="h-14 w-14 text-white bg-indigo-500 rounded-full p-2"
+            className="h-14 w-14 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2"
             onClick={handleCameraClick}
           >
             {/* 카메라 켜기, 끄기 */}
@@ -220,7 +219,7 @@ export default function Video() {
               <button
                 color="primary"
                 onClick={callConnectedUser}
-                className={`h-14 w-14 text-white bg-indigo-500 rounded-full p-2 ml-2 ${
+                className={`h-14 w-14 text-white bg-indigo-600 rounded-full p-2 ml-2 ${
                   isCalling ? "opacity-50" : "hover:bg-indigo-800"
                 }`}
                 disabled={isCalling}
@@ -237,7 +236,7 @@ export default function Video() {
             {receivingCall && !callAccepted ? (
               <div className="caller">
                 <button
-                  className="bg-indigo-500 hover:bg-indigo-700 text-white h-14 w-14 rounded-full p-2 ml-2"
+                  className="bg-indigo-600 hover:bg-indigo-800 text-white h-14 w-14 rounded-full p-2 ml-2"
                   onClick={answerCall}
                 >
                   {/* 통화받기 */}
@@ -270,10 +269,6 @@ export default function Video() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-0 w-full">
-        <BottomButton />
-      </div>
-
     </>
   );
 }
