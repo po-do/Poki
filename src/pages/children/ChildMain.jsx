@@ -8,7 +8,6 @@ import CodeConnectModal from "../../components/Modal/CodeConnectModal";
 // 코드등록
 import { connectUserCode, getConnectedUserId } from "../../api/auth";
 
-import BottomButton from "../General/BottomButton";
 import { useNotification } from "../../hooks/useNotification.js";
 
 export default function ChildMain() {
@@ -59,7 +58,6 @@ export default function ChildMain() {
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
           <Grapes message={message} />
         </div>
-        <BottomButton />
       </div>
     </>
   );
