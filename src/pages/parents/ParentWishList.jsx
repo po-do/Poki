@@ -72,21 +72,25 @@ export default function ChildWishList() {
   };
 
   useEffect(() => {
-    fetchWishlistData();
-  }, [product]);
+    const fetchWishlistData = async () => {
+      try {
+        const wishlistData = await getWishlistByUserId();
+        const unPickedItem = wishlistData.data.item.filter(
+          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
+        );
 
-  const fetchWishlistData = async () => {
-    try {
-      const wishlistData = await getWishlistByUserId();
-      const unPickedItem = wishlistData.data.item.filter(
-        (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
-      );
+        setproduct(unPickedItem);
+      } catch (error) {
+        console.log("Failed to fetch wishlist data:", error);
+      }
+    };
 
-      setproduct(unPickedItem);
-    } catch (error) {
-      console.log("Failed to fetch wishlist data:", error);
-    }
-  };
+    const intervalId = setInterval(fetchWishlistData, 1000); // 3초마다 fetchData 함수 호출
+
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
+    };
+  }, []);
 
   return (
     <div className="relative bg-white lg:pb-12">
