@@ -84,17 +84,18 @@ export default function RecentMissionList() {
   };
   return (
     <>
-      <div className="px-6 lg:px-8">
+      <div className="px-4 py-2">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-base font-semibold leading-6 text-gray-900 mt-6">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               등록된 미션
-            </h1>
-            <p className="mt-2 text-sm text-gray-700">
-              부모님이 등록한 최근 5개의 미션을 보여드립니다.
+            </h2>
+            <p className="mt-2 text-lg text-gray-700">
+              부모님이 등록한 최근 5개의 미션을 보여드려요 👍
             </p>
           </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+
+          <div className="flex justify-end mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <button
               type="button"
               onClick={handleClick}
@@ -104,6 +105,8 @@ export default function RecentMissionList() {
             </button>
           </div>
         </div>
+
+
         <legend className="text-base leading-6 text-gray-900 mt-4">
           Mission
         </legend>
