@@ -43,7 +43,6 @@ export class PushService {
         console.log(fcm_token_list);
         
         return fcm_token_list;
-
     }
   
   async push_noti(pushToken: string[], title: string, body: any): Promise <void> {
