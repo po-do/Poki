@@ -2,9 +2,6 @@ import { Injectable } from "@nestjs/common/decorators";
 import { Repository, DataSource } from "typeorm";
 import { Message } from "../entity/message.entity";
 
-
-
-
 @Injectable()
 export class MessageRepository extends Repository<Message> {
     constructor(private dataSource: DataSource) {
@@ -13,7 +10,6 @@ export class MessageRepository extends Repository<Message> {
 
     async createMessage(user_id, message, room_name, id): Promise<{ code: number; success: boolean, Data:any }> {
         
-       
                
         const Message = this.create({
             conversation_id: room_name,
