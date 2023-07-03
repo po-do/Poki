@@ -147,28 +147,38 @@ export default function ChildFormat() {
 
   return (
     <>
-      <div className="flex flex-col h-full">
-        <div className="h-[10%] bg-white border-gray-400 shadow-sm flex justify-end relative">
-          <div className="border-b absolute bottom-0 left-0 right-0"></div>
-          <a
-            className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-            href="/"
-          >
-            로그아웃
-          </a>
-          <img
-            className="rounded-full m-4 w-11 h-11 border-2 rounded-2"
-            src={PodoChar}
-            alt=""
-          />
-        </div>
-        <div className="h-[80%] bg-white">
-          <ChatRoom />
-        </div>
-        <div className="h-[10%] bg-white">
+      <QueryClientProvider client={queryClient}>
+        <div>
+          {/* 헤더 */}
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+              <div className="relative flex flex-1"></div>
+              <div className="flex items-center gap-x-4 lg:gap-x-6">
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative flex">
+                  <a
+                    className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                    href="/"
+                  >
+                    로그아웃
+                  </a>
+                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                    <img
+                      className="rounded-full w-11 h-11 border-2 rounded-2"
+                      src={PodoChar}
+                      alt=""
+                    />
+                  </Menu.Button>
+                </Menu>
+              </div>
+            </div>
+          </div>
+          <main>
+            <ChatRoom />
+          </main>
           <BottomButton />
         </div>
-      </div>
+      </QueryClientProvider>
     </>
   );
 }
