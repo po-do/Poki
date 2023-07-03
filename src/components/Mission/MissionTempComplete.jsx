@@ -27,22 +27,25 @@ export default function MissionTempComplete() {
   const handleConnect = () => {
     const accessToken = getAccessToken();
 
-    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      heartbeatTimeout: 180000
-    })
+    const sse = new EventSourcePolyfill(
+      `${process.env.REACT_APP_API_URL}/board/grape/sse/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        heartbeatTimeout: 180000,
+      }
+    );
 
     sse.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      setGrape(data.grape)
-    }
-  }
-  
-  useEffect(()=>{
+      const data = JSON.parse(event.data);
+      setGrape(data.grape);
+    };
+  };
+
+  useEffect(() => {
     handleConnect();
-  }, [])
+  }, []);
 
   const openCreateBoardModal = () => {
     setShowCreateBoardModal(true);
@@ -87,8 +90,6 @@ export default function MissionTempComplete() {
     setShowReturnModal(false);
   };
 
-  
-
   // const boardQuery = useQuery(["boardState"], () => {
   //   return getBoardStatus();
   // });
@@ -106,8 +107,6 @@ export default function MissionTempComplete() {
   //   }
   //   // console.log("there is something fetching data!");
   // }, [grape]);
-
-  
 
   useEffect(() => {
     const getMission = async () => {
@@ -230,25 +229,25 @@ export default function MissionTempComplete() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div>
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h3 className="text-xl font-bold mb-4">승인 대기 미션</h3>
+          <h3 className="text-2xl font-bold mb-4">승인 대기 미션</h3>
           <div className="flex mt-4 sm:mt-0 sm:flex-none gap-2 justify-between">
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 ml-4 text-lg text-gray-700">
               미션을 수행 완료했습니다. 아이에게 칭찬 포도알을 주세요.
             </p>
             <div className="flex gap-3">
               <button
                 type="button"
-                className="inline-flex items-center rounded-md  bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="inline-flex items-center rounded-md  bg-white px-3 py-2 text-lg font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                 onClick={handleReject}
               >
                 반려
               </button>
               <button
                 type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 onClick={handlePublish}
               >
                 포도알 주기
@@ -265,7 +264,7 @@ export default function MissionTempComplete() {
                 <tr>
                   <th
                     scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    className="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-900 sm:pl-0"
                   >
                     완료된 미션
                   </th>
@@ -284,7 +283,7 @@ export default function MissionTempComplete() {
                         onChange={(e) => handleCheckboxChange(e, item.id)}
                       />
                     </td>
-                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                    <td className="py-4 pl-4 pr-3 text-base font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                       {item.content}
                     </td>
                   </tr>

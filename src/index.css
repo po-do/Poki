@@ -15,7 +15,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply font-LeeSeoyun
+  @apply font-Dovemayo_gothic;
 }
 
 code {
@@ -24,8 +24,9 @@ code {
 }
 
 @font-face {
-  font-family: 'LeeSeoyun';
+  font-family: "Dovemayo_gothic";
   font-style: normal;
   font-weight: normal;
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2")
+    format("woff2");
 }

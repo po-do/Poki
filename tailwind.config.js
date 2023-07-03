@@ -8,7 +8,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      LeeSeoyun: ["LeeSeoyun"],
+      Dovemayo_gothic: ["Dovemayo_gothic"],
     },
   },
   plugins: [
