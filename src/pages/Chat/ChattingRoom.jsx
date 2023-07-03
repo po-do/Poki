@@ -106,7 +106,7 @@ const ChatRoom = () => {
               src={user.type === "PARENT" ? ParentImg : ChildImg}
               alt="CharacterImg"
             />
-            <div className="text-xl">{user.id}</div>
+            <div className="text-xl">{user.name}</div>
           </div>
           <div className="px-4 py-5 sm:p-6">
             <div>
