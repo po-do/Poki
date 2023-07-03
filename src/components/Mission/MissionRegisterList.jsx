@@ -60,17 +60,17 @@ export default function MissionRegisterList() {
 
   return (
     <>
-      <div className="px-4 sm:px-6 lg:px-8 ">
+      <div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h3 className="text-xl font-bold mb-4">등록된 미션</h3>
-            <p className="mt-2 text-sm text-gray-700">
+            <h3 className="text-2xl font-bold mb-4">등록된 미션</h3>
+            <p className="mt-2 ml-4 text-lg text-gray-700">
               현재 등록된 미션 목록입니다.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 overflow-y-auto scrollbar-hide max-h-60">
+        <div className="mt-8 mx-4 overflow-y-auto scrollbar-hide max-h-60">
           <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
@@ -78,7 +78,7 @@ export default function MissionRegisterList() {
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      className="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-700 sm:pl-0"
                     >
                       등록된 미션
                     </th>
@@ -87,7 +87,7 @@ export default function MissionRegisterList() {
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
-                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-base font-medium gap-2">
                         <button
                           className="text-indigo-600 hover:text-indigo-900 font-bold"
                           onClick={() => handleChange(item.id)}
@@ -101,7 +101,7 @@ export default function MissionRegisterList() {
                           삭제
                         </button>
                       </td>
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                      <td className="py-4 pl-4 pr-3 text-base font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                         {item.content}
                       </td>
                     </tr>
