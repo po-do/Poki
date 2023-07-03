@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
@@ -37,11 +37,18 @@ export class MissionController {
             result: 'success',
             mission: mission.content
         }
-        const connect_id = await this.AuthService.getConnectedUser(user);
 
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-        await this.pushService.push_noti(pushToken, title, info);
-        return mission;
+        try {
+            const connect_id = await this.AuthService.getConnectedUser(user);
+    
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+            await this.pushService.push_noti(pushToken, title, info);
+            return mission;
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return mission;
+            }
+        }
     }
 
     @Get('/detail/:mission_id')
@@ -61,12 +68,20 @@ export class MissionController {
         const info = {
             result: 'success'
         }
-        const connect_id = await this.AuthService.getConnectedUser(user);
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
+        try {
 
-        await this.pushService.push_noti(pushToken, title, info);
-        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+            const connect_id = await this.AuthService.getConnectedUser(user);
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+    
+    
+            await this.pushService.push_noti(pushToken, title, info);
+            return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+            }
+        }
     }
 
     @Post('/approve/:mission_id')
@@ -87,11 +102,19 @@ export class MissionController {
             result: 'success'
         }
 
-        const connect_id = await this.AuthService.getConnectedUser(user);
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+        try {
 
-        await this.pushService.push_noti(pushToken, title, info);
-        return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+            const connect_id = await this.AuthService.getConnectedUser(user);
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+    
+            await this.pushService.push_noti(pushToken, title, info);
+            return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+            }
+        }
+
     }
 
     @Patch('/update/:mission_id')
