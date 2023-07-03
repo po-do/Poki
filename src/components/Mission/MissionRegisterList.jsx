@@ -88,7 +88,7 @@ export default function MissionRegisterList() {
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
                       <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        <pre className="whitespace-pre-wrap font-medium" style={{ fontFamily: 'LeeSeoyun' }}>{item.content}</pre>
+                        <div className="whitespace-pre-wrap font-medium" style={{ fontFamily: 'LeeSeoyun' }}>{item.content}</div>
                       </td>
                       <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
                         <button
