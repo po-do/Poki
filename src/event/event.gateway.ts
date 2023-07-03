@@ -75,9 +75,11 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @MessageBody() { roomName, message, user }: MessagePayload,
   ) {
     // Save message in database
-    this.eventService.createMessage(user.user_id, message, roomName, user.id);
+    this.eventService.createMessage(user.user_id, message, roomName, user.id, );
 
-    socket.to(roomName).emit('message', { sender_id: user.user_id, message });
+    
+
+    socket.to(roomName).emit('message', { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() });
     
     const now_user = await this.authService.getUserById(user.id);
 
@@ -91,15 +93,13 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       if (!check) {
         const connect_id = await this.authService.getConnectedUser(now_user);
         const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-        console.log(pushToken);
-        console.log(message);
 
         const title = '새로운 메시지가 도착했습니다.';
         const info = message;
         await this.pushService.push_noti(pushToken, title, info);
     }
 
-    return { sender_id: user.user_id, message, check_id: user.id };
+    return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() };
   }
 
   // 삭제 금지
