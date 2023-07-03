@@ -177,7 +177,6 @@ export default function ChildFormat() {
               </div>
             </div>
           </div>
-
           <main>
             <Outlet />
           </main>
