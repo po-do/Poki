@@ -7,6 +7,7 @@ import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
 import ParentImg from "../../icons/Character/parent.png";
 import ChildImg from "../../icons/Character/child.png";
+import grapeLogo from "../../icons/Character/child.png";
 
 import moment from "moment-timezone";
 
@@ -26,6 +27,12 @@ const ChatRoom = () => {
   const [message, setMessage] = useState("");
   const chatContainerEl = useRef(null);
   const { roomName } = useParams();
+  const [assigned, setAssigned] = useState(false);
+
+  const openIcon = () => {
+    setAssigned(!assigned);
+  };
+
   // 채팅방 스크롤 자동 내리기
   useEffect(() => {
     if (!chatContainerEl.current) return;
@@ -83,10 +90,24 @@ const ChatRoom = () => {
     },
     [message, roomName, user]
   );
+
+  const handleImageClick = (src) => {
+    const updatedMessage = src;
+    setMessage(updatedMessage);
+  };
+
   return (
     <>
       <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
-        <div className="bg-white px-6 py-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+        <div className="bg-white px-6 pb-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+          <div className="flex pt-6 ml-4 gap-3">
+            <img
+              className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
+              src={user.type === "PARENT" ? ParentImg : ChildImg}
+              alt="CharacterImg"
+            />
+            <div className="text-xl">{user.id}</div>
+          </div>
           <div className="px-4 py-5 sm:p-6">
             <div>
               <div
@@ -121,15 +142,23 @@ const ChatRoom = () => {
                               : chat.sender_id
                             : ""}
                         </span>
-                        <span
-                          className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
-                            user.id !== chat.check_id
-                              ? "text-indigo-500 border-indigo-400 border-2"
-                              : "bg-indigo-500 text-white"
-                          }`}
-                        >
-                          {chat.message}
-                        </span>
+                        {chat.message.startsWith("/static") ? (
+                          <img
+                            src={chat.message}
+                            alt="ChatImage"
+                            className="max-w-[320px] w-20 h-auto rounded-md mb-2"
+                          />
+                        ) : (
+                          <span
+                            className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
+                              user.id !== chat.check_id
+                                ? "text-indigo-500 border-indigo-400 border-2"
+                                : "bg-indigo-500 text-white"
+                            }`}
+                          >
+                            {chat.message}
+                          </span>
+                        )}
                         <span className="-mt-2 mb-2 text-gray-600">
                           {moment
                             .tz(chat.createdAt, "Asia/Seoul")
@@ -145,14 +174,30 @@ const ChatRoom = () => {
                   </div>
                 ))}
               </div>
+
               <form className="flex mt-6 max-h-96" onSubmit={onSendMessage}>
+                <div
+                  className="relative cursor-pointer bg-white mr-2 w-[30%] rounded-lg shadow-md flex items-center justify-center"
+                  onClick={openIcon}
+                >
+                  🙂
+                </div>
+                {assigned && (
+                  <div className="absolute bg-white rounded-lg shadow-lg -mt-20 ml-1">
+                    <div className="flex m-1">
+                      <button onClick={() => handleImageClick(grapeLogo) }>
+                        <img src={grapeLogo} alt="test1" className="w-10 m-3"/>
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <input
                   type="text"
                   onChange={onChange}
                   value={message}
                   className="block w-full rounded-md border-0 pl-4 mr-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <button className="w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <button className="whitespace-nowrap w-20 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   보내기
                 </button>
               </form>
