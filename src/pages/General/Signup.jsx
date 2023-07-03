@@ -50,7 +50,7 @@ export default function Signup() {
           src={grapeLogo}
           alt="Your Company"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
+        <h2 className="mt-10 text-center text-2xl font-semibold leading-9 tracking-tight text-black">
           Poki에 가입해 주세요
         </h2>
       </div>

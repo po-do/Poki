@@ -71,7 +71,7 @@ export default function ParentMain() {
         <div className="bg-white px-12 py-7">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
                 자녀의 포도알
               </h2>
               <p className="mt-2 text-lg leading-8 text-gray-600">
@@ -102,7 +102,7 @@ export default function ParentMain() {
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-base font-medium leading-6 text-gray-900">
+                  <dt className="text-base font-semibold leading-6 text-gray-900">
                     자녀 포도알
                   </dt>
                   <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -110,7 +110,7 @@ export default function ParentMain() {
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-base font-medium leading-6 text-gray-900">
+                  <dt className="text-base font-semibold leading-6 text-gray-900">
                     붙인 포도알
                   </dt>
                   <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

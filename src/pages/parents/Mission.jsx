@@ -8,7 +8,7 @@ export default function Mission() {
   return (
     <div className="relative bg-white lg:pb-12">
       <div className="px-12 py-7">
-        <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        <p className="mt-2 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
           아이의 미션 목록
         </p>
       </div>

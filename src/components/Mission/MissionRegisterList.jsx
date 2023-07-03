@@ -33,13 +33,11 @@ export default function MissionRegisterList() {
       setMissions(missionsData);
     };
     const intervalId = setInterval(getMission, 1000);
-    
+
     return () => {
       clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
     };
   }, []);
-
-  
 
   // 미션수정 ===================
   const handleChange = async (item) => {
@@ -63,7 +61,7 @@ export default function MissionRegisterList() {
       <div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h3 className="text-2xl font-bold mb-4">등록된 미션</h3>
+            <h3 className="text-2xl font-semibold mb-4">등록된 미션</h3>
             <p className="mt-2 ml-4 text-lg text-gray-700">
               현재 등록된 미션 목록입니다.
             </p>
@@ -87,18 +85,23 @@ export default function MissionRegisterList() {
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        <div className="whitespace-pre-wrap font-medium" style={{ fontFamily: 'Dovemayo_gothic' }}>{item.content}</div>
+                      <td className="py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                        <div
+                          className="whitespace-pre-wrap font-semibold"
+                          style={{ fontFamily: "Dovemayo_gothic" }}
+                        >
+                          {item.content}
+                        </div>
                       </td>
-                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-semibold gap-2">
                         <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold"
+                          className="text-indigo-600 hover:text-indigo-900 font-semibold"
                           onClick={() => handleChange(item.id)}
                         >
                           수정
                         </button>
                         <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold ml-2"
+                          className="text-indigo-600 hover:text-indigo-900 font-semibold ml-2"
                           onClick={() => handleDelete(item.id)}
                         >
                           삭제

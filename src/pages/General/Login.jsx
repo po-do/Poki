@@ -123,7 +123,7 @@ export default function Login({ token }) {
             src={grapeLogo}
             alt="Your Company"
           />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
+          <h2 className="mt-10 text-center text-2xl font-semibold leading-9 tracking-tight text-black">
             Poki에 오신 것을 환영합니다.
           </h2>
         </div>

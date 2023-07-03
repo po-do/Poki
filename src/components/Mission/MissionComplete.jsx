@@ -22,7 +22,7 @@ export default function MissionComplete() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h3 className="text-xl font-bold mb-4">완료된 미션</h3>
+          <h3 className="text-xl font-semibold mb-4">완료된 미션</h3>
           <p className="mt-2 text-sm text-gray-700">
             현재 완료된 미션 목록입니다.
           </p>
@@ -51,10 +51,10 @@ export default function MissionComplete() {
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
                   <tr key={item.id}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-0">
                       {item.completed_date}
                     </td>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-0">
                       {item.content}
                     </td>
                   </tr>
