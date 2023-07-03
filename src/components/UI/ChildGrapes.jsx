@@ -56,18 +56,21 @@ export default function Grapes({ message }) {
   const handleConnect = () => {
     const accessToken = getAccessToken();
 
-    const sse = new EventSourcePolyfill(`${process.env.REACT_APP_API_URL}/board/grape/sse/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-      heartbeatTimeout: 180000
-    })
+    const sse = new EventSourcePolyfill(
+      `${process.env.REACT_APP_API_URL}/board/grape/sse/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        heartbeatTimeout: 180000,
+      }
+    );
 
     sse.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      setGrape(data.grape)
-    }
-  }
+      const data = JSON.parse(event.data);
+      setGrape(data.grape);
+    };
+  };
 
   const openAttachModal = () => {
     setAttachModal(true);
@@ -226,7 +229,7 @@ export default function Grapes({ message }) {
         >
           {message.map((item) => (
             <React.Fragment key={item}>
-              <p className="text-white text-2xl font-bold">{item}</p>
+              <p className="text-white text-2xl font-semibold">{item}</p>
               <br />
             </React.Fragment>
           ))}
@@ -255,7 +258,10 @@ export default function Grapes({ message }) {
 
       {/* Modal Area */}
       {attachModal && (
-        <SuccessModal closeModal={closeAttachModal} message="포도알을 하나 붙였습니다." />
+        <SuccessModal
+          closeModal={closeAttachModal}
+          message="포도알을 하나 붙였습니다."
+        />
       )}
       {failAttachModal && (
         <FailModal

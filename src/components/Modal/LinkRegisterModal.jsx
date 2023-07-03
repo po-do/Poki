@@ -96,7 +96,7 @@ export default function LinkRegisterModal({ onClose }) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:item-center sm:p-6">
                 {/* 선물 검색 및 닫기 버튼 */}
                 <div className="mb-6">
-                  <h2 className="text-xl font-bold mb-2">선물 검색하기</h2>
+                  <h2 className="text-xl font-semibold mb-2">선물 검색하기</h2>
 
                   <div className="flex gap-3">
                     <input
@@ -156,7 +156,7 @@ export default function LinkRegisterModal({ onClose }) {
                       </div>
                       <div>
                         <h4
-                          className={`text-lg font-bold ${
+                          className={`text-lg font-semibold ${
                             selectedItem === index ? "text-gray-500" : ""
                           }`}
                         >

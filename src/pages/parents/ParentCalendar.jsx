@@ -332,7 +332,7 @@ function Meeting({ Mission, flag, given_flag }) {
                 />
               </div>
               <div className="ml-6">
-                <p className="text-lg font-medium text-gray-700 group-hover:text-gray-900">
+                <p className="text-lg font-semibold text-gray-700 group-hover:text-gray-900">
                   {Mission.ProductName}
                 </p>
               </div>

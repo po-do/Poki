@@ -66,8 +66,8 @@ export default function RecentMissionList() {
     return recentMissions.map((mission, index) => (
       <div key={index}>
         <div className="relative flex items-start py-4">
-          <div className="min-w-0 flex-1 text-sm leading-6">
-            <label className="select-none font-medium text-gray-900">
+          <div className="min-w-0 flex-1 text-lg leading-6">
+            <label className="select-none text-gray-900">
               {mission.content}
             </label>
           </div>
@@ -87,7 +87,7 @@ export default function RecentMissionList() {
       <div className="px-4 py-2">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
               등록된 미션
             </h2>
             <p className="mt-2 text-lg text-gray-700">
@@ -99,16 +99,15 @@ export default function RecentMissionList() {
             <button
               type="button"
               onClick={handleClick}
-              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="text-lg block rounded-md bg-indigo-600 px-3 py-2 text-center text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               포도알 요청
             </button>
           </div>
         </div>
 
-
-        <legend className="text-base leading-6 text-gray-900 mt-4">
-          Mission
+        <legend className="text-2xl font-semibold leading-6 text-gray-900 mt-4">
+          미션
         </legend>
         <div className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
           {missions && getRecentMissions()}

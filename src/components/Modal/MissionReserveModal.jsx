@@ -2,7 +2,13 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { missionCreate, missionUpdate } from "../../api/mission";
 
-export default function MissionReserveModal({ closeModal, missionContent, setMissions, Mission, flag }) {
+export default function MissionReserveModal({
+  closeModal,
+  missionContent,
+  setMissions,
+  Mission,
+  flag,
+}) {
   const [open] = useState(true);
   const [reservationDate, setReservationDate] = useState(""); // 예약 날짜 상태
   const [reservationContent, setReservationContent] = useState(""); // 예약 날짜 상태
@@ -18,7 +24,7 @@ export default function MissionReserveModal({ closeModal, missionContent, setMis
         "-" +
         (date.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        date.getDate().toString().padStart(2, '0');
+        date.getDate().toString().padStart(2, "0");
 
       const params = {
         request: {
@@ -83,30 +89,33 @@ export default function MissionReserveModal({ closeModal, missionContent, setMis
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-
                 {/* 제목 */}
                 <div className="mb-6">
-                  <h2 className="text-xl font-bold">미션 예약하기</h2>
+                  <h2 className="text-xl font-semibold">미션 예약하기</h2>
                   <p className="ml-4 mt-2 text-sm text-gray-700">
                     미션을 예약해 보세요.
                   </p>
                 </div>
-                
+
                 <div className="flex flex-col">
-                  
-                  <div className="m-3">미션 내용 : {flag ? (
-                    <input
-                      id="mission-register-one"
-                      type="text"
-                      className="sm:w-40 px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="내용 수정"
-                      value={reservationContent}
-                      onChange={(e) => setReservationContent(e.target.value)}
-                    />
-                  ) : `${missionContent}` }</div>
+                  <div className="m-3">
+                    미션 내용 :{" "}
+                    {flag ? (
+                      <input
+                        id="mission-register-one"
+                        type="text"
+                        className="sm:w-40 px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        placeholder="내용 수정"
+                        value={reservationContent}
+                        onChange={(e) => setReservationContent(e.target.value)}
+                      />
+                    ) : (
+                      `${missionContent}`
+                    )}
+                  </div>
 
                   <div className="m-3">
-                    예약 날짜: 
+                    예약 날짜:
                     <input
                       type="date"
                       className="ml-2 px-2 py-1 border border-gray-300 rounded-md"

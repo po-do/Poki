@@ -133,7 +133,7 @@ const ChatRoom = () => {
                           "self-end": user.id === chat.check_id,
                           "self-center": !chat.sender_id,
                           "flex flex-col": true,
-                          "text-lg" : true
+                          "text-lg": true,
                         })}
                       >
                         <div className="flex">
@@ -157,22 +157,22 @@ const ChatRoom = () => {
                                 : ""}
                             </span>
                             {chat.message.startsWith("/static") ? (
-                          <img
-                            src={chat.message}
-                            alt="ChatImage"
-                            className="max-w-[320px] w-20 h-auto rounded-md mb-2"
-                          />
-                        ) : (
-                          <span
-                            className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
-                              user.id !== chat.check_id
-                                ? "text-indigo-500 border-indigo-400 border-2"
-                                : "bg-indigo-500 text-white"
-                            }`}
-                          >
-                            {chat.message}
-                          </span>
-                        )}
+                              <img
+                                src={chat.message}
+                                alt="ChatImage"
+                                className="max-w-[320px] w-20 h-auto rounded-md mb-2"
+                              />
+                            ) : (
+                              <span
+                                className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
+                                  user.id !== chat.check_id
+                                    ? "text-indigo-500 border-indigo-400 border-2"
+                                    : "bg-indigo-500 text-white"
+                                }`}
+                              >
+                                {chat.message}
+                              </span>
+                            )}
                             <span className="-mt-2 mb-2 text-gray-600">
                               {moment
                                 .tz(chat.createdAt, "Asia/Seoul")
@@ -213,8 +213,8 @@ const ChatRoom = () => {
                 {assigned && (
                   <div className="absolute bg-white rounded-lg shadow-lg -mt-20 ml-1">
                     <div className="flex m-1">
-                      <button onClick={() => handleImageClick(grapeLogo) }>
-                        <img src={grapeLogo} alt="test1" className="w-10 m-3"/>
+                      <button onClick={() => handleImageClick(grapeLogo)}>
+                        <img src={grapeLogo} alt="test1" className="w-10 m-3" />
                       </button>
                     </div>
                   </div>

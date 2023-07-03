@@ -186,7 +186,7 @@ export default function Video() {
   return (
     <>
       <div className="flex justify-between ">
-        <h1 className="px-12 py-7 mt-2 ml-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        <h1 className="px-12 py-7 mt-2 ml-2 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
           영상통화
         </h1>
         <div className="flex justify-center items-center mt-2 mr-2">

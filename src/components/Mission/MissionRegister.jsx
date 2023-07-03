@@ -103,7 +103,7 @@ export default function MissionRegister() {
   return (
     <>
       <div>
-        <h3 className="text-2xl font-bold mb-4">미션 등록</h3>
+        <h3 className="text-2xl font-semibold mb-4">미션 등록</h3>
         <p className="ml-4 mt-2 text-lg text-gray-700 mb-4">
           아이가 수행할 미션을 등록해 주세요. 미래에 수행할 미션도 예약할 수
           있습니다.

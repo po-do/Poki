@@ -232,7 +232,7 @@ export default function MissionTempComplete() {
     <div>
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h3 className="text-2xl font-bold mb-4">승인 대기 미션</h3>
+          <h3 className="text-2xl font-semibold mb-4">승인 대기 미션</h3>
           <div className="flex mt-4 sm:mt-0 sm:flex-none gap-2 justify-between">
             <p className="mt-2 ml-4 text-lg text-gray-700">
               미션을 수행 완료했습니다. 아이에게 칭찬 포도알을 주세요.
@@ -273,7 +273,7 @@ export default function MissionTempComplete() {
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
                   <tr key={item.id} className="flex">
-                    <td className="py-4 pl-4 pr-4 text-sm font-medium gap-2">
+                    <td className="py-4 pl-4 pr-4 text-sm font-semibold gap-2">
                       <input
                         id="comments"
                         aria-describedby="comments-description"
@@ -283,7 +283,7 @@ export default function MissionTempComplete() {
                         onChange={(e) => handleCheckboxChange(e, item.id)}
                       />
                     </td>
-                    <td className="py-4 pl-4 pr-3 text-base font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                    <td className="py-4 pl-4 pr-3 text-base font-semibold text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                       {item.content}
                     </td>
                   </tr>
