@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Delete, Patch, ValidationPipe, UsePipes, ParseIntPipe, UseGuards, ForbiddenException, Sse  } from '@nestjs/common';
 import { Observable, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 import { AuthGuard } from '@nestjs/passport';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -43,7 +43,7 @@ export class BoardController {
         if (grape) {
             throw new ForbiddenException('parents already have grape');
         }
-
+        
         const response: responseBoardDto = {
             code: 200,
             success: true,
@@ -51,7 +51,7 @@ export class BoardController {
                 grape: await this.boardService.createBoard(type, code, id)
             },
         };
-
+        
         globalVersion += 1;
 
         return response
@@ -165,7 +165,7 @@ export class BoardController {
           }
         };
         initialData(); // 맨 처음 보드 상태를 불러옴
-        const intervalId = setInterval(updateData, 100);
+        const intervalId = setInterval(updateData, 50);
         // Clean up the interval when the client disconnects
         observer.complete = () => {
           clearInterval(intervalId);
@@ -235,7 +235,7 @@ export class BoardController {
         if (!grape) {
             throw new ForbiddenException('parents not have grape');
         }
-
+        
         const response: responseBoardDto = {
             code: 200,
             success: true,
@@ -243,7 +243,7 @@ export class BoardController {
                 grape: await this.boardService.updateBoard(grape.id, CreateBoardDto, id)
             },
         };
-
+        
         globalVersion += 1;
 
         const title = '포도알이 발급되었어요! 지금 확인해보세요.';
@@ -251,12 +251,21 @@ export class BoardController {
             result: 'success'
         }
 
-        const connect_id = await this.AuthService.getConnectedUser(user);
+        try {
 
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+            const connect_id = await this.AuthService.getConnectedUser(user);
+    
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+    
+            await this.pushService.push_noti(pushToken, title, info);
+            
+            return response
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+               return response;
+            }
+        }
 
-        await this.pushService.push_noti(pushToken, title, info);
-        return response
     }
 
     //포도 부착 버튼 클릭시 실행 함수
@@ -282,7 +291,7 @@ export class BoardController {
             throw new ForbiddenException('parents not have grape');
         }
         
-
+        
         const response: responseBoardDto = {
             code: 200,
             success: true,
@@ -290,8 +299,8 @@ export class BoardController {
                 grape: await this.boardService.attachBoard(grape.id, code)
             },
         };
+        
         globalVersion += 1; // Update the global version
-
         return response
     }
 
