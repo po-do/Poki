@@ -28,24 +28,21 @@ export default function MissionRegisterList() {
   };
 
   useEffect(() => {
-    getMission();
-  }, [missions]);
+    const getMission = async () => {
+      const missionsData = await newMissionRead();
+      setMissions(missionsData);
+    };
+    const intervalId = setInterval(getMission, 1000);
+    
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
+    };
+  }, []);
 
-  const getMission = async () => {
-    const missionsData = await newMissionRead();
-    setMissions(missionsData);
-  };
+  
 
   // 미션수정 ===================
   const handleChange = async (item) => {
-    //   if (e.target.checked) {
-    //     setCheckedMissionsId([...checkedMissionsId, mission.id]);
-    //     setCheckedMissionsList([...checkedMissionsList, mission]);
-    //   } else {
-    //     setCheckedMissionsId(checkedMissionsId.filter((id) => id !== mission.id));
-    //     setCheckedMissionsList(checkedMissionsList.filter((m) => m === mission));
-    //     // checkedMissionsList에서 채크 안된놈들 지우기
-    //   }
     setSelectedMission(item);
     openModal();
   };
@@ -59,13 +56,6 @@ export default function MissionRegisterList() {
     await missionDelete(params);
 
     openFailModal();
-    // await Promise.all(
-    //   checkedMissionsId.map((misvsionId) =>
-    //     missionDelete({ mission_id: missionId })
-    //   )
-    // );
-    // setCheckedMissionsId([]);
-    // setMissions([]);
   };
 
   return (
