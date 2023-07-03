@@ -83,6 +83,7 @@ const ChatRoom = () => {
     },
     [message, roomName, user]
   );
+
   return (
     <>
       <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
@@ -93,57 +94,84 @@ const ChatRoom = () => {
                 ref={chatContainerEl}
                 className="flex flex-col p-4 max-[720px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
-                {chats.map((chat, index) => (
-                  <div
-                    key={index}
-                    className={classNames({
-                      "self-end": user.id === chat.check_id,
-                      "self-center": !chat.sender_id,
-                      "flex flex-col": true,
-                    })}
-                  >
-                    <div className="flex">
-                      {user.id === chat.check_id ? (
-                        ""
-                      ) : (
-                        <img
-                          className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
-                          src={user.type === "PARENT" ? ChildImg : ParentImg}
-                          alt="CharacterImg"
-                        />
-                      )}
+                {chats.map((chat, index) => {
+                  // 현재 메시지와 다음 메시지의 날짜를 비교
+                  const currentDate = moment
+                    .tz(chat.createdAt, "Asia/Seoul")
+                    .format("YYYY-MM-DD");
+                  const nextDate = chats[index + 1]
+                    ? moment
+                        .tz(chats[index + 1].createdAt, "Asia/Seoul")
+                        .format("YYYY-MM-DD")
+                    : null;
 
-                      <div className="flex flex-col">
-                        <span>
-                          {chat.sender_id
-                            ? user.id === chat.check_id
-                              ? ""
-                              : chat.sender_id
-                            : ""}
-                        </span>
-                        <span
-                          className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
-                            user.id !== chat.check_id
-                              ? "text-indigo-500 border-indigo-400 border-2"
-                              : "bg-indigo-500 text-white"
-                          }`}
-                        >
-                          {chat.message}
-                        </span>
-                        <span className="-mt-2 mb-2 text-gray-600">
-                          {moment
-                            .tz(chat.createdAt, "Asia/Seoul")
-                            .format("A h:mm ")
-                            .replace(/AM|PM/, (meridiem) =>
-                              moment
-                                .localeData()
-                                .meridiem(null, null, null, meridiem === "PM")
-                            )}
-                        </span>
+                  return (
+                    <>
+                      <div
+                        key={index}
+                        className={classNames({
+                          "self-end": user.id === chat.check_id,
+                          "self-center": !chat.sender_id,
+                          "flex flex-col": true,
+                        })}
+                      >
+                        <div className="flex">
+                          {user.id === chat.check_id ? (
+                            ""
+                          ) : (
+                            <img
+                              className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
+                              src={
+                                user.type === "PARENT" ? ChildImg : ParentImg
+                              }
+                              alt="CharacterImg"
+                            />
+                          )}
+                          <div className="flex flex-col">
+                            <span>
+                              {chat.sender_id
+                                ? user.id === chat.check_id
+                                  ? ""
+                                  : chat.sender_id
+                                : ""}
+                            </span>
+                            <span
+                              className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
+                                user.id !== chat.check_id
+                                  ? "text-indigo-500 border-indigo-400 border-2"
+                                  : "bg-indigo-500 text-white"
+                              }`}
+                            >
+                              {chat.message}
+                            </span>
+                            <span className="-mt-2 mb-2 text-gray-600">
+                              {moment
+                                .tz(chat.createdAt, "Asia/Seoul")
+                                .format("A h:mm ")
+                                .replace(/AM|PM/, (meridiem) =>
+                                  moment
+                                    .localeData()
+                                    .meridiem(
+                                      null,
+                                      null,
+                                      null,
+                                      meridiem === "PM"
+                                    )
+                                )}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                      <div>
+                        {nextDate && currentDate !== nextDate && (
+                          <div className="border text-center m-1 rounded-lg bg-slate-200 shadow-lg">
+                            {nextDate === null ? "" : nextDate}
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  );
+                })}
               </div>
               <form className="flex mt-6 max-h-96" onSubmit={onSendMessage}>
                 <input
