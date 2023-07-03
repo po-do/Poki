@@ -43,7 +43,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-indigo-300">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-c4c4fb">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-32 w-auto"
@@ -60,7 +60,7 @@ export default function Signup() {
           <div>
             <label
               htmlFor="text"
-              className="block text-sm font-bold leading-6 text-black"
+              className="block text-lg font-bold leading-6 text-black"
             >
               이름
             </label>
@@ -79,7 +79,7 @@ export default function Signup() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-bold leading-6 text-black"
+              className="block text-lg font-bold leading-6 text-black"
             >
               아이디
             </label>
@@ -99,7 +99,7 @@ export default function Signup() {
             <div className="flex items-center justify-between ">
               <label
                 htmlFor="password"
-                className="block text-sm font-bold leading-6 text-black"
+                className="block text-lg font-bold leading-6 text-black"
                 >
                 패스워드
               </label>
@@ -128,7 +128,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-parent"
-                className="block text-sm font-bold leading-6 text-black"
+                className="block text-lg font-bold leading-6 text-black"
               >
                 부모님
               </label>
@@ -143,7 +143,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-child"
-                className="block text-sm font-bold leading-6 text-black"
+                className="block text-lg font-bold leading-6 text-black"
               >
                 자녀
               </label>

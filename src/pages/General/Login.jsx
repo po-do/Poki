@@ -133,7 +133,7 @@ export default function Login({ token }) {
             <div>
               <label
                 htmlFor="userid"
-                className="block text-sm font-medium leading-6 text-black"
+                className="block text-lg font-bold leading-6 text-black"
               >
                 아이디
               </label>
@@ -152,7 +152,7 @@ export default function Login({ token }) {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-black"
+                  className="block text-lg font-bold leading-6 text-black"
                 >
                   패스워드
                 </label>
@@ -189,7 +189,7 @@ export default function Login({ token }) {
             </div>
           </div>
 
-          <p className="mt-10 text-center text-sm text-gray-800">
+          <p className="mt-10 text-center text-lg text-gray-800">
             가입하지 않으셨나요?{" "}
             <a
               href="/signup"
