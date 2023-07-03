@@ -68,10 +68,10 @@ export default function ParentMain() {
     <>
       <div className="relative bg-white py-1 sm:py-1">
         {/* 배너 */}
-        <div className="bg-white py-1 sm:py-1">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="bg-white px-12 py-7">
+          <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
                 자녀의 포도알
               </h2>
               <p className="mt-2 text-lg leading-8 text-gray-600">
@@ -92,28 +92,28 @@ export default function ParentMain() {
           {/* 관리현황판 */}
           <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
             <div className="px-4 sm:px-0">
-              <h3 className="text-base font-semibold leading-7 text-gray-900">
+              <h3 className="text-xl font-semibold leading-7 text-gray-900">
                 포도알 관리 현황판
               </h3>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+              <p className="mt-1 max-w-2xl text-lg leading-6 text-gray-500">
                 현재 자녀의 포도알 정보를 확인할 수 있습니다.
               </p>
             </div>
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                  <dt className="text-base font-semibold leading-6 text-gray-900">
                     자녀 포도알
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {grape?.deattached_grapes}개
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    붙인 포도알 개수
+                  <dt className="text-base font-semibold leading-6 text-gray-900">
+                    붙인 포도알
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {grape?.attached_grapes}개 / {grape?.blank}개
                   </dd>
                 </div>
@@ -130,7 +130,7 @@ export default function ParentMain() {
             {(grape?.attached_grapes === 31 ? true : false) && (
               <button
                 onClick={updateGiven}
-                className="w-25 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-25 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 선물지급완료
               </button>

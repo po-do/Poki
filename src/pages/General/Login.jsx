@@ -123,7 +123,7 @@ export default function Login({ token }) {
             src={grapeLogo}
             alt="Your Company"
           />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
+          <h2 className="mt-10 text-center text-2xl font-semibold leading-9 tracking-tight text-black">
             Poki에 오신 것을 환영합니다.
           </h2>
         </div>
@@ -133,7 +133,7 @@ export default function Login({ token }) {
             <div>
               <label
                 htmlFor="userid"
-                className="block text-lg font-bold leading-6 text-black"
+                className="block text-lg leading-6 text-black"
               >
                 아이디
               </label>
@@ -152,7 +152,7 @@ export default function Login({ token }) {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-lg font-bold leading-6 text-black"
+                  className="block text-lg leading-6 text-black"
                 >
                   패스워드
                 </label>
@@ -174,7 +174,7 @@ export default function Login({ token }) {
               <button
                 type="submit"
                 onClick={handleLogIn}
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
+                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-lg font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
               >
                 로그인
               </button>

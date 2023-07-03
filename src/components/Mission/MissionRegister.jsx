@@ -42,7 +42,7 @@ export default function MissionRegister() {
 
   const setMission = () => {
     setMissionContent("");
-  }
+  };
 
   const handleButtonClick = () => {
     if (missionContent === "") {
@@ -84,7 +84,7 @@ export default function MissionRegister() {
         "-" +
         (date.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        date.getDate().toString().padStart(2, '0');
+        date.getDate().toString().padStart(2, "0");
 
       const params = {
         request: {
@@ -103,9 +103,10 @@ export default function MissionRegister() {
   return (
     <>
       <div>
-        <h3 className="text-xl font-bold mb-4">미션 등록</h3>
-        <p className="ml-4 mt-2 text-sm text-gray-700 mb-4">
-        아이가 수행할 미션을 등록해 주세요. 미래에 수행할 미션도 예약할 수 있습니다.
+        <h3 className="text-2xl font-semibold mb-4">미션 등록</h3>
+        <p className="ml-4 mt-2 text-lg text-gray-700 mb-4">
+          아이가 수행할 미션을 등록해 주세요. 미래에 수행할 미션도 예약할 수
+          있습니다.
         </p>
       </div>
 
@@ -117,19 +118,19 @@ export default function MissionRegister() {
             type="text"
             value={missionContent}
             onChange={handleInputChange}
-            className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+            className="min-w-0 flex-auto rounded-md border-0 ml-4 px-3.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
             placeholder="미션 입력"
           />
 
           <button
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={handleButtonClick}
           >
             미션 등록
           </button>
 
           <button
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={handleReserveClick}
           >
             미션 예약
@@ -148,7 +149,7 @@ export default function MissionRegister() {
         <MissionReserveModal
           closeModal={closeMissionReserveModal}
           missionContent={missionContent}
-          setMissions = {setMission}
+          setMissions={setMission}
         />
       )}
 

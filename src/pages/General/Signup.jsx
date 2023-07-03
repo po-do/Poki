@@ -50,7 +50,7 @@ export default function Signup() {
           src={grapeLogo}
           alt="Your Company"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
+        <h2 className="mt-10 text-center text-2xl font-semibold leading-9 tracking-tight text-black">
           Poki에 가입해 주세요
         </h2>
       </div>
@@ -60,7 +60,7 @@ export default function Signup() {
           <div>
             <label
               htmlFor="text"
-              className="block text-lg font-bold leading-6 text-black"
+              className="block text-lg leading-6 text-black"
             >
               이름
             </label>
@@ -72,14 +72,14 @@ export default function Signup() {
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-lg sm:leading-6"
               />
             </div>
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-lg font-bold leading-6 text-black"
+              className="block text-lg leading-6 text-black"
             >
               아이디
             </label>
@@ -91,7 +91,7 @@ export default function Signup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-lg sm:leading-6"
               />
             </div>
           </div>
@@ -99,8 +99,8 @@ export default function Signup() {
             <div className="flex items-center justify-between ">
               <label
                 htmlFor="password"
-                className="block text-lg font-bold leading-6 text-black"
-                >
+                className="block text-lg leading-6 text-black"
+              >
                 패스워드
               </label>
             </div>
@@ -112,7 +112,7 @@ export default function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className="block pl-2 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-lg sm:leading-6"
               />
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-parent"
-                className="block text-lg font-bold leading-6 text-black"
+                className="block text-lg leading-6 text-black"
               >
                 부모님
               </label>
@@ -143,7 +143,7 @@ export default function Signup() {
               />
               <label
                 htmlFor="push-child"
-                className="block text-lg font-bold leading-6 text-black"
+                className="block text-lg leading-6 text-black"
               >
                 자녀
               </label>
@@ -153,7 +153,7 @@ export default function Signup() {
             <button
               type="submit"
               onClick={handleSignUp}
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
+              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-lg font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
             >
               Sign up
             </button>

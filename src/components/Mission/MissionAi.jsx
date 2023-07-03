@@ -51,7 +51,7 @@ export default function MissionAi() {
 
   const handleModal = async () => {
     setSpiningFlag(true);
-    console.time('그냥')
+    console.time("그냥");
     // api 호출
     try {
       const params = {
@@ -65,7 +65,7 @@ export default function MissionAi() {
       const data = await missionRecommend(params);
       setResult(data);
       console.log("성공 : ", data);
-      console.timeEnd('그냥')
+      console.timeEnd("그냥");
     } catch (error) {
       console.log("AI Load 실패 : ", error);
     }
@@ -75,8 +75,8 @@ export default function MissionAi() {
   return (
     <div>
       <div>
-        <h3 className="text-xl font-bold mb-4">AI에게 미션 추천 받기</h3>
-        <p className="ml-4 mt-2 text-sm text-gray-700">
+        <h3 className="text-2xl font-semibold mb-4">AI에게 미션 추천 받기</h3>
+        <p className="ml-4 mt-2 text-lg text-gray-700">
           3개의 키워드를 골라 AI에게 미션을 추천 받아 보세요.
         </p>
       </div>
@@ -88,7 +88,7 @@ export default function MissionAi() {
         </RadioGroup.Label>
 
         <div className="gap-3 m-5">
-          <h3 className="text-xl font-bold mb-4">나이</h3>
+          <h3 className="text-xl font-semibold mb-4">나이</h3>
           <div className="flex">
             {ageOptions.map((option) => (
               <RadioGroup.Option
@@ -108,7 +108,9 @@ export default function MissionAi() {
                 }
                 disabled={!option.inStock}
               >
-                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+                <RadioGroup.Label as="span" className="text-base">
+                  {option.name}
+                </RadioGroup.Label>
               </RadioGroup.Option>
             ))}
           </div>
@@ -122,7 +124,7 @@ export default function MissionAi() {
         </RadioGroup.Label>
 
         <div className="gap-3 m-5">
-          <h3 className="text-xl font-bold mb-4">장소</h3>
+          <h3 className="text-xl font-semibold mb-4">장소</h3>
           <div className="flex">
             {placeOptions.map((option) => (
               <RadioGroup.Option
@@ -142,7 +144,9 @@ export default function MissionAi() {
                 }
                 disabled={!option.inStock}
               >
-                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+                <RadioGroup.Label as="span" className="text-base">
+                  {option.name}
+                </RadioGroup.Label>
               </RadioGroup.Option>
             ))}
           </div>
@@ -156,7 +160,7 @@ export default function MissionAi() {
         </RadioGroup.Label>
 
         <div className="gap-3 m-5">
-          <h3 className="text-xl font-bold mb-4">키워드</h3>
+          <h3 className="text-xl font-semibold mb-4">키워드</h3>
           <div className="flex">
             {pointOptions.map((option) => (
               <RadioGroup.Option
@@ -165,7 +169,7 @@ export default function MissionAi() {
                 className={({ active, checked }) =>
                   PointFilter(
                     option.inStock
-                      ? "cursor-pointer focus:outline-none "
+                      ? "cursor-pointer focus:outline-none"
                       : "cursor-not-allowed opacity-25",
                     active ? "ring-2 ring-gray-500 ring-offset-2" : "",
                     checked
@@ -176,7 +180,9 @@ export default function MissionAi() {
                 }
                 disabled={!option.inStock}
               >
-                <RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
+                <RadioGroup.Label as="span" className="text-base">
+                  {option.name}
+                </RadioGroup.Label>
               </RadioGroup.Option>
             ))}
           </div>
@@ -187,7 +193,7 @@ export default function MissionAi() {
       <div className="flex justify-end">
         <button
           type="button"
-          className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
           onClick={handleModal}
         >
           <div className="flex">

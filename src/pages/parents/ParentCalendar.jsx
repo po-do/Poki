@@ -106,7 +106,7 @@ export default function ParentCalendar() {
   );
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 text-2xl">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         {/* Calendar */}
         <div className="border shadow-2xl rounded-2xl">
@@ -131,7 +131,7 @@ export default function ParentCalendar() {
               <HiChevronRight className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
-          <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
+          <div className="grid grid-cols-7 mt-10 text-lg leading-6 text-center text-gray-500">
             <div>일</div>
             <div>월</div>
             <div>화</div>
@@ -140,7 +140,7 @@ export default function ParentCalendar() {
             <div>금</div>
             <div>토</div>
           </div>
-          <div className="grid grid-cols-7 mt-2 text-sm">
+          <div className="grid grid-cols-7 mt-2 text-base">
             {days.map((day, dayIdx) => (
               <div
                 key={day.toString()}
@@ -207,8 +207,8 @@ export default function ParentCalendar() {
 
         {/* section */}
         <section className="mt-12 md:mt-4 border-t border-gray">
-          <h2 className="font-semibold text-gray-900 mt-4">완료된 미션</h2>
-          <ol className="space-y-1 text-sm leading-6 text-gray-500">
+          <h2 className="font-semibold text-gray-900 mt-4 mb-2">완료된 미션</h2>
+          <ol className="space-y-1 text-lg leading-6 text-gray-500">
             {selectedCompDayMeetings.length > 0 ? (
               selectedCompDayMeetings.map((mission) => (
                 <Meeting
@@ -225,8 +225,8 @@ export default function ParentCalendar() {
           </ol>
 
           <section className="border-t border-gray">
-            <h2 className="font-semibold text-gray-900 mt-4">예약 미션</h2>
-            <ol className="space-y-1 text-sm leading-6 text-gray-500">
+            <h2 className="font-semibold text-gray-900 mt-4 mb-2">예약 미션</h2>
+            <ol className="space-y-1 text-lg leading-6 text-gray-500">
               {selectedResDayMeetings.length > 0 ? (
                 selectedResDayMeetings.map((mission) => (
                   <Meeting
@@ -245,14 +245,14 @@ export default function ParentCalendar() {
           </section>
           {/* 받은 선물 부분 */}
           <section className="border-t border-gray">
-            <h2 className="font-semibold text-gray-900 mt-4">받은 선물</h2>
+            <h2 className="font-semibold text-gray-900 mt-4 mb-2">받은 선물</h2>
             <ol className="space-y-1 text-sm leading-6 text-gray-500">
               {selectedGiftDayMeetings.length > 0 ? (
                 selectedGiftDayMeetings.map((gift) => (
                   <Meeting key={gift.id} Mission={gift} given_flag={true} />
                 ))
               ) : (
-                <p className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+                <p className="text-lg flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
                   받은 선물이 없습니다.
                 </p>
               )}
@@ -332,7 +332,7 @@ function Meeting({ Mission, flag, given_flag }) {
                 />
               </div>
               <div className="ml-6">
-                <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                <p className="text-lg font-semibold text-gray-700 group-hover:text-gray-900">
                   {Mission.ProductName}
                 </p>
               </div>

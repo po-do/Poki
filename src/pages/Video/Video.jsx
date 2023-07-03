@@ -186,16 +186,9 @@ export default function Video() {
   return (
     <>
       <div className="flex justify-between ">
-        <div className="px-4 py-2">
-          <div className="sm:flex sm:items-center">
-            <div className="sm:flex-auto">
-              <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                영상통화
-              </h2>
-            </div>
-          </div>
-        </div>
-
+        <h1 className="px-12 py-7 mt-2 ml-2 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
+          영상통화
+        </h1>
         <div className="flex justify-center items-center mt-2 mr-2">
           <button
             variant="contained"

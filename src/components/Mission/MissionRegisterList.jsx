@@ -33,13 +33,11 @@ export default function MissionRegisterList() {
       setMissions(missionsData);
     };
     const intervalId = setInterval(getMission, 1000);
-    
+
     return () => {
       clearInterval(intervalId); // 컴포넌트가 언마운트될 때 interval 정리
     };
   }, []);
-
-  
 
   // 미션수정 ===================
   const handleChange = async (item) => {
@@ -60,17 +58,17 @@ export default function MissionRegisterList() {
 
   return (
     <>
-      <div className="px-4 sm:px-6 lg:px-8 ">
+      <div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h3 className="text-xl font-bold mb-4">등록된 미션</h3>
-            <p className="mt-2 text-sm text-gray-700">
+            <h3 className="text-2xl font-semibold mb-4">등록된 미션</h3>
+            <p className="mt-2 ml-4 text-lg text-gray-700">
               현재 등록된 미션 목록입니다.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 overflow-y-auto scrollbar-hide max-h-60">
+        <div className="mt-8 mx-4 overflow-y-auto scrollbar-hide max-h-60">
           <div className="-mx-4 -my-2  sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
@@ -78,7 +76,7 @@ export default function MissionRegisterList() {
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      className="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-700 sm:pl-0"
                     >
                       등록된 미션
                     </th>
@@ -87,18 +85,23 @@ export default function MissionRegisterList() {
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
-                      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
-                        <pre className="whitespace-pre-wrap font-medium" style={{ fontFamily: 'LeeSeoyun' }}>{item.content}</pre>
+                      <td className="py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                        <div
+                          className="whitespace-pre-wrap font-semibold"
+                          style={{ fontFamily: "Dovemayo_gothic" }}
+                        >
+                          {item.content}
+                        </div>
                       </td>
-                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium gap-2">
+                      <td className="flex whitespace-nowrap py-4 pl-3 pr-4 text-sm font-semibold gap-2">
                         <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold"
+                          className="text-indigo-600 hover:text-indigo-900 font-semibold"
                           onClick={() => handleChange(item.id)}
                         >
                           수정
                         </button>
                         <button
-                          className="text-indigo-600 hover:text-indigo-900 font-bold ml-2"
+                          className="text-indigo-600 hover:text-indigo-900 font-semibold ml-2"
                           onClick={() => handleDelete(item.id)}
                         >
                           삭제

@@ -22,7 +22,7 @@ export default function UpdateModal({ onClose, item_id }) {
         "-" +
         (date.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        date.getDate().toString().padStart(2, '0');
+        date.getDate().toString().padStart(2, "0");
       // Create an object with the data to send to the server
       const data = {
         mission_id: item_id,
@@ -69,7 +69,7 @@ export default function UpdateModal({ onClose, item_id }) {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6">
                 <div className="mb-6">
-                  <h2 className="text-xl font-bold mb-2">내용 수정</h2>
+                  <h2 className="text-xl font-semibold mb-2">내용 수정</h2>
                   <input
                     id="mission-register-one"
                     type="text"
@@ -104,7 +104,7 @@ export default function UpdateModal({ onClose, item_id }) {
     // <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
     //   <div className="bg-white p-8 rounded-md shadow-md">
     //     <div className="mb-6">
-    //       <h2 className="text-xl font-bold mb-2">내용 수정</h2>
+    //       <h2 className="text-xl font-semibold mb-2">내용 수정</h2>
     //       <input
     //         id="mission-register-one"
     //         type="text"

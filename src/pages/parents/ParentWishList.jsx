@@ -76,7 +76,8 @@ export default function ChildWishList() {
       try {
         const wishlistData = await getWishlistByUserId();
         const unPickedItem = wishlistData.data.item.filter(
-          (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
+          (wishItem) =>
+            wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
         );
 
         setproduct(unPickedItem);
@@ -96,7 +97,7 @@ export default function ChildWishList() {
     <div className="relative bg-white lg:pb-12">
       {/* 제목 */}
       <div className="px-12 py-7">
-        <p className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        <p className="mt-2 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
           아이의 위시리스트 목록
         </p>
       </div>
@@ -112,7 +113,7 @@ export default function ChildWishList() {
               onClick={() => handleItemClick(item.id)}
             >
               <div
-                className={`group relative flex flex-col overflow-hidden rounded-lg  border border-gray-200${
+                className={`group relative flex flex-col overflow-hidden border border-gray-200${
                   selectedItem === item.id
                     ? "border-gray-500"
                     : "border-gray-300"
@@ -122,15 +123,15 @@ export default function ChildWishList() {
                   <img
                     src={item.ProductImage}
                     alt={item.ProductName}
-                    className={`h-full w-full object-cover object-center sm:h-full sm:w-full ${
+                    className={`h-full w-full object-cover object-center ${
                       selectedItem === item.id ? "grayscale" : ""
                     }`}
                   />
                 </div>
 
                 {/* 상품 이름 */}
-                <div className="flex flex-1 flex-col space-y-2 p-4 ">
-                  <h3 className="text-sm font-medium text-gray-900 ">
+                <div className="flex flex-1 flex-col space-y-2 p-4 border-t">
+                  <h3 className="text-base font-semibold text-gray-900 ">
                     {item.ProductName}
                   </h3>
                 </div>
@@ -138,7 +139,7 @@ export default function ChildWishList() {
                 {/* 링크 */}
                 <div className="flex justify-center m-3">
                   <button
-                    className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                    className="text-lg  w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                     onClick={() => (window.location.href = item.ProductLink)}
                   >
                     링크
@@ -153,7 +154,7 @@ export default function ChildWishList() {
         <div>
           <div className="mt-10 flex justify-end border-t border-gray-200 pt-6">
             <button
-              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              className="text-lg rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               onClick={handlePicked}
             >
               선물 선택
@@ -170,7 +171,6 @@ export default function ChildWishList() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

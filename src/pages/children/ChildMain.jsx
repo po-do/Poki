@@ -44,7 +44,7 @@ export default function ChildMain() {
         <div className="px-4 py-2">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
-              <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
                 {user.name}의 포도알 보드판
               </h2>
               <p className="mt-2 text-lg text-gray-700">
