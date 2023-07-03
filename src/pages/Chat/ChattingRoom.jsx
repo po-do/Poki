@@ -7,7 +7,12 @@ import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
 import ParentImg from "../../icons/Character/parent.png";
 import ChildImg from "../../icons/Character/child.png";
-import grapeLogo from "../../icons/Character/child.png";
+import cryChar from "../../icons/Character/cry.png";
+import exitedChar from "../../icons/Character/excited.png";
+import loveChar from "../../icons/Character/in-love.png";
+import shockedChar from "../../icons/Character/shocked.png";
+import angelChar from "../../icons/Character/angel.png";
+
 
 import moment from "moment-timezone";
 
@@ -211,10 +216,22 @@ const ChatRoom = () => {
                   🙂
                 </div>
                 {assigned && (
-                  <div className="absolute bg-white rounded-lg shadow-lg -mt-20 ml-1">
+                  <div className="absolute bg-white rounded-lg shadow-lg -mt-16 ml-0">
                     <div className="flex m-1">
-                      <button onClick={() => handleImageClick(grapeLogo)}>
-                        <img src={grapeLogo} alt="test1" className="w-10 m-3" />
+                      <button onClick={() => handleImageClick(loveChar)}>
+                        <img src={loveChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(shockedChar)}>
+                        <img src={shockedChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(exitedChar)}>
+                        <img src={exitedChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(cryChar)}>
+                        <img src={cryChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(angelChar)}>
+                        <img src={angelChar} alt="test1" className="w-10 m-1" />
                       </button>
                     </div>
                   </div>
