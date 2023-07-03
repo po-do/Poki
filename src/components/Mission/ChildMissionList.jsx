@@ -62,8 +62,8 @@ export default function RecentMissionList() {
   };
 
   const getRecentMissions = () => {
-    const recentMissions = missions.slice(0, 5); // 최근 등록된 5개의 미션만 가져옵니다.
-    return recentMissions.map((mission, index) => (
+    // const recentMissions = missions.slice(0, 5); // 최근 등록된 5개의 미션만 가져옵니다.
+    return missions.map((mission, index) => (
       <div key={index}>
         <div className="relative flex items-start py-4">
           <div className="min-w-0 flex-1 text-lg leading-6">

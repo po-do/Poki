@@ -180,7 +180,9 @@ export default function ChildFormat() {
           <main>
             <Outlet />
           </main>
-          <BottomButton />
+          <div className="h-16">
+            <BottomButton />
+          </div>
         </div>
       </QueryClientProvider>
     </>
