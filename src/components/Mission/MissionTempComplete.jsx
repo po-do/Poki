@@ -273,7 +273,7 @@ export default function MissionTempComplete() {
               <tbody className="divide-y divide-gray-200">
                 {missions.map((item) => (
                   <tr key={item.id} className="flex">
-                    <td className="py-4 pl-4 pr-4 text-sm font-semibold gap-2">
+                    <td className="py-4 pl-4 pr-4 gap-2">
                       <input
                         id="comments"
                         aria-describedby="comments-description"
@@ -283,7 +283,7 @@ export default function MissionTempComplete() {
                         onChange={(e) => handleCheckboxChange(e, item.id)}
                       />
                     </td>
-                    <td className="py-4 pl-4 pr-3 text-base font-semibold text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                    <td className="py-4 pl-4 pr-3 text-base text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                       {item.content}
                     </td>
                   </tr>
