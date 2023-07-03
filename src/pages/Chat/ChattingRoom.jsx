@@ -5,16 +5,21 @@ import { socket } from "../../App";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
+import ParentImg from "../../icons/Character/parent.png";
+import ChildImg from "../../icons/Character/child.png";
+
 import moment from "moment-timezone";
-moment.updateLocale('en', {
+
+moment.updateLocale("en", {
   meridiem: function (hour, minute, isLowercase) {
     if (hour >= 12) {
-      return '오후';
+      return "오후";
     } else {
-      return '오전';
+      return "오전";
     }
-  }
+  },
 });
+
 // 채팅방 설정
 const ChatRoom = () => {
   const [chats, setChats] = useState([]);
@@ -51,6 +56,7 @@ const ChatRoom = () => {
       user_id: user.user_id,
     });
   }, [user]);
+
   // 채팅방 메시지 전송
   useEffect(() => {
     const messageHandler = (chat) =>
@@ -96,23 +102,46 @@ const ChatRoom = () => {
                       "flex flex-col": true,
                     })}
                   >
-                    <span>
-                      {chat.sender_id
-                        ? user.id === chat.check_id
-                          ? ""
-                          : chat.sender_id
-                        : ""}
-                    </span>
-                    <span
-                      className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
-                        user.id !== chat.check_id
-                          ? "text-indigo-500 border-indigo-400 border-2"
-                          : "bg-indigo-500 text-white"
-                      }`}
-                    >
-                      {chat.message}
-                    </span>
-                      { moment.tz(chat.createdAt, "Asia/Seoul").format("A h:mm ").replace(/AM|PM/, (meridiem) => moment.localeData().meridiem(null, null, null, meridiem === 'PM'))}
+                    <div className="flex">
+                      {user.id === chat.check_id ? (
+                        ""
+                      ) : (
+                        <img
+                          className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
+                          src={user.type === "PARENT" ? ChildImg : ParentImg}
+                          alt="CharacterImg"
+                        />
+                      )}
+
+                      <div className="flex flex-col">
+                        <span>
+                          {chat.sender_id
+                            ? user.id === chat.check_id
+                              ? ""
+                              : chat.sender_id
+                            : ""}
+                        </span>
+                        <span
+                          className={`mb-2 w-max p-3 rounded-md sm:max-w-sm min-[320px]:max-w-[12rem] break-words ${
+                            user.id !== chat.check_id
+                              ? "text-indigo-500 border-indigo-400 border-2"
+                              : "bg-indigo-500 text-white"
+                          }`}
+                        >
+                          {chat.message}
+                        </span>
+                        <span className="-mt-2 mb-2 text-gray-600">
+                          {moment
+                            .tz(chat.createdAt, "Asia/Seoul")
+                            .format("A h:mm ")
+                            .replace(/AM|PM/, (meridiem) =>
+                              moment
+                                .localeData()
+                                .meridiem(null, null, null, meridiem === "PM")
+                            )}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
