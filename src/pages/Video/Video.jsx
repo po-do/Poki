@@ -231,7 +231,9 @@ export default function Video() {
               </button>
             )}
             {idToCall}
-            {errorMessage}
+            <div className="absolute whitespace-nowrap left-6">
+              {errorMessage}
+            </div>
           </div>
           <div>
             {receivingCall && !callAccepted ? (
