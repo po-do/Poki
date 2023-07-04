@@ -93,7 +93,7 @@ export default function ParentMain() {
           <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
             <div className="px-4 sm:px-0">
               <h3 className="text-xl font-semibold leading-7 text-gray-900">
-                포도알 관리 현황판
+                포도알 관리
               </h3>
               <p className="mt-1 max-w-2xl text-lg leading-6 text-gray-500">
                 현재 자녀의 포도알 정보를 확인할 수 있습니다.
