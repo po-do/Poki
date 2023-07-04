@@ -240,14 +240,14 @@ export default function MissionTempComplete() {
             <div className="flex gap-3">
               <button
                 type="button"
-                className="inline-flex items-center rounded-md  bg-white px-3 py-2 text-lg font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="whitespace-nowrap rounded-md  bg-white px-3 py-2 text-lg text-gray-900 ring-1 ring-gray-300 hover:bg-gray-100"
                 onClick={handleReject}
               >
                 반려
               </button>
               <button
                 type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="whitespace-nowrap block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 onClick={handlePublish}
               >
                 포도알 주기
