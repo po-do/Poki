@@ -32,7 +32,7 @@ export default function MissionRegisteredGift({ message, link }) {
   return (
     <>
       <h4 className="text-xl font-semibold">{message[0]}</h4>
-      <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+      <div className="mb-4 flex-shrink-0 sm:mb-0">
         {pickedImage ? (
           <img
             src={pickedImage}

@@ -45,10 +45,10 @@ export default function ChildMain() {
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
               <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-                {user.name}의 포도알 보드판
+                {user.name}의 포도
               </h2>
               <p className="mt-2 text-lg text-gray-700">
-                부모님이 주시는 미션을 수행해서 포도알 보드판을 완성해요~ 😀
+                부모님이 주시는 미션을 수행해서 포도를 완성해요~ 😀
               </p>
             </div>
           </div>

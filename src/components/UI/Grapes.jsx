@@ -191,7 +191,7 @@ export default function Grapes({ GrapesCount, message }) {
         <img
           src={isUrl}
           alt={isUrl}
-          className="object-cover object-center sm:h-full sm:w-full"
+          className="object-cover object-center sm:h-full sm:w-full rounded-2xl"
         />
       </div>
 
