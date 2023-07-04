@@ -11,14 +11,14 @@
   background-position: center;
 }
 
-.treasure:hover {
+/* .treasure:hover {
   background-image: url("../../icons/Icon/hover.png");
   cursor: pointer;
 }
 
 .treasure:active {
   background-image: url("../../icons/Icon/open.png");
-}
+} */
 
 /* 캐릭터 */
 .character {
