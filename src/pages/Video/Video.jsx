@@ -256,13 +256,18 @@ export default function Video() {
         </p>
       </div>
       <div className="p-4 mt-2 md:m-4">
-        <div className="relative flex flex-col md:flex-row items-center">
+        <div className={
+          classNames(
+              callAccepted && !callEnded? "relative flex flex-col md:flex-row-reverse items-center" : "relative flex flex-col-reverse items-center"
+          )
+          
+        }>
           <div className="md:w-6/12">
             <video
               playsInline
               muted
-              ref={myVideo}
-              // ref={userVideo}
+              // ref={myVideo}
+              ref={userVideo}
               autoPlay
               className="md:w-full rounded-2xl"
               style={{ transform: "scaleX(-1)" }}
@@ -271,15 +276,15 @@ export default function Video() {
 
           <div
             className={classNames({
-              "w-2/5  md:w-6/12 absolute right-0": true,
-              "max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
+              "md:w-6/12": true,
+              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
                 callAccepted && !callEnded,
             })}
           >
             <video
               playsInline
-              ref={userVideo}
-              // ref={myVideo}
+              // ref={userVideo}
+              ref={myVideo}
               autoPlay
               className="md:w-full rounded-2xl"
             />
