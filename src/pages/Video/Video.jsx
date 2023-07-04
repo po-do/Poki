@@ -220,8 +220,9 @@ export default function Video() {
               <button
                 color="primary"
                 onClick={callConnectedUser}
-                className={`h-14 w-14 text-white bg-indigo-600 rounded-full p-2 ml-2 ${isCalling ? "opacity-50" : "hover:bg-indigo-800"
-                  }`}
+                className={`h-14 w-14 text-white bg-indigo-600 rounded-full p-2 ml-2 ${
+                  isCalling ? "opacity-50" : "hover:bg-indigo-800"
+                }`}
                 disabled={isCalling}
                 alt="call"
               >
@@ -251,17 +252,11 @@ export default function Video() {
         <div
           className={classNames(
             callAccepted && !callEnded
-              ? "relative flex flex-col md:flex-row-reverse items-center"
+              ? "relative flex flex-row md:flex-row items-center"
               : "relative flex flex-col-reverse items-center"
           )}
         >
-          <div
-            className={classNames({
-              "md:w-6/12": true,
-              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
-                callAccepted && !callEnded,
-            })}
-          >
+          <div className="md:w-6/12">
             <video
               playsInline
               muted
@@ -273,8 +268,13 @@ export default function Video() {
             />
           </div>
 
-
-          <div className="md:w-6/12">
+          <div
+            className={classNames({
+              "md:w-6/12": true,
+              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
+                callAccepted && !callEnded,
+            })}
+          >
             <video
               playsInline
               ref={userVideo}
