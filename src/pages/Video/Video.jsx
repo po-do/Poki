@@ -183,13 +183,11 @@ export default function Video() {
     });
     setCameraOff(!cameraOff);
   };
-  console.log("=============");
-  console.log(userVideo);
 
   return (
     <>
       <div className="flex justify-between ">
-        <h1 className="px-12 py-7 mt-2 ml-2 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
+        <h1 className="md:px-12 md:py-7 mt-2 ml-2 md:text-3xl px-6 py-3 text-2xl font-semibold tracking-tight text-black sm:text-4xl">
           영상통화
         </h1>
         <div className="flex justify-center items-center mt-2 mr-2">
@@ -257,12 +255,13 @@ export default function Video() {
         </p>
       </div>
       <div className="p-4 mt-2 md:m-4">
-        <div className={
-          classNames(
-              callAccepted && !callEnded? "relative flex flex-col md:flex-row-reverse items-center" : "relative flex flex-col-reverse items-center"
-          )
-          
-        }>
+        <div
+          className={classNames(
+            callAccepted && !callEnded
+              ? "relative flex flex-col md:flex-row-reverse items-center"
+              : "relative flex flex-col-reverse items-center"
+          )}
+        >
           <div className="md:w-6/12">
             <video
               playsInline

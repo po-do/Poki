@@ -111,7 +111,7 @@ export default function MissionRecommendModal({ onClose, result }) {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 lg:max-w-sm sm:p-6 lg:max-w-sm">
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-2">선물 추천 받기</h2>
+                  <h2 className="text-xl font-semibold mb-2">미션 추천 받기</h2>
                 </div>
                 {/* 추천 미션 */}
                 <div>
