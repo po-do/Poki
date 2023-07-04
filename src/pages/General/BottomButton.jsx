@@ -47,37 +47,21 @@ export default function BottomButton() {
       setActiveItem(index);
       localStorage.setItem("activeItem", index.toString());
     };
-
+  
     const navigation_items_elms = document.querySelectorAll(
       ".navigation-bar .list-items .item"
     );
-
-    const navigation_pointer = document.querySelector(".navigation-bar .pointer");
-
+  
     navigation_items_elms.forEach((item, index) => {
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        handleClick(index);
-
-        const parentWidth = item.parentElement.clientWidth;
-        const leftPercent =
-          (parentWidth / navigation_items_elms.length) * index;
-        navigation_pointer.style.left = `${leftPercent}px`;
-
-        const link = item.querySelector(".link");
-        if (link) {
-          const href = link.getAttribute("href");
-          navigate(href);
-        }
-      });
+      item.addEventListener("click", handleClick.bind(null, index));
     });
-
+  
     return () => {
       navigation_items_elms.forEach((item, index) => {
-        item.removeEventListener("click", handleClick);
+        item.removeEventListener("click", handleClick.bind(null, index));
       });
     };
-  }, [navigate]);
+  }, []);
 
   return (
     <>
@@ -86,7 +70,7 @@ export default function BottomButton() {
           <span
             className="pointer"
             style={{ left: `${(100 / 5) * activeItem}%` }}
-          ></span>
+          ></span> 
           <li className={`item ${activeItem === 0 ? "active" : ""}`}>
             <a className="link" href="/format/child">
               <FontAwesomeIcon icon={faHome} size="2x" />
@@ -103,9 +87,9 @@ export default function BottomButton() {
             </a>
           </li>
           <li className={`item ${activeItem === 3 ? "active" : ""}`}>
-            <a className="link" onClick={onCreateRoom}>
+            <button className="link" onClick={onCreateRoom}>
               <FontAwesomeIcon icon={faComments} size="2x" />
-            </a>
+            </button>
           </li>
           <li className={`item ${activeItem === 4 ? "active" : ""}`}>
             <a className="link" href="/format/child/video">

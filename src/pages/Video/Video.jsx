@@ -248,26 +248,19 @@ export default function Video() {
           </div>
         </div>
       </div>
+      <div className="px-4 py-2">
+        <p className="mt-2 text-lg text-gray-700">
+          부모님과 영상통화를 진행해요~ 😀
+        </p>
+      </div>
       <div className="p-4 mt-2 md:m-4">
         <div
           className={classNames(
             callAccepted && !callEnded
-              ? "relative flex flex-col md:flex-row-reverse items-center"
-              : "relative flex flex-col-reverse items-center"
+              ? "relative flex flex-row md:flex-row items-center"
+              : "relative flex flex-col items-center"
           )}
         >
-          <div className="md:w-6/12">
-            <video
-              playsInline
-              muted
-              // ref={myVideo}
-              ref={userVideo}
-              autoPlay
-              className="md:w-full rounded-2xl"
-              style={{ transform: "scaleX(-1)" }}
-            />
-          </div>
-
           <div
             className={classNames({
               "md:w-6/12": true,
@@ -277,8 +270,20 @@ export default function Video() {
           >
             <video
               playsInline
-              // ref={userVideo}
+              muted
               ref={myVideo}
+              // ref={userVideo}
+              autoPlay
+              className="md:w-full rounded-2xl"
+              style={{ transform: "scaleX(-1)" }}
+            />
+          </div>
+
+          <div className="md:w-6/12">
+            <video
+              playsInline
+              ref={userVideo}
+              // ref={myVideo}
               autoPlay
               className="md:w-full rounded-2xl"
             />
