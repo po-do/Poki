@@ -39,7 +39,7 @@ export default function ChildMain() {
   return (
     <>
       {condition === false && <CodeConnectModal closeModal={setCondition} />}
-      <div className="relative bg-white py-1">
+      <div className="relative bg-white">
         {/* 배너 */}
         <div className="px-4 py-2">
           <div className="sm:flex sm:items-center">

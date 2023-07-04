@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { newMissionRead, setMissionStatusWait } from "../../api/mission.js";
 import SuccessModal from "../../components/Modal/SuccessModal";
@@ -58,12 +58,12 @@ export default function RecentMissionList() {
       openFailModal();
     }
     setCheckedMissionsId([]);
+    setCheckedMissionsList([]);
     refetch();
   };
 
   const getRecentMissions = () => {
-    const recentMissions = missions.slice(0, 5); // 최근 등록된 5개의 미션만 가져옵니다.
-    return recentMissions.map((mission, index) => (
+    return missions.map((mission, index) => (
       <div key={index}>
         <div className="relative flex items-start py-4">
           <div className="min-w-0 flex-1 text-lg leading-6">
@@ -76,6 +76,7 @@ export default function RecentMissionList() {
               type="checkbox"
               className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
               onChange={(e) => handleChange(e, mission)}
+              checked={checkedMissionsList.includes(mission)}
             />
           </div>
         </div>
@@ -91,7 +92,7 @@ export default function RecentMissionList() {
               등록된 미션
             </h2>
             <p className="mt-2 text-lg text-gray-700">
-              부모님이 등록한 최근 5개의 미션을 보여드려요 👍
+              부모님이 등록한 미션을 보여드려요 👍
             </p>
           </div>
 

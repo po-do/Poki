@@ -7,7 +7,12 @@ import { userState } from "../../recoil/user";
 import { ChatRead } from "../../api/chat.js";
 import ParentImg from "../../icons/Character/parent.png";
 import ChildImg from "../../icons/Character/child.png";
-import grapeLogo from "../../icons/Character/child.png";
+import cryChar from "../../icons/Character/cry.png";
+import exitedChar from "../../icons/Character/excited.png";
+import loveChar from "../../icons/Character/in-love.png";
+import shockedChar from "../../icons/Character/shocked.png";
+import angelChar from "../../icons/Character/angel.png";
+
 
 import moment from "moment-timezone";
 
@@ -98,21 +103,21 @@ const ChatRoom = () => {
 
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px] mt-2">
-        <div className="bg-white px-6 pb-12 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
+      <div className="sm:mx-auto sm:w-full sm:h-full sm:max-w-[780px]">
+        <div className="bg-white px-6 shadow-lg rounded-lg sm:px-12 border border-indigo-400">
           <div className="flex pt-6 ml-4 gap-3">
             <img
               className="rounded-full bg-indigo-300 h-12 w-12 mr-2"
               src={user.type === "PARENT" ? ParentImg : ChildImg}
               alt="CharacterImg"
             />
-            <div className="text-xl">{user.id}</div>
+            <div className="text-xl">{user.name}</div>
           </div>
           <div className="px-4 py-5 sm:p-6">
             <div>
               <div
                 ref={chatContainerEl}
-                className="flex flex-col p-4 max-[720px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
+                className="flex flex-col p-4 max-[1200px]:h-[28.5rem] h-[30rem] max-h-[600px] overflow-auto rounded-lg border shadow"
               >
                 {chats.map((chat, index) => {
                   // 현재 메시지와 다음 메시지의 날짜를 비교
@@ -211,10 +216,22 @@ const ChatRoom = () => {
                   🙂
                 </div>
                 {assigned && (
-                  <div className="absolute bg-white rounded-lg shadow-lg -mt-20 ml-1">
+                  <div className="absolute bg-white rounded-lg shadow-lg -mt-16 ml-0">
                     <div className="flex m-1">
-                      <button onClick={() => handleImageClick(grapeLogo)}>
-                        <img src={grapeLogo} alt="test1" className="w-10 m-3" />
+                      <button onClick={() => handleImageClick(loveChar)}>
+                        <img src={loveChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(shockedChar)}>
+                        <img src={shockedChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(exitedChar)}>
+                        <img src={exitedChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(cryChar)}>
+                        <img src={cryChar} alt="test1" className="w-10 m-1" />
+                      </button>
+                      <button onClick={() => handleImageClick(angelChar)}>
+                        <img src={angelChar} alt="test1" className="w-10 m-1" />
                       </button>
                     </div>
                   </div>

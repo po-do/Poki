@@ -250,6 +250,7 @@ export default function Video() {
           </div>
         </div>
       </div>
+
       <div className="px-4 py-2">
         <p className="mt-2 text-lg text-gray-700">
           부모님과 영상통화를 진행해요~ 😀
