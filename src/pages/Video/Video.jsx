@@ -260,8 +260,8 @@ export default function Video() {
             <video
               playsInline
               muted
-              // ref={myVideo}
-              ref={userVideo}
+              ref={myVideo}
+              // ref={userVideo}
               autoPlay
               className="md:w-full rounded-2xl"
               style={{ transform: "scaleX(-1)" }}
@@ -277,8 +277,8 @@ export default function Video() {
           >
             <video
               playsInline
-              // ref={userVideo}
-              ref={myVideo}
+              ref={userVideo}
+              // ref={myVideo}
               autoPlay
               className="md:w-full rounded-2xl"
             />
