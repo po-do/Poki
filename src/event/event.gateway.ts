@@ -42,7 +42,7 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   afterInit() {}
 
   handleConnection(@ConnectedSocket() socket: Socket): any { 
-    console.log("connection 발생 😁")
+    // console.log("connection 발생 😁")
   }
 
   // @SubscribeMessage('disconnect')
@@ -56,7 +56,6 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       this.logger.log("disconnection 발생 😀, 삭제 완료")
       //socket.broadcast.emit("callEnded")
     } catch (error) {
-      console.log('An Error occured in disconnect socket')
     }
 
   }
@@ -95,7 +94,14 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
         const title = '새로운 메시지가 도착했습니다.';
-        const info = message;
+        let info;
+
+        if (!message.startsWith('/static/media')) {
+          info = message;
+        }
+        else {
+          info = '이모티콘을 보냈습니다.'
+        }
         await this.pushService.push_noti(pushToken, title, info);
     }
 
@@ -143,7 +149,7 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     if (checkRoom) {
       const room = await this.eventService.getRoom(now_user);
-      console.log(room.name);
+      // console.log(room.name);
       return { number: 2, payload: room.name };
     }
 

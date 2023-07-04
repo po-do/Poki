@@ -58,7 +58,7 @@ export class WishlistService {
             throw new NotFoundException(`Can't find board with id ${id}`);
           }
 
-        console.log(`Wishlist with ID "${id}" deleted`);
+        // console.log(`Wishlist with ID "${id}" deleted`);
 
         return {code: 200, success: true}
     }
@@ -101,7 +101,7 @@ export class WishlistService {
        
         
         await this.wishlistRepository.save(wishlist);
-        console.log(wishlist);
+        // console.log(wishlist);
 
         const { id: itemId, Given, Picked, ProductLink, ProductName, ProductImage } = wishlist;
         

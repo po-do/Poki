@@ -92,7 +92,7 @@ export class EventService {
     }
 
     async deleteChatConnection(user_id: string): Promise <void> {
-        console.log(user_id, 'userid')
+        // console.log(user_id, 'userid')
         const result = await this.chatSocketConnectionRepository.delete({user_id: user_id});
         if (result.affected === 0) {
             //throw new NotFoundException(`${user_id}를 삭제할 수 없습니다.`)

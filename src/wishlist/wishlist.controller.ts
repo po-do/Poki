@@ -71,9 +71,6 @@ export class WishlistController {
         
         // // const ConnectPushToken = pushToken[0].fcm_token;
         const connect_id = await this.AuthService.getConnectedUser(user);
-
-        
-        
         if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can create a wishlist.');
         }
@@ -92,7 +89,7 @@ export class WishlistController {
             
             if (response.success === true){
                 const title = '위시리스트가 등록되었습니다!';
-                const info = `위시리스트: ${response.data.item.ProductName}`;
+                const info = `${response.data.item.ProductName}`;
                 await this.pushService.push_noti(pushToken, title, info);
             }
             return response
@@ -184,7 +181,7 @@ export class WishlistController {
             const response = await axios.get(api_url, options);
             return response.data;
         } catch (error) {
-            console.log('error = ' + error.response.status);
+            // console.log('error = ' + error.response.status);
             throw new Error('Failed to fetch shopping list');
         }
     }

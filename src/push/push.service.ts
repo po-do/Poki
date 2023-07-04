@@ -40,17 +40,17 @@ export class PushService {
           throw new ForbiddenException(`fcm_token_list with user ID "${user_id}" not found`);
         }
         
-        console.log(fcm_token_list);
+        // console.log(fcm_token_list);
         
         return fcm_token_list;
     }
   
-  async push_noti(pushToken: string[], title: string, body: any): Promise <void> {
+  async push_noti(pushToken: string[], title: string, body?: any): Promise <void> {
   
     const message = {
       notification: {
         title: title,
-        body: JSON.stringify(body),
+        body: body? body: undefined,
       },
       tokens: pushToken,
       webpush: {
@@ -60,17 +60,14 @@ export class PushService {
       ,
       },
     };
-    console.log(message);
-    console.log(pushToken);
     
     // 푸시 알림 보내기
     getMessaging().sendEachForMulticast(message)
     .then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message:', response);
+      // console.log('Successfully sent message:', response);
     })
     .catch((error) => {
-      console.log('Error sending message:', error);
+      // console.log('Error sending message:', error);
     });
   }
 

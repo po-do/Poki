@@ -34,15 +34,15 @@ export class MissionController {
 
         const title = '미션이 등록되었습니다!';
         const info = {
-            result: 'success',
             mission: mission.content
         }
+
 
         try {
             const connect_id = await this.AuthService.getConnectedUser(user);
     
             const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-            await this.pushService.push_noti(pushToken, title, info);
+            await this.pushService.push_noti(pushToken, title, info.mission);
             return mission;
         } catch (exception) {
             if (exception instanceof ForbiddenException) {
@@ -66,16 +66,15 @@ export class MissionController {
         ): Promise<Mission> {
         const title = '자녀가 미션을 완료했어요!';
         const info = {
-            result: 'success'
+            msg: 'POKI에 접속해서 확인해보세요'
         }
 
         try {
-
             const connect_id = await this.AuthService.getConnectedUser(user);
             const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
     
     
-            await this.pushService.push_noti(pushToken, title, info);
+            await this.pushService.push_noti(pushToken, title, info.msg);
             return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
         } catch (exception) {
             if (exception instanceof ForbiddenException) {
@@ -98,23 +97,17 @@ export class MissionController {
         @GetUser() user: User,
         ): Promise <Mission>{
         const title = '포도알 발급이 거절됐어요😥';
-        const info = {
-            result: 'success'
-        }
-
         try {
-
             const connect_id = await this.AuthService.getConnectedUser(user);
             const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
     
-            await this.pushService.push_noti(pushToken, title, info);
+            await this.pushService.push_noti(pushToken, title);
             return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
         } catch (exception) {
             if (exception instanceof ForbiddenException) {
                 return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
             }
         }
-
     }
 
     @Patch('/update/:mission_id')
