@@ -42,7 +42,7 @@ export class MissionController {
             const connect_id = await this.AuthService.getConnectedUser(user);
     
             const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-            await this.pushService.push_noti(pushToken, title, info);
+            await this.pushService.push_noti(pushToken, title, info.mission);
             return mission;
         } catch (exception) {
             if (exception instanceof ForbiddenException) {
@@ -97,9 +97,6 @@ export class MissionController {
         @GetUser() user: User,
         ): Promise <Mission>{
         const title = '포도알 발급이 거절됐어요😥';
-        const info = {
-            result: 'success'
-        }
         try {
             const connect_id = await this.AuthService.getConnectedUser(user);
             const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
