@@ -71,13 +71,10 @@ export class WishlistController {
         
         // // const ConnectPushToken = pushToken[0].fcm_token;
         const connect_id = await this.AuthService.getConnectedUser(user);
-
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-
         if (type !== 'CHILD') {
             throw new ForbiddenException('Only children can create a wishlist.');
         }
-
+        
         const response: responseWishlistDto = {
             code: 200,
             success: true,
@@ -86,15 +83,21 @@ export class WishlistController {
             },
             
         };
-
-        if(response.success === true){
-            const title = '위시리스트가 등록되었습니다!';
-            const info = `${response.data.item.ProductName}`;
-            await this.pushService.push_noti(pushToken, title, info);
+        
+        try {
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+            
+            if (response.success === true){
+                const title = '위시리스트가 등록되었습니다!';
+                const info = `${response.data.item.ProductName}`;
+                await this.pushService.push_noti(pushToken, title, info);
+            }
+            return response
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+               return response
+            }
         }
-
-        return response
-
     }
 
     @Delete('/item/:id')

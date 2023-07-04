@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { Mission } from './mission.entity';
@@ -36,11 +36,19 @@ export class MissionController {
         const info = {
             mission: mission.content
         }
-        const connect_id = await this.AuthService.getConnectedUser(user);
 
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-        await this.pushService.push_noti(pushToken, title, info.mission);
-        return mission;
+
+        try {
+            const connect_id = await this.AuthService.getConnectedUser(user);
+    
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+            await this.pushService.push_noti(pushToken, title, info);
+            return mission;
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return mission;
+            }
+        }
     }
 
     @Get('/detail/:mission_id')
@@ -60,12 +68,19 @@ export class MissionController {
         const info = {
             msg: 'POKI에 접속해서 확인해보세요'
         }
-        const connect_id = await this.AuthService.getConnectedUser(user);
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
-
-        await this.pushService.push_noti(pushToken, title, info.msg);
-        return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+        try {
+            const connect_id = await this.AuthService.getConnectedUser(user);
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+    
+    
+            await this.pushService.push_noti(pushToken, title, info.msg);
+            return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return this.missionService.updateStatusByMissionId(mission_id, MissionStatus.WAIT_APPROVAL, user_id);
+            }
+        }
     }
 
     @Post('/approve/:mission_id')
@@ -82,11 +97,20 @@ export class MissionController {
         @GetUser() user: User,
         ): Promise <Mission>{
         const title = '포도알 발급이 거절됐어요😥';
-        const connect_id = await this.AuthService.getConnectedUser(user);
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
-
-        await this.pushService.push_noti(pushToken, title);
-        return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+        const info = {
+            result: 'success'
+        }
+        try {
+            const connect_id = await this.AuthService.getConnectedUser(user);
+            const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+    
+            await this.pushService.push_noti(pushToken, title);
+            return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+        } catch (exception) {
+            if (exception instanceof ForbiddenException) {
+                return this.missionService.updateStatusRejectByMissionId(mission_id, MissionStatus.INCOMPLETE, user_id);
+            }
+        }
     }
 
     @Patch('/update/:mission_id')
