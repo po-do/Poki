@@ -18,8 +18,8 @@ export default function ChildMain() {
 
   // Overlay Message
   const message = [
-    "위시리스트에서 갖고 싶은 선물을 골라보세요",
-    "선물 선택 후 포도 서비스가 시작됩니다",
+    "1. 위시리스트에서", "갖고 싶은 선물을 골라보세요",
+    "2. 부모님이 선물 선택 후", "포도 서비스가 시작됩니다",
   ];
 
   useEffect(() => {
