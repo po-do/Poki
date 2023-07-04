@@ -52,10 +52,6 @@ export default function BottomButton() {
       ".navigation-bar .list-items .item"
     );
   
-    const navigation_pointer = document.querySelector(
-      ".navigation-bar .pointer"
-    );
-  
     navigation_items_elms.forEach((item, index) => {
       item.addEventListener("click", handleClick.bind(null, index));
     });
