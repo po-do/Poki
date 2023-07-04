@@ -247,15 +247,11 @@ export class BoardController {
         globalVersion += 1;
 
         const title = '포도알이 발급되었어요! 지금 확인해보세요.';
-        const info = {
-            result: 'success'
-        }
-
         const connect_id = await this.AuthService.getConnectedUser(user);
 
         const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
-        await this.pushService.push_noti(pushToken, title, info);
+        await this.pushService.push_noti(pushToken, title);
         return response
     }
 

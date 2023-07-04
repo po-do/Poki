@@ -33,7 +33,7 @@ export class BoardService {
             throw new NotFoundException(`Can't find board with id ${id}`);
           }
 
-        console.log(`Board with ID "${id}" deleted`);
+        // console.log(`Board with ID "${id}" deleted`);
 
         return {
             code: 200,
@@ -55,6 +55,7 @@ export class BoardService {
 
     async updateBoard(grapeid: number, CreateBoardDto :CreateBoardDto, id:number): Promise<BoardDto> {
         const board = await this.getBoardById(grapeid);
+        // console.log('updateboard', CreateBoardDto);
        
 
         if (id !== board.user.id) {
