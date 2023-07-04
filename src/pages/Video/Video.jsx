@@ -261,7 +261,13 @@ export default function Video() {
               : "relative flex flex-col items-center"
           )}
         >
-          <div className="md:w-6/12">
+          <div
+            className={classNames({
+              "md:w-6/12": true,
+              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
+                callAccepted && !callEnded,
+            })}
+          >
             <video
               playsInline
               muted
@@ -273,13 +279,7 @@ export default function Video() {
             />
           </div>
 
-          <div
-            className={classNames({
-              "md:w-6/12": true,
-              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
-                callAccepted && !callEnded,
-            })}
-          >
+          <div className="md:w-6/12">
             <video
               playsInline
               ref={userVideo}
