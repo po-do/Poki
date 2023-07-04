@@ -229,7 +229,7 @@ export default function Grapes({ message }) {
         >
           {message.map((item) => (
             <React.Fragment key={item}>
-              <p className="text-white text-2xl font-semibold mx-2">{item}</p>
+              <p className="text-white text-2xl font-semibold mx-8">{item}</p>
               <br />
             </React.Fragment>
           ))}
