@@ -304,7 +304,7 @@ function Meeting({ Mission, flag, given_flag }) {
   };
 
   return (
-    <li className="flex items-center px-1 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
+    <li className="flex items-center px-2 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <div className="flex-auto">
         {given_flag === false && (
           <>
@@ -326,13 +326,13 @@ function Meeting({ Mission, flag, given_flag }) {
             <div className="flex items-center">
               <div>
                 <img
-                  className="inline-block h-36 w-36"
+                  className="inline-block h-36 w-36 rounded-xl"
                   src={Mission.ProductImage}
                   alt=""
                 />
               </div>
               <div className="ml-6">
-                <p className="text-lg font-semibold text-gray-700 group-hover:text-gray-900">
+                <p className="text-lg text-gray-700 group-hover:text-gray-900">
                   {Mission.ProductName}
                 </p>
               </div>
