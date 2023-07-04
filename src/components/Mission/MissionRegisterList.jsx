@@ -85,9 +85,9 @@ export default function MissionRegisterList() {
                 <tbody className="divide-y divide-gray-200">
                   {missions.map((item) => (
                     <tr key={item.id} className="flex justify-between">
-                      <td className="py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                      <td className="py-4 pl-4 pr-3 text-base text-gray-900 sm:pl-0 overflow-hidden text-overflow-ellipsis whitespace-nowrap">
                         <div
-                          className="whitespace-pre-wrap font-semibold"
+                          className="whitespace-pre-wrap"
                           style={{ fontFamily: "Dovemayo_gothic" }}
                         >
                           {item.content}
