@@ -106,7 +106,7 @@ export default function Grapes({ message, setFire }) {
       openFailAttachModal();
     } else {
       await attachBoard();
-      if (grape.attached_grapes === 30) {
+      if (grape.attached_grapes === 31) {
         setFire(true);
         setTimeout(() => {
           setFire(false);
