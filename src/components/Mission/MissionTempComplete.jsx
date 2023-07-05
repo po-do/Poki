@@ -243,7 +243,7 @@ export default function MissionTempComplete() {
                 className="whitespace-nowrap rounded-md  bg-white px-3 py-2 text-lg text-gray-900 ring-1 ring-gray-300 hover:bg-gray-100"
                 onClick={handleReject}
               >
-                반려
+                거절
               </button>
               <button
                 type="button"
@@ -309,7 +309,7 @@ export default function MissionTempComplete() {
         />
       )}
       {showReturnModal && (
-        <SuccessModal closeModal={closeShowReturnModal} message="반려 완료" />
+        <SuccessModal closeModal={closeShowReturnModal} message="거절 완료" />
       )}
       {showCreateBoardModal && (
         <FailModal
