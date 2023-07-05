@@ -65,7 +65,7 @@ const ChatRoom = () => {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
   useEffect(() => {
     socket.emit("setUserName", {
-      user_id: user.user_id,
+      user_id: user.name,
     });
   }, [user]);
 
@@ -158,7 +158,7 @@ const ChatRoom = () => {
                               {chat.sender_id
                                 ? user.id === chat.check_id
                                   ? ""
-                                  : chat.sender_id
+                                  : chat.sender_name
                                 : ""}
                             </span>
                             {chat.message.startsWith("/static") ? (

@@ -4,9 +4,9 @@ import MissionRecommendModal from "../Modal/MissionRecommendModal";
 import { missionRecommend } from "../../api/mission.js";
 
 const ageOptions = [
-  { name: "7~9 세", inStock: true },
-  { name: "10~12 세", inStock: true },
-  { name: "13~14 세", inStock: true },
+  { name: "7~8 세", inStock: true },
+  { name: "9~10 세", inStock: true },
+  { name: "11~13 세", inStock: true },
 ];
 
 const placeOptions = [
