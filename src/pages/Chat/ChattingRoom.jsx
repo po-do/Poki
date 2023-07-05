@@ -158,7 +158,7 @@ const ChatRoom = () => {
                               {chat.sender_id
                                 ? user.id === chat.check_id
                                   ? ""
-                                  : chat.sender_id
+                                  : chat.sender_name
                                 : ""}
                             </span>
                             {chat.message.startsWith("/static") ? (
