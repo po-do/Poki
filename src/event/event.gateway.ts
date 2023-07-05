@@ -1,6 +1,6 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Logger, Injectable } from '@nestjs/common';
+import { Logger, Injectable, ForbiddenException } from '@nestjs/common';
 import { EventService } from './event.service';
 import { User } from 'src/auth/user.entity';
 import { AuthService } from 'src/auth/auth.service';
@@ -90,19 +90,28 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     const check = await this.eventService.checkChatConnection(connect_userId);
 
       if (!check) {
-        const connect_id = await this.authService.getConnectedUser(now_user);
-        const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
 
-        const title = '새로운 메시지가 도착했습니다.';
-        let info;
+        try {
 
-        if (!message.startsWith('/static/media')) {
-          info = message;
+          const connect_id = await this.authService.getConnectedUser(now_user);
+          const pushToken = await this.pushService.getPushToeknByUserId(connect_id);
+  
+          const title = '새로운 메시지가 도착했습니다.';
+          let info;
+  
+          if (!message.startsWith('/static/media')) {
+            info = message;
+          }
+          else {
+            info = '이모티콘을 보냈습니다.'
+          }
+          await this.pushService.push_noti(pushToken, title, info);
+        } catch (exception) { 
+          if (exception instanceof ForbiddenException) {
+            return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() };
+          }
+
         }
-        else {
-          info = '이모티콘을 보냈습니다.'
-        }
-        await this.pushService.push_noti(pushToken, title, info);
     }
 
     return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() };
