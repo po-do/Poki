@@ -178,12 +178,12 @@ export default function ParentCalendar() {
                   </time>
                 </button>
 
-                <div className="w-1 h-1 mx-auto mt-1 mb-4">
+                <div className="relative w-1 h-1 mx-auto mt-1 mb-4">
                   {/* 받은 선물 표시 */}
                   {givenList.some((gift) =>
                     isSameDay(parseISO(gift.GivenAt), day)
                   ) && (
-                    <div className="mb-2 mt-2">
+                    <div className="absolute left-8 mb-2 mt-1">
                       <BsGift />
                     </div>
                   )}
@@ -191,14 +191,14 @@ export default function ParentCalendar() {
                   {completedMissions.some((mission) =>
                     isSameDay(parseISO(mission.completed_date), day)
                   ) && (
-                    <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                    <div className="w-6 h-6 rounded-full bg-indigo-500 text-white text-xs text-center py-1">포도</div>
                   )}
                   {/* 예약된 미션 */}
                   {reservedMissions.some(
                     (mission) =>
                       isAfter(parseISO(mission.created_date), new Date()) &&
                       isSameDay(parseISO(mission.created_date), day)
-                  ) && <div className="w-2 h-2 rounded-full bg-gray-500"></div>}
+                  ) && <div className="w-6 h-6 rounded-full bg-gray-500 text-white text-xs text-center py-1">예약</div>}
                 </div>
               </div>
             ))}
