@@ -23,7 +23,7 @@ export default function Login({ token }) {
   );
 
   const handleLogIn = async () => {
-    console.log("로그인");
+    // console.log("로그인");
     // console.log(user);
     // console.log(email, password);
     try {

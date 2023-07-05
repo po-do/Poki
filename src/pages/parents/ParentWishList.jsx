@@ -45,7 +45,7 @@ export default function ChildWishList() {
       if (selectedItem) {
         openSuccessModal();
         const state = await getBoardStatus();
-        console.log(state);
+        // console.log(state);
 
         // 현재 보드가 존재하지 않는 경우
         if (!state.is_existence) {

@@ -169,8 +169,8 @@ export default function ParentFormat() {
     socket.emit("create-room", { roomName, user }, (response) => {
       if (response.number === 2) {
         socket.emit("join-room", response.payload, () => {
-          console.log("join-room");
-          console.log(response.payload);
+          // console.log("join-room");
+          // console.log(response.payload);
           navigate(`/chat/${response.payload}`);
         }); // 이미 채팅방이 존재할 경우 바로 입장
       }

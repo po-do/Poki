@@ -8,7 +8,7 @@ export async function getWishlistByUserId() {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/wishlist/user`);
-  console.log("getWishlistByUserId");
+  // console.log("getWishlistByUserId");
   return response.data;
 }
 
@@ -19,7 +19,7 @@ export async function getWishlistById(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/wishlist/item/${params.itemid}`);
-  console.log("getWishlistById");
+  // console.log("getWishlistById");
   return response.data;
 }
 
@@ -30,7 +30,7 @@ export async function createWishList(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post("/wishlist/item/create", params.request);
-  console.log("createWishList");
+  // console.log("createWishList");
   return response.data;
 }
 
@@ -41,7 +41,7 @@ export async function deleteWishList(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.delete(`/wishlist/item/${params.itemid}`);
-  console.log("deleteWishList");
+  // console.log("deleteWishList");
   return response.data;
 }
 
@@ -54,7 +54,7 @@ export async function updateWishlistPickStatus(params) {
   const response = await client.patch(
     `/wishlist/item/${params.itemid}/pickstatus`
   );
-  console.log("updateWishlistPickStatus");
+  // console.log("updateWishlistPickStatus");
   return response.data;
 }
 
@@ -68,7 +68,7 @@ export async function updateWishlistGivenStatus(params) {
     `/wishlist/item/${params.itemid}/givenstatus`,
     params.request
   );
-  console.log("updateWishlistGivenStatus");
+  // console.log("updateWishlistGivenStatus");
   return response.data;
 }
 
@@ -82,7 +82,7 @@ export async function updateWishList(params) {
     `/wishlist/item/${params.itemid}`,
     params.request
   );
-  console.log("updateWishList");
+  // console.log("updateWishList");
   return response.data;
 }
 
@@ -93,6 +93,6 @@ export async function getShoppingList(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.post(`/wishlist/shopping-list`, params.request);
-  console.log("getShoppingList");
+  // console.log("getShoppingList");
   return response.data;
 }

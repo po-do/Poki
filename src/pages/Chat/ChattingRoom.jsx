@@ -52,9 +52,9 @@ const ChatRoom = () => {
     const fetchChatData = async () => {
       try {
         const response = await ChatRead({ room_name: roomName });
-        console.log("response", response);
-        console.log("roomName", roomName);
-        console.log("responseData", response.Data);
+        // console.log("response", response);
+        // console.log("roomName", roomName);
+        // console.log("responseData", response.Data);
         setChats(response?.Data);
       } catch (error) {
         console.error(error);

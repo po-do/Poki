@@ -35,7 +35,7 @@ export async function createUserCode(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get("/auth/user/code");
-  console.log("createUserCode : ",response);
+  // console.log("createUserCode : ",response);
   return response.data;
 }
 
@@ -46,7 +46,7 @@ export async function connectUserCode(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.patch("/auth/user/connect", params.request);
-  console.log("connectUserCode");
+  // console.log("connectUserCode");
   return response.data;
 }
 
@@ -57,7 +57,7 @@ export async function getUserType(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/user/type/${params.userid}`);
-  console.log("getUserType");
+  // console.log("getUserType");
   return response.data;
 }
 
@@ -68,7 +68,7 @@ export async function getConnectedUser(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/connected-user`);
-  console.log("getConnectedUser");
+  // console.log("getConnectedUser");
   return response.data;
 }
 
@@ -79,6 +79,6 @@ export async function getConnectedUserId(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/auth/connected-user/id`);
-  console.log("getConnectedUserId");
+  // console.log("getConnectedUserId");
   return response.data;
 }

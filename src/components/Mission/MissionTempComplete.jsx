@@ -90,24 +90,6 @@ export default function MissionTempComplete() {
     setShowReturnModal(false);
   };
 
-  // const boardQuery = useQuery(["boardState"], () => {
-  //   return getBoardStatus();
-  // });
-
-  // useEffect(() => {
-  //   if (boardQuery.isSuccess) {
-  //     const fetchedGrape = boardQuery?.data?.data?.grape;
-  //     setGrape(fetchedGrape);
-  //   }
-  // }, [boardQuery.isSuccess, boardQuery.data]);
-
-  // useEffect(() => {
-  //   async function getmission() {
-  //     await getMission();
-  //   }
-  //   // console.log("there is something fetching data!");
-  // }, [grape]);
-
   useEffect(() => {
     const getMission = async () => {
       const missionsData = await missionReadChild();
@@ -189,7 +171,7 @@ export default function MissionTempComplete() {
   };
   // 반려
   const handleReject = () => {
-    console.log(selectedMissions);
+    // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const param = {
         mission_id: missionId,

@@ -24,7 +24,7 @@ function App() {
         const token = await getToken(messaging, {
           vapidKey: process.env.REACT_APP_FIRE_VAPID_KEY,
         });
-      console.log("token",token);
+      // console.log("token",token);
         setTokenFcm(token);
         // Send this token to server (db)
       } else if (permission === "denied") {

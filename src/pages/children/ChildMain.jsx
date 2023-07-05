@@ -33,7 +33,7 @@ export default function ChildMain() {
       setCondition(result.data.is_connected);
     };
     fetchUserCondition();
-    console.log(condition);
+    // console.log(condition);
   }, []);
 
   // condition이 null이면 아무것도 렌더링하지 않음

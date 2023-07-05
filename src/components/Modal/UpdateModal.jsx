@@ -34,7 +34,7 @@ export default function UpdateModal({ onClose, item_id }) {
 
       // Make a POST request to create the wishlist item
       const response = await missionUpdate(data);
-      console.log("수정 완료:", response);
+      // console.log("수정 완료:", response);
       onClose();
     } catch (error) {
       console.log("수정 실패:", error);
