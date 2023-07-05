@@ -165,7 +165,7 @@ export class WishlistController {
         };
 
 
-        return response
+        return response 
     }
 
 
@@ -181,8 +181,12 @@ export class WishlistController {
             const response = await axios.get(api_url, options);
             return response.data;
         } catch (error) {
-            // console.log('error = ' + error.response.status);
-            throw new Error('Failed to fetch shopping list');
+           const response = {
+                code: 400,
+                success: false,
+                message: '검색 결과가 없습니다.',
+            };
+            return response;
         }
     }
 

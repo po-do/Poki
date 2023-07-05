@@ -8,12 +8,13 @@ export class MessageRepository extends Repository<Message> {
         super(Message, dataSource.createEntityManager());
     }
 
-    async createMessage(user_id, message, room_name, id): Promise<{ code: number; success: boolean, Data:any }> {
+    async createMessage(user_id, message, room_name, id, user_name): Promise<{ code: number; success: boolean, Data:any }> {
         
                
         const Message = this.create({
             conversation_id: room_name,
             sender_id: user_id,
+            sender_name: user_name,
             message,
             check_id: id,
             createdAt: new Date()

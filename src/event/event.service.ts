@@ -62,8 +62,8 @@ export class EventService {
         }
     }
 
-    async createMessage(user_id:string, message:string, room_name:string, id:number): Promise<{ code: number; success: boolean, Data:any }> {
-        return this.messageRepository.createMessage(user_id, message, room_name, id);
+    async createMessage(user_id:string, message:string, room_name:string, id:number, user_name:string): Promise<{ code: number; success: boolean, Data:any }> {
+        return this.messageRepository.createMessage(user_id, message, room_name, id, user_name);
     }
 
     async getMessage(room_name: string): Promise<Message[]> {
