@@ -13,7 +13,7 @@ const corsConfig = config.get('cors');
 interface MessagePayload {
   roomName: string;
   message: string;
-  user: User;
+  user;
 }
 
 let createRooms: string[] = [];
@@ -47,13 +47,13 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   // @SubscribeMessage('disconnect')
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
-    this.logger.log("disconnection 발생 😀")
+    // this.logger.log("disconnection 발생 😀")
     try {
       const disconnectedUser = await this.eventService.findChatConnectionBySocketId(socket.id);
       if (disconnectedUser) {
         this.eventService.deleteChatConnection(disconnectedUser)
       }
-      this.logger.log("disconnection 발생 😀, 삭제 완료")
+      // this.logger.log("disconnection 발생 😀, 삭제 완료")
       //socket.broadcast.emit("callEnded")
     } catch (error) {
     }
@@ -74,11 +74,11 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @MessageBody() { roomName, message, user }: MessagePayload,
   ) {
     // Save message in database
-    this.eventService.createMessage(user.user_id, message, roomName, user.id, );
+    console.log(user)
+   
+    this.eventService.createMessage(user.user_id, message, roomName, user.id, user.name);
 
-    
-
-    socket.to(roomName).emit('message', { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() });
+    socket.to(roomName).emit('message', { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date(), sender_name: user.name });
     
     const now_user = await this.authService.getUserById(user.id);
 
@@ -108,13 +108,13 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
           await this.pushService.push_noti(pushToken, title, info);
         } catch (exception) { 
           if (exception instanceof ForbiddenException) {
-            return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() };
+            return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date(), sender_name: user.name };
           }
 
         }
     }
 
-    return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date() };
+    return { sender_id: user.user_id, message, check_id: user.id, createdAt: new Date(), sender_name: user.name };
   }
 
   // 삭제 금지
@@ -148,8 +148,8 @@ export class EventGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     const now_user = await this.authService.getUserById(user.id);
 
-     //now_user의 코드 길이가 4글자 이하이거나 null 값이면  오류 발생
-     if (now_user.code.length <= 4 || now_user.code === null) {
+    //  now_user의 코드 길이가 4글자 이하이거나 null 값이면  오류 발생
+     if (now_user.code === null) {
       return { number: 0, payload: `Parent-child connection is required` };
 
     }
