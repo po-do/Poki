@@ -41,7 +41,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAccessToken } from "../../api/auth";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
-export default function Grapes({ message }) {
+export default function Grapes({ message, setFire }) {
   const [grape, setGrape] = useState({});
   const [showOverlay, setShowOverlay] = useState(true);
   const [isUrl, setIsUrl] = useState("");
@@ -106,7 +106,14 @@ export default function Grapes({ message }) {
       openFailAttachModal();
     } else {
       await attachBoard();
-      openAttachModal();
+      if (grape.attached_grapes === 30) {
+        setFire(true);
+        setTimeout(() => {
+          setFire(false);
+        }, 3000);
+      } else {
+        openAttachModal();
+      }
     }
   }
 
