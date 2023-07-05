@@ -155,7 +155,7 @@ export default function Signup() {
               onClick={handleSignUp}
               className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-lg font-semibold leading-6 text-black shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-white"
             >
-              Sign up
+              회원가입
             </button>
             {showModal && (
               <FailModal
