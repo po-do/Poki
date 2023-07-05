@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Grapes from "../../components/UI/ChildGrapes";
+// 폭죽넣기
+import FireWork from '../../components/Modal/FireWork';
+
 // recoil 사용
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user.js";
@@ -13,6 +16,7 @@ import { useNotification } from "../../hooks/useNotification.js";
 export default function ChildMain() {
   const user = useRecoilValue(userState);
   const [condition, setCondition] = useState(null);
+  const [fireFlag, setFireFlag] = useState(null);
 
   useNotification();
 
@@ -40,6 +44,8 @@ export default function ChildMain() {
   return (
     <>
       {condition === false && <CodeConnectModal closeModal={setCondition} />}
+      {fireFlag === true && <FireWork/>}
+      {/* {<FireWork/>} */}
       <div className="relative bg-white">
         {/* 배너 */}
         <div className="px-4 py-2">
@@ -57,7 +63,7 @@ export default function ChildMain() {
 
         {/* 포도판 */}
         <div className="m-auto md:w-6/12 max-[720px]:w-full">
-          <Grapes message={message} />
+          <Grapes message={message} setFire = {setFireFlag}/>
         </div>
       </div>
     </>
