@@ -71,9 +71,3 @@ export default function MissionRegisteredGift({ message, link }) {
     </>
   );
 }
-
-// // 유저 아이디별 위시리스트 조회(전부)
-// export async function getWishlistByUserId(params: GetWishlistByUserIdParams) {
-//   const response = await client.get(`/wishlist/user/${params.userid}`);
-//   return response.data;
-// }

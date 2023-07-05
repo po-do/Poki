@@ -8,6 +8,6 @@ export async function ChatRead(params) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/chat/${params.room_name}`);
-  console.log("ChatRead");
+  // console.log("ChatRead");
   return response.data;
 }

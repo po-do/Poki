@@ -23,7 +23,7 @@ export default function ChildWishList() {
   const fetchWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
-      console.log("wishlistData", wishlistData);
+      // console.log("wishlistData", wishlistData);
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );

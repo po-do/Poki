@@ -16,7 +16,7 @@ export async function newMissionRead() {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
   const response = await client.get(`/mission/user/incomplete`);
-  console.log("newMissionRead 호출");
+  // console.log("newMissionRead 호출");
   return response.data;
 }
 
@@ -37,7 +37,7 @@ export async function setMissionStatusWait(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("setMissionStatusWait 호출");
+  // console.log("setMissionStatusWait 호출");
   const response = await client.post(`/mission/complete/${params.mission_id}`);
   return response.data;
 }
@@ -48,7 +48,7 @@ export async function setMissionStatusComplete(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("setMissionStatusComplete 호출");
+  // console.log("setMissionStatusComplete 호출");
   const response = await client.post(`/mission/approve/${params.mission_id}`);
   return response.data;
 }
@@ -59,7 +59,7 @@ export async function setMissionStatusInComplete(params) {
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }
-  console.log("setMissionStatusComplete 호출");
+  // console.log("setMissionStatusComplete 호출");
   const response = await client.post(`/mission/reject/${params.mission_id}`);
   return response.data;
 }
@@ -81,7 +81,6 @@ export async function missionUpdate(params) {
 // 미션 삭제 (Delete)
 export async function missionDelete(params) {
   const accessToken = getAccessToken();
-  console.log("=====", params);
   if (accessToken) {
     client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }

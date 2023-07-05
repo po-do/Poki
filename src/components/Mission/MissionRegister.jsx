@@ -65,7 +65,7 @@ export default function MissionRegister() {
 
   const mutation = useMutation((params) => missionCreate(params), {
     onSuccess: (data) => {
-      console.log("서버 응답:", data);
+      // console.log("서버 응답:", data);
     },
     onError: (error) => {
       console.error("미션 생성 실패:", error);

@@ -37,7 +37,6 @@ import ChildMission from "./pages/children/ChildMission";
 
 const ChatFormat = (props) => {
   const user = useRecoilValue(userState);
-  console.log(user.type);
   return user.type === "PARENT" ? <ParentChatFormat /> : <ChildChatFormat />;
 };
 

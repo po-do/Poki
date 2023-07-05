@@ -72,7 +72,7 @@ export default function MissionRecommendModal({ onClose, result }) {
       };
 
       await missionCreate(params);
-      console.log("등록 성공");
+      // console.log("등록 성공");
 
       // 홈페이지 새로고침
       window.location.reload();
@@ -120,7 +120,6 @@ export default function MissionRecommendModal({ onClose, result }) {
                       Privacy setting
                     </RadioGroup.Label>
                     <div className="-space-y-px rounded-md bg-white">
-                      {console.log("missionrecommend", result)}
                       {result.map((setting, settingIdx) => (
                         <RadioGroup.Option
                           key={setting}

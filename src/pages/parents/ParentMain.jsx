@@ -32,7 +32,7 @@ export default function ParentMain() {
 
     sse.addEventListener("connect", (e) => {
       const { data: receivedData } = e;
-      console.log(receivedData);
+      // console.log(receivedData);
     });
   };
   const message = [
@@ -52,7 +52,6 @@ export default function ParentMain() {
       const params = {
         itemid: pickedItemId,
       };
-      console.log("31개를 모아서 GIVEN을 TRUE로 만듬");
       await deleteBoard();
       await updateWishlistGivenStatus(params);
 

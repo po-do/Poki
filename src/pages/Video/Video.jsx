@@ -53,8 +53,8 @@ export default function Video() {
       ?.getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
-        console.log(myVideo.current);
-        console.log(stream, "stream");
+        // console.log(myVideo.current);
+        // console.log(stream, "stream");
         if (myVideo.current) myVideo.current.srcObject = stream;
       })
       .catch((err) => {
@@ -66,7 +66,7 @@ export default function Video() {
   /* 소켓 함수들은 useEffect로 한 번만 정의한다. */
   useEffect(() => {
     getMediaStream();
-    console.log("this is useEffect func.");
+    // console.log("this is useEffect func.");
 
     socket.on("me", (id) => {
       setMe(id);
@@ -96,7 +96,7 @@ export default function Video() {
   }, []);
 
   const callUser = (id) => {
-    console.log("calluser", "this is front");
+    // console.log("calluser", "this is front");
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -116,7 +116,7 @@ export default function Video() {
     });
 
     socket.on("callAccepted", (signal) => {
-      console.log("callaccepted");
+      // console.log("callaccepted");
       setCallAccepted(true);
       peer.signal(signal);
     });
@@ -128,7 +128,7 @@ export default function Video() {
     try {
       setIsCalling(true);
       const connectedUser = await getConnectedUserId();
-      console.log("connectedUser", connectedUser);
+      // console.log("connectedUser", connectedUser);
       if (connectedUser) {
         const { connected_user, is_connected } = connectedUser.data;
         callUser(connected_user);
@@ -142,7 +142,6 @@ export default function Video() {
   };
 
   const answerCall = () => {
-    console.log("answercall");
     setCallAccepted(true);
     const peer = new Peer({
       initiator: false,
