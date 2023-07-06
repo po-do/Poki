@@ -62,7 +62,18 @@ export default function MissionAi() {
         },
       };
 
-      const data = await missionRecommend(params);
+      // 발표용 주석
+      // const data = await missionRecommend(params);
+      const data = {
+        result: [
+          "엄마 얼굴 그림 그리기",
+          "하루의 일상을 일기로 쓰기",
+          "동화책 읽기",
+          "주변을 돌아다니며 예쁜 꽃사진 10장 찍기",
+          "아침에 일어나서 침대 정리하기",
+        ],
+      };
+      console.log(data);
       setResult(data);
       // console.log("성공 : ", data);
       // console.timeEnd("그냥");

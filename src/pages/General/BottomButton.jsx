@@ -13,10 +13,22 @@ import {
   faSquarePhone,
   faComments,
 } from "@fortawesome/free-solid-svg-icons";
+import FailModal from "../../components/Modal/FailModal";
 
 export default function BottomButton() {
   const user = useRecoilValue(userState);
+  const [failModal, setFailModal] = useState(false);
+
   useNotification();
+
+  // fail모달
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
 
   const [activeItem, setActiveItem] = useState(() => {
     const savedActiveItem = localStorage.getItem("activeItem");
@@ -31,6 +43,7 @@ export default function BottomButton() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 채팅방이 없을 시
   const onCreateRoom = useCallback(() => {
     const roomName = `${user.user_id}'s_room`;
     socket.emit("create-room", { roomName, user }, (response) => {
@@ -39,7 +52,8 @@ export default function BottomButton() {
           navigate(`/chat/${response.payload}`);
         });
       }
-      if (response.number === 0) return alert(response.payload);
+      // if (response.number === 0) return alert(response.payload);
+      if (response.number === 0) return openFailModal();
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate, user]);
@@ -89,17 +103,29 @@ export default function BottomButton() {
             style={{ left: `${(100 / 5) * activeItem}%` }}
           ></span>
           <li className={`item ${activeItem === 0 ? "active" : ""}`}>
-            <a className="link" href="/format/child" onClick={() => onItemClick(0)}>
+            <a
+              className="link"
+              href="/format/child"
+              onClick={() => onItemClick(0)}
+            >
               <FontAwesomeIcon icon={faHome} size="2x" />
             </a>
           </li>
           <li className={`item ${activeItem === 1 ? "active" : ""}`}>
-            <a className="link" href="/format/child/mission" onClick={() => onItemClick(1)}>
+            <a
+              className="link"
+              href="/format/child/mission"
+              onClick={() => onItemClick(1)}
+            >
               <FontAwesomeIcon icon={faListCheck} size="2x" />
             </a>
           </li>
           <li className={`item ${activeItem === 2 ? "active" : ""}`}>
-            <a className="link" href="/format/child/wishlist" onClick={() => onItemClick(2)}>
+            <a
+              className="link"
+              href="/format/child/wishlist"
+              onClick={() => onItemClick(2)}
+            >
               <FontAwesomeIcon icon={faGift} size="2x" />
             </a>
           </li>
@@ -109,12 +135,22 @@ export default function BottomButton() {
             </button>
           </li>
           <li className={`item ${activeItem === 4 ? "active" : ""}`}>
-            <a className="link" href="/format/child/video" onClick={() => onItemClick(4)}>
+            <a
+              className="link"
+              href="/format/child/video"
+              onClick={() => onItemClick(4)}
+            >
               <FontAwesomeIcon icon={faSquarePhone} size="2x" />
             </a>
           </li>
         </ul>
       </nav>
+      {failModal && (
+        <FailModal
+          closeModal={closeFailModal}
+          message="자녀와 코드로 연결을 해주세요."
+        />
+      )}
     </>
   );
 }
