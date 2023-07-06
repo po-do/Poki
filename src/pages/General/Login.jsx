@@ -23,7 +23,7 @@ export default function Login({ token }) {
   );
 
   const handleLogIn = async () => {
-    console.log("로그인");
+    // console.log("로그인");
     // console.log(user);
     // console.log(email, password);
     try {
@@ -116,7 +116,7 @@ export default function Login({ token }) {
     <React.Fragment>
       {/* PWA 설치 버튼 */}
       {renderInstallPrompt()}
-      <div className="bg-c4c4fb flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
+      <div className="bg-e1dff0 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-32 w-auto"

@@ -15,6 +15,7 @@ import { Outlet } from "react-router-dom";
 import { createUserCode } from "../../api/auth.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getConnectedUser } from "../../api/auth.js";
+import FailModal from "../../components/Modal/FailModal";
 
 // ======================================
 import { useRecoilValue } from "recoil";
@@ -68,6 +69,7 @@ export default function ParentFormat() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [issuedData, setIssuedData] = useState("");
   const [isConnect, setIsConnect] = useState("");
+  const [failModal, setFailModal] = useState(false);
 
   // 코드 유효 시간
   const [timer, setTimer] = useState(180000);
@@ -76,6 +78,15 @@ export default function ParentFormat() {
   const [running, setRunning] = useState(false);
   const [codeText, setCodeText] = useState("발급");
   const [realTime, setRealTime] = useState(false);
+
+  // fail모달
+  const openFailModal = () => {
+    setFailModal(true);
+  };
+
+  const closeFailModal = () => {
+    setFailModal(false);
+  };
 
   // 코드 발급
   const isConnected = async () => {
@@ -169,12 +180,13 @@ export default function ParentFormat() {
     socket.emit("create-room", { roomName, user }, (response) => {
       if (response.number === 2) {
         socket.emit("join-room", response.payload, () => {
-          console.log("join-room");
-          console.log(response.payload);
+          // console.log("join-room");
+          // console.log(response.payload);
           navigate(`/chat/${response.payload}`);
         }); // 이미 채팅방이 존재할 경우 바로 입장
       }
-      if (response.number === 0) return alert(response.payload);
+      // if (response.number === 0) return alert(response.payload);
+      if (response.number === 0) return openFailModal();
       navigate(`/chat/${response.payload}`);
     });
   }, [navigate]);
@@ -582,7 +594,7 @@ export default function ParentFormat() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative flex">
                     <a
-                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                       href="/"
                     >
                       로그아웃
@@ -615,6 +627,12 @@ export default function ParentFormat() {
             className="invisible"
           />
         )} */}
+        {failModal && (
+          <FailModal
+            closeModal={closeFailModal}
+            message="자녀와 코드로 연결을 해주세요."
+          />
+        )}
       </QueryClientProvider>
     </>
   );

@@ -41,16 +41,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getAccessToken } from "../../api/auth";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
-export default function Grapes({ message }) {
+export default function Grapes({ message, setFire }) {
   const [grape, setGrape] = useState({});
-  const [showOverlay, setShowOverlay] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(true);
   const [isUrl, setIsUrl] = useState("");
   const [attachModal, setAttachModal] = useState(false);
   const [failAttachModal, setFailAttachModal] = useState(false);
   const [giftModal, setGiftModal] = useState(false);
 
   const handleOverlayClick = () => {
-    setShowOverlay(false);
+    setShowOverlay(!showOverlay);
   };
 
   const handleConnect = () => {
@@ -106,7 +106,14 @@ export default function Grapes({ message }) {
       openFailAttachModal();
     } else {
       await attachBoard();
-      openAttachModal();
+      if (grape.attached_grapes >= 30) {
+        setFire(true);
+        setTimeout(() => {
+          setFire(false);
+        }, 3000);
+      } else {
+        openAttachModal();
+      }
     }
   }
 
@@ -222,14 +229,14 @@ export default function Grapes({ message }) {
   return (
     <div className="relative">
       {/* overlay 창 구현 */}
-      {!grape.blank && (
+      {!grape.blank && showOverlay && (
         <div
-          className="flex-col rounded-2xl absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-10"
+          className="absolute flex-col rounded-2xl inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-10"
           onClick={handleOverlayClick}
         >
           {message.map((item) => (
             <React.Fragment key={item}>
-              <p className="text-white text-2xl font-semibold">{item}</p>
+              <p className="text-white text-2xl font-semibold mx-8">{item}</p>
               <br />
             </React.Fragment>
           ))}
@@ -240,7 +247,7 @@ export default function Grapes({ message }) {
         <img
           src={isUrl}
           alt={isUrl}
-          className="object-cover object-center sm:h-full sm:w-full"
+          className="rounded-2xl object-cover object-center sm:h-full sm:w-full"
         />
         {/* 보물 상자 */}
         <div className={styles.treasure} onClick={openSetGiftModal}></div>

@@ -9,7 +9,7 @@ export default function ChildProductCard({ item }) {
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white">
       <img
         src={item.ProductImage}
         alt={item.ProductName}
@@ -26,7 +26,7 @@ export default function ChildProductCard({ item }) {
       {/* 삭제 */}
       <div className="flex justify-center m-3">
         <button
-          className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+          className="w-full rounded-2xl border border-transparent bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
           onClick={handleDeleteCard}
         >
           삭제

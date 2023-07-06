@@ -100,17 +100,14 @@ export default function ChildFormat() {
       const flag = await connectUserCode(params);
       // console.log(flag.connected);
       if (flag.connected === true) {
-        console.log("등록 성공");
         setInputReadOnly(flag.connected);
         // openRegistCodeModal();
         // force a page reload
       } else {
-        console.log("입력 코드가 틀렸다는 모달 나와야함");
         // 입력 코드가 틀렸다는 모달 나와야함
         openCodeFailModal();
       }
     } else {
-      console.log("입력값이 없다는 모달 나와야함");
       // 입력값이 없다는 모달 나와야함
       openFailModal();
     }
@@ -161,7 +158,7 @@ export default function ChildFormat() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative flex">
                   <a
-                    className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                    className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                     href="/"
                   >
                     로그아웃

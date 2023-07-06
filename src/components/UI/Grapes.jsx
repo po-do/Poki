@@ -164,7 +164,7 @@ export default function Grapes({ GrapesCount, message }) {
         >
           {message.map((item) => (
             <React.Fragment key={item}>
-              <p className="text-white text-2xl font-semibold">{item}</p>
+              <p className="text-white text-2xl font-semibold mx-8">{item}</p>
               <br />
             </React.Fragment>
           ))}
@@ -187,11 +187,11 @@ export default function Grapes({ GrapesCount, message }) {
           ))}
         </div> */}
 
-      <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+      <div className="mb-4 flex-shrink-0 sm:mb-0">
         <img
           src={isUrl}
           alt={isUrl}
-          className="object-cover object-center sm:h-full sm:w-full"
+          className="object-cover object-center sm:h-full sm:w-full rounded-2xl"
         />
       </div>
 

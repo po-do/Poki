@@ -90,24 +90,6 @@ export default function MissionTempComplete() {
     setShowReturnModal(false);
   };
 
-  // const boardQuery = useQuery(["boardState"], () => {
-  //   return getBoardStatus();
-  // });
-
-  // useEffect(() => {
-  //   if (boardQuery.isSuccess) {
-  //     const fetchedGrape = boardQuery?.data?.data?.grape;
-  //     setGrape(fetchedGrape);
-  //   }
-  // }, [boardQuery.isSuccess, boardQuery.data]);
-
-  // useEffect(() => {
-  //   async function getmission() {
-  //     await getMission();
-  //   }
-  //   // console.log("there is something fetching data!");
-  // }, [grape]);
-
   useEffect(() => {
     const getMission = async () => {
       const missionsData = await missionReadChild();
@@ -189,7 +171,7 @@ export default function MissionTempComplete() {
   };
   // 반려
   const handleReject = () => {
-    console.log(selectedMissions);
+    // console.log(selectedMissions);
     selectedMissions.forEach((missionId) => {
       const param = {
         mission_id: missionId,
@@ -240,14 +222,14 @@ export default function MissionTempComplete() {
             <div className="flex gap-3">
               <button
                 type="button"
-                className="inline-flex items-center rounded-md  bg-white px-3 py-2 text-lg font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="whitespace-nowrap rounded-md  bg-white px-3 py-2 text-lg text-gray-900 ring-1 ring-gray-300 hover:bg-gray-100"
                 onClick={handleReject}
               >
-                반려
+                거절
               </button>
               <button
                 type="button"
-                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="whitespace-nowrap block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 onClick={handlePublish}
               >
                 포도알 주기
@@ -309,7 +291,7 @@ export default function MissionTempComplete() {
         />
       )}
       {showReturnModal && (
-        <SuccessModal closeModal={closeShowReturnModal} message="반려 완료" />
+        <SuccessModal closeModal={closeShowReturnModal} message="거절 완료" />
       )}
       {showCreateBoardModal && (
         <FailModal

@@ -23,7 +23,7 @@ export default function ChildWishList() {
   const fetchWishlistData = async () => {
     try {
       const wishlistData = await getWishlistByUserId();
-      console.log("wishlistData", wishlistData);
+      // console.log("wishlistData", wishlistData);
       const unPickedItem = wishlistData.data.item.filter(
         (wishItem) => wishItem.Given === "FALSE" && wishItem.Picked === "FALSE"
       );
@@ -40,7 +40,7 @@ export default function ChildWishList() {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-              나의 위시리스트 목록
+              위시리스트 목록
             </h2>
             <p className="mt-2 text-lg text-gray-700">
               가지고 싶은 선물을 등록해 보세요~ 😀
@@ -60,7 +60,7 @@ export default function ChildWishList() {
         <div>
           <div className="mt-10 flex justify-end border-t border-gray-200 pt-6">
             <button
-              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               onClick={openModal}
             >
               선물 등록

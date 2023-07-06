@@ -65,7 +65,7 @@ export default function MissionRegister() {
 
   const mutation = useMutation((params) => missionCreate(params), {
     onSuccess: (data) => {
-      console.log("서버 응답:", data);
+      // console.log("서버 응답:", data);
     },
     onError: (error) => {
       console.error("미션 생성 실패:", error);
@@ -123,14 +123,14 @@ export default function MissionRegister() {
           />
 
           <button
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={handleButtonClick}
           >
             미션 등록
           </button>
 
           <button
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={handleReserveClick}
           >
             미션 예약

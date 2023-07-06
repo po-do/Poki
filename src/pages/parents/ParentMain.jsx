@@ -32,12 +32,13 @@ export default function ParentMain() {
 
     sse.addEventListener("connect", (e) => {
       const { data: receivedData } = e;
-      console.log(receivedData);
+      // console.log(receivedData);
     });
   };
   const message = [
-    "위시리스트에서 자녀의 선물을 확인해보세요",
-    "보상 선택 후 포도 서비스가 시작됩니다",
+    "1. 위시리스트에서 자녀의 위시리스트를 확인하세요",
+    "2. 자녀에게 줄 선물을 선택 후 포도 서비스가 시작됩니다",
+    "3. 아이가 포도를 완성하면 보상으로 선물을 주세요"
   ];
 
   // 31모으면 눌러서 이벤트 발생해야함 아래꺼
@@ -51,7 +52,6 @@ export default function ParentMain() {
       const params = {
         itemid: pickedItemId,
       };
-      console.log("31개를 모아서 GIVEN을 TRUE로 만듬");
       await deleteBoard();
       await updateWishlistGivenStatus(params);
 
@@ -88,34 +88,34 @@ export default function ParentMain() {
         </div>
 
         {/* 현재 포도알 및 관리 현황판 */}
-        <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-44 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
+        <div className="p-6 rounded-2xl border-4 m-8 px-4 md:mx-28 sm:px-6 lg:px-8 flex max-[720px]:flex-col">
           {/* 관리현황판 */}
           <div className="md:w-2/4 sm:px-6 max-[720px]:mt-6">
             <div className="px-4 sm:px-0">
-              <h3 className="text-xl font-semibold leading-7 text-gray-900">
-                포도알 관리 현황판
+              <h3 className="text-xl font-semibold leading-7 text-gray-900 mb-4 text-center">
+                포도알 관리
               </h3>
-              <p className="mt-1 max-w-2xl text-lg leading-6 text-gray-500">
+              <p className="mt-1 max-w-2xl text-base leading-6 text-gray-500">
                 현재 자녀의 포도알 정보를 확인할 수 있습니다.
               </p>
             </div>
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-base font-semibold leading-6 text-gray-900">
+                  <dt className="whitespace-nowrap md:text-base font-semibold leading-6 text-gray-900">
                     자녀 포도알
                   </dt>
-                  <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-center text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {grape?.deattached_grapes}개
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-base font-semibold leading-6 text-gray-900">
+                  <div className="whitespace-nowrap text-base font-semibold leading-6 text-gray-900">
                     붙인 포도알
-                  </dt>
-                  <dd className="mt-1 text-base leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  </div>
+                  <div className="mt-1 text-base text-center leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {grape?.attached_grapes}개 / {grape?.blank}개
-                  </dd>
+                  </div>
                 </div>
               </dl>
             </div>

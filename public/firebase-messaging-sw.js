@@ -11,10 +11,8 @@ const firebaseConfig = {
   storageBucket: "poki-c90ad.appspot.com",
   messagingSenderId: "313209790307",
   appId: "1:313209790307:web:23aa00b8b71edac4aa3d56",
-  measurementId: "G-J2QB8LKF0P"
+  measurementId: "G-J2QB8LKF0P",
 };
-
-
 
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();

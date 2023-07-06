@@ -55,8 +55,8 @@ export default function Video() {
       ?.getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
-        console.log(myVideo.current);
-        console.log(stream, "stream");
+        // console.log(myVideo.current);
+        // console.log(stream, "stream");
         if (myVideo.current) myVideo.current.srcObject = stream;
       })
       .catch((err) => {
@@ -68,7 +68,7 @@ export default function Video() {
   /* 소켓 함수들은 useEffect로 한 번만 정의한다. */
   useEffect(() => {
     getMediaStream();
-    console.log("this is useEffect func.");
+    // console.log("this is useEffect func.");
 
     socket.on("me", (id) => {
       setMe(id);
@@ -98,7 +98,7 @@ export default function Video() {
   }, []);
 
   const callUser = (id) => {
-    console.log("calluser", "this is front");
+    // console.log("calluser", "this is front");
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -118,7 +118,7 @@ export default function Video() {
     });
 
     socket.on("callAccepted", (signal) => {
-      console.log("callaccepted");
+      // console.log("callaccepted");
       setCallAccepted(true);
       peer.signal(signal);
     });
@@ -144,7 +144,6 @@ export default function Video() {
   };
 
   const answerCall = () => {
-    console.log("answercall");
     setCallAccepted(true);
     const peer = new Peer({
       initiator: false,
@@ -233,7 +232,9 @@ export default function Video() {
               </button>
             )}
             {idToCall}
-            {errorMessage}
+            <div className="absolute whitespace-nowrap left-6">
+              {errorMessage}
+            </div>
           </div>
           <div>
             {receivingCall && !callAccepted ? (
@@ -250,16 +251,12 @@ export default function Video() {
           </div>
         </div>
       </div>
-      <div className="px-4 py-2">
-        <p className="mt-2 text-lg text-gray-700">
-          부모님과 영상통화를 진행해요~ 😀
-        </p>
-      </div>
-      <div className="p-4 mt-2 md:m-4">
+
+      <div className="p-4 mt-2">
         <div
           className={classNames(
             callAccepted && !callEnded
-              ? "relative flex flex-row md:flex-row items-center"
+              ? "relative flex flex-col-reverse md:flex-row items-center"
               : "relative flex flex-col items-center"
           )}
         >
@@ -269,7 +266,7 @@ export default function Video() {
           <div
             className={classNames({
               "md:w-6/12": true,
-              "max-[720px]:w-2/5 max-[720px]:absolute max-[720px]:rounded-2xl max-[720px]:border-4 max-[720px]:bottom-1 max-[720px]:right-1":
+              "max-[720px]:w-4/5 max-[720px]:rounded-3xl max-[720px]:border-8 max-[720px]:border-white":
                 callAccepted && !callEnded,
             })}
           >
@@ -279,7 +276,7 @@ export default function Video() {
               ref={myVideo}
               // ref={userVideo}
               autoPlay
-              className="md:w-full rounded-2xl"
+              className="md:w-full rounded-3xl md:border-8 md:border-white"
               style={{ transform: "scaleX(-1)" }}
             />
           </div>
@@ -290,7 +287,7 @@ export default function Video() {
               ref={userVideo}
               // ref={myVideo}
               autoPlay
-              className="md:w-full rounded-2xl"
+              className="md:w-full rounded-3xl md:border-8 md:border-white"
             />
           </div>
         </div>

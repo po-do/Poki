@@ -106,8 +106,8 @@ export default function ParentFormat() {
     socket.emit("create-room", { roomName, user }, (response) => {
       if (response.number === 2) {
         socket.emit("join-room", response.payload, () => {
-          console.log("join-room");
-          console.log(response.payload);
+          // console.log("join-room");
+          // console.log(response.payload);
           navigate(`/chat/${response.payload}`);
         }); // 이미 채팅방이 존재할 경우 바로 입장
       }
@@ -505,7 +505,7 @@ export default function ParentFormat() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative flex">
                     <a
-                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                      className="my-auto mr-4 rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm text-white shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                       href="/"
                     >
                       로그아웃

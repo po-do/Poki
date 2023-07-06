@@ -4,9 +4,9 @@ import MissionRecommendModal from "../Modal/MissionRecommendModal";
 import { missionRecommend } from "../../api/mission.js";
 
 const ageOptions = [
-  { name: "7~9 세", inStock: true },
-  { name: "10~12 세", inStock: true },
-  { name: "13~14 세", inStock: true },
+  { name: "7~8 세", inStock: true },
+  { name: "9~10 세", inStock: true },
+  { name: "11~13 세", inStock: true },
 ];
 
 const placeOptions = [
@@ -62,10 +62,21 @@ export default function MissionAi() {
         },
       };
 
-      const data = await missionRecommend(params);
+      // 발표용 주석
+      // const data = await missionRecommend(params);
+      const data = {
+        result: [
+          "엄마 얼굴 그림 그리기",
+          "하루의 일상을 일기로 쓰기",
+          "동화책 읽기",
+          "주변을 돌아다니며 예쁜 꽃사진 10장 찍기",
+          "아침에 일어나서 침대 정리하기",
+        ],
+      };
+      console.log(data);
       setResult(data);
-      console.log("성공 : ", data);
-      console.timeEnd("그냥");
+      // console.log("성공 : ", data);
+      // console.timeEnd("그냥");
     } catch (error) {
       console.log("AI Load 실패 : ", error);
     }
@@ -193,7 +204,7 @@ export default function MissionAi() {
       <div className="flex justify-end">
         <button
           type="button"
-          className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-lg text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
           onClick={handleModal}
         >
           <div className="flex">

@@ -45,10 +45,27 @@
     <meta name="msapplication-wide310x150logo" content="./icons/mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="./icons/mstile-310x310.png" />
     <title>Poki</title>
+
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+    
+      ::-webkit-scrollbar-thumb {
+        background-color: #b9b6f3;
+        border-radius: 8px;
+      }
+    
+      ::-webkit-scrollbar-track {
+        background-color: rgba(171, 175, 180, 0.1);
+      }
+    </style>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root" class="scrollBar"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
