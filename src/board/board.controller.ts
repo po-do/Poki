@@ -115,6 +115,7 @@ export class BoardController {
                     },
                 };
                 observer.next(initialResponse);
+                localVersion = globalVersion;
               // Update the local version
                 return;
             }
@@ -128,6 +129,7 @@ export class BoardController {
                 },
             };
             observer.next(initialResponse);
+            localVersion = globalVersion;
            // Update the local version
             };
         const updateData = async () => {
@@ -165,13 +167,12 @@ export class BoardController {
           }
         };
         initialData(); // 맨 처음 보드 상태를 불러옴
-        const intervalId = setInterval(updateData, 100);
+        const intervalId = setInterval(updateData, 1000);
         // Clean up the interval when the client disconnects
         observer.complete = () => {
           clearInterval(intervalId);
         };
-        globalVersion = 0;
-        localVersion = 0;
+        localVersion = globalVersion;
         return observer;
       });
 
