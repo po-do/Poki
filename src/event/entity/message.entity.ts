@@ -14,6 +14,9 @@ export class Message extends BaseEntity {
     sender_id: string;
 
     @Column()
+    sender_name: string;
+
+    @Column()
     message: string;
 
     @Column()

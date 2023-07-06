@@ -25,3 +25,5 @@ export class Board extends BaseEntity {
     user: User;
 
 }
+
+
