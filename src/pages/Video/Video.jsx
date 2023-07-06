@@ -4,6 +4,7 @@ import Peer from "simple-peer";
 import io from "socket.io-client";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/user";
+import FailModal from "../../components/Modal/FailModal";
 import { getConnectedUserId } from "../../api/auth";
 import {
   PhoneArrowUpRightIcon,
@@ -22,6 +23,7 @@ const socket = io.connect(process.env.REACT_APP_VIDEO_SOCKET_URL);
 export default function Video() {
   const user = useRecoilValue(userState); // Recoil에서 사용자 정보 받아오기
 
+  const [failModal, setFailModal] = useState(false);
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -128,12 +130,12 @@ export default function Video() {
     try {
       setIsCalling(true);
       const connectedUser = await getConnectedUserId();
-      console.log("connectedUser", connectedUser);
-      if (connectedUser) {
-        const { connected_user, is_connected } = connectedUser.data;
+      if (connectedUser.data.connected_user) {
+        const { connected_user } = connectedUser.data;
         callUser(connected_user);
       } else {
-        console.log("There is no connected_user to call");
+        setIsCalling(false)
+        setFailModal(true)
       }
     } catch (error) {
       console.log("Failed to get connected status:", error);
@@ -261,6 +263,9 @@ export default function Video() {
               : "relative flex flex-col items-center"
           )}
         >
+          {failModal &&
+            <FailModal closeModal={() => { setFailModal(false) }} message="통화를 걸 수 없습니다." />
+          }
           <div
             className={classNames({
               "md:w-6/12": true,
