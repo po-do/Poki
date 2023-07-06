@@ -170,6 +170,7 @@ export class BoardController {
         observer.complete = () => {
           clearInterval(intervalId);
         };
+        globalVersion = 0;
         return observer;
       });
     }
