@@ -36,3 +36,14 @@ Poki는 맞벌이 가정의 부모님과 아이들을 위한 상호작용 서비
 
 ## 팀원소개
 ---
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href=""><img src="https://github.com/po-do/Poki/assets/59272854/6cb6a84d-50e3-4f56-8f2b-bef25c01f067"width="150px;" alt=""/><br /><sub><b>BE 팀장 : 박정영</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/po-do/Poki/assets/59272854/0e23b95e-13ce-43a2-8e8b-a40c65b28df3" width="150px;" alt=""/><br /><sub><b>FE 팀원 : 김재원</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/po-do/Poki/assets/59272854/85e0a67f-0939-48f6-b1fc-1cbbd68004d4" width="150px;" alt=""/><br /><sub><b>BE 팀원 : 이수영</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/po-do/Poki/assets/59272854/2002e3cf-0f50-4583-ab50-bf5ed219693d" width="150px;" alt=""/><br /><sub><b>BE 팀원 : 전유진</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/po-do/Poki/assets/59272854/8ff63ad1-eb6b-4b99-8394-d4e1e61924f2" width="150px;" alt=""/><br /><sub><b>FE 팀원 : 지수현</b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>
