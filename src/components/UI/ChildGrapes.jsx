@@ -62,12 +62,13 @@ export default function Grapes({ message, setFire }) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        heartbeatTimeout: 180000,
+        heartbeatTimeout: 90000,
       }
     );
 
     sse.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      console.log(data.grape)
       setGrape(data.grape);
     };
   };

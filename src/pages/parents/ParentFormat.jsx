@@ -72,7 +72,7 @@ export default function ParentFormat() {
   const [failModal, setFailModal] = useState(false);
 
   // 코드 유효 시간
-  const [timer, setTimer] = useState(180000);
+  const [timer, setTimer] = useState(90000);
   const [minute, setMinute] = useState(3);
   const [second, setSecond] = useState(0);
   const [running, setRunning] = useState(false);
@@ -148,7 +148,7 @@ export default function ParentFormat() {
 
   // 재 발급
   const requestAgain = async () => {
-    setTimer(180000); // Reset the timer to 3 minutes
+    setTimer(90000); // Reset the timer to 3 minutes
     startTimer(); // Start the timer
   };
 

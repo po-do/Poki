@@ -33,7 +33,7 @@ export default function MissionTempComplete() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        heartbeatTimeout: 180000,
+        heartbeatTimeout: 90000,
       }
     );
 
