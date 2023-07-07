@@ -21,7 +21,7 @@ export default function ParentMain() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        heartbeatTimeout: 180000,
+        heartbeatTimeout: ,
       }
     );
 
