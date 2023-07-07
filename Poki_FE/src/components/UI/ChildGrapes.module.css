@@ -1,0 +1,91 @@
+/* 보물 상자 */
+.treasure {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  bottom: 15px;
+  left: 20px;
+  background-image: url("../../icons/Icon/default.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* .treasure:hover {
+  background-image: url("../../icons/Icon/hover.png");
+  cursor: pointer;
+}
+
+.treasure:active {
+  background-image: url("../../icons/Icon/open.png");
+} */
+
+/* 캐릭터 */
+.character {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 150px;
+  height: 150px;
+  background-image: url("../../icons/Character/podo_default.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.character:hover {
+  background-image: url("../../icons/Character/podo_hover.png");
+  cursor: pointer;
+}
+
+.character:active {
+  background-image: url("../../icons/Character/podo_click.png");
+}
+
+/* 말풍선 */
+.talkBubbleComplete {
+  bottom: 95px;
+  right: 25px;
+  position: absolute;
+  margin: 40px;
+  display: inline-block;
+  width: 80px;
+  height: auto;
+  background-color: white;
+  border: 2px solid #000; /* border 추가 */
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  padding: 1em;
+  text-align: left;
+  line-height: 1.5em;
+}
+
+.talkBubbleComplete p {
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+
+.talkBubbleComplete:before {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: 36px; /* 위치 조절 */
+  bottom: -25px; /* 위치 조절 */
+  border: 14px solid; /* 크기 조절 */
+  border-color: #000 #000 transparent transparent; /* border 색상 */
+}
+
+.talkBubbleComplete:after {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: 38px;
+  bottom: -20px;
+  border: 12px solid;
+  border-color: white white transparent transparent;
+}
