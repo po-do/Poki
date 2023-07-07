@@ -23,6 +23,7 @@
 
 ### 🚀 포도알 모으기
 31개의 포도알을 모아보세요.
+![ezgif com-video-to-gif](https://github.com/po-do/Poki/assets/108652367/5a6ceb6d-0e8f-4e42-b7eb-584476dc2035)
 ### 🚀 선물 검색
 원하는 선물을 선택해 보세요.
 ### 🚀 AI 미션 추천
