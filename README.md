@@ -1,7 +1,8 @@
 # <img src= "https://github.com/po-do/Poki/assets/59272854/16bfc906-8f7e-43c3-910b-99213139dcc9"  height="40px" width="40px" style="margin-bottom: -5px"> Poki
-#### 포키(Poki) - 부모-자녀 소통을 높이는 온라인 플랫폼
+### 포키(Poki) - 부모-자녀 소통을 높이는 온라인 플랫폼
+<p align="center"><img src= "https://github.com/po-do/Poki/assets/126448936/bb1aaa88-d053-4487-86e1-2c812b7c0db1"  height="25%" width="25%"></p>
 
-- Poki는 맞벌이 가정의 부모님과 아이들을 위한 상호작용 서비스입니다.  
+- **Poki**는 맞벌이 가정의 부모님과 아이들을 위한 상호작용 서비스입니다.  
 - 부모님은 멀리 있는 자녀와도 OK! 아이들과 느껴보지 못했던 소중한 경험을 쌓아보세요.
 
 ## 📋 프로젝트 포스터
